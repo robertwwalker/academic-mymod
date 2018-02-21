@@ -94,8 +94,8 @@ defaultContentLanguageInSubdir = false
   #   3: OpenStreetMap (Mapbox)
   map = 1
   map_api_key = "AIzaSyB4MyiJJnQRDnr3uZrIaZuppPqr-grs63o"
-  latitude = "44.936931"
-  longitude = "-123.03357"
+  latitude = "44.9369"
+  longitude = "-123.0335"
   zoom = 15
  
   # Date and time format (refer to Go's date format: http://fuckinggodateformat.com )
