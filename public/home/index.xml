@@ -2,76 +2,76 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Homes on Robert W. Walker</title>
-    <link>https://rwalker.netlify.com/home/</link>
+    <link>/home/</link>
     <description>Recent content in Homes on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://rwalker.netlify.com/home/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/home/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title></title>
-      <link>https://rwalker.netlify.com/home/about/</link>
+      <link>/home/about/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/home/about/</guid>
+      <guid>/home/about/</guid>
       <description>Biography Robert W. Walker is Associate Professor of Quantitative Methods in the Atkinson Graduate School of Management at Willamette University. His research interests include panel/cross-sectional time series data, causal inference in observed populations (joint with Tim Johnson), political economy, and general applied statistics and statistical computing. He is also appointed Honorary Instructor at the University of Essex to lecture annually in the Essex Summer School in Social Science Data Analysis.</description>
     </item>
     
     <item>
       <title>Selected Publications</title>
-      <link>https://rwalker.netlify.com/home/publications_selected/</link>
+      <link>/home/publications_selected/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 -0700</pubDate>
       
-      <guid>https://rwalker.netlify.com/home/publications_selected/</guid>
+      <guid>/home/publications_selected/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Recent Publications</title>
-      <link>https://rwalker.netlify.com/home/publications/</link>
+      <link>/home/publications/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 -0700</pubDate>
       
-      <guid>https://rwalker.netlify.com/home/publications/</guid>
+      <guid>/home/publications/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Recent &amp; Upcoming Talks</title>
-      <link>https://rwalker.netlify.com/home/talks/</link>
+      <link>/home/talks/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/home/talks/</guid>
+      <guid>/home/talks/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Recent Posts</title>
-      <link>https://rwalker.netlify.com/home/posts/</link>
+      <link>/home/posts/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/home/posts/</guid>
+      <guid>/home/posts/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Projects</title>
-      <link>https://rwalker.netlify.com/home/projects/</link>
+      <link>/home/projects/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/home/projects/</guid>
+      <guid>/home/projects/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Teaching</title>
-      <link>https://rwalker.netlify.com/home/teaching/</link>
+      <link>/home/teaching/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/home/teaching/</guid>
+      <guid>/home/teaching/</guid>
       <description>I teach the following courses:
 In the Atkinson Graduate School of Management at Willamette University:
  GSM 5103: Data Analysis, Modelling, and Decision-Making GSMPR 622: Data Analysis, Modelling, and Decision-Making GSM 6270: Negotiation, Bargaining, and the Economics of Strategy GSM 6271: Evidence-Based Management  In the Essex Summer School in Social Science Data Analysis:
@@ -80,19 +80,19 @@ In the Atkinson Graduate School of Management at Willamette University:
     
     <item>
       <title>Tags</title>
-      <link>https://rwalker.netlify.com/home/tags/</link>
+      <link>/home/tags/</link>
       <pubDate>Wed, 20 Sep 2017 00:00:00 -0700</pubDate>
       
-      <guid>https://rwalker.netlify.com/home/tags/</guid>
+      <guid>/home/tags/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Contact</title>
-      <link>https://rwalker.netlify.com/home/contact/</link>
+      <link>/home/contact/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/home/contact/</guid>
+      <guid>/home/contact/</guid>
       <description></description>
     </item>
     

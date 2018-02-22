@@ -1,0 +1,57 @@
+---
+title: 'Black Boxes: A Gender Gap Example'
+author: Robert W. Walker
+date: '2018-02-22'
+slug: black-boxes-a-gender-gap-example
+categories:
+  - R
+  - GSM622
+tags:
+  - R
+  - R Markdown
+  - plot
+---
+
+## Variance in the Outcome: The Black Box
+
+Regression models engage an exercise in variance accounting.  How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F).  This, of course, assumes normal errors.  This document provides a function for making use of the black box.  Just as in common parlance, a black box is the unexplained.  Let's take an example.
+
+```{r cars}
+OregonSalaries <- structure(list(Obs = 1:32, Salary = c(41514.38701, 40964.06985, 
+39170.19178, 37936.57206, 33981.77752, 36077.27107, 39174.05733, 
+39037.372, 29131.74865, 36200.44592, 38561.3987, 33247.92306, 
+33609.4874, 33669.22275, 37805.83017, 35846.13454, 47342.65909, 
+46382.3851, 45812.91029, 46409.65664, 43796.05285, 43124.02135, 
+49443.81792, 44805.79217, 44440.32001, 46679.59218, 47337.09786, 
+47298.72531, 41461.0474, 43598.293, 43431.18499, 49266.41189), 
+    Gender = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+    1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+    2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L), .Label = c("Female", "Male"
+    ), class = "factor")), .Names = c("Obs", "Salary", "Gender"
+), class = "data.frame", row.names = c(NA, -32L))
+black.box.maker <- function(mod1) {
+            d1 <- dim(mod1$model)[[1]]
+            sumsq1 <- var(mod1$model[,1], na.rm=TRUE)*(d1-1)
+            rt1 <- sqrt(sumsq1)
+            sumsq2 <- var(mod1$fitted.values, na.rm=TRUE)*(d1-1)
+            rsquare <- round(sumsq2/sumsq1, digits=4)
+            rt2 <- sqrt(sumsq2)
+            plot(x=NA, y=NA, xlim=c(0,rt1), ylim=c(0,rt1), main=paste("R-squared:",rsquare), xlab="", ylab="", bty="n", cex=0.5)
+            polygon(x=c(0,0,rt1,rt1), y=c(0,rt1,rt1,0), col="black")
+            polygon(x=c(0,0,rt2,rt2), y=c(0,rt2,rt2,0), col="green")
+            }
+```
+
+## Invoking the Function
+
+First, a regression model.  I will estimate the following regression:
+
+$$ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon $$
+
+```{r BBReg}
+mod1 <- lm(Salary~Gender, data=OregonSalaries)
+black.box.maker(mod1)
+summary(mod1)
+anova(mod1)
+```
+

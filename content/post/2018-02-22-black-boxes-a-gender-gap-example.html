@@ -1,0 +1,79 @@
+---
+title: 'Black Boxes: A Gender Gap Example'
+author: Robert W. Walker
+date: '2018-02-22'
+slug: black-boxes-a-gender-gap-example
+categories:
+  - R
+  - GSM622
+tags:
+  - R
+  - R Markdown
+  - plot
+---
+
+
+
+<div id="variance-in-the-outcome-the-black-box" class="section level2">
+<h2>Variance in the Outcome: The Black Box</h2>
+<p>Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained. Let’s take an example.</p>
+<pre class="r"><code>OregonSalaries &lt;- structure(list(Obs = 1:32, Salary = c(41514.38701, 40964.06985, 
+39170.19178, 37936.57206, 33981.77752, 36077.27107, 39174.05733, 
+39037.372, 29131.74865, 36200.44592, 38561.3987, 33247.92306, 
+33609.4874, 33669.22275, 37805.83017, 35846.13454, 47342.65909, 
+46382.3851, 45812.91029, 46409.65664, 43796.05285, 43124.02135, 
+49443.81792, 44805.79217, 44440.32001, 46679.59218, 47337.09786, 
+47298.72531, 41461.0474, 43598.293, 43431.18499, 49266.41189), 
+    Gender = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+    1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+    2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L), .Label = c(&quot;Female&quot;, &quot;Male&quot;
+    ), class = &quot;factor&quot;)), .Names = c(&quot;Obs&quot;, &quot;Salary&quot;, &quot;Gender&quot;
+), class = &quot;data.frame&quot;, row.names = c(NA, -32L))
+black.box.maker &lt;- function(mod1) {
+            d1 &lt;- dim(mod1$model)[[1]]
+            sumsq1 &lt;- var(mod1$model[,1], na.rm=TRUE)*(d1-1)
+            rt1 &lt;- sqrt(sumsq1)
+            sumsq2 &lt;- var(mod1$fitted.values, na.rm=TRUE)*(d1-1)
+            rsquare &lt;- round(sumsq2/sumsq1, digits=4)
+            rt2 &lt;- sqrt(sumsq2)
+            plot(x=NA, y=NA, xlim=c(0,rt1), ylim=c(0,rt1), main=paste(&quot;R-squared:&quot;,rsquare), xlab=&quot;&quot;, ylab=&quot;&quot;, bty=&quot;n&quot;, cex=0.5)
+            polygon(x=c(0,0,rt1,rt1), y=c(0,rt1,rt1,0), col=&quot;black&quot;)
+            polygon(x=c(0,0,rt2,rt2), y=c(0,rt2,rt2,0), col=&quot;green&quot;)
+            }</code></pre>
+</div>
+<div id="invoking-the-function" class="section level2">
+<h2>Invoking the Function</h2>
+<p>First, a regression model. I will estimate the following regression:</p>
+<p><span class="math display">\[ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon \]</span></p>
+<pre class="r"><code>mod1 &lt;- lm(Salary~Gender, data=OregonSalaries)
+black.box.maker(mod1)</code></pre>
+<p><img src="/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png" width="672" /></p>
+<pre class="r"><code>summary(mod1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Salary ~ Gender, data = OregonSalaries)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7488.7 -2107.9   433.3  1743.9  4893.9 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  36620.5      705.1   51.94  &lt; 2e-16 ***
+## GenderMale    9043.9      997.1    9.07 4.22e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2820 on 30 degrees of freedom
+## Multiple R-squared:  0.7328, Adjusted R-squared:  0.7239 
+## F-statistic: 82.26 on 1 and 30 DF,  p-value: 4.223e-10</code></pre>
+<pre class="r"><code>anova(mod1)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: Salary
+##           Df    Sum Sq   Mean Sq F value    Pr(&gt;F)    
+## Gender     1 654334108 654334108  82.264 4.223e-10 ***
+## Residuals 30 238621277   7954043                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
