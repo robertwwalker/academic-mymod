@@ -12,10 +12,6 @@ subtitle = ""
 
 # Order that this section will appear in.
 weight = 60
-
-[header]
-image = "headers/bubble-wide.jpg"
-caption = "In Motion"
 +++
 
 I teach the following courses: 
