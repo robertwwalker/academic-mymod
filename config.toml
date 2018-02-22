@@ -94,7 +94,7 @@ defaultContentLanguageInSubdir = false
   #   3: OpenStreetMap (Mapbox)
   map = 2
 #  map_api_key = "AIzaSyB4MyiJJnQRDnr3uZrIaZuppPqr-grs63o"
-  latitude = "44.936931"
+  latitude = "44.936928"
   longitude = "-123.03357"
 #  zoom = 15
  
