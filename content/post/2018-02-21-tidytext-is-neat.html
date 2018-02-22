@@ -1,5 +1,5 @@
 ---
-title: "tidytext is neat!"
+title: "tidytext is neat! White House Communications"
 author: "RWW"
 date: '2018-02-21'
 slug: tidytext-is-neat
@@ -76,11 +76,12 @@ save(Pres.Acts,PresAct.linkset,Statements.Briefings,BriefState.linkset, file=&qu
 </div>
 <div id="tidying-the-text" class="section level1">
 <h1>Tidying the Text</h1>
+<pre class="r"><code>load(&quot;~/R/MyNLWeb/data/PresText.RData&quot;)</code></pre>
+<p>The hard work is in cleaning up the text. When the document was compiled, there were 2074 statements and briefings and there were 457 Presidential actions with each as a list in the bigger list. I will unlist each individual document and transform it to character. For housekeeping, I will also tally the docs and the line/paragraph numbers; this fails for a misalignment in one of the two examples.</p>
 <pre class="r"><code>library(dplyr)
 library(magrittr)
 library(tidytext)
-load(&quot;~/R/MyNLWeb/data/PresText.RData&quot;)
-text_df &lt;- data_frame(text=as.character(unlist(Pres.Acts)))
+text_df &lt;- data_frame(text=as.character(unlist(Pres.Acts))) # Create characters
 k &lt;- NULL
 for (i in 1:length(Pres.Acts)) {
   k &lt;- c(k,length(Pres.Acts[[i]]))
@@ -88,10 +89,10 @@ for (i in 1:length(Pres.Acts)) {
 mydoc &lt;- data.frame(rep(c(seq(1,length(Pres.Acts))),k))
 myline &lt;- data.frame(unlist(as.vector(sapply(k, function(x) {cbind(seq(1,x))}))))
 ind.df &lt;- data.frame(doc=mydoc,line=myline)
-myPA.df &lt;- data.frame(doc=mydoc,line=myline,text=text_df)
+myPA.df &lt;- data.frame(doc=mydoc,line=myline,text=text_df) # A full dataset
 names(myPA.df) &lt;- c(&quot;doc&quot;,&quot;line&quot;,&quot;text&quot;)
 tidy.PA &lt;-myPA.df %&gt;%
- group_by(doc) %&gt;%
+# group_by(doc) %&gt;%
  unnest_tokens(word, text)
 text_df &lt;- data_frame(text=as.character(unlist(Statements.Briefings)))
 k &lt;- NULL
@@ -104,37 +105,47 @@ mydoc &lt;- rep(c(seq(1,length(Statements.Briefings))),k)
 mySB.df &lt;- data.frame(doc=mydoc,text=text_df)
 names(mySB.df) &lt;- c(&quot;doc&quot;,&quot;text&quot;)
 tidy.SB &lt;-mySB.df %&gt;%
- group_by(doc) %&gt;%
+# group_by(doc) %&gt;%
  unnest_tokens(word, text)
 data(stop_words)
+# Remove stop words
 tidy.SB &lt;- tidy.SB %&gt;%
   anti_join(stop_words)
 tidy.PA &lt;- tidy.PA %&gt;%
   anti_join(stop_words)</code></pre>
-<p>So what does the President talk about?</p>
+</div>
+<div id="what-does-the-president-talk-about" class="section level1">
+<h1>what does the President talk about?</h1>
+<p>Word frequencies can be tabulated for each set of data. I will plot the barplots.</p>
+<div id="statements-and-briefings" class="section level2">
+<h2>Statements and Briefings</h2>
 <pre class="r"><code>library(ggplot2)
 tidy.SB %&gt;%
   count(word, sort = TRUE) %&gt;%
-  filter(n &gt; 80) %&gt;%
+  filter(n &gt; 5000) %&gt;%
   mutate(word = reorder(word, n)) %&gt;%
   ggplot(aes(word, n)) +
   geom_col() +
   xlab(NULL) +
   coord_flip()</code></pre>
 <p><img src="/post/2018-02-21-tidytext-is-neat_files/figure-html/SBplot-1.png" width="672" /></p>
+</div>
+<div id="presidential-actions" class="section level2">
+<h2>Presidential Actions</h2>
 <pre class="r"><code>library(ggplot2)
 tidy.PA %&gt;%
   count(word, sort = TRUE) %&gt;%
-  filter(n &gt; 50) %&gt;%
+  filter(n &gt; 500) %&gt;%
   mutate(word = reorder(word, n)) %&gt;%
   ggplot(aes(word, n)) +
   geom_col() +
   xlab(NULL) +
   coord_flip()</code></pre>
 <p><img src="/post/2018-02-21-tidytext-is-neat_files/figure-html/PAplot-1.png" width="672" /></p>
+</div>
 <div id="word-clouds" class="section level2">
 <h2>Word Clouds</h2>
-<div id="presidential-actions" class="section level3">
+<div id="presidential-actions-1" class="section level3">
 <h3>Presidential Actions</h3>
 <pre class="r"><code>library(wordcloud)
 set.seed(1234)
@@ -144,7 +155,7 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
           colors=brewer.pal(8, &quot;Dark2&quot;))</code></pre>
 <p><img src="/post/2018-02-21-tidytext-is-neat_files/figure-html/WCPA-1.png" width="672" /></p>
 </div>
-<div id="statements-and-briefings" class="section level3">
+<div id="statements-and-briefings-1" class="section level3">
 <h3>Statements and Briefings</h3>
 <pre class="r"><code>set.seed(1234)
 wc &lt;- tidy.SB %&gt;% count(word, sort = TRUE)

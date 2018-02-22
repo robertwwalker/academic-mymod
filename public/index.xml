@@ -11,7 +11,7 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>tidytext is neat!</title>
+      <title>tidytext is neat! White House Communications</title>
       <link>https://rwalker.netlify.com/post/tidytext-is-neat/</link>
       <pubDate>Wed, 21 Feb 2018 00:00:00 +0000</pubDate>
       
@@ -79,11 +79,12 @@ save(Pres.Acts,PresAct.linkset,Statements.Briefings,BriefState.linkset, file=&am
 &lt;/div&gt;
 &lt;div id=&#34;tidying-the-text&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Tidying the Text&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;load(&amp;quot;~/R/MyNLWeb/data/PresText.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The hard work is in cleaning up the text. When the document was compiled, there were 2074 statements and briefings and there were 457 Presidential actions with each as a list in the bigger list. I will unlist each individual document and transform it to character. For housekeeping, I will also tally the docs and the line/paragraph numbers; this fails for a misalignment in one of the two examples.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(dplyr)
 library(magrittr)
 library(tidytext)
-load(&amp;quot;~/R/MyNLWeb/data/PresText.RData&amp;quot;)
-text_df &amp;lt;- data_frame(text=as.character(unlist(Pres.Acts)))
+text_df &amp;lt;- data_frame(text=as.character(unlist(Pres.Acts))) # Create characters
 k &amp;lt;- NULL
 for (i in 1:length(Pres.Acts)) {
   k &amp;lt;- c(k,length(Pres.Acts[[i]]))
@@ -91,10 +92,10 @@ for (i in 1:length(Pres.Acts)) {
 mydoc &amp;lt;- data.frame(rep(c(seq(1,length(Pres.Acts))),k))
 myline &amp;lt;- data.frame(unlist(as.vector(sapply(k, function(x) {cbind(seq(1,x))}))))
 ind.df &amp;lt;- data.frame(doc=mydoc,line=myline)
-myPA.df &amp;lt;- data.frame(doc=mydoc,line=myline,text=text_df)
+myPA.df &amp;lt;- data.frame(doc=mydoc,line=myline,text=text_df) # A full dataset
 names(myPA.df) &amp;lt;- c(&amp;quot;doc&amp;quot;,&amp;quot;line&amp;quot;,&amp;quot;text&amp;quot;)
 tidy.PA &amp;lt;-myPA.df %&amp;gt;%
- group_by(doc) %&amp;gt;%
+# group_by(doc) %&amp;gt;%
  unnest_tokens(word, text)
 text_df &amp;lt;- data_frame(text=as.character(unlist(Statements.Briefings)))
 k &amp;lt;- NULL
@@ -107,37 +108,47 @@ mydoc &amp;lt;- rep(c(seq(1,length(Statements.Briefings))),k)
 mySB.df &amp;lt;- data.frame(doc=mydoc,text=text_df)
 names(mySB.df) &amp;lt;- c(&amp;quot;doc&amp;quot;,&amp;quot;text&amp;quot;)
 tidy.SB &amp;lt;-mySB.df %&amp;gt;%
- group_by(doc) %&amp;gt;%
+# group_by(doc) %&amp;gt;%
  unnest_tokens(word, text)
 data(stop_words)
+# Remove stop words
 tidy.SB &amp;lt;- tidy.SB %&amp;gt;%
   anti_join(stop_words)
 tidy.PA &amp;lt;- tidy.PA %&amp;gt;%
   anti_join(stop_words)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;So what does the President talk about?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-does-the-president-talk-about&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;what does the President talk about?&lt;/h1&gt;
+&lt;p&gt;Word frequencies can be tabulated for each set of data. I will plot the barplots.&lt;/p&gt;
+&lt;div id=&#34;statements-and-briefings&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Statements and Briefings&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
 tidy.SB %&amp;gt;%
   count(word, sort = TRUE) %&amp;gt;%
-  filter(n &amp;gt; 80) %&amp;gt;%
+  filter(n &amp;gt; 5000) %&amp;gt;%
   mutate(word = reorder(word, n)) %&amp;gt;%
   ggplot(aes(word, n)) +
   geom_col() +
   xlab(NULL) +
   coord_flip()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/SBplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;presidential-actions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Presidential Actions&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
 tidy.PA %&amp;gt;%
   count(word, sort = TRUE) %&amp;gt;%
-  filter(n &amp;gt; 50) %&amp;gt;%
+  filter(n &amp;gt; 500) %&amp;gt;%
   mutate(word = reorder(word, n)) %&amp;gt;%
   ggplot(aes(word, n)) +
   geom_col() +
   xlab(NULL) +
   coord_flip()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/PAplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
 &lt;div id=&#34;word-clouds&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Word Clouds&lt;/h2&gt;
-&lt;div id=&#34;presidential-actions&#34; class=&#34;section level3&#34;&gt;
+&lt;div id=&#34;presidential-actions-1&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Presidential Actions&lt;/h3&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(wordcloud)
 set.seed(1234)
@@ -147,7 +158,7 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
           colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/WCPA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;statements-and-briefings&#34; class=&#34;section level3&#34;&gt;
+&lt;div id=&#34;statements-and-briefings-1&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Statements and Briefings&lt;/h3&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1234)
 wc &amp;lt;- tidy.SB %&amp;gt;% count(word, sort = TRUE)

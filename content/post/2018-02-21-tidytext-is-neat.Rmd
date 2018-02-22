@@ -1,5 +1,5 @@
 ---
-title: "tidytext is neat!"
+title: "tidytext is neat! White House Communications"
 author: "RWW"
 date: '2018-02-21'
 slug: tidytext-is-neat
@@ -93,12 +93,18 @@ save(Pres.Acts,PresAct.linkset,Statements.Briefings,BriefState.linkset, file="da
 
 # Tidying the Text
 
+```{r DataL}
+load("~/R/MyNLWeb/data/PresText.RData")
+```
+
+
+The hard work is in cleaning up the text.  When the document was compiled, there were `r  length(Statements.Briefings)` statements and briefings and there were `r length(Pres.Acts)` Presidential actions with each as a list in the bigger list.  I will unlist each individual document and transform it to character.  For housekeeping, I will also tally the docs and the line/paragraph numbers; this fails for a misalignment in one of the two examples.
+
 ```{r TTLoad, echo=TRUE, eval=TRUE}
 library(dplyr)
 library(magrittr)
 library(tidytext)
-load("~/R/MyNLWeb/data/PresText.RData")
-text_df <- data_frame(text=as.character(unlist(Pres.Acts)))
+text_df <- data_frame(text=as.character(unlist(Pres.Acts))) # Create characters
 k <- NULL
 for (i in 1:length(Pres.Acts)) {
   k <- c(k,length(Pres.Acts[[i]]))
@@ -106,10 +112,10 @@ for (i in 1:length(Pres.Acts)) {
 mydoc <- data.frame(rep(c(seq(1,length(Pres.Acts))),k))
 myline <- data.frame(unlist(as.vector(sapply(k, function(x) {cbind(seq(1,x))}))))
 ind.df <- data.frame(doc=mydoc,line=myline)
-myPA.df <- data.frame(doc=mydoc,line=myline,text=text_df)
+myPA.df <- data.frame(doc=mydoc,line=myline,text=text_df) # A full dataset
 names(myPA.df) <- c("doc","line","text")
 tidy.PA <-myPA.df %>%
- group_by(doc) %>%
+# group_by(doc) %>%
  unnest_tokens(word, text)
 text_df <- data_frame(text=as.character(unlist(Statements.Briefings)))
 k <- NULL
@@ -122,23 +128,27 @@ mydoc <- rep(c(seq(1,length(Statements.Briefings))),k)
 mySB.df <- data.frame(doc=mydoc,text=text_df)
 names(mySB.df) <- c("doc","text")
 tidy.SB <-mySB.df %>%
- group_by(doc) %>%
+# group_by(doc) %>%
  unnest_tokens(word, text)
 data(stop_words)
+# Remove stop words
 tidy.SB <- tidy.SB %>%
   anti_join(stop_words)
 tidy.PA <- tidy.PA %>%
   anti_join(stop_words)
 ```
 
-So what does the President talk about?
+# what does the President talk about?
 
+Word frequencies can be tabulated for each set of data.  I will plot the barplots.
+
+## Statements and Briefings
 
 ```{r SBplot}
 library(ggplot2)
 tidy.SB %>%
   count(word, sort = TRUE) %>%
-  filter(n > 80) %>%
+  filter(n > 5000) %>%
   mutate(word = reorder(word, n)) %>%
   ggplot(aes(word, n)) +
   geom_col() +
@@ -146,11 +156,13 @@ tidy.SB %>%
   coord_flip()
 ```
 
+## Presidential Actions
+
 ```{r PAplot}
 library(ggplot2)
 tidy.PA %>%
   count(word, sort = TRUE) %>%
-  filter(n > 50) %>%
+  filter(n > 500) %>%
   mutate(word = reorder(word, n)) %>%
   ggplot(aes(word, n)) +
   geom_col() +
