@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Robert W. Walker on Robert W. Walker</title>
+    <link>https://rwalker.netlify.com/</link>
+    <description>Recent content in Robert W. Walker on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Black Boxes: A Gender Gap Example</title>
+      <link>https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/</guid>
+      <description>&lt;div id=&#34;variance-in-the-outcome-the-black-box&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Variance in the Outcome: The Black Box&lt;/h2&gt;
+&lt;p&gt;Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained. Let’s take an example.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;OregonSalaries &amp;lt;- structure(list(Obs = 1:32, Salary = c(41514.38701, 40964.06985, 
+39170.19178, 37936.57206, 33981.77752, 36077.27107, 39174.05733, 
+39037.372, 29131.74865, 36200.44592, 38561.3987, 33247.92306, 
+33609.4874, 33669.22275, 37805.83017, 35846.13454, 47342.65909, 
+46382.3851, 45812.91029, 46409.65664, 43796.05285, 43124.02135, 
+49443.81792, 44805.79217, 44440.32001, 46679.59218, 47337.09786, 
+47298.72531, 41461.0474, 43598.293, 43431.18499, 49266.41189), 
+    Gender = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+    1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+    2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L), .Label = c(&amp;quot;Female&amp;quot;, &amp;quot;Male&amp;quot;
+    ), class = &amp;quot;factor&amp;quot;)), .Names = c(&amp;quot;Obs&amp;quot;, &amp;quot;Salary&amp;quot;, &amp;quot;Gender&amp;quot;
+), class = &amp;quot;data.frame&amp;quot;, row.names = c(NA, -32L))
+black.box.maker &amp;lt;- function(mod1) {
+            d1 &amp;lt;- dim(mod1$model)[[1]]
+            sumsq1 &amp;lt;- var(mod1$model[,1], na.rm=TRUE)*(d1-1)
+            rt1 &amp;lt;- sqrt(sumsq1)
+            sumsq2 &amp;lt;- var(mod1$fitted.values, na.rm=TRUE)*(d1-1)
+            rsquare &amp;lt;- round(sumsq2/sumsq1, digits=4)
+            rt2 &amp;lt;- sqrt(sumsq2)
+            plot(x=NA, y=NA, xlim=c(0,rt1), ylim=c(0,rt1), main=paste(&amp;quot;R-squared:&amp;quot;,rsquare), xlab=&amp;quot;&amp;quot;, ylab=&amp;quot;&amp;quot;, bty=&amp;quot;n&amp;quot;, cex=0.5)
+            polygon(x=c(0,0,rt1,rt1), y=c(0,rt1,rt1,0), col=&amp;quot;black&amp;quot;)
+            polygon(x=c(0,0,rt2,rt2), y=c(0,rt2,rt2,0), col=&amp;quot;green&amp;quot;)
+            }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;invoking-the-function&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Invoking the Function&lt;/h2&gt;
+&lt;p&gt;First, a regression model. I will estimate the following regression:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon \]&lt;/span&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~Gender, data=OregonSalaries)
+black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(mod1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = Salary ~ Gender, data = OregonSalaries)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7488.7 -2107.9   433.3  1743.9  4893.9 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)  36620.5      705.1   51.94  &amp;lt; 2e-16 ***
+## GenderMale    9043.9      997.1    9.07 4.22e-10 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 2820 on 30 degrees of freedom
+## Multiple R-squared:  0.7328, Adjusted R-squared:  0.7239 
+## F-statistic: 82.26 on 1 and 30 DF,  p-value: 4.223e-10&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;anova(mod1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Analysis of Variance Table
+## 
+## Response: Salary
+##           Df    Sum Sq   Mean Sq F value    Pr(&amp;gt;F)    
+## Gender     1 654334108 654334108  82.264 4.223e-10 ***
+## Residuals 30 238621277   7954043                      
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Correlation Function</title>
+      <link>https://rwalker.netlify.com/post/correlation-function/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/post/correlation-function/</guid>
+      <description>&lt;div id=&#34;correlations-and-the-impact-on-sums-and-differences&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Correlations and the Impact on Sums and Differences&lt;/h1&gt;
+&lt;p&gt;I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ Var (\sum_{i=1}^{n} X_{i}) = \sum_{i=1}^{n} Var(X_{i}) + 2 \sum_{1 \leq i \leq j \leq n} Cov(X_{i},X_{j}) \]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Now for the function and two examples.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;correlation-is-0.8&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Correlation is 0.8&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(MASS)
+plot.cor &amp;lt;- function(cor) {
+  if(-1 &amp;lt; cor &amp;amp; cor &amp;lt; 1) {
+mean.vec &amp;lt;- c(0,0)
+sig.mat &amp;lt;- matrix(c(1,cor,cor,1), nrow=2)
+df &amp;lt;- data.frame(mvrnorm(n=1000, mean.vec, sig.mat))
+df$sum &amp;lt;- rowSums(df)
+df$diff &amp;lt;- with(df, X1-X2)
+plot(x=df$X1, y=df$X2, xlab=&amp;quot;x1&amp;quot;, ylab=&amp;quot;x2&amp;quot;, main=paste(&amp;quot;Correlation:&amp;quot;,cor), sub=paste(&amp;quot;Std. Dev: Sum&amp;quot;,round(sd(df$sum), digits=3),&amp;quot; Difference:&amp;quot;,round(sd(df$diff), digits=3)))
+  }
+  else { cat(&amp;quot;Correlation must be between -1 and 1&amp;quot;) }
+}
+plot.cor(cor=0.8)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-correlation-function_files/figure-html/CorF-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The correlation above is 0.8&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;correlation-is--0.8&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Correlation is -0.8&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot.cor(cor=-0.8)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-correlation-function_files/figure-html/CorF2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>tidytext is neat! White House Communications</title>
+      <link>https://rwalker.netlify.com/post/tidytext-is-neat/</link>
+      <pubDate>Wed, 21 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/post/tidytext-is-neat/</guid>
+      <description>&lt;div id=&#34;presidential-press&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Presidential Press&lt;/h1&gt;
+&lt;p&gt;The language of presidential communications is interesting and I know very little about &lt;em&gt;text as data&lt;/em&gt;. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.whitehouse.gov/news/&#34;&gt;White House News&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The site is split in four parts: all news, articles, presidential actions, and briefings and statements. The first one is a catch all and the second is news links. I will take the last two to process. To create a proper workflow, I will separate the investigation into two types of communications: briefing statements and presidential actions. For each, I will have to build a table of links and then I can extract the actual text.&lt;/p&gt;
+&lt;div id=&#34;processing-the-communications-links&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Processing the Communications: Links&lt;/h2&gt;
+&lt;p&gt;First, let me take on briefing statements. I will build a database of URLs to then process as text. This works for the design of the White House website currently; the only relevant hard-coding is the number of browsable pages. I captured this manually.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest)
+n.BSt &amp;lt;- 208
+BSt.seq &amp;lt;- as.list(seq(1,n.BSt))
+BSt.fun &amp;lt;- function(val) {
+my.URL &amp;lt;- paste(&amp;quot;https://www.whitehouse.gov/briefings-statements/page/&amp;quot;,val,&amp;quot;/&amp;quot;,sep=&amp;quot;&amp;quot;)
+temp.l1 &amp;lt;- read_html(my.URL)
+my.links &amp;lt;- html_nodes(temp.l1, &amp;#39;h2&amp;#39;) %&amp;gt;% html_nodes(&amp;quot;a&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;)
+my.links2 &amp;lt;-html_nodes(temp.l1, &amp;#39;h2&amp;#39;) %&amp;gt;% html_text(&amp;quot;a&amp;quot;) 
+data.frame(link=my.links,title=my.links2)
+}
+n.PAct &amp;lt;- 46
+PAct.seq &amp;lt;- as.list(seq(1,n.PAct))
+PAct.fun &amp;lt;- function(val) {
+my.URL &amp;lt;- paste(&amp;quot;https://www.whitehouse.gov/presidential-actions/page/&amp;quot;,val,&amp;quot;/&amp;quot;,sep=&amp;quot;&amp;quot;)
+temp.l1 &amp;lt;- read_html(my.URL)
+my.links &amp;lt;- html_nodes(temp.l1, &amp;#39;h2&amp;#39;) %&amp;gt;% html_nodes(&amp;quot;a&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;)
+my.links2 &amp;lt;-html_nodes(temp.l1, &amp;#39;h2&amp;#39;) %&amp;gt;% html_nodes(&amp;quot;a&amp;quot;) %&amp;gt;% html_text(&amp;quot;a&amp;quot;) 
+data.frame(link=my.links,title=my.links2)
+}
+BriefState.linkset &amp;lt;- do.call(&amp;quot;rbind&amp;quot;,rapply(BSt.seq, BSt.fun, how=&amp;quot;list&amp;quot;))
+PresAct.linkset &amp;lt;- do.call(&amp;quot;rbind&amp;quot;,rapply(PAct.seq,PAct.fun, how=&amp;quot;list&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I now have all the links. I cannot do much with that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;text-extraction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Text Extraction&lt;/h2&gt;
+&lt;p&gt;I will first write a simple function to download a URL and extract the text that I want.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rlist)
+library(stringr)
+PPR.Filter &amp;lt;- function(file) {
+temp.res &amp;lt;- str_replace_all(html_text(html_nodes(file, xpath=&amp;#39;(//*[contains(concat( &amp;quot; &amp;quot;, @class, &amp;quot; &amp;quot; ), concat( &amp;quot; &amp;quot;, &amp;quot;editor&amp;quot;, &amp;quot; &amp;quot; ))])//*[not(ancestor::aside or name()=&amp;quot;aside&amp;quot;)]/text()&amp;#39;)), &amp;quot;[\t\n]&amp;quot; , &amp;quot;&amp;quot;)
+temp.res
+}
+web.fetch &amp;lt;- function(URL) {
+temp.web &amp;lt;- read_html(URL)
+}
+PPR.Filter.Wrap &amp;lt;- function(URL) {
+  temp.res &amp;lt;- PPR.Filter(web.fetch(URL))
+  temp.res &amp;lt;- list.clean(temp.res, function(x) nchar(x) == 0, TRUE)
+  temp.res 
+}
+#Res1 &amp;lt;- PPR.Filter.Wrap(&amp;quot;https://www.whitehouse.gov/briefings-statements/president-donald-j-trumps-first-year-of-foreign-policy-accomplishments/&amp;quot;)
+#Res2 &amp;lt;- PPR.Filter.Wrap(&amp;quot;https://www.whitehouse.gov/briefings-statements/press-briefing-press-secretary-sarah-sanders-121917/&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;scraping-presidential-actions&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Scraping Presidential Actions&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Pres.Acts &amp;lt;- lapply(as.character(PresAct.linkset$link), PPR.Filter.Wrap)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;scraping-the-briefings-and-statements&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Scraping the Briefings and Statements&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Statements.Briefings &amp;lt;- lapply(as.character(BriefState.linkset$link), PPR.Filter.Wrap)
+save(Pres.Acts,PresAct.linkset,Statements.Briefings,BriefState.linkset, file=&amp;quot;data/PresText.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;tidying-the-text&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Tidying the Text&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;load(&amp;quot;~/R/MyNLWeb/data/PresText.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The hard work is in cleaning up the text. When the document was compiled, there were 2074 statements and briefings and there were 457 Presidential actions with each as a list in the bigger list. I will unlist each individual document and transform it to character. For housekeeping, I will also tally the docs and the line/paragraph numbers; this fails for a misalignment in one of the two examples.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(dplyr)
+library(magrittr)
+library(tidytext)
+text_df &amp;lt;- data_frame(text=as.character(unlist(Pres.Acts))) # Create characters
+k &amp;lt;- NULL
+for (i in 1:length(Pres.Acts)) {
+  k &amp;lt;- c(k,length(Pres.Acts[[i]]))
+}
+mydoc &amp;lt;- data.frame(rep(c(seq(1,length(Pres.Acts))),k))
+myline &amp;lt;- data.frame(unlist(as.vector(sapply(k, function(x) {cbind(seq(1,x))}))))
+ind.df &amp;lt;- data.frame(doc=mydoc,line=myline)
+myPA.df &amp;lt;- data.frame(doc=mydoc,line=myline,text=text_df) # A full dataset
+names(myPA.df) &amp;lt;- c(&amp;quot;doc&amp;quot;,&amp;quot;line&amp;quot;,&amp;quot;text&amp;quot;)
+tidy.PA &amp;lt;-myPA.df %&amp;gt;%
+# group_by(doc) %&amp;gt;%
+ unnest_tokens(word, text)
+text_df &amp;lt;- data_frame(text=as.character(unlist(Statements.Briefings)))
+k &amp;lt;- NULL
+for (i in 1:length(Statements.Briefings)) {
+  k &amp;lt;- c(k,length(Statements.Briefings[[i]]))
+}
+mydoc &amp;lt;- rep(c(seq(1,length(Statements.Briefings))),k)
+# myline &amp;lt;- unlist(as.vector(sapply(k, function(x) {cbind(seq(1,x))})))
+# ind.df &amp;lt;- data.frame(doc=mydoc,line=myline)
+mySB.df &amp;lt;- data.frame(doc=mydoc,text=text_df)
+names(mySB.df) &amp;lt;- c(&amp;quot;doc&amp;quot;,&amp;quot;text&amp;quot;)
+tidy.SB &amp;lt;-mySB.df %&amp;gt;%
+# group_by(doc) %&amp;gt;%
+ unnest_tokens(word, text)
+data(stop_words)
+# Remove stop words
+tidy.SB &amp;lt;- tidy.SB %&amp;gt;%
+  anti_join(stop_words)
+tidy.PA &amp;lt;- tidy.PA %&amp;gt;%
+  anti_join(stop_words)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-does-the-president-talk-about&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;what does the President talk about?&lt;/h1&gt;
+&lt;p&gt;Word frequencies can be tabulated for each set of data. I will plot the barplots.&lt;/p&gt;
+&lt;div id=&#34;statements-and-briefings&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Statements and Briefings&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+tidy.SB %&amp;gt;%
+  count(word, sort = TRUE) %&amp;gt;%
+  filter(n &amp;gt; 5000) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/SBplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;presidential-actions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Presidential Actions&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+tidy.PA %&amp;gt;%
+  count(word, sort = TRUE) %&amp;gt;%
+  filter(n &amp;gt; 500) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/PAplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;word-clouds&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Word Clouds&lt;/h2&gt;
+&lt;div id=&#34;presidential-actions-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Presidential Actions&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(wordcloud)
+set.seed(1234)
+wc &amp;lt;- tidy.PA %&amp;gt;% count(word, sort = TRUE)
+wordcloud(wc$word,  wc$n, min.freq = 1,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/WCPA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;statements-and-briefings-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Statements and Briefings&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1234)
+wc &amp;lt;- tidy.SB %&amp;gt;% count(word, sort = TRUE)
+wordcloud(wc$word,  wc$n, min.freq = 1,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/WCSB-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Example Talk</title>
+      <link>https://rwalker.netlify.com/talk/example-talk/</link>
+      <pubDate>Sun, 01 Jan 2017 00:00:00 -0800</pubDate>
+      
+      <guid>https://rwalker.netlify.com/talk/example-talk/</guid>
+      <description>&lt;p&gt;Embed your slides or video here using &lt;a href=&#34;https://sourcethemes.com/academic/post/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;. Further details can easily be added using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>On Generalizing Ordered Cumulative Regression Models</title>
+      <link>https://rwalker.netlify.com/publication/gen-ord-regression/</link>
+      <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/gen-ord-regression/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bond Ratings</title>
+      <link>https://rwalker.netlify.com/project/bond-ratings/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/project/bond-ratings/</guid>
+      <description>&lt;p&gt;There will be content.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Deep Learning</title>
+      <link>https://rwalker.netlify.com/project/deep-learning/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/project/deep-learning/</guid>
+      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
+
+&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
+
+&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
+
+&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
+
+&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Generalized Ordered Regression Models</title>
+      <link>https://rwalker.netlify.com/project/gen-ord-logit/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/project/gen-ord-logit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Property Tax Fairness in Multnomah County, Oregon</title>
+      <link>https://rwalker.netlify.com/publication/cjpp-ptw/</link>
+      <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/cjpp-ptw/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The intergovernmental context of alternative service delivery choices</title>
+      <link>https://rwalker.netlify.com/publication/kwb-publius/</link>
+      <pubDate>Mon, 01 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/kwb-publius/</guid>
+      <description>
+
+&lt;h1 id=&#34;more-detail-can-easily-be-written-here-using-markdown-and-rm-latex-math-code&#34;&gt;More detail can easily be written here using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/h1&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The Cost of Boosterism: Economic Development, Growth Management, and Municipal Bond Ratings</title>
+      <link>https://rwalker.netlify.com/publication/person-re-identification/</link>
+      <pubDate>Wed, 01 Sep 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/person-re-identification/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Statistical Backwards Induction</title>
+      <link>https://rwalker.netlify.com/publication/clothing-search/</link>
+      <pubDate>Mon, 15 Oct 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/clothing-search/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

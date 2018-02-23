@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Publications on Robert W. Walker</title>
+    <link>https://rwalker.netlify.com/publication/</link>
+    <description>Recent content in Publications on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://rwalker.netlify.com/publication/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>On Generalizing Ordered Cumulative Regression Models</title>
+      <link>https://rwalker.netlify.com/publication/gen-ord-regression/</link>
+      <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/gen-ord-regression/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Property Tax Fairness in Multnomah County, Oregon</title>
+      <link>https://rwalker.netlify.com/publication/cjpp-ptw/</link>
+      <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/cjpp-ptw/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The intergovernmental context of alternative service delivery choices</title>
+      <link>https://rwalker.netlify.com/publication/kwb-publius/</link>
+      <pubDate>Mon, 01 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/kwb-publius/</guid>
+      <description> More detail can easily be written here using Markdown and $\rm \LaTeX$ math code. </description>
+    </item>
+    
+    <item>
+      <title>The Cost of Boosterism: Economic Development, Growth Management, and Municipal Bond Ratings</title>
+      <link>https://rwalker.netlify.com/publication/person-re-identification/</link>
+      <pubDate>Wed, 01 Sep 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/person-re-identification/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Statistical Backwards Induction</title>
+      <link>https://rwalker.netlify.com/publication/clothing-search/</link>
+      <pubDate>Mon, 15 Oct 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/clothing-search/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
