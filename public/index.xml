@@ -293,6 +293,24 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
     </item>
     
     <item>
+      <title>On Generalizing Ordered Cumulative Regression Models</title>
+      <link>/publication/clothing-search/</link>
+      <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/clothing-search/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>On Generalizing Ordered Cumulative Regression Models</title>
+      <link>/publication/gen-ord-regression/</link>
+      <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/gen-ord-regression/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Deep Learning</title>
       <link>/project/deep-learning/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
@@ -311,11 +329,11 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
     </item>
     
     <item>
-      <title>External Project</title>
-      <link>/project/example-external-project/</link>
+      <title>Generalized Ordered Regression Models</title>
+      <link>/project/gen-ord-logit/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/project/example-external-project/</guid>
+      <guid>/project/gen-ord-logit/</guid>
       <description></description>
     </item>
     
@@ -325,16 +343,6 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
       <pubDate>Tue, 01 Sep 2015 00:00:00 +0000</pubDate>
       
       <guid>/publication/person-re-identification/</guid>
-      <description>&lt;p&gt;More detail can easily be written here using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Mobile visual clothing search</title>
-      <link>/publication/clothing-search/</link>
-      <pubDate>Mon, 01 Jul 2013 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/clothing-search/</guid>
       <description>&lt;p&gt;More detail can easily be written here using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
 </description>
     </item>
