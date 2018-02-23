@@ -294,15 +294,6 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
     
     <item>
       <title>On Generalizing Ordered Cumulative Regression Models</title>
-      <link>/publication/clothing-search/</link>
-      <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/clothing-search/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>On Generalizing Ordered Cumulative Regression Models</title>
       <link>/publication/gen-ord-regression/</link>
       <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
       
@@ -334,6 +325,15 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/project/gen-ord-logit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Property Tax Fairness in Multnomah County, Oregon</title>
+      <link>/publication/cjpp-ptw/</link>
+      <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/cjpp-ptw/</guid>
       <description></description>
     </item>
     
