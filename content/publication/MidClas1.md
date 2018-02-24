@@ -3,7 +3,7 @@ title = "THE MIDDLE CLASS: A NEW CONCEPTUAL FRAMEWORK AND A BRIEF APPLICATION TO
 date = "2010-09-01"
 
 # Authors. Comma separated list, e.g. `["Bob Smith", "David Jones"]`.
-authors = ["Itai Sened", "Marshall W. Thompson", "Robert W. Walker", and "Ron Watson"]
+authors = ["Itai Sened", "Marshall W. Thompson", "Robert W. Walker", "Ron Watson"]
 
 # Publication type.
 # Legend:

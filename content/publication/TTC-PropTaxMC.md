@@ -1,6 +1,6 @@
 +++
 title = "A Tale of Two Cities: Learning from Oregon's Property Tax Administration"
-date = "2009-09-02"
+date = "2013-09-02"
 
 # Authors. Comma separated list, e.g. `["Bob Smith", "David Jones"]`.
 authors = ["Fred Thompson", "Robert W. Walker"]
@@ -17,7 +17,7 @@ authors = ["Fred Thompson", "Robert W. Walker"]
 publication_types = ["2"]
 
 # Publication name and optional abbreviated version.
-publication = "*state tax notes"
+publication = "*State Tax Notes"
 publication_short = "*STN*"
 
 # Abstract and optional shortened version.
@@ -32,7 +32,7 @@ selected = false
 # Projects (optional).
 #   Associate this publication with one or more of your projects.
 #   Simply enter the filename (excluding '.md') of your project file in `content/project/`.
-# projects = ["bond-ratings"]
+projects = ["prop-tax"]
 
 # Links (optional).
 url_pdf = "https://www.researchgate.net/profile/Fred_Thompson/publication/304498811_State_Tax_Notes_November_3_2014/links/5771c5aa08ae6219474a5d6d/State-Tax-Notes-November-3-2014.pdf"

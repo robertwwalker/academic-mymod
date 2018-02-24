@@ -18,7 +18,7 @@ publication_types = ["2"]
 
 # Publication name and optional abbreviated version.
 publication = "California Journal of Politics and Public Policy"
-publication_short = "CJPP"
+publication_short = "*CJPP*"
 
 # Abstract and optional shortened version.
 abstract = "This article evaluates two alternative standards for resetting property assessments on title transfer in property tax systems like Oregon's and California's that are explicitly designed to protect property owners against rapid, unanticipated increases in their tax bills, California's reset to market and one in which the property is given a new assessed value based on its market value multiplied by a ratio that reflects the average relationship between assessed value and market value within a jurisdiction. People find that the latter promotes assessment quality better than the former and probably mitigates lock-in."
@@ -32,7 +32,7 @@ selected = false
 # Projects (optional).
 #   Associate this publication with one or more of your projects.
 #   Simply enter the filename (excluding '.md') of your project file in `content/project/`.
-projects = ["gen-ord-logit"]
+projects = ["prop-tax"]
 
 # Links (optional).
 url_pdf = "https://cloudfront.escholarship.org/dist/prd/content/qt6469r55r/qt6469r55r.pdf"
