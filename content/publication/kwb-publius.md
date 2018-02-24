@@ -27,12 +27,12 @@ abstract = "Research suggests that outsourcing is one way that local governments
 image_preview = ""
 
 # Is this a selected publication? (true/false)
-selected = true
+selected = false
 
 # Projects (optional).
 #   Associate this publication with one or more of your projects.
 #   Simply enter the filename (excluding '.md') of your project file in `content/project/`.
-projects = ["deep-learning"]
+#projects = ["deep-learning"]
 
 # Links (optional).
 url_pdf = "http://collinsinstitute.fsu.edu/sites/default/files/FINAL%20PAPER-BERNICK.pdf"
@@ -59,4 +59,3 @@ caption = ""
 
 +++
 
-# More detail can easily be written here using *Markdown* and $\rm \LaTeX$ math code.
