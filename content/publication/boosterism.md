@@ -33,7 +33,7 @@ selected = false
 # Projects (optional).
 #   Associate this publication with one or more of your projects.
 #   Simply enter the filename (excluding '.md') of your project file in `content/project/`.
-projects = ["deep-learning"]
+projects = ["bond-ratings"]
 
 # Links (optional).
 url_pdf = "http://www.civicresearchinstitute.com/online/PDF/The%20Cost%20of%20Boosterism:%20Economic%20Development,%20Growth%20Management,%20and%20Municipal%20Bond%20Ratings.pdf"
