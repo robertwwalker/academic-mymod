@@ -1,6 +1,6 @@
 +++
 title = "The intergovernmental context of alternative service delivery choices"
-date = "2014-09-01"
+date = "2012-09-01"
 
 # Authors. Comma separated list, e.g. `["Bob Smith", "David Jones"]`.
 authors = ["Skip Krueger", "Robert W. Walker", "Ethan Bernick"]
