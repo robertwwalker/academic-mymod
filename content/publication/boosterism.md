@@ -14,7 +14,7 @@ authors = ["Skip Krueger", "Christopher V. Hawkins", "Robert W. Walker"]
 # 4 = Technical report
 # 5 = Book
 # 6 = Book chapter
-publication_types = ["0"]
+publication_types = ["2"]
 
 # Publication name and optional abbreviated version.
 publication = "Municipal Finance Journal"
