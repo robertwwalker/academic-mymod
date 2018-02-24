@@ -4,7 +4,7 @@ widget = "hero"
 active = true
 date = 2017-10-15
 
-title = "Academic"
+title = "Dig and Dive in Data"
 
 # Order that this section will appear in.
 weight = 3
