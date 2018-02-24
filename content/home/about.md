@@ -34,7 +34,7 @@ weight = 5
 
 [[education.courses]]
   course = "Страноведение России"
-  institution = "Moscow Linguistics University"
+  institution = "Московский государственный лингвистический университет"
 #  year = 1995
 
  
