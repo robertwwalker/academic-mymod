@@ -7,8 +7,64 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 15 Oct 2017 00:00:00 -0700</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longitudinal Panel Data R Packages</title>
+      <link>https://rwalker.netlify.com/post/panel-data-r-packages/</link>
+      <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/post/panel-data-r-packages/</guid>
+      <description>&lt;div id=&#34;longitudinal-and-panel-data-analysis-in-r&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Longitudinal and Panel Data Analysis in R&lt;/h1&gt;
+&lt;p&gt;Goal: A CRAN task view for panel/longitudinal data analysis in R.&lt;/p&gt;
+&lt;div id=&#34;what-is-panel-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;What is Panel Data?&lt;/h2&gt;
+&lt;p&gt;Panel data are variously called longitudinal, panel, cross-sectional time series, and pooled time series data. The most precise definition is two-dimensional data; invariably one of the dimensions is time. We can think about a general depiction of what a model with linear coefficients typical for such data structures, though ridiculously overparameterized, like so:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ y_{it} = \alpha_{it} + X_{it}\beta_{it} + \epsilon_{it} \]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;For example, suppose that we have a set of countries, or US states, municipalities in a state, or even individual people, indexed by &lt;span class=&#34;math inline&#34;&gt;\(i \in N\)&lt;/span&gt;. We observe those data at &lt;span class=&#34;math inline&#34;&gt;\(t \in T\)&lt;/span&gt; points in time. To be clear, a standard cross-section of data in this notation suppresses &lt;span class=&#34;math inline&#34;&gt;\(t\)&lt;/span&gt; because there is no observed over time variation. A single time series suppresses the &lt;span class=&#34;math inline&#34;&gt;\(i\)&lt;/span&gt;. Of course, &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(T\)&lt;/span&gt; are greater than 1.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;common-transformations-anova&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Common transformations: ANOVA&lt;/h2&gt;
+&lt;p&gt;There are common transformations undertaken on the data prior to analysis. For example, the &lt;em&gt;within&lt;/em&gt; transformation that underlies a &lt;em&gt;fixed effects&lt;/em&gt; regression model transforms each vector of data (for &lt;span class=&#34;math inline&#34;&gt;\(i\)&lt;/span&gt;) as follows:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ x^{W}_{it} = x_{it} - \overline{x}_{i} \]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The within-transformed data are of identical dimensions to the untransformed data. The other common transformation isolates the &lt;span class=&#34;math inline&#34;&gt;\(n-vector\)&lt;/span&gt; of unit means – the so-called &lt;em&gt;between&lt;/em&gt; transformation.&lt;/p&gt;
+&lt;p&gt;Because the dimensions are non-overlapping/orthogonal; the key result in the applied statistics shows that the total variation in a variable &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; is the sum of the &lt;em&gt;within&lt;/em&gt; variance and the &lt;em&gt;between&lt;/em&gt; variance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;models-for-panel-data-standard-models-in-plm&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Models for panel data: Standard models in &lt;em&gt;plm()&lt;/em&gt;&lt;/h1&gt;
+&lt;p&gt;The workhorse package/library for the basic panel data models in R is &lt;em&gt;plm&lt;/em&gt;. The &lt;em&gt;JStatSoft&lt;/em&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/plm/vignettes/plm.pdf&#34;&gt;article was modified to become the vignette&lt;/a&gt; and is quite detailed, though dated. The previous equation can be simplified and detailed to derive the commonly deployed models.&lt;/p&gt;
+&lt;div id=&#34;a-pooled-regression&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;A Pooled Regression&lt;/h3&gt;
+&lt;p&gt;Simply suppresses all subscripts on &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; to write:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ y_{it} = \alpha + X_{it}\beta + \epsilon_{it} \]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-within-regression&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;A Within Regression&lt;/h3&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ y_{it} = \alpha + X_{it}\beta^{W} + \epsilon^{W}_{it} \]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-between-regression&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;A Between Regression&lt;/h3&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ \overline{y}_{i} = \alpha + \overline{X}_{i}\beta^{B} + \epsilon^{B}_{i} \]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;models-with-heterogeneous-time-trends-phtt&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Models with heterogeneous time trends: &lt;em&gt;phtt()&lt;/em&gt;&lt;/h1&gt;
+&lt;p&gt;An &lt;a href=&#34;https://arxiv.org/pdf/1407.6484.pdf&#34;&gt;article&lt;/a&gt; on panel data analysis with heterogeneous time trends appears in &lt;em&gt;JStatSoft&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;multi-state-models-in-continuous-time-msm&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Multi-state models in continuous time &lt;em&gt;msm()&lt;/em&gt;&lt;/h1&gt;
+&lt;p&gt;The &lt;em&gt;msm&lt;/em&gt; library fits homogenous and inhomogenous Markov models for multinomial outcomes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;latent-markov-models-with-lmest&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Latent Markov models with &lt;em&gt;LMest()&lt;/em&gt;&lt;/h1&gt;
+&lt;pre&gt;&lt;code&gt;LM models are designed to deal with univariate and multivariate longitudinal data based on the repeated observation of a panel of subjects across time. More in detail, LM models are specially tailored to study the evolution of an individual characteristic of interest that is not directly observable. This characteristic is represented by a latent process following a Markov chain as in a Hidden Markov (HM) model (Zucchini and MacDonald, 2009). These models also allow us to account for time-varying unobserved heterogeneity in addition to the effect of observable covariates on the response variables.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;a href=&#34;https://arxiv.org/pdf/1501.04448.pdf&#34;&gt;preprint&lt;/a&gt; is here.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Black Boxes: A Gender Gap Example</title>
@@ -312,30 +368,22 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
     </item>
     
     <item>
-      <title>Deep Learning</title>
-      <link>https://rwalker.netlify.com/project/deep-learning/</link>
-      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://rwalker.netlify.com/project/deep-learning/</guid>
-      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
-
-&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
-
-&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
-
-&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
-
-&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Generalized Ordered Regression Models</title>
       <link>https://rwalker.netlify.com/project/gen-ord-logit/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://rwalker.netlify.com/project/gen-ord-logit/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Oregon Property Taxes</title>
+      <link>https://rwalker.netlify.com/project/prop-tax/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/project/prop-tax/</guid>
+      <description>&lt;p&gt;Fred Thompson, Kawika Pierson, and I have written a few papers on the odd property tax limitations in Oregon.  Basically, there is a cap on the rate of growth and no reset at sale provision so assessment quality suffers tremendously.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -348,32 +396,47 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
     </item>
     
     <item>
-      <title>The intergovernmental context of alternative service delivery choices</title>
-      <link>https://rwalker.netlify.com/publication/kwb-publius/</link>
-      <pubDate>Mon, 01 Sep 2014 00:00:00 +0000</pubDate>
+      <title>The State, Property Rights, and the Middle Class: Empirical Support for an Aristotelian Observation</title>
+      <link>https://rwalker.netlify.com/publication/midclas2/</link>
+      <pubDate>Sun, 01 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/publication/kwb-publius/</guid>
-      <description>
-
-&lt;h1 id=&#34;more-detail-can-easily-be-written-here-using-markdown-and-rm-latex-math-code&#34;&gt;More detail can easily be written here using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/h1&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>The Cost of Boosterism: Economic Development, Growth Management, and Municipal Bond Ratings</title>
-      <link>https://rwalker.netlify.com/publication/person-re-identification/</link>
-      <pubDate>Wed, 01 Sep 2010 00:00:00 +0000</pubDate>
-      
-      <guid>https://rwalker.netlify.com/publication/person-re-identification/</guid>
+      <guid>https://rwalker.netlify.com/publication/midclas2/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Statistical Backwards Induction</title>
-      <link>https://rwalker.netlify.com/publication/clothing-search/</link>
-      <pubDate>Mon, 15 Oct 2007 00:00:00 +0000</pubDate>
+      <title>A Tale of Two Cities: Learning from Oregon&#39;s Property Tax Administration</title>
+      <link>https://rwalker.netlify.com/publication/ttc-proptaxmc/</link>
+      <pubDate>Mon, 02 Sep 2013 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/publication/clothing-search/</guid>
+      <guid>https://rwalker.netlify.com/publication/ttc-proptaxmc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The intergovernmental context of alternative service delivery choices</title>
+      <link>https://rwalker.netlify.com/publication/kwb-publius/</link>
+      <pubDate>Sat, 01 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/kwb-publius/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Management Practices and State Bond Ratings</title>
+      <link>https://rwalker.netlify.com/publication/mgmt-state-ratings/</link>
+      <pubDate>Thu, 02 Dec 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/mgmt-state-ratings/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>THE MIDDLE CLASS: A NEW CONCEPTUAL FRAMEWORK AND A BRIEF APPLICATION TO THE CAUCASUS</title>
+      <link>https://rwalker.netlify.com/publication/midclas1/</link>
+      <pubDate>Wed, 01 Sep 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/publication/midclas1/</guid>
       <description></description>
     </item>
     

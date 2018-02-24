@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>https://rwalker.netlify.com/post/panel-data-r-packages/</loc>
+      <lastmod>2018-02-24T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/</loc>
       <lastmod>2018-02-22T00:00:00+00:00</lastmod>
     </url>
@@ -95,7 +104,7 @@
     
     <url>
     
-      <loc>https://rwalker.netlify.com/project/deep-learning/</loc>
+      <loc>https://rwalker.netlify.com/project/gen-ord-logit/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
     </url>
     
@@ -104,7 +113,7 @@
     
     <url>
     
-      <loc>https://rwalker.netlify.com/project/gen-ord-logit/</loc>
+      <loc>https://rwalker.netlify.com/project/prop-tax/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
     </url>
     
@@ -122,8 +131,8 @@
     
     <url>
     
-      <loc>https://rwalker.netlify.com/publication/kwb-publius/</loc>
-      <lastmod>2014-09-01T00:00:00+00:00</lastmod>
+      <loc>https://rwalker.netlify.com/publication/midclas2/</loc>
+      <lastmod>2014-06-01T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -131,7 +140,34 @@
     
     <url>
     
-      <loc>https://rwalker.netlify.com/publication/person-re-identification/</loc>
+      <loc>https://rwalker.netlify.com/publication/ttc-proptaxmc/</loc>
+      <lastmod>2013-09-02T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://rwalker.netlify.com/publication/kwb-publius/</loc>
+      <lastmod>2012-09-01T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://rwalker.netlify.com/publication/mgmt-state-ratings/</loc>
+      <lastmod>2010-12-02T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://rwalker.netlify.com/publication/midclas1/</loc>
       <lastmod>2010-09-01T00:00:00+00:00</lastmod>
     </url>
     
@@ -140,7 +176,34 @@
     
     <url>
     
-      <loc>https://rwalker.netlify.com/publication/clothing-search/</loc>
+      <loc>https://rwalker.netlify.com/publication/boosterism/</loc>
+      <lastmod>2010-09-01T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://rwalker.netlify.com/publication/unpack-civic-part/</loc>
+      <lastmod>2009-12-02T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://rwalker.netlify.com/publication/split-state-ratings/</loc>
+      <lastmod>2009-09-02T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://rwalker.netlify.com/publication/div-govt-pol-turnover/</loc>
       <lastmod>2007-10-15T00:00:00+00:00</lastmod>
     </url>
     
@@ -149,9 +212,17 @@
     
     <url>
     
-      <loc>https://rwalker.netlify.com/publication_types/0/</loc>
-      <lastmod>2010-09-01T00:00:00+00:00</lastmod>
-      <priority>0</priority>
+      <loc>https://rwalker.netlify.com/publication/sbi/</loc>
+      <lastmod>2007-10-15T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://rwalker.netlify.com/publication/long-memory-es/</loc>
+      <lastmod>1999-12-02T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -188,8 +259,8 @@
     
     <url>
     
-      <loc>https://rwalker.netlify.com/tags/deep-learning/</loc>
-      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+      <loc>https://rwalker.netlify.com/tags/essex/</loc>
+      <lastmod>2018-02-24T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -218,6 +289,16 @@
     
     <url>
     
+      <loc>https://rwalker.netlify.com/tags/panel-data/</loc>
+      <lastmod>2018-02-24T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://rwalker.netlify.com/tags/plot/</loc>
       <lastmod>2018-02-22T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -238,8 +319,8 @@
     
     <url>
     
-      <loc>https://rwalker.netlify.com/publication_types/</loc>
-      <lastmod>2010-09-01T00:00:00+00:00</lastmod>
+      <loc>https://rwalker.netlify.com/tags/prop-tax/</loc>
+      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -248,8 +329,8 @@
     
     <url>
     
-      <loc>https://rwalker.netlify.com/tags/r/</loc>
-      <lastmod>2018-02-22T00:00:00+00:00</lastmod>
+      <loc>https://rwalker.netlify.com/publication_types/</loc>
+      <lastmod>2016-11-05T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -260,6 +341,16 @@
     
       <loc>https://rwalker.netlify.com/categories/r/</loc>
       <lastmod>2018-02-22T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://rwalker.netlify.com/tags/r/</loc>
+      <lastmod>2018-02-24T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -279,7 +370,7 @@
     <url>
     
       <loc>https://rwalker.netlify.com/</loc>
-      <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+      <lastmod>2017-10-15T00:00:00-07:00</lastmod>
       <priority>0</priority>
     </url>
     

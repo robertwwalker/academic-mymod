@@ -22,21 +22,21 @@
     </item>
     
     <item>
-      <title>Deep Learning</title>
-      <link>https://rwalker.netlify.com/project/deep-learning/</link>
-      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://rwalker.netlify.com/project/deep-learning/</guid>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus.</description>
-    </item>
-    
-    <item>
       <title>Generalized Ordered Regression Models</title>
       <link>https://rwalker.netlify.com/project/gen-ord-logit/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://rwalker.netlify.com/project/gen-ord-logit/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Oregon Property Taxes</title>
+      <link>https://rwalker.netlify.com/project/prop-tax/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/project/prop-tax/</guid>
+      <description>Fred Thompson, Kawika Pierson, and I have written a few papers on the odd property tax limitations in Oregon. Basically, there is a cap on the rate of growth and no reset at sale provision so assessment quality suffers tremendously.</description>
     </item>
     
   </channel>

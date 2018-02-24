@@ -80,7 +80,7 @@
   <meta property="og:description" content="Associate Professor of Quantitative Methods">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2016-04-20T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2017-10-15T00:00:00-07:00">
   
 
   
@@ -104,7 +104,7 @@
         <span class="icon-bar"></span>
       </button>
       
-      <a class="navbar-brand" href="/"><img src="/img/headers/bubbles-wide.jpg" alt="Robert W. Walker"></a>
+      <a class="navbar-brand" href="/"><img src="/img/headers/wuagsm.jpg" alt="Robert W. Walker"></a>
     </div>
 
     
@@ -251,6 +251,60 @@
   
   
   
+    
+
+
+
+<section id="hero" class="hero-overlay" style="
+
+background-color: #666;
+
+
+background-image:
+linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+url('https://rwalker.netlify.com/img/headers/bubbles-wide.jpg');
+
+;">
+
+  <div class="container">
+
+    <h1 class="hero-title" itemprop="headline">
+      Dig and Dive in Data
+    </h1>
+
+    
+    <p class="hero-lead"><script type="text/javascript">
+  (function defer() {
+    if (window.jQuery) {
+      jQuery(document).ready(function(){
+        GetLatestReleaseInfo();
+      });
+    } else {
+      setTimeout(function() { defer() }, 50);
+    }
+  })();  
+  function GetLatestReleaseInfo() {
+    $.getJSON('https://api.github.com/repos/gcushen/hugo-academic/tags').done(function (json) {
+      let release = json[0];
+      // let downloadURL = release.zipball_url;
+      $('#academic-release').text('Latest release ' + release.name);  
+    });    
+}  
+</script>
+</p>
+    
+
+    
+
+  </div>
+
+</section>
+
+  
+
+  
+  
+  
   <section id="about" class="home-section">
     <div class="container">
       
@@ -336,7 +390,9 @@
 
 <h1 id="biography">Biography</h1>
 
-<p>Robert W. Walker is Associate Professor of Quantitative Methods in the Atkinson Graduate School of Management at Willamette University.   His research interests include panel/cross-sectional time series data, causal inference in observed populations (joint with Tim Johnson), political economy, and general applied statistics and statistical computing. He is also appointed Honorary Instructor at the University of Essex to lecture annually in the Essex Summer School in Social Science Data Analysis.  He has held previous appointments at Dartmouth College, Harvard University, Texas A&amp;M University, Washington University in Saint Louis, and Rice University.  With Curt Signorino and Muhammet Bas, he was awarded the Warren Miller Prize for <em>Statistical Backwards Induction</em>.  Of greatest import, he is married to the love of his life, is a proud father to two wonderful sons and, to keep things in balance, is a lifelong <a href="http://www.arsenal.co.uk/" target="_blank">Arsenal</a> fan.</p>
+<p>Robert W. Walker is Associate Professor of Quantitative Methods in the Atkinson Graduate School of Management at Willamette University.   His research interests include panel/cross-sectional time series data, causal inference in observed populations (joint with Tim Johnson), political economy, and general applied statistics and statistical computing. He is also appointed Honorary Instructor at the University of Essex to lecture annually in the Essex Summer School in Social Science Data Analysis.  He has held previous appointments at Dartmouth College, Harvard University, Texas A&amp;M University, Washington University in Saint Louis, and Rice University.  With Curt Signorino and Muhammet Bas, he was awarded the Warren Miller Prize for <em>Statistical Backwards Induction</em> for the best article in <em>Political Analysis</em>.</p>
+
+<p>Of greatest import, he is married to the love of his life, is a proud father to two wonderful sons, likes the Pacific Northwest, and, to keep things in balance, is a lifelong <a href="http://www.arsenal.co.uk/" target="_blank">Arsenal</a> fan.</p>
 
 
     <div class="row">
@@ -366,7 +422,7 @@
           <li>
             <i class="fa-li fa fa-graduation-cap"></i>
             <div class="description">
-              <p class="course">PhD in Political Science, 2005</p>
+              <p class="course">PhD in Political Science</p>
               <p class="institution">University of Rochester</p>
             </div>
           </li>
@@ -374,7 +430,7 @@
           <li>
             <i class="fa-li fa fa-graduation-cap"></i>
             <div class="description">
-              <p class="course">MA Political Science, 2002</p>
+              <p class="course">MA Political Science</p>
               <p class="institution">University of Rochester</p>
             </div>
           </li>
@@ -382,8 +438,16 @@
           <li>
             <i class="fa-li fa fa-graduation-cap"></i>
             <div class="description">
-              <p class="course">BA in Post-Soviet and East European Studies, 1995</p>
+              <p class="course">BA in Post-Soviet and East European Studies</p>
               <p class="institution">University of Texas at Austin</p>
+            </div>
+          </li>
+          
+          <li>
+            <i class="fa-li fa fa-graduation-cap"></i>
+            <div class="description">
+              <p class="course">Страноведение России</p>
+              <p class="institution">Московский государственный лингвистический университет</p>
             </div>
           </li>
           
@@ -442,7 +506,7 @@
 
   <div class="pub-abstract" itemprop="text">
     
-    We examine models that relax proportionality in cumulative ordered regression  models. Something fundamental arising from ordered variables and stochastic ordering implies a partitioning. Efforts to relax proportionality also relax the ability to collapse an inherently multidimensional problem to a partitioning of the (unidimensional) real line. It is surprising and  unfortunate  to  find  that  deviations  from  proportionality  are  sufficient  to  generate internal contradictions; undecidable propositions must exist by relaxing proportional odds without other relevant and significant changes in the underlying model. We prove a single theorem linking continuous support and partitions of a latent space to show that for these two characteristics to be simultaneously satisfied, the model must be the proportional-odds model. Conditioning on the adjacency that is closely related to the partitioning is fruitful, but at this point we join the class of continuation-ratio models. Alternatively, Anderson’s (1984) stereotype model is quite general and nests ordered and unordered choice models, but  again  we  have  left  the  domain  of  cumulative  models.  Adopting  multidimensional cumulative models or imposing covariate-specific thresholds are the only certain methods for avoiding these troubles  in the  cumulative  framework.  It  is  generically  impossible  to generalize the cumulative class of ordered regression models in ways consistent with the spirit of generalized cumulative regression models. Monte Carlo studies also demonstrate the general principles.
+    Generalizations of cumulative ordered regression models do not exist because the very definition of <em>generalizing</em> contradicts the sum to one definition of probabilities implicit in the models.  In an analytical proof and in a Monte Carlo simulation, I show outcomes to be undefined and/or multiply defined with even the slightest generalizations.  Fortunately, the class of continuation ratio and stopping ratio models address these precise claims that motivated generalizations and are readily available and sensible.
     
   </div>
 
@@ -525,32 +589,36 @@
   
 
   <h3 class="article-title" itemprop="name">
-    <a href="https://rwalker.netlify.com/publication/kwb-publius/" itemprop="url">The intergovernmental context of alternative service delivery choices</a>
+    <a href="https://rwalker.netlify.com/publication/div-govt-pol-turnover/" itemprop="url">Divided government, political turnover, and state bond ratings</a>
   </h3>
 
   <div class="pub-abstract" itemprop="text">
     
-    Research suggests that outsourcing is one way that local governments have to meet rising expectations and unwillingness to pay when resources are constrained. The degree to which resources are constrained is a function not only of local economic and political conditions, but of state rules as well. We build on previous models of local government outsourcing by studying the interaction between state rules and local fiscal, economic, and political conditions. We find that cities in states that place limits on the resources available to local governments choose differently from among the constellation of service provision options than cities in states without such limits.
+    Credit markets face an inherent risk that derives from future policy changes when considering the purchase of debt issued by state governments. An enacting government coalition issuing long-term debt cannot make a credible commitment to maintain the existing debt repayment policy into the future. In the face of this commitment problem, investors (and the rating agencies that serve those investors) look to recent political turnover and the existence of divided government to estimate the possibility that some future government coalition will remain substantially similar to the enacting coalition. Political turnover and divided government suggest to the credit markets that future coalitions may act opportunistically regarding debt repayment. This risk of opportunistic behavior, we argue, manifests in lower ratings of state debt. We empirically examine this claim in a model of state bond ratings from 1995 through 2000.
     
   </div>
 
   <div class="pub-authors" itemprop="author">
     
-    Skip Krueger, Robert W. Walker, Ethan Bernick
+    Skip Krueger, Robert W. Walker
     
   </div>
 
   <div class="pub-publication">
-    Publius,
-    2014</div>
+    <em>PFR</em>,
+    2007</div>
 
   <div class="pub-links">
     
 
 
 
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Preprint
+</a>
 
-<a class="btn btn-primary btn-outline btn-xs" href="http://collinsinstitute.fsu.edu/sites/default/files/FINAL%20PAPER-BERNICK.pdf" target="_blank" rel="noopener">
+
+<a class="btn btn-primary btn-outline btn-xs" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.929.5762&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener">
   PDF
 </a>
 
@@ -558,17 +626,41 @@
 
 
 
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Code
+</a>
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Dataset
+</a>
 
 
 
-<a class="btn btn-primary btn-outline btn-xs" href="/project/deep-learning/">
+<a class="btn btn-primary btn-outline btn-xs" href="/project/bond-ratings/">
   Project
 </a>
 
 
 
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Poster
+</a>
 
 
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Slides
+</a>
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Video
+</a>
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Source Document
+</a>
 
 
 
@@ -586,14 +678,14 @@
   
   
   <div>
-    <a href="https://rwalker.netlify.com/publication/clothing-search/">
+    <a href="https://rwalker.netlify.com/publication/sbi/">
       <img src="/img/SBI.png" class="pub-banner" itemprop="image">
     </a>
   </div>
   
 
   <h3 class="article-title" itemprop="name">
-    <a href="https://rwalker.netlify.com/publication/clothing-search/" itemprop="url">Statistical Backwards Induction</a>
+    <a href="https://rwalker.netlify.com/publication/sbi/" itemprop="url">Statistical Backwards Induction</a>
   </h3>
 
   <div class="pub-abstract" itemprop="text">
@@ -628,11 +720,6 @@
 
 
 
-
-<button type="button" class="btn btn-primary btn-outline btn-xs js-cite-modal"
-        data-filename="/files/citations/clothing-search.bib">
-  Cite
-</button>
 
 
 <a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
@@ -702,6 +789,13 @@
     <h1>Recent Publications</h1>
     
     
+    <p class="view-all">
+      <a href="/publication/">
+        More Publications
+        <i class="fa fa-angle-double-right"></i>
+      </a>
+    </p>
+    
   </div>
   <div class="col-xs-12 col-md-8">
     
@@ -722,7 +816,7 @@
   <span itemprop="author">
     Kawika Pierson, Fred Thompson, Robert W. Walker</span>.
   <a href="https://rwalker.netlify.com/publication/cjpp-ptw/" itemprop="name">Property Tax Fairness in Multnomah County, Oregon</a>.
-  CJPP,
+  <em>CJPP</em>,
   2016.
   <p>
 
@@ -752,7 +846,7 @@
 
 
 
-<a class="btn btn-primary btn-outline btn-xs" href="/project/gen-ord-logit/">
+<a class="btn btn-primary btn-outline btn-xs" href="/project/prop-tax/">
   Project
 </a>
 
@@ -787,16 +881,16 @@
         <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
   <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
   <span itemprop="author">
-    Skip Krueger, Christopher V. Hawkins, Robert W. Walker</span>.
-  <a href="https://rwalker.netlify.com/publication/person-re-identification/" itemprop="name">The Cost of Boosterism: Economic Development, Growth Management, and Municipal Bond Ratings</a>.
-  MFJ,
-  2010.
+    Itai Sened, Marshall W. Thompson, Robert W. Walker</span>.
+  <a href="https://rwalker.netlify.com/publication/midclas2/" itemprop="name">The State, Property Rights, and the Middle Class: Empirical Support for an Aristotelian Observation</a>.
+  <em>IndJPS</em>,
+  2014.
   <p>
 
 
 
 
-<a class="btn btn-primary btn-outline btn-xs" href="http://www.civicresearchinstitute.com/online/PDF/The%20Cost%20of%20Boosterism:%20Economic%20Development,%20Growth%20Management,%20and%20Municipal%20Bond%20Ratings.pdf" target="_blank" rel="noopener">
+<a class="btn btn-primary btn-outline btn-xs" href="http://www.ca-c.org/c-g/2010/journal_eng/c-g-1-2/11.shtml" target="_blank" rel="noopener">
   PDF
 </a>
 
@@ -807,12 +901,145 @@
 
 
 
-<a class="btn btn-primary btn-outline btn-xs" href="/project/deep-learning/">
+
+
+
+
+
+
+</p>
+</div>
+
+      
+    
+      
+        <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
+  <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
+  <span itemprop="author">
+    Fred Thompson, Robert W. Walker</span>.
+  <a href="https://rwalker.netlify.com/publication/ttc-proptaxmc/" itemprop="name">A Tale of Two Cities: Learning from Oregon&#39;s Property Tax Administration</a>.
+  <em>STN</em>,
+  2013.
+  <p>
+
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://www.researchgate.net/profile/Fred_Thompson/publication/304498811_State_Tax_Notes_November_3_2014/links/5771c5aa08ae6219474a5d6d/State-Tax-Notes-November-3-2014.pdf" target="_blank" rel="noopener">
+  PDF
+</a>
+
+
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Code
+</a>
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Dataset
+</a>
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="/project/prop-tax/">
   Project
 </a>
 
 
 
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Slides
+</a>
+
+
+
+
+</p>
+</div>
+
+      
+    
+      
+        <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
+  <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
+  <span itemprop="author">
+    Skip Krueger, Robert W. Walker, Ethan Bernick</span>.
+  <a href="https://rwalker.netlify.com/publication/kwb-publius/" itemprop="name">The intergovernmental context of alternative service delivery choices</a>.
+  Publius,
+  2012.
+  <p>
+
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="http://collinsinstitute.fsu.edu/sites/default/files/FINAL%20PAPER-BERNICK.pdf" target="_blank" rel="noopener">
+  PDF
+</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</p>
+</div>
+
+      
+    
+      
+        <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
+  <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
+  <span itemprop="author">
+    Skip Krueger, Robert W. Walker</span>.
+  <a href="https://rwalker.netlify.com/publication/mgmt-state-ratings/" itemprop="name">Management Practices and State Bond Ratings</a>.
+  <em>PBF</em>,
+  2010.
+  <p>
+
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.929.5762&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener">
+  PDF
+</a>
+
+
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Code
+</a>
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Dataset
+</a>
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="/project/bond-ratings/">
+  Project
+</a>
+
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://rwalker.netlify.com/" target="_blank" rel="noopener">
+  Slides
+</a>
 
 
 
@@ -919,6 +1146,82 @@
       
 
       
+      
+
+        
+
+        
+        
+
+        
+        
+          
+      
+          
+      
+          
+      
+
+      
+      
+        
+        
+
+<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-02-24 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2018-02-24
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    3 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  
+
+  
+
+</div>
+
+
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="https://rwalker.netlify.com/post/panel-data-r-packages/" itemprop="url">Longitudinal Panel Data R Packages</a>
+  </h3>
+  <div class="article-style" itemprop="articleBody">
+    
+    Longitudinal and Panel Data Analysis in R Goal: A CRAN task view for panel/longitudinal data analysis in R.
+What is Panel Data? Panel data are variously called longitudinal, panel, cross-sectional time series, and pooled time series data. The most precise definition is two-dimensional data; invariably one of the dimensions is time. We can think about a general depiction of what a model with linear coefficients typical for such data structures, though ridiculously overparameterized, like so:
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="https://rwalker.netlify.com/post/panel-data-r-packages/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
       
 
         
@@ -1232,26 +1535,6 @@ The site is split in four parts: all news, articles, presidential actions, and b
       
       
       
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-6 project-item isotope-item deep-learning">
-        <div class="card">
-          
-          <a href="https://rwalker.netlify.com/project/deep-learning/" title="" class="card-image hover-overlay"
-             >
-            <img src="/img/bubbles.jpg" alt="" class="img-responsive">
-          </a>
-          
-          <div class="card-text">
-            <h4><a href="https://rwalker.netlify.com/project/deep-learning/" >Deep Learning</a></h4>
-            <div class="card-desription">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      
-      
-      
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-6 project-item isotope-item ordered-regression">
         <div class="card">
           
@@ -1264,6 +1547,26 @@ The site is split in four parts: all news, articles, presidential actions, and b
             <h4><a href="https://rwalker.netlify.com/project/gen-ord-logit/" >Generalized Ordered Regression Models</a></h4>
             <div class="card-desription">
               <p>In a series of published and working papers, I explore generalizations of ordered regression models.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-6 project-item isotope-item prop-tax">
+        <div class="card">
+          
+          <a href="https://rwalker.netlify.com/project/prop-tax/" title="" class="card-image hover-overlay"
+             >
+            <img src="/img/bubbles.jpg" alt="" class="img-responsive">
+          </a>
+          
+          <div class="card-text">
+            <h4><a href="https://rwalker.netlify.com/project/prop-tax/" >Oregon Property Taxes</a></h4>
+            <div class="card-desription">
+              <p>Property tax limitations in Oregon are unique and have interesting consequences for development patterns.</p>
             </div>
           </div>
         </div>
@@ -1296,9 +1599,7 @@ The site is split in four parts: all news, articles, presidential actions, and b
     
   </div>
   <div class="col-xs-12 col-md-8">
-    <p>I teach the following courses:</p>
-
-<p>In the Atkinson Graduate School of Management at Willamette University:</p>
+    <p>In the Atkinson Graduate School of Management at Willamette University:</p>
 
 <ul>
 <li>GSM 5103: Data Analysis, Modelling, and Decision-Making</li>
@@ -1354,14 +1655,21 @@ The site is split in four parts: all news, articles, presidential actions, and b
           
           
           
-          <a href="/tags/r" style="font-size:2.1472181256129828rem">R</a>
+          <a href="/tags/essex" style="font-size:0.8rem">Essex</a>
         
           
           
           
           
           
-          <a href="/tags/r-markdown" style="font-size:2.1472181256129828rem">R Markdown</a>
+          <a href="/tags/r" style="font-size:2.2643002974495365rem">R</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/r-markdown" style="font-size:1.960430530626175rem">R Markdown</a>
         
           
           
@@ -1375,13 +1683,6 @@ The site is split in four parts: all news, articles, presidential actions, and b
           
           
           
-          <a href="/tags/deep-learning" style="font-size:0.8rem">deep-learning</a>
-        
-          
-          
-          
-          
-          
           <a href="/tags/ordered-regression" style="font-size:0.8rem">ordered-regression</a>
         
           
@@ -1389,7 +1690,21 @@ The site is split in four parts: all news, articles, presidential actions, and b
           
           
           
-          <a href="/tags/plot" style="font-size:1.65rem">plot</a>
+          <a href="/tags/panel-data" style="font-size:0.8rem">panel data</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/plot" style="font-size:1.5321501487247682rem">plot</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/prop-tax" style="font-size:0.8rem">prop-tax</a>
         
           
           

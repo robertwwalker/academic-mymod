@@ -13,6 +13,16 @@
     
     
     <item>
+      <title>Longitudinal Panel Data R Packages</title>
+      <link>https://rwalker.netlify.com/post/panel-data-r-packages/</link>
+      <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/post/panel-data-r-packages/</guid>
+      <description>Longitudinal and Panel Data Analysis in R Goal: A CRAN task view for panel/longitudinal data analysis in R.
+What is Panel Data? Panel data are variously called longitudinal, panel, cross-sectional time series, and pooled time series data. The most precise definition is two-dimensional data; invariably one of the dimensions is time. We can think about a general depiction of what a model with linear coefficients typical for such data structures, though ridiculously overparameterized, like so:</description>
+    </item>
+    
+    <item>
       <title>Black Boxes: A Gender Gap Example</title>
       <link>https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>

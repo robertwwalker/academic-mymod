@@ -1,0 +1,61 @@
+---
+title: Longitudinal Panel Data R Packages
+author: Robert W. Walker
+date: '2018-02-24'
+slug: panel-data-r-packages
+categories: []
+tags:
+  - Essex
+  - R
+  - panel data
+---
+
+
+
+<div id="longitudinal-and-panel-data-analysis-in-r" class="section level1">
+<h1>Longitudinal and Panel Data Analysis in R</h1>
+<p>Goal: A CRAN task view for panel/longitudinal data analysis in R.</p>
+<div id="what-is-panel-data" class="section level2">
+<h2>What is Panel Data?</h2>
+<p>Panel data are variously called longitudinal, panel, cross-sectional time series, and pooled time series data. The most precise definition is two-dimensional data; invariably one of the dimensions is time. We can think about a general depiction of what a model with linear coefficients typical for such data structures, though ridiculously overparameterized, like so:</p>
+<p><span class="math display">\[ y_{it} = \alpha_{it} + X_{it}\beta_{it} + \epsilon_{it} \]</span></p>
+<p>For example, suppose that we have a set of countries, or US states, municipalities in a state, or even individual people, indexed by <span class="math inline">\(i \in N\)</span>. We observe those data at <span class="math inline">\(t \in T\)</span> points in time. To be clear, a standard cross-section of data in this notation suppresses <span class="math inline">\(t\)</span> because there is no observed over time variation. A single time series suppresses the <span class="math inline">\(i\)</span>. Of course, <span class="math inline">\(N\)</span> and <span class="math inline">\(T\)</span> are greater than 1.</p>
+</div>
+<div id="common-transformations-anova" class="section level2">
+<h2>Common transformations: ANOVA</h2>
+<p>There are common transformations undertaken on the data prior to analysis. For example, the <em>within</em> transformation that underlies a <em>fixed effects</em> regression model transforms each vector of data (for <span class="math inline">\(i\)</span>) as follows:</p>
+<p><span class="math display">\[ x^{W}_{it} = x_{it} - \overline{x}_{i} \]</span></p>
+<p>The within-transformed data are of identical dimensions to the untransformed data. The other common transformation isolates the <span class="math inline">\(n-vector\)</span> of unit means – the so-called <em>between</em> transformation.</p>
+<p>Because the dimensions are non-overlapping/orthogonal; the key result in the applied statistics shows that the total variation in a variable <span class="math inline">\(x\)</span> is the sum of the <em>within</em> variance and the <em>between</em> variance.</p>
+</div>
+</div>
+<div id="models-for-panel-data-standard-models-in-plm" class="section level1">
+<h1>Models for panel data: Standard models in <em>plm()</em></h1>
+<p>The workhorse package/library for the basic panel data models in R is <em>plm</em>. The <em>JStatSoft</em> <a href="https://cran.r-project.org/web/packages/plm/vignettes/plm.pdf">article was modified to become the vignette</a> and is quite detailed, though dated. The previous equation can be simplified and detailed to derive the commonly deployed models.</p>
+<div id="a-pooled-regression" class="section level3">
+<h3>A Pooled Regression</h3>
+<p>Simply suppresses all subscripts on <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> to write:</p>
+<p><span class="math display">\[ y_{it} = \alpha + X_{it}\beta + \epsilon_{it} \]</span></p>
+</div>
+<div id="a-within-regression" class="section level3">
+<h3>A Within Regression</h3>
+<p><span class="math display">\[ y_{it} = \alpha + X_{it}\beta^{W} + \epsilon^{W}_{it} \]</span></p>
+</div>
+<div id="a-between-regression" class="section level3">
+<h3>A Between Regression</h3>
+<p><span class="math display">\[ \overline{y}_{i} = \alpha + \overline{X}_{i}\beta^{B} + \epsilon^{B}_{i} \]</span></p>
+</div>
+</div>
+<div id="models-with-heterogeneous-time-trends-phtt" class="section level1">
+<h1>Models with heterogeneous time trends: <em>phtt()</em></h1>
+<p>An <a href="https://arxiv.org/pdf/1407.6484.pdf">article</a> on panel data analysis with heterogeneous time trends appears in <em>JStatSoft</em>.</p>
+</div>
+<div id="multi-state-models-in-continuous-time-msm" class="section level1">
+<h1>Multi-state models in continuous time <em>msm()</em></h1>
+<p>The <em>msm</em> library fits homogenous and inhomogenous Markov models for multinomial outcomes.</p>
+</div>
+<div id="latent-markov-models-with-lmest" class="section level1">
+<h1>Latent Markov models with <em>LMest()</em></h1>
+<pre><code>LM models are designed to deal with univariate and multivariate longitudinal data based on the repeated observation of a panel of subjects across time. More in detail, LM models are specially tailored to study the evolution of an individual characteristic of interest that is not directly observable. This characteristic is represented by a latent process following a Markov chain as in a Hidden Markov (HM) model (Zucchini and MacDonald, 2009). These models also allow us to account for time-varying unobserved heterogeneity in addition to the effect of observable covariates on the response variables.</code></pre>
+<p>The <a href="https://arxiv.org/pdf/1501.04448.pdf">preprint</a> is here.</p>
+</div>
