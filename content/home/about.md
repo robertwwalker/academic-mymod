@@ -20,17 +20,23 @@ weight = 5
 [[education.courses]]
   course = "PhD in Political Science"
   institution = "University of Rochester"
-  year = 2005
+#  year = 2005
 
 [[education.courses]]
   course = "MA Political Science"
   institution = "University of Rochester"
-  year = 2002
+#  year = 2002
 
 [[education.courses]]
   course = "BA in Post-Soviet and East European Studies"
   institution = "University of Texas at Austin"
-  year = 1995
+#  year = 1995
+
+[[education.courses]]
+  course = "Страноведение России"
+  institution = "Moscow Linguistics University"
+#  year = 1995
+
  
 +++
 
