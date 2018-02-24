@@ -14,8 +14,6 @@ subtitle = ""
 weight = 60
 +++
 
-I teach the following courses: 
-
 In the Atkinson Graduate School of Management at Willamette University:
 
 - GSM 5103: Data Analysis, Modelling, and Decision-Making
