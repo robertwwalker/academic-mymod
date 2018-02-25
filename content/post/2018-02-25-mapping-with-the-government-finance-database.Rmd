@@ -22,18 +22,24 @@ The code for doing it all is here; I did not run it specifically for the post.  
 library(dplyr)
 GFD <- read.csv("~/Documents/The Government Finance Database_All Data.csv")
 State.Data <- GFD %>% filter(Type_Code==0)
+rm(GFD)
 ```
 
 # The basic maps
 
-*choroplethr* makes the process of mapping data a bit too easy.  It is locked down but it works very well.  What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name `region` for the state name and `value` for whatever data we wish to plot.  Why?  That is the way that *state_choropleth()* is designed.  Let me load the packages and have a look at the header.
+*choroplethr* makes the process of mapping data a bit too easy.  It is locked down but it works very well.  What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name `region` for the state name and `value` for whatever data we wish to plot.  Why?  That is the way that *state_choropleth()* is designed.  Let me load the packages and have a look at the names.  It is some identifiers including the *region* that I will use and the definitions of the states as polygons to plot.
 
 ```{r MapsDataBase, warning=FALSE, message=FALSE}
 library(choroplethr)
 library(choroplethrMaps)
 data(state.map)
-head(state.map)
+names(state.map)
 ```
+
+```{r LData, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+load("~/GFDatabaseStates.RData")
+```
+
 # Putting them together
 
 Let's see what we can do.  The first step is that the state name conventions are inconsistent, though the FIPS codes, thankfully, do not change.  I will convert them to strings, to drop the unused levels of the factors from import, and replace the state delineated names with a single standard name.  The second relevant selector is going to be the year, *Year4*.  Finally, I have to choose something to put in values.  Let me try total revenue per capita in year 2015.  *dplyr* is so neat that this can be done in only five lines.  Define and name the object; filter by the year; mutate the data into the two things I need; select them off.
@@ -41,7 +47,6 @@ Let's see what we can do.  The first step is that the state name conventions are
 ```{r DataBackground, message=FALSE,warning=FALSE}
 library(dplyr)
 library(tidyverse)
-load("~/GFDatabaseStates.RData")
 State.Data$Name <- as.character(State.Data$Name)
 State.Data$NameFixed <- gsub(" STATE GOVT","",State.Data$Name)
 State.Data$NameFLower <- tolower(State.Data$NameFixed)

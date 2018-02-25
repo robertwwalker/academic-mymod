@@ -22,36 +22,25 @@
 &lt;p&gt;The code for doing it all is here; I did not run it specifically for the post. You have to download their data directly as a .zip and unzip.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;library(dplyr)
 GFD &amp;lt;- read.csv(&amp;quot;~/Documents/The Government Finance Database_All Data.csv&amp;quot;)
-State.Data &amp;lt;- GFD %&amp;gt;% filter(Type_Code==0)&lt;/code&gt;&lt;/pre&gt;
+State.Data &amp;lt;- GFD %&amp;gt;% filter(Type_Code==0)
+rm(GFD)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-basic-maps&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The basic maps&lt;/h1&gt;
-&lt;p&gt;&lt;em&gt;choroplethr&lt;/em&gt; makes the process of mapping data a bit too easy. It is locked down but it works very well. What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name &lt;code&gt;region&lt;/code&gt; for the state name and &lt;code&gt;value&lt;/code&gt; for whatever data we wish to plot. Why? That is the way that &lt;em&gt;state_choropleth()&lt;/em&gt; is designed. Let me load the packages and have a look at the header.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;choroplethr&lt;/em&gt; makes the process of mapping data a bit too easy. It is locked down but it works very well. What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name &lt;code&gt;region&lt;/code&gt; for the state name and &lt;code&gt;value&lt;/code&gt; for whatever data we wish to plot. Why? That is the way that &lt;em&gt;state_choropleth()&lt;/em&gt; is designed. Let me load the packages and have a look at the names. It is some identifiers including the &lt;em&gt;region&lt;/em&gt; that I will use and the definitions of the states as polygons to plot.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(choroplethr)
 library(choroplethrMaps)
 data(state.map)
-head(state.map)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##        long      lat order  hole piece group id      GEO_ID STATE  region
-## 1 -112.5386 37.00067     1 FALSE     1   0.1  0 0400000US04    04 arizona
-## 2 -112.5345 37.00068     2 FALSE     1   0.1  0 0400000US04    04 arizona
-## 3 -112.3689 37.00113     3 FALSE     1   0.1  0 0400000US04    04 arizona
-## 4 -112.3577 37.00102     4 FALSE     1   0.1  0 0400000US04    04 arizona
-## 5 -111.4128 37.00148     5 FALSE     1   0.1  0 0400000US04    04 arizona
-## 6 -111.4059 37.00148     6 FALSE     1   0.1  0 0400000US04    04 arizona
-##   LSAD CENSUSAREA
-## 1 &amp;lt;NA&amp;gt;   113594.1
-## 2 &amp;lt;NA&amp;gt;   113594.1
-## 3 &amp;lt;NA&amp;gt;   113594.1
-## 4 &amp;lt;NA&amp;gt;   113594.1
-## 5 &amp;lt;NA&amp;gt;   113594.1
-## 6 &amp;lt;NA&amp;gt;   113594.1&lt;/code&gt;&lt;/pre&gt;
+names(state.map)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;long&amp;quot;       &amp;quot;lat&amp;quot;        &amp;quot;order&amp;quot;      &amp;quot;hole&amp;quot;       &amp;quot;piece&amp;quot;     
+##  [6] &amp;quot;group&amp;quot;      &amp;quot;id&amp;quot;         &amp;quot;GEO_ID&amp;quot;     &amp;quot;STATE&amp;quot;      &amp;quot;region&amp;quot;    
+## [11] &amp;quot;LSAD&amp;quot;       &amp;quot;CENSUSAREA&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;putting-them-together&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Putting them together&lt;/h1&gt;
 &lt;p&gt;Let’s see what we can do. The first step is that the state name conventions are inconsistent, though the FIPS codes, thankfully, do not change. I will convert them to strings, to drop the unused levels of the factors from import, and replace the state delineated names with a single standard name. The second relevant selector is going to be the year, &lt;em&gt;Year4&lt;/em&gt;. Finally, I have to choose something to put in values. Let me try total revenue per capita in year 2015. &lt;em&gt;dplyr&lt;/em&gt; is so neat that this can be done in only five lines. Define and name the object; filter by the year; mutate the data into the two things I need; select them off.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(dplyr)
 library(tidyverse)
-load(&amp;quot;~/GFDatabaseStates.RData&amp;quot;)
 State.Data$Name &amp;lt;- as.character(State.Data$Name)
 State.Data$NameFixed &amp;lt;- gsub(&amp;quot; STATE GOVT&amp;quot;,&amp;quot;&amp;quot;,State.Data$Name)
 State.Data$NameFLower &amp;lt;- tolower(State.Data$NameFixed)
