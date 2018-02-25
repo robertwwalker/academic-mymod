@@ -28,7 +28,7 @@ State.Data <- GFD %>% filter(Type_Code==0)
 
 *choroplethr* makes the process of mapping data a bit too easy.  It is locked down but it works very well.  What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name `region` for the state name and `value` for whatever data we wish to plot.  Why?  That is the way that *state_choropleth()* is designed.  Let me load the packages and have a look at the header.
 
-```{r MapsDataBase}
+```{r MapsDataBase, warning=FALSE, message=FALSE}
 library(choroplethr)
 library(choroplethrMaps)
 data(state.map)

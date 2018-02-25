@@ -27,16 +27,8 @@ State.Data &amp;lt;- GFD %&amp;gt;% filter(Type_Code==0)&lt;/code&gt;&lt;/pre&gt
 &lt;div id=&#34;the-basic-maps&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The basic maps&lt;/h1&gt;
 &lt;p&gt;&lt;em&gt;choroplethr&lt;/em&gt; makes the process of mapping data a bit too easy. It is locked down but it works very well. What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name &lt;code&gt;region&lt;/code&gt; for the state name and &lt;code&gt;value&lt;/code&gt; for whatever data we wish to plot. Why? That is the way that &lt;em&gt;state_choropleth()&lt;/em&gt; is designed. Let me load the packages and have a look at the header.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(choroplethr)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: acs&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: stringr&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: XML&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;acs&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:base&amp;#39;:
-## 
-##     apply&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(choroplethrMaps)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(choroplethr)
+library(choroplethrMaps)
 data(state.map)
 head(state.map)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##        long      lat order  hole piece group id      GEO_ID STATE  region

@@ -25,16 +25,8 @@ State.Data &lt;- GFD %&gt;% filter(Type_Code==0)</code></pre>
 <div id="the-basic-maps" class="section level1">
 <h1>The basic maps</h1>
 <p><em>choroplethr</em> makes the process of mapping data a bit too easy. It is locked down but it works very well. What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name <code>region</code> for the state name and <code>value</code> for whatever data we wish to plot. Why? That is the way that <em>state_choropleth()</em> is designed. Let me load the packages and have a look at the header.</p>
-<pre class="r"><code>library(choroplethr)</code></pre>
-<pre><code>## Loading required package: acs</code></pre>
-<pre><code>## Loading required package: stringr</code></pre>
-<pre><code>## Loading required package: XML</code></pre>
-<pre><code>## 
-## Attaching package: &#39;acs&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:base&#39;:
-## 
-##     apply</code></pre>
-<pre class="r"><code>library(choroplethrMaps)
+<pre class="r"><code>library(choroplethr)
+library(choroplethrMaps)
 data(state.map)
 head(state.map)</code></pre>
 <pre><code>##        long      lat order  hole piece group id      GEO_ID STATE  region
