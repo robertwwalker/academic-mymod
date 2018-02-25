@@ -11,6 +11,46 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Mapping with the Government Finance Database</title>
+      <link>https://rwalker.netlify.com/post/mapping-with-the-government-finance-database/</link>
+      <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/post/mapping-with-the-government-finance-database/</guid>
+      <description>&lt;div id=&#34;the-government-finance-database&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;The Government Finance Database&lt;/h1&gt;
+&lt;p&gt;Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the &lt;a href=&#34;http://willamette.edu/mba/research_impact/public_datasets/index.html&#34;&gt;Government Finance data&lt;/a&gt; available from the Census. I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states. It seems that &lt;code&gt;read.csv&lt;/code&gt; works better than &lt;code&gt;read_csv&lt;/code&gt; for this task. A link to the .zip version for states is &lt;a href=&#34;http://www.willamette.edu/~kpierson/TheGovernmentFinanceDatabase_StateData.zip&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-basic-maps&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;The basic maps&lt;/h1&gt;
+&lt;p&gt;&lt;em&gt;choroplethr&lt;/em&gt; makes the process of mapping data a bit too easy. It is locked down but it works very well. What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name &lt;code&gt;region&lt;/code&gt; for the state name and &lt;code&gt;value&lt;/code&gt; for whatever data we wish to plot.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;putting-them-together&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Putting them together&lt;/h1&gt;
+&lt;p&gt;Let’s see what we can do. The first step is that the state name conventions are inconsistent, though the FIPS codes, thankfully, do not change. I will convert them to strings, to drop the unused levels of the factors from import, and replace the state delineated names with a single standard name. The second relevant selector is going to be the year, &lt;em&gt;Year4&lt;/em&gt;. Finally, I have to choose something to put in values.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(dplyr)
+library(tidyverse)
+library(choroplethr)
+library(choroplethrMaps)
+data(state.map)
+load(&amp;quot;~/GFDatabaseStates.RData&amp;quot;)
+State.Data$Name &amp;lt;- as.character(State.Data$Name)
+State.Data$NameFixed &amp;lt;- gsub(&amp;quot; STATE GOVT&amp;quot;,&amp;quot;&amp;quot;,State.Data$Name)
+State.Data$NameFLower &amp;lt;- tolower(State.Data$NameFixed)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let me try total taxes per capita in year 2015. &lt;em&gt;dplyr&lt;/em&gt; is so neat that this can be done in only five lines. Define and name the object; filter by the year; mutate the data into the two things I need; select them off.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my.GFD.2015 &amp;lt;- State.Data %&amp;gt;% 
+  filter(Year4==2015) %&amp;gt;%
+  mutate(value = Total_Taxes / Population, region = NameFLower) %&amp;gt;%
+  select(region, value)
+state_choropleth(my.GFD.2015, title=&amp;quot;Total Taxes per capita&amp;quot;, num_colors=1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning in self$bind(): The following regions were missing and are being
+## set to NA: district of columbia&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;That’s far too easy. Total taxes, which I have not bothered to look up appear to contain some unexpected details.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Longitudinal Panel Data R Packages</title>
       <link>https://rwalker.netlify.com/post/panel-data-r-packages/</link>
       <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
@@ -428,15 +468,6 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
       <pubDate>Thu, 02 Dec 2010 00:00:00 +0000</pubDate>
       
       <guid>https://rwalker.netlify.com/publication/mgmt-state-ratings/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>THE MIDDLE CLASS: A NEW CONCEPTUAL FRAMEWORK AND A BRIEF APPLICATION TO THE CAUCASUS</title>
-      <link>https://rwalker.netlify.com/publication/midclas1/</link>
-      <pubDate>Wed, 01 Sep 2010 00:00:00 +0000</pubDate>
-      
-      <guid>https://rwalker.netlify.com/publication/midclas1/</guid>
       <description></description>
     </item>
     

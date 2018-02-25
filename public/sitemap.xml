@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>https://rwalker.netlify.com/post/mapping-with-the-government-finance-database/</loc>
+      <lastmod>2018-02-25T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://rwalker.netlify.com/post/panel-data-r-packages/</loc>
       <lastmod>2018-02-24T00:00:00+00:00</lastmod>
     </url>
@@ -279,6 +288,26 @@
     
     <url>
     
+      <loc>https://rwalker.netlify.com/categories/maps/</loc>
+      <lastmod>2018-02-25T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://rwalker.netlify.com/tags/maps/</loc>
+      <lastmod>2018-02-25T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://rwalker.netlify.com/tags/ordered-regression/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -329,6 +358,16 @@
     
     <url>
     
+      <loc>https://rwalker.netlify.com/categories/public-finance/</loc>
+      <lastmod>2018-02-25T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://rwalker.netlify.com/publication_types/</loc>
       <lastmod>2016-11-05T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -340,7 +379,7 @@
     <url>
     
       <loc>https://rwalker.netlify.com/categories/r/</loc>
-      <lastmod>2018-02-22T00:00:00+00:00</lastmod>
+      <lastmod>2018-02-25T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -350,7 +389,7 @@
     <url>
     
       <loc>https://rwalker.netlify.com/tags/r/</loc>
-      <lastmod>2018-02-24T00:00:00+00:00</lastmod>
+      <lastmod>2018-02-25T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

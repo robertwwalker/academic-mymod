@@ -1,0 +1,47 @@
+---
+title: Mapping with the Government Finance Database
+author: Robert W. Walker
+date: '2018-02-25'
+slug: mapping-with-the-government-finance-database
+categories:
+  - R
+  - Maps
+  - Public Finance
+tags:
+  - Maps
+  - R
+---
+
+
+
+<div id="the-government-finance-database" class="section level1">
+<h1>The Government Finance Database</h1>
+<p>Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the <a href="http://willamette.edu/mba/research_impact/public_datasets/index.html">Government Finance data</a> available from the Census. I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states. It seems that <code>read.csv</code> works better than <code>read_csv</code> for this task. A link to the .zip version for states is <a href="http://www.willamette.edu/~kpierson/TheGovernmentFinanceDatabase_StateData.zip">here</a>.</p>
+</div>
+<div id="the-basic-maps" class="section level1">
+<h1>The basic maps</h1>
+<p><em>choroplethr</em> makes the process of mapping data a bit too easy. It is locked down but it works very well. What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name <code>region</code> for the state name and <code>value</code> for whatever data we wish to plot.</p>
+</div>
+<div id="putting-them-together" class="section level1">
+<h1>Putting them together</h1>
+<p>Let’s see what we can do. The first step is that the state name conventions are inconsistent, though the FIPS codes, thankfully, do not change. I will convert them to strings, to drop the unused levels of the factors from import, and replace the state delineated names with a single standard name. The second relevant selector is going to be the year, <em>Year4</em>. Finally, I have to choose something to put in values.</p>
+<pre class="r"><code>library(dplyr)
+library(tidyverse)
+library(choroplethr)
+library(choroplethrMaps)
+data(state.map)
+load(&quot;~/GFDatabaseStates.RData&quot;)
+State.Data$Name &lt;- as.character(State.Data$Name)
+State.Data$NameFixed &lt;- gsub(&quot; STATE GOVT&quot;,&quot;&quot;,State.Data$Name)
+State.Data$NameFLower &lt;- tolower(State.Data$NameFixed)</code></pre>
+<p>Let me try total taxes per capita in year 2015. <em>dplyr</em> is so neat that this can be done in only five lines. Define and name the object; filter by the year; mutate the data into the two things I need; select them off.</p>
+<pre class="r"><code>my.GFD.2015 &lt;- State.Data %&gt;% 
+  filter(Year4==2015) %&gt;%
+  mutate(value = Total_Taxes / Population, region = NameFLower) %&gt;%
+  select(region, value)
+state_choropleth(my.GFD.2015, title=&quot;Total Taxes per capita&quot;, num_colors=1)</code></pre>
+<pre><code>## Warning in self$bind(): The following regions were missing and are being
+## set to NA: district of columbia</code></pre>
+<p><img src="/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished-1.png" width="672" /></p>
+<p>That’s far too easy. Total taxes, which I have not bothered to look up appear to contain some unexpected details.</p>
+</div>
