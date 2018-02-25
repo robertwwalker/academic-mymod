@@ -24,29 +24,105 @@ State.Data &lt;- GFD %&gt;% filter(Type_Code==0)</code></pre>
 </div>
 <div id="the-basic-maps" class="section level1">
 <h1>The basic maps</h1>
-<p><em>choroplethr</em> makes the process of mapping data a bit too easy. It is locked down but it works very well. What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name <code>region</code> for the state name and <code>value</code> for whatever data we wish to plot.</p>
+<p><em>choroplethr</em> makes the process of mapping data a bit too easy. It is locked down but it works very well. What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name <code>region</code> for the state name and <code>value</code> for whatever data we wish to plot. Why? That is the way that <em>state_choropleth()</em> is designed. Let me load the packages and have a look at the header.</p>
+<pre class="r"><code>library(choroplethr)</code></pre>
+<pre><code>## Loading required package: acs</code></pre>
+<pre><code>## Loading required package: stringr</code></pre>
+<pre><code>## Loading required package: XML</code></pre>
+<pre><code>## 
+## Attaching package: &#39;acs&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     apply</code></pre>
+<pre class="r"><code>library(choroplethrMaps)
+data(state.map)
+head(state.map)</code></pre>
+<pre><code>##        long      lat order  hole piece group id      GEO_ID STATE  region
+## 1 -112.5386 37.00067     1 FALSE     1   0.1  0 0400000US04    04 arizona
+## 2 -112.5345 37.00068     2 FALSE     1   0.1  0 0400000US04    04 arizona
+## 3 -112.3689 37.00113     3 FALSE     1   0.1  0 0400000US04    04 arizona
+## 4 -112.3577 37.00102     4 FALSE     1   0.1  0 0400000US04    04 arizona
+## 5 -111.4128 37.00148     5 FALSE     1   0.1  0 0400000US04    04 arizona
+## 6 -111.4059 37.00148     6 FALSE     1   0.1  0 0400000US04    04 arizona
+##   LSAD CENSUSAREA
+## 1 &lt;NA&gt;   113594.1
+## 2 &lt;NA&gt;   113594.1
+## 3 &lt;NA&gt;   113594.1
+## 4 &lt;NA&gt;   113594.1
+## 5 &lt;NA&gt;   113594.1
+## 6 &lt;NA&gt;   113594.1</code></pre>
 </div>
 <div id="putting-them-together" class="section level1">
 <h1>Putting them together</h1>
-<p>Let’s see what we can do. The first step is that the state name conventions are inconsistent, though the FIPS codes, thankfully, do not change. I will convert them to strings, to drop the unused levels of the factors from import, and replace the state delineated names with a single standard name. The second relevant selector is going to be the year, <em>Year4</em>. Finally, I have to choose something to put in values.</p>
+<p>Let’s see what we can do. The first step is that the state name conventions are inconsistent, though the FIPS codes, thankfully, do not change. I will convert them to strings, to drop the unused levels of the factors from import, and replace the state delineated names with a single standard name. The second relevant selector is going to be the year, <em>Year4</em>. Finally, I have to choose something to put in values. Let me try total revenue per capita in year 2015. <em>dplyr</em> is so neat that this can be done in only five lines. Define and name the object; filter by the year; mutate the data into the two things I need; select them off.</p>
 <pre class="r"><code>library(dplyr)
 library(tidyverse)
-library(choroplethr)
-library(choroplethrMaps)
-data(state.map)
 load(&quot;~/GFDatabaseStates.RData&quot;)
 State.Data$Name &lt;- as.character(State.Data$Name)
 State.Data$NameFixed &lt;- gsub(&quot; STATE GOVT&quot;,&quot;&quot;,State.Data$Name)
-State.Data$NameFLower &lt;- tolower(State.Data$NameFixed)</code></pre>
-<p>Let me try total revenue per capita in year 2015. <em>dplyr</em> is so neat that this can be done in only five lines. Define and name the object; filter by the year; mutate the data into the two things I need; select them off.</p>
-<pre class="r"><code>my.GFD.2015 &lt;- State.Data %&gt;% 
+State.Data$NameFLower &lt;- tolower(State.Data$NameFixed)
+# Clean up the names and store the cleaned result
+my.GFD.2015 &lt;- State.Data %&gt;% 
   filter(Year4==2015) %&gt;%
   mutate(value = Total_Taxes / Population, region = NameFLower) %&gt;%
   select(region, value)
-state_choropleth(my.GFD.2015, title=&quot;Total Taxes per capita&quot;, num_colors=1)</code></pre>
+my.GFD.2015</code></pre>
+<pre><code>##            region    value
+## 1         alabama 2.007714
+## 2          alaska 1.169672
+## 3         arizona 2.062385
+## 4        arkansas 3.085824
+## 5      california 3.861881
+## 6        colorado 2.347743
+## 7     connecticut 4.518299
+## 8        delaware 3.714758
+## 9         florida 1.835985
+## 10        georgia 1.930886
+## 11         hawaii 4.530280
+## 12          idaho 2.402183
+## 13       illinois 3.174292
+## 14        indiana 2.628473
+## 15           iowa 2.941598
+## 16         kansas 2.707783
+## 17       kentucky 2.620959
+## 18      louisiana 2.076066
+## 19          maine 3.057240
+## 20       maryland 3.329998
+## 21  massachusetts 3.975644
+## 22       michigan 2.716768
+## 23      minnesota 4.451924
+## 24    mississippi 2.641045
+## 25       missouri 1.965284
+## 26        montana 2.752764
+## 27       nebraska 2.682621
+## 28         nevada 2.605809
+## 29  new hampshire 1.869624
+## 30     new jersey 3.523957
+## 31     new mexico 2.882076
+## 32       new york 3.950608
+## 33 north carolina 2.497637
+## 34   north dakota 7.583087
+## 35           ohio 2.436590
+## 36       oklahoma 2.405160
+## 37         oregon 2.624777
+## 38   pennsylvania 2.842799
+## 39   rhode island 3.026298
+## 40 south carolina 1.967472
+## 41   south dakota 1.950109
+## 42      tennessee 1.923927
+## 43          texas 2.005396
+## 44           utah 2.237496
+## 45        vermont 4.860939
+## 46       virginia 2.449827
+## 47     washington 2.879141
+## 48  west virginia 3.018220
+## 49      wisconsin 2.948908
+## 50        wyoming 4.020295</code></pre>
+<p>That is exactly the data that I need. Finally, add a title and continuous color scheming.</p>
+<pre class="r"><code>state_choropleth(my.GFD.2015, title=&quot;Total Taxes per capita&quot;, num_colors=1)</code></pre>
 <pre><code>## Warning in self$bind(): The following regions were missing and are being
 ## set to NA: district of columbia</code></pre>
-<p><img src="/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished-1.png" width="672" /></p>
+<p><img src="/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/MapTheData-1.png" width="672" /></p>
 <p>That’s far too easy. Total taxes, which I have not bothered to look up, appear to contain some unexpected details. What else can be done with it? The final code chunk does it all. To calculate a new map, just change the name of the thing per capitized. What data are available? See below….</p>
 <pre class="r"><code>names(State.Data)</code></pre>
 <pre><code>##   [1] &quot;SurveyYr&quot;                     &quot;Year4&quot;                       
@@ -349,6 +425,7 @@ state_choropleth(my.GFD.2015, title=&quot;Total Taxes per capita&quot;, num_colo
 ## [595] &quot;NameFixed&quot;                    &quot;NameFLower&quot;</code></pre>
 <div id="revenues-per-capita" class="section level3">
 <h3>Revenues per capita</h3>
+<p>Change it up with a recalcalculation of the data and a new map.</p>
 <pre class="r"><code>my.GFD.2015 &lt;- State.Data %&gt;% 
   filter(Year4==2015) %&gt;%
   mutate(value = Total_Revenue / Population, region = NameFLower) %&gt;%

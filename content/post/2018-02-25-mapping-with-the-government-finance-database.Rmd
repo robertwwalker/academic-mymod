@@ -26,31 +26,36 @@ State.Data <- GFD %>% filter(Type_Code==0)
 
 # The basic maps
 
-*choroplethr* makes the process of mapping data a bit too easy.  It is locked down but it works very well.  What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name `region` for the state name and `value` for whatever data we wish to plot.
+*choroplethr* makes the process of mapping data a bit too easy.  It is locked down but it works very well.  What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name `region` for the state name and `value` for whatever data we wish to plot.  Why?  That is the way that *state_choropleth()* is designed.  Let me load the packages and have a look at the header.
 
+```{r MapsDataBase}
+library(choroplethr)
+library(choroplethrMaps)
+data(state.map)
+head(state.map)
+```
 # Putting them together
 
-Let's see what we can do.  The first step is that the state name conventions are inconsistent, though the FIPS codes, thankfully, do not change.  I will convert them to strings, to drop the unused levels of the factors from import, and replace the state delineated names with a single standard name.  The second relevant selector is going to be the year, *Year4*.  Finally, I have to choose something to put in values.
+Let's see what we can do.  The first step is that the state name conventions are inconsistent, though the FIPS codes, thankfully, do not change.  I will convert them to strings, to drop the unused levels of the factors from import, and replace the state delineated names with a single standard name.  The second relevant selector is going to be the year, *Year4*.  Finally, I have to choose something to put in values.  Let me try total revenue per capita in year 2015.  *dplyr* is so neat that this can be done in only five lines.  Define and name the object; filter by the year; mutate the data into the two things I need; select them off.
 
 ```{r DataBackground, message=FALSE,warning=FALSE}
 library(dplyr)
 library(tidyverse)
-library(choroplethr)
-library(choroplethrMaps)
-data(state.map)
 load("~/GFDatabaseStates.RData")
 State.Data$Name <- as.character(State.Data$Name)
 State.Data$NameFixed <- gsub(" STATE GOVT","",State.Data$Name)
 State.Data$NameFLower <- tolower(State.Data$NameFixed)
-```
-
-Let me try total revenue per capita in year 2015.  *dplyr* is so neat that this can be done in only five lines.  Define and name the object; filter by the year; mutate the data into the two things I need; select them off.
-
-```{r Finished}
+# Clean up the names and store the cleaned result
 my.GFD.2015 <- State.Data %>% 
   filter(Year4==2015) %>%
   mutate(value = Total_Taxes / Population, region = NameFLower) %>%
   select(region, value)
+my.GFD.2015
+```
+
+That is exactly the data that I need.  Finally, add a title and continuous color scheming.
+
+```{r MapTheData}
 state_choropleth(my.GFD.2015, title="Total Taxes per capita", num_colors=1)
 ```
 
@@ -61,6 +66,8 @@ names(State.Data)
 ```
 
 ### Revenues per capita
+
+Change it up with a recalcalculation of the data and a new map.
 
 ```{r Finished2}
 my.GFD.2015 <- State.Data %>% 
