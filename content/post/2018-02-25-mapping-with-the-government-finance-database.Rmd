@@ -1,46 +1,52 @@
 ---
-title: Mapping with the Government Finance Database
-author: Robert W. Walker
+title: "Mapping with the Government Finance Database"
+author: "Robert W. Walker"
 date: '2018-02-25'
 slug: mapping-with-the-government-finance-database
-categories:
-  - R
-  - Maps
-  - Public Finance
 tags:
-  - Maps
-  - R
+- Maps
+- R
+categories:
+- R
+- Maps
+- Public Finance
 ---
 
 # The Government Finance Database
 
-Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the [Government Finance data](http://willamette.edu/mba/research_impact/public_datasets/index.html) available from the Census.  I want to build some maps from their project with extensible code and functions.  The overall dataset is enormous.  I have downloaded the whole thing and filtered out the states.  It seems that `read.csv` works better than `read_csv` for this task.  A link to the .zip version for states is [here](http://www.willamette.edu/~kpierson/TheGovernmentFinanceDatabase_StateData.zip).
+Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the [Government Finance data](http://willamette.edu/mba/research_impact/public_datasets/index.html) available from the Census.  They published an article in [PLoS One](http://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0130119&type=printable) with the rationale;  I want to build some maps from their project with extensible code and functions.  The overall dataset is enormous.  I have downloaded the whole thing and filtered out the states.  It seems that `read.csv` works better than `read_csv` for this task.  
 
-The code for doing it all is here; I did not run it specifically for the post.  You have to download their data directly as a .zip and unzip.
+## Splitting the Data
+
+A link to the .zip version for states is [here](http://www.willamette.edu/~kpierson/TheGovernmentFinanceDatabase_StateData.zip).  A link to the .zip version for counties is [here](http://www.willamette.edu/~kpierson/TheGovernmentFinanceDatabase_CountyData.zip).  You have to download their data directly as a .zip and unzip.  If you downbload the entire file, as I did, unzip it, and you can import it to $R$ with `read.csv`.
 
 ```
 library(dplyr)
 GFD <- read.csv("~/Documents/The Government Finance Database_All Data.csv")
 State.Data <- GFD %>% filter(Type_Code==0)
+County.Data <- GFD %>% filter(Type_Code==1)
 rm(GFD)
 ```
 
 # The basic maps
 
-*choroplethr* makes the process of mapping data a bit too easy.  It is locked down but it works very well.  What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name `region` for the state name and `value` for whatever data we wish to plot.  Why?  That is the way that *state_choropleth()* is designed.  Let me load the packages and have a look at the names.  It is some identifiers including the *region* that I will use and the definitions of the states as polygons to plot.
+*choroplethr* makes the process of mapping data a bit too easy.  It is locked down but it works very well.  What I will require is a simple function to cleave off a particular year, the state name, and whatever series of data I wish to make; I will need to store the latter two with the name `region` for the state name and `value` for whatever data we wish to plot.  Why?  That is the way that *state_choropleth()* is designed.  For the automated functions *state_choropleth()* and *county_choropleth()*, this is quite easy.  You will notice that there are FIPS and name inner joins available for this.
 
 ```{r MapsDataBase, warning=FALSE, message=FALSE}
 library(choroplethr)
 library(choroplethrMaps)
 data(state.map)
 names(state.map)
+data(county.regions)
+names(county.regions)
 ```
 
 ```{r LData, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 load("~/GFDatabaseStates.RData")
+# load("~/GFDatabaseCounties.RData")
 ```
 
-# Putting them together
+# Putting them together: States
 
 Let's see what we can do.  The first step is that the state name conventions are inconsistent, though the FIPS codes, thankfully, do not change.  I will convert them to strings, to drop the unused levels of the factors from import, and replace the state delineated names with a single standard name.  The second relevant selector is going to be the year, *Year4*.  Finally, I have to choose something to put in values.  Let me try total revenue per capita in year 2015.  *dplyr* is so neat that this can be done in only five lines.  Define and name the object; filter by the year; mutate the data into the two things I need; select them off.
 
@@ -82,4 +88,17 @@ my.GFD.2015 <- State.Data %>%
 state_choropleth(my.GFD.2015, title="Total Revenues per capita", num_colors=1)
 ```
 
+# Putting them together: Counties
+
+This part is slightly harder.  It would appear as though the Government Finance Data doesn't have a combined FIPS code; this is the region in map.  But, the data contain the state and county fips codes and we can recreate them with the state code times 1000 plus the county.  After that, plot the General Revenue.
+
+```{r County1, message=FALSE,warning=FALSE}
+County.Data.2 <- read.csv("~/Downloads/TheGovernmentFinanceDatabase_CountyData/CountyData.csv")
+County.Data.2 <- County.Data.2 %>% mutate(region = FIPS_Code_State* 1000 + FIPS_County)
+friendly <- inner_join(County.Data.2,county.regions,by="region")
+my.County.GFD.2015 <- County.Data.2 %>% 
+  filter(Year4==2012) %>% mutate(value = General_Revenue / Population) %>%
+  select(region, value)
+county_choropleth(my.County.GFD.2015, title="General Revenue per capita")
+```
 
