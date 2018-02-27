@@ -269,7 +269,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    10 min read
+    11 min read
   </span>
   
 
@@ -760,12 +760,17 @@ state_choropleth(my.GFD.2015, title=&quot;Total Revenues per capita&quot;, num_c
 <p>This part is slightly harder. It would appear as though the Government Finance Data doesn’t have a combined FIPS code; this is the region in map. But, the data contain the state and county fips codes and we can recreate them with the state code times 1000 plus the county. After that, plot the General Revenue.</p>
 <pre class="r"><code>County.Data.2 &lt;- read.csv(&quot;~/Downloads/TheGovernmentFinanceDatabase_CountyData/CountyData.csv&quot;)
 County.Data.2 &lt;- County.Data.2 %&gt;% mutate(region = FIPS_Code_State* 1000 + FIPS_County)
-friendly &lt;- inner_join(County.Data.2,county.regions,by=&quot;region&quot;)
 my.County.GFD.2015 &lt;- County.Data.2 %&gt;% 
   filter(Year4==2012) %&gt;% mutate(value = General_Revenue / Population) %&gt;%
   select(region, value)
 county_choropleth(my.County.GFD.2015, title=&quot;General Revenue per capita&quot;)</code></pre>
 <p><img src="/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/County1-1.png" width="672" /></p>
+<p>The zoom feature is pretty cool: there are two defined forms for the county and states. The naming conventions follow the <code>county.regions</code> format and are lower case. Let me grab <em>oregon</em>.</p>
+<pre class="r"><code>my.County.GFD.2015 &lt;- County.Data.2 %&gt;% 
+  filter(Year4==2012) %&gt;% mutate(value = General_Revenue / Population) %&gt;%
+  select(region, value)
+county_choropleth(my.County.GFD.2015, title=&quot;General Revenue per capita&quot;, state_zoom=&quot;oregon&quot;)</code></pre>
+<p><img src="/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/CountyMZ-1.png" width="672" /></p>
 </div>
 
     </div>

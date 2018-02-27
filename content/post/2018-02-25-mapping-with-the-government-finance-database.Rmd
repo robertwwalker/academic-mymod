@@ -43,7 +43,7 @@ names(county.regions)
 
 ```{r LData, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 load("~/GFDatabaseStates.RData")
-# load("~/GFDatabaseCounties.RData")
+# load("~/GFDatabaseCounty.RData")
 ```
 
 # Putting them together: States
@@ -95,10 +95,18 @@ This part is slightly harder.  It would appear as though the Government Finance 
 ```{r County1, message=FALSE,warning=FALSE}
 County.Data.2 <- read.csv("~/Downloads/TheGovernmentFinanceDatabase_CountyData/CountyData.csv")
 County.Data.2 <- County.Data.2 %>% mutate(region = FIPS_Code_State* 1000 + FIPS_County)
-friendly <- inner_join(County.Data.2,county.regions,by="region")
 my.County.GFD.2015 <- County.Data.2 %>% 
   filter(Year4==2012) %>% mutate(value = General_Revenue / Population) %>%
   select(region, value)
 county_choropleth(my.County.GFD.2015, title="General Revenue per capita")
+```
+
+The zoom feature is pretty cool: there are two defined forms for the county and states.  The naming conventions follow the `county.regions` format and are lower case.  Let me grab *oregon*.
+
+```{r CountyMZ, message=FALSE,warning=FALSE}
+my.County.GFD.2015 <- County.Data.2 %>% 
+  filter(Year4==2012) %>% mutate(value = General_Revenue / Population) %>%
+  select(region, value)
+county_choropleth(my.County.GFD.2015, title="General Revenue per capita", state_zoom="oregon")
 ```
 
