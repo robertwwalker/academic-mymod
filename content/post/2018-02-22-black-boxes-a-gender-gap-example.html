@@ -40,11 +40,22 @@ black.box.maker &lt;- function(mod1) {
             polygon(x=c(0,0,rt1,rt1), y=c(0,rt1,rt1,0), col=&quot;black&quot;)
             polygon(x=c(0,0,rt2,rt2), y=c(0,rt2,rt2,0), col=&quot;green&quot;)
             }</code></pre>
+<p>OregonSalaries contains 32 observations: 16 males and 16 females. The mean of all salaries is 4.114243310^{4}; let me put that in a plot.</p>
+<pre class="r"><code>plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&quot;Salary&quot;, col=as.factor(OregonSalaries$Gender), xlab=&quot;&quot;)
+abline(h=mean(OregonSalaries$Salary), col=&quot;blue&quot;)</code></pre>
+<p><img src="/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png" width="672" /></p>
+<p>The total sum of squares: the total area of the black box in the original metric (squared dollars). Here, it is the sum of the squared vertical distances to the mean line: 8.929553810^{8}.</p>
 </div>
 <div id="invoking-the-function" class="section level2">
 <h2>Invoking the Function</h2>
 <p>First, a regression model. I will estimate the following regression:</p>
 <p><span class="math display">\[ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon \]</span></p>
+<p>The picture has a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red or black). The sum of the remaining squared vertical distances is 2.386212810^{8}</p>
+<pre class="r"><code>plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&quot;Salary&quot;, col=as.factor(OregonSalaries$Gender), xlab=&quot;&quot;, pch=c(rep(&quot;F&quot;,16),rep(&quot;M&quot;,16)))
+abline(h=mean(OregonSalaries$Salary), col=&quot;blue&quot;)
+abline(h=mean(subset(OregonSalaries, Gender==&quot;Female&quot;)$Salary, na.rm=T), col=&quot;black&quot;)
+abline(h=mean(subset(OregonSalaries, Gender==&quot;Male&quot;)$Salary, na.rm=T), col=&quot;red&quot;)</code></pre>
+<p><img src="/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png" width="672" /></p>
 <pre class="r"><code>mod1 &lt;- lm(Salary~Gender, data=OregonSalaries)
 black.box.maker(mod1)</code></pre>
 <p><img src="/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png" width="672" /></p>

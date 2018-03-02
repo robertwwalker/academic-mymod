@@ -42,11 +42,30 @@ black.box.maker <- function(mod1) {
             }
 ```
 
+OregonSalaries contains 32 observations: 16 males and 16 females.  The mean of all salaries is `r mean(OregonSalaries$Salary)`; let me put that in a plot.
+
+```{r PlotG}
+plot(y=OregonSalaries$Salary, x=c(1:32), ylab="Salary", col=as.factor(OregonSalaries$Gender), xlab="")
+abline(h=mean(OregonSalaries$Salary), col="blue")
+```
+
+The total sum of squares: the total area of the black box in the original metric (squared dollars).  Here, it is the sum of the squared vertical distances to the mean line: `r sum(lm(Salary~1, data=OregonSalaries)$residuals^2)`.
+
 ## Invoking the Function
 
 First, a regression model.  I will estimate the following regression:
 
 $$ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon $$
+
+The picture has a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red or black).  The sum of the remaining squared vertical distances is `r sum(lm(Salary~Gender, data=OregonSalaries)$residuals^2)`
+
+```{r BasePlot}
+plot(y=OregonSalaries$Salary, x=c(1:32), ylab="Salary", col=as.factor(OregonSalaries$Gender), xlab="", pch=c(rep("F",16),rep("M",16)))
+abline(h=mean(OregonSalaries$Salary), col="blue")
+abline(h=mean(subset(OregonSalaries, Gender=="Female")$Salary, na.rm=T), col="black")
+abline(h=mean(subset(OregonSalaries, Gender=="Male")$Salary, na.rm=T), col="red")
+```
+
 
 ```{r BBReg}
 mod1 <- lm(Salary~Gender, data=OregonSalaries)

@@ -32,6 +32,28 @@ The within-transformed data are of identical dimensions to the untransformed dat
 
 Because the dimensions are non-overlapping/orthogonal; the key result in the applied statistics shows that the total variation in a variable $x$ is the sum of the *within* variance and the *between* variance.
 
+# Some Basic Summary
+
+*dplyr* makes the basic summary and presentation quite straightforward.  `plm` contains a few datasets; I will choose an excerpt from Summers and Heston's Penn World Tables -- *SumHes*.
+
+```{r DataSum}
+library(plm)
+library(tidyverse)
+library(dplyr)
+data(SumHes)
+summary(SumHes)
+```
+
+To actually summarize the data in an appropriate fashion, we will use *dplyr* and *summarise* after grouping the data by *country*.
+
+```{r dplyrAn1}
+Sum.Table <- SumHes %>%
+              group_by(country) %>%
+              summarise(mean.gdp=mean(gdp),sd.w.gdp=sd(gdp), mean.pop=mean(pop), sd.w.pop=sd(pop), mean.sr=mean(sr), sd.w.sr=sd(sr))
+Sum.Table
+```
+
+
 # Models for panel data: Standard models in *plm()*
 
 The workhorse package/library for the basic panel data models in R is *plm*.  The *JStatSoft* [article was modified to become the vignette](https://cran.r-project.org/web/packages/plm/vignettes/plm.pdf) and is quite detailed, though dated.  The previous equation can be simplified and detailed to derive the commonly deployed models.
