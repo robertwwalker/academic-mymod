@@ -17,6 +17,7 @@ tags:
 Regression models engage an exercise in variance accounting.  How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F).  This, of course, assumes normal errors.  This document provides a function for making use of the black box.  Just as in common parlance, a black box is the unexplained.  Let's take an example.
 
 ```{r cars}
+options(scipen=10)
 OregonSalaries <- structure(list(Obs = 1:32, Salary = c(41514.38701, 40964.06985, 
 39170.19178, 37936.57206, 33981.77752, 36077.27107, 39174.05733, 
 39037.372, 29131.74865, 36200.44592, 38561.3987, 33247.92306, 
@@ -42,28 +43,43 @@ black.box.maker <- function(mod1) {
             }
 ```
 
-OregonSalaries contains 32 observations: 16 males and 16 females.  The mean of all salaries is `r mean(OregonSalaries$Salary)`; let me put that in a plot.
+OregonSalaries contains 32 observations: 16 males and 16 females.  The mean of all salaries is `r mean(OregonSalaries$Salary)`; let me put that in a plot in blue.  The total sum of squares can be represented as the sum of all the squared distances to the blue line; each vertical distance is demarcated with an arrow below in blue.  The total sum of squares: the total area of the black box in the original metric (squared dollars) is: `r sum(lm(Salary~1, data=OregonSalaries)$residuals^2)`.
 
 ```{r PlotG}
-plot(y=OregonSalaries$Salary, x=c(1:32), ylab="Salary", col=as.factor(OregonSalaries$Gender), xlab="")
+plot(y=OregonSalaries$Salary, x=c(1:32), ylab="Salary", col=as.factor(OregonSalaries$Gender), xlab="", pch=c(rep("F",16),rep("M",16)))
 abline(h=mean(OregonSalaries$Salary), col="blue")
+arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col="blue", code=3, length=0.05)
 ```
 
-The total sum of squares: the total area of the black box in the original metric (squared dollars).  Here, it is the sum of the squared vertical distances to the mean line: `r sum(lm(Salary~1, data=OregonSalaries)$residuals^2)`.
-
 ## Invoking the Function
+
+To represent the black box,let me draw it.  The length of each side will be the square root of the black box; our total sum of squares is just under 900 million squared dollars so each side will be approximately 30000.  The box appears below.
+
+```{r BBBase}
+mod1 <- lm(Salary~1, data=OregonSalaries)
+black.box.maker(mod1)
+```
+
+## A Regression Model
 
 First, a regression model.  I will estimate the following regression:
 
 $$ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon $$
 
-The picture has a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red or black).  The sum of the remaining squared vertical distances is `r sum(lm(Salary~Gender, data=OregonSalaries)$residuals^2)`
+What does the regression imply?  That salary for each individual $i$ is a function of a constant and gender.  Given the way that R works, $\alpha$ will represent the average for females and $\beta$ will represent the difference between male and female average salaries.
+
+## A New Residual Sum of Squares
+
+The picture now has a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red arrows or black arrows).  The sum of the remaining squared vertical distances is `r sum(lm(Salary~Gender, data=OregonSalaries)$residuals^2)`.  This is the amount leftover or residual given the gender.
 
 ```{r BasePlot}
 plot(y=OregonSalaries$Salary, x=c(1:32), ylab="Salary", col=as.factor(OregonSalaries$Gender), xlab="", pch=c(rep("F",16),rep("M",16)))
 abline(h=mean(OregonSalaries$Salary), col="blue")
 abline(h=mean(subset(OregonSalaries, Gender=="Female")$Salary, na.rm=T), col="black")
 abline(h=mean(subset(OregonSalaries, Gender=="Male")$Salary, na.rm=T), col="red")
+arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col="blue", code=3, length=0.05)
+arrows(x0=c(1:16), x1=c(1:16), y1=OregonSalaries$Salary[c(1:16)],y0=mean(subset(OregonSalaries, Gender=="Female")$Salary, na.rm=T), col="black", code=3, length=0.05)
+arrows(x0=c(17:32), x1=c(17:32), y1=OregonSalaries$Salary[c(17:32)],y0=mean(subset(OregonSalaries, Gender=="Male")$Salary, na.rm=T), col="red", code=3, length=0.05)
 ```
 
 

@@ -567,7 +567,8 @@ Sum.Table&lt;/code&gt;&lt;/pre&gt;
       <description>&lt;div id=&#34;variance-in-the-outcome-the-black-box&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Variance in the Outcome: The Black Box&lt;/h2&gt;
 &lt;p&gt;Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained. Let’s take an example.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;OregonSalaries &amp;lt;- structure(list(Obs = 1:32, Salary = c(41514.38701, 40964.06985, 
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;options(scipen=10)
+OregonSalaries &amp;lt;- structure(list(Obs = 1:32, Salary = c(41514.38701, 40964.06985, 
 39170.19178, 37936.57206, 33981.77752, 36077.27107, 39174.05733, 
 39037.372, 29131.74865, 36200.44592, 38561.3987, 33247.92306, 
 33609.4874, 33669.22275, 37805.83017, 35846.13454, 47342.65909, 
@@ -590,21 +591,35 @@ black.box.maker &amp;lt;- function(mod1) {
             polygon(x=c(0,0,rt1,rt1), y=c(0,rt1,rt1,0), col=&amp;quot;black&amp;quot;)
             polygon(x=c(0,0,rt2,rt2), y=c(0,rt2,rt2,0), col=&amp;quot;green&amp;quot;)
             }&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;OregonSalaries contains 32 observations: 16 males and 16 females. The mean of all salaries is 4.114243310^{4}; let me put that in a plot.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&amp;quot;Salary&amp;quot;, col=as.factor(OregonSalaries$Gender), xlab=&amp;quot;&amp;quot;)
-abline(h=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;OregonSalaries contains 32 observations: 16 males and 16 females. The mean of all salaries is 41142.4330581; let me put that in a plot in blue. The total sum of squares can be represented as the sum of all the squared distances to the blue line; each vertical distance is demarcated with an arrow below in blue. The total sum of squares: the total area of the black box in the original metric (squared dollars) is: 892955384.313085.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&amp;quot;Salary&amp;quot;, col=as.factor(OregonSalaries$Gender), xlab=&amp;quot;&amp;quot;, pch=c(rep(&amp;quot;F&amp;quot;,16),rep(&amp;quot;M&amp;quot;,16)))
+abline(h=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;)
+arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;, code=3, length=0.05)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The total sum of squares: the total area of the black box in the original metric (squared dollars). Here, it is the sum of the squared vertical distances to the mean line: 8.929553810^{8}.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;invoking-the-function&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Invoking the Function&lt;/h2&gt;
+&lt;p&gt;To represent the black box,let me draw it. The length of each side will be the square root of the black box; our total sum of squares is just under 900 million squared dollars so each side will be approximately 30000. The box appears below.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~1, data=OregonSalaries)
+black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBBase-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-regression-model&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;A Regression Model&lt;/h2&gt;
 &lt;p&gt;First, a regression model. I will estimate the following regression:&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon \]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;The picture has a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red or black). The sum of the remaining squared vertical distances is 2.386212810^{8}&lt;/p&gt;
+&lt;p&gt;What does the regression imply? That salary for each individual &lt;span class=&#34;math inline&#34;&gt;\(i\)&lt;/span&gt; is a function of a constant and gender. Given the way that R works, &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; will represent the average for females and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; will represent the difference between male and female average salaries.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-new-residual-sum-of-squares&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;A New Residual Sum of Squares&lt;/h2&gt;
+&lt;p&gt;The picture now has a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red arrows or black arrows). The sum of the remaining squared vertical distances is 238621276.595113. This is the amount leftover or residual given the gender.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&amp;quot;Salary&amp;quot;, col=as.factor(OregonSalaries$Gender), xlab=&amp;quot;&amp;quot;, pch=c(rep(&amp;quot;F&amp;quot;,16),rep(&amp;quot;M&amp;quot;,16)))
 abline(h=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;)
 abline(h=mean(subset(OregonSalaries, Gender==&amp;quot;Female&amp;quot;)$Salary, na.rm=T), col=&amp;quot;black&amp;quot;)
-abline(h=mean(subset(OregonSalaries, Gender==&amp;quot;Male&amp;quot;)$Salary, na.rm=T), col=&amp;quot;red&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+abline(h=mean(subset(OregonSalaries, Gender==&amp;quot;Male&amp;quot;)$Salary, na.rm=T), col=&amp;quot;red&amp;quot;)
+arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;, code=3, length=0.05)
+arrows(x0=c(1:16), x1=c(1:16), y1=OregonSalaries$Salary[c(1:16)],y0=mean(subset(OregonSalaries, Gender==&amp;quot;Female&amp;quot;)$Salary, na.rm=T), col=&amp;quot;black&amp;quot;, code=3, length=0.05)
+arrows(x0=c(17:32), x1=c(17:32), y1=OregonSalaries$Salary[c(17:32)],y0=mean(subset(OregonSalaries, Gender==&amp;quot;Male&amp;quot;)$Salary, na.rm=T), col=&amp;quot;red&amp;quot;, code=3, length=0.05)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~Gender, data=OregonSalaries)
 black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
@@ -619,22 +634,22 @@ black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
 ## -7488.7 -2107.9   433.3  1743.9  4893.9 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&amp;gt;|t|)    
-## (Intercept)  36620.5      705.1   51.94  &amp;lt; 2e-16 ***
-## GenderMale    9043.9      997.1    9.07 4.22e-10 ***
+##             Estimate Std. Error t value       Pr(&amp;gt;|t|)    
+## (Intercept)  36620.5      705.1   51.94        &amp;lt; 2e-16 ***
+## GenderMale    9043.9      997.1    9.07 0.000000000422 ***
 ## ---
 ## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
 ## 
 ## Residual standard error: 2820 on 30 degrees of freedom
 ## Multiple R-squared:  0.7328, Adjusted R-squared:  0.7239 
-## F-statistic: 82.26 on 1 and 30 DF,  p-value: 4.223e-10&lt;/code&gt;&lt;/pre&gt;
+## F-statistic: 82.26 on 1 and 30 DF,  p-value: 0.0000000004223&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;anova(mod1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Analysis of Variance Table
 ## 
 ## Response: Salary
-##           Df    Sum Sq   Mean Sq F value    Pr(&amp;gt;F)    
-## Gender     1 654334108 654334108  82.264 4.223e-10 ***
-## Residuals 30 238621277   7954043                      
+##           Df    Sum Sq   Mean Sq F value          Pr(&amp;gt;F)    
+## Gender     1 654334108 654334108  82.264 0.0000000004223 ***
+## Residuals 30 238621277   7954043                            
 ## ---
 ## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
