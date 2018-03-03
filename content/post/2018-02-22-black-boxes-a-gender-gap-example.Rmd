@@ -43,12 +43,15 @@ black.box.maker <- function(mod1) {
             }
 ```
 
-OregonSalaries contains 32 observations: 16 males and 16 females.  The mean of all salaries is `r mean(OregonSalaries$Salary)`; let me put that in a plot in blue.  The total sum of squares can be represented as the sum of all the squared distances to the blue line; each vertical distance is demarcated with an arrow below in blue.  The total sum of squares: the total area of the black box in the original metric (squared dollars) is: `r sum(lm(Salary~1, data=OregonSalaries)$residuals^2)`.
+OregonSalaries contains 32 observations: 16 males and 16 females.  The mean of all salaries is `r round(mean(OregonSalaries$Salary), digits=3)`; let me put that in a plot in blue.  The total sum of squares can be represented as the sum of all the squared distances to the blue line; each vertical distance is demarcated with an arrow below in blue.  The distance from the point to the line is also shown in blue.  The total sum of squares: the total area of the black box in the original metric (squared dollars) is: `r ceiling(sum(lm(Salary~1, data=OregonSalaries)$residuals^2))`.
 
 ```{r PlotG}
+ORSalScale <- scale(OregonSalaries$Salary, scale=FALSE)
 plot(y=OregonSalaries$Salary, x=c(1:32), ylab="Salary", col=as.factor(OregonSalaries$Gender), xlab="", pch=c(rep("F",16),rep("M",16)))
 abline(h=mean(OregonSalaries$Salary), col="blue")
 arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col="blue", code=3, length=0.05)
+text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(ORSalScale[c(1:16)])), cex=0.7, col="blue")
+text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col="blue")
 ```
 
 ## Invoking the Function
@@ -66,19 +69,14 @@ First, a regression model.  I will estimate the following regression:
 
 $$ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon $$
 
-What does the regression imply?  That salary for each individual $i$ is a function of a constant and gender.  Given the way that R works, $\alpha$ will represent the average for females and $\beta$ will represent the difference between male and female average salaries.  Here is a plot of the substance of the result.
-
-```{r MeanPlot}
-library(gplots)
-plotmeans(Salary~Gender, data=OregonSalaries, ci.label = T, n.label = F, ylim=c(33000,50000))
-```
-
+What does the regression imply?  That salary for each individual $i$ is a function of a constant and gender.  Given the way that R works, $\alpha$ will represent the average for females and $\beta$ will represent the difference between male and female average salaries.  The $\epsilon$ will capture the difference between the individual salary and the group mean (the mean of males or females).
 
 ## A New Residual Sum of Squares
 
-The picture now has a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red arrows or black arrows).  The sum of the remaining squared vertical distances is `r sum(lm(Salary~Gender, data=OregonSalaries)$residuals^2)`.  This is the amount leftover or residual given the gender.
+The picture will now have a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red arrows or black arrows).  What is the relationship between the datum and the group mean?  The answer is shown in black/red.  The sum of the remaining squared vertical distances is `r ceiling(sum(lm(Salary~Gender, data=OregonSalaries)$residuals^2))` is obtained by squaring the difference between each blue and black/red number.
 
 ```{r BasePlot}
+resids <- residuals(lm(Salary~Gender, data=OregonSalaries))
 plot(y=OregonSalaries$Salary, x=c(1:32), ylab="Salary", col=as.factor(OregonSalaries$Gender), xlab="", pch=c(rep("F",16),rep("M",16)))
 abline(h=mean(OregonSalaries$Salary), col="blue")
 abline(h=mean(subset(OregonSalaries, Gender=="Female")$Salary, na.rm=T), col="black")
@@ -86,8 +84,14 @@ abline(h=mean(subset(OregonSalaries, Gender=="Male")$Salary, na.rm=T), col="red"
 arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col="blue", code=3, length=0.05)
 arrows(x0=c(1:16), x1=c(1:16), y1=OregonSalaries$Salary[c(1:16)],y0=mean(subset(OregonSalaries, Gender=="Female")$Salary, na.rm=T), col="black", code=3, length=0.05)
 arrows(x0=c(17:32), x1=c(17:32), y1=OregonSalaries$Salary[c(17:32)],y0=mean(subset(OregonSalaries, Gender=="Male")$Salary, na.rm=T), col="red", code=3, length=0.05)
+text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(ORSalScale[c(1:16)])), cex=0.7, col="blue")
+text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col="blue")
+text(x=seq(1,16), y=rep(c(42000,43000,44000,45000),4), labels = paste(ceiling(resids[c(1:16)])), cex=0.7, col="black")
+text(x=c(17:32), y=rep(c(36000,37000,38000,39000),4), labels = paste(ceiling(resids[c(17:32)])), cex=0.7, col="red")
 ```
 
+
+The details of the regression estimates and the analysis of variance -- the sums of squares -- completes the rendering.
 
 ```{r BBReg}
 mod1 <- lm(Salary~Gender, data=OregonSalaries)

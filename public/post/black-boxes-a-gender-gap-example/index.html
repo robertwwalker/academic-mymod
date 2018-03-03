@@ -368,10 +368,13 @@ black.box.maker &lt;- function(mod1) {
             polygon(x=c(0,0,rt1,rt1), y=c(0,rt1,rt1,0), col=&quot;black&quot;)
             polygon(x=c(0,0,rt2,rt2), y=c(0,rt2,rt2,0), col=&quot;green&quot;)
             }</code></pre>
-<p>OregonSalaries contains 32 observations: 16 males and 16 females. The mean of all salaries is 41142.4330581; let me put that in a plot in blue. The total sum of squares can be represented as the sum of all the squared distances to the blue line; each vertical distance is demarcated with an arrow below in blue. The total sum of squares: the total area of the black box in the original metric (squared dollars) is: 892955384.313085.</p>
-<pre class="r"><code>plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&quot;Salary&quot;, col=as.factor(OregonSalaries$Gender), xlab=&quot;&quot;, pch=c(rep(&quot;F&quot;,16),rep(&quot;M&quot;,16)))
+<p>OregonSalaries contains 32 observations: 16 males and 16 females. The mean of all salaries is 41142.433; let me put that in a plot in blue. The total sum of squares can be represented as the sum of all the squared distances to the blue line; each vertical distance is demarcated with an arrow below in blue. The distance from the point to the line is also shown in blue. The total sum of squares: the total area of the black box in the original metric (squared dollars) is: 892955385.</p>
+<pre class="r"><code>ORSalScale &lt;- scale(OregonSalaries$Salary, scale=FALSE)
+plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&quot;Salary&quot;, col=as.factor(OregonSalaries$Gender), xlab=&quot;&quot;, pch=c(rep(&quot;F&quot;,16),rep(&quot;M&quot;,16)))
 abline(h=mean(OregonSalaries$Salary), col=&quot;blue&quot;)
-arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col=&quot;blue&quot;, code=3, length=0.05)</code></pre>
+arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col=&quot;blue&quot;, code=3, length=0.05)
+text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(ORSalScale[c(1:16)])), cex=0.7, col=&quot;blue&quot;)
+text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col=&quot;blue&quot;)</code></pre>
 <p><img src="/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png" width="672" /></p>
 </div>
 <div id="invoking-the-function" class="section level2">
@@ -385,27 +388,25 @@ black.box.maker(mod1)</code></pre>
 <h2>A Regression Model</h2>
 <p>First, a regression model. I will estimate the following regression:</p>
 <p><span class="math display">\[ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon \]</span></p>
-<p>What does the regression imply? That salary for each individual <span class="math inline">\(i\)</span> is a function of a constant and gender. Given the way that R works, <span class="math inline">\(\alpha\)</span> will represent the average for females and <span class="math inline">\(\beta\)</span> will represent the difference between male and female average salaries. Here is a plot of the substance of the result.</p>
-<pre class="r"><code>library(gplots)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;gplots&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     lowess</code></pre>
-<pre class="r"><code>plotmeans(Salary~Gender, data=OregonSalaries, ci.label = T, n.label = F, ylim=c(33000,50000))</code></pre>
-<p><img src="/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/MeanPlot-1.png" width="672" /></p>
+<p>What does the regression imply? That salary for each individual <span class="math inline">\(i\)</span> is a function of a constant and gender. Given the way that R works, <span class="math inline">\(\alpha\)</span> will represent the average for females and <span class="math inline">\(\beta\)</span> will represent the difference between male and female average salaries. The <span class="math inline">\(\epsilon\)</span> will capture the difference between the individual salary and the group mean (the mean of males or females).</p>
 </div>
 <div id="a-new-residual-sum-of-squares" class="section level2">
 <h2>A New Residual Sum of Squares</h2>
-<p>The picture now has a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red arrows or black arrows). The sum of the remaining squared vertical distances is 238621276.595113. This is the amount leftover or residual given the gender.</p>
-<pre class="r"><code>plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&quot;Salary&quot;, col=as.factor(OregonSalaries$Gender), xlab=&quot;&quot;, pch=c(rep(&quot;F&quot;,16),rep(&quot;M&quot;,16)))
+<p>The picture will now have a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red arrows or black arrows). What is the relationship between the datum and the group mean? The answer is shown in black/red. The sum of the remaining squared vertical distances is 238621277 is obtained by squaring the difference between each blue and black/red number.</p>
+<pre class="r"><code>resids &lt;- residuals(lm(Salary~Gender, data=OregonSalaries))
+plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&quot;Salary&quot;, col=as.factor(OregonSalaries$Gender), xlab=&quot;&quot;, pch=c(rep(&quot;F&quot;,16),rep(&quot;M&quot;,16)))
 abline(h=mean(OregonSalaries$Salary), col=&quot;blue&quot;)
 abline(h=mean(subset(OregonSalaries, Gender==&quot;Female&quot;)$Salary, na.rm=T), col=&quot;black&quot;)
 abline(h=mean(subset(OregonSalaries, Gender==&quot;Male&quot;)$Salary, na.rm=T), col=&quot;red&quot;)
 arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col=&quot;blue&quot;, code=3, length=0.05)
 arrows(x0=c(1:16), x1=c(1:16), y1=OregonSalaries$Salary[c(1:16)],y0=mean(subset(OregonSalaries, Gender==&quot;Female&quot;)$Salary, na.rm=T), col=&quot;black&quot;, code=3, length=0.05)
-arrows(x0=c(17:32), x1=c(17:32), y1=OregonSalaries$Salary[c(17:32)],y0=mean(subset(OregonSalaries, Gender==&quot;Male&quot;)$Salary, na.rm=T), col=&quot;red&quot;, code=3, length=0.05)</code></pre>
+arrows(x0=c(17:32), x1=c(17:32), y1=OregonSalaries$Salary[c(17:32)],y0=mean(subset(OregonSalaries, Gender==&quot;Male&quot;)$Salary, na.rm=T), col=&quot;red&quot;, code=3, length=0.05)
+text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(ORSalScale[c(1:16)])), cex=0.7, col=&quot;blue&quot;)
+text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col=&quot;blue&quot;)
+text(x=seq(1,16), y=rep(c(42000,43000,44000,45000),4), labels = paste(ceiling(resids[c(1:16)])), cex=0.7, col=&quot;black&quot;)
+text(x=c(17:32), y=rep(c(36000,37000,38000,39000),4), labels = paste(ceiling(resids[c(17:32)])), cex=0.7, col=&quot;red&quot;)</code></pre>
 <p><img src="/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png" width="672" /></p>
+<p>The details of the regression estimates and the analysis of variance – the sums of squares – completes the rendering.</p>
 <pre class="r"><code>mod1 &lt;- lm(Salary~Gender, data=OregonSalaries)
 black.box.maker(mod1)</code></pre>
 <p><img src="/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png" width="672" /></p>
