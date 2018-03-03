@@ -43,7 +43,7 @@ black.box.maker <- function(mod1) {
             }
 ```
 
-OregonSalaries contains 32 observations: 16 males and 16 females.  The mean of all salaries is `r round(mean(OregonSalaries$Salary), digits=3)`; let me put that in a plot in blue.  The total sum of squares can be represented as the sum of all the squared distances to the blue line; each vertical distance is demarcated with an arrow below in blue.  The distance from the point to the line is also shown in blue.  The total sum of squares: the total area of the black box in the original metric (squared dollars) is: `r ceiling(sum(lm(Salary~1, data=OregonSalaries)$residuals^2))`.
+OregonSalaries contains 32 observations: 16 males and 16 females.  The mean of all salaries is `r round(mean(OregonSalaries$Salary), digits=3)`; let me put that in a plot in blue.  The total sum of squares can be represented as the sum of all the squared distances to the blue line; each vertical distance is demarcated with an arrow below in blue.  The distance from the point to the line is also shown in blue.  It simply shows how far that individual's salary is from the overall average.  The total sum of squares: the total area of the black box in the original metric (squared dollars) is: `r ceiling(sum(lm(Salary~1, data=OregonSalaries)$residuals^2))`.
 
 ```{r PlotG}
 ORSalScale <- scale(OregonSalaries$Salary, scale=FALSE)
@@ -73,7 +73,7 @@ What does the regression imply?  That salary for each individual $i$ is a functi
 
 ## A New Residual Sum of Squares
 
-The picture will now have a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red arrows or black arrows).  What is the relationship between the datum and the group mean?  The answer is shown in black/red.  The sum of the remaining squared vertical distances is `r ceiling(sum(lm(Salary~Gender, data=OregonSalaries)$residuals^2))` is obtained by squaring the difference between each blue and black/red number.
+The picture will now have a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red arrows or black arrows).  What is the relationship between the datum and the group mean?  The answer is shown in black/red.  The sum of the remaining squared vertical distances is `r ceiling(sum(lm(Salary~Gender, data=OregonSalaries)$residuals^2))` is obtained by squaring the difference between each black/red number.  The amount explained by gender is the difference between each blue and the respective black/red number.  It is important to notice that the highest paid females and the lowest paid males may be less well explained by two averages but the different averages, overall, lead to far less explained variation than a single average for all salaries.
 
 ```{r BasePlot}
 resids <- residuals(lm(Salary~Gender, data=OregonSalaries))

@@ -41,7 +41,7 @@ black.box.maker &lt;- function(mod1) {
             polygon(x=c(0,0,rt1,rt1), y=c(0,rt1,rt1,0), col=&quot;black&quot;)
             polygon(x=c(0,0,rt2,rt2), y=c(0,rt2,rt2,0), col=&quot;green&quot;)
             }</code></pre>
-<p>OregonSalaries contains 32 observations: 16 males and 16 females. The mean of all salaries is 41142.433; let me put that in a plot in blue. The total sum of squares can be represented as the sum of all the squared distances to the blue line; each vertical distance is demarcated with an arrow below in blue. The distance from the point to the line is also shown in blue. The total sum of squares: the total area of the black box in the original metric (squared dollars) is: 892955385.</p>
+<p>OregonSalaries contains 32 observations: 16 males and 16 females. The mean of all salaries is 41142.433; let me put that in a plot in blue. The total sum of squares can be represented as the sum of all the squared distances to the blue line; each vertical distance is demarcated with an arrow below in blue. The distance from the point to the line is also shown in blue. It simply shows how far that individual’s salary is from the overall average. The total sum of squares: the total area of the black box in the original metric (squared dollars) is: 892955385.</p>
 <pre class="r"><code>ORSalScale &lt;- scale(OregonSalaries$Salary, scale=FALSE)
 plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&quot;Salary&quot;, col=as.factor(OregonSalaries$Gender), xlab=&quot;&quot;, pch=c(rep(&quot;F&quot;,16),rep(&quot;M&quot;,16)))
 abline(h=mean(OregonSalaries$Salary), col=&quot;blue&quot;)
@@ -65,7 +65,7 @@ black.box.maker(mod1)</code></pre>
 </div>
 <div id="a-new-residual-sum-of-squares" class="section level2">
 <h2>A New Residual Sum of Squares</h2>
-<p>The picture will now have a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red arrows or black arrows). What is the relationship between the datum and the group mean? The answer is shown in black/red. The sum of the remaining squared vertical distances is 238621277 is obtained by squaring the difference between each blue and black/red number.</p>
+<p>The picture will now have a red line and a black line and the residual/leftover/unexplained sum of squares is now the difference between the point and the respective vertical line (red arrows or black arrows). What is the relationship between the datum and the group mean? The answer is shown in black/red. The sum of the remaining squared vertical distances is 238621277 is obtained by squaring the difference between each black/red number. The amount explained by gender is the difference between each blue and the respective black/red number. It is important to notice that the highest paid females and the lowest paid males may be less well explained by two averages but the different averages, overall, lead to far less explained variation than a single average for all salaries.</p>
 <pre class="r"><code>resids &lt;- residuals(lm(Salary~Gender, data=OregonSalaries))
 plot(y=OregonSalaries$Salary, x=c(1:32), ylab=&quot;Salary&quot;, col=as.factor(OregonSalaries$Gender), xlab=&quot;&quot;, pch=c(rep(&quot;F&quot;,16),rep(&quot;M&quot;,16)))
 abline(h=mean(OregonSalaries$Salary), col=&quot;blue&quot;)
