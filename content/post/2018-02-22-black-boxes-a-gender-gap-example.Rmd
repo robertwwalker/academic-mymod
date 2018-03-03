@@ -70,7 +70,7 @@ What does the regression imply?  That salary for each individual $i$ is a functi
 
 ```{r MeanPlot}
 library(gplots)
-plotmeans(Salary~Gender, data=OregonSalaries, ci.label = T, n.label = F)
+plotmeans(Salary~Gender, data=OregonSalaries, ci.label = T, n.label = F, ylim=c(33000,50000))
 ```
 
 

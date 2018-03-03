@@ -615,7 +615,7 @@ black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:stats&amp;#39;:
 ## 
 ##     lowess&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plotmeans(Salary~Gender, data=OregonSalaries, ci.label = T, n.label = F)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plotmeans(Salary~Gender, data=OregonSalaries, ci.label = T, n.label = F, ylim=c(33000,50000))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/MeanPlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;a-new-residual-sum-of-squares&#34; class=&#34;section level2&#34;&gt;
