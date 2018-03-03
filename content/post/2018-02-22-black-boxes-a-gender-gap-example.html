@@ -58,7 +58,15 @@ black.box.maker(mod1)</code></pre>
 <h2>A Regression Model</h2>
 <p>First, a regression model. I will estimate the following regression:</p>
 <p><span class="math display">\[ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon \]</span></p>
-<p>What does the regression imply? That salary for each individual <span class="math inline">\(i\)</span> is a function of a constant and gender. Given the way that R works, <span class="math inline">\(\alpha\)</span> will represent the average for females and <span class="math inline">\(\beta\)</span> will represent the difference between male and female average salaries.</p>
+<p>What does the regression imply? That salary for each individual <span class="math inline">\(i\)</span> is a function of a constant and gender. Given the way that R works, <span class="math inline">\(\alpha\)</span> will represent the average for females and <span class="math inline">\(\beta\)</span> will represent the difference between male and female average salaries. Here is a plot of the substance of the result.</p>
+<pre class="r"><code>library(gplots)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;gplots&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     lowess</code></pre>
+<pre class="r"><code>plotmeans(Salary~Gender, data=OregonSalaries, ci.label = T, n.label = F)</code></pre>
+<p><img src="/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/MeanPlot-1.png" width="672" /></p>
 </div>
 <div id="a-new-residual-sum-of-squares" class="section level2">
 <h2>A New Residual Sum of Squares</h2>

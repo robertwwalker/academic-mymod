@@ -66,7 +66,13 @@ First, a regression model.  I will estimate the following regression:
 
 $$ Salary_{i} = \alpha + \beta_{1}*Gender_{i} + \epsilon $$
 
-What does the regression imply?  That salary for each individual $i$ is a function of a constant and gender.  Given the way that R works, $\alpha$ will represent the average for females and $\beta$ will represent the difference between male and female average salaries.
+What does the regression imply?  That salary for each individual $i$ is a function of a constant and gender.  Given the way that R works, $\alpha$ will represent the average for females and $\beta$ will represent the difference between male and female average salaries.  Here is a plot of the substance of the result.
+
+```{r MeanPlot}
+library(gplots)
+plotmeans(Salary~Gender, data=OregonSalaries, ci.label = T, n.label = F)
+```
+
 
 ## A New Residual Sum of Squares
 
