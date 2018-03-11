@@ -1,0 +1,136 @@
+---
+title: "Pew Data on Bond Ratings and Rainy Day Funds"
+author: "RWW"
+date: '2018-03-07'
+slug: pew-data-on-bond-ratings-and-rainy-day-funds
+tags:
+- R
+- panel data
+categories:
+- R
+- Public Finance
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+```
+
+# Pew on Rainy Day Funds and Credit Quality
+
+The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades.  One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas.  A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund.  A poorly deployed savings device for cash flow management over the not-so-short term also seems unlikely to bolster market confidence in the repayment abilities of an issuer.  If this very simple perspective that seems plausible is true, then a simple replication should be easy.  And it is.  Pew gladly shared the data and code.  If one has access to Stata, the study is easy to replicate.
+
+Taken from the website above:
+
+![Pew Reccomendations](CPewCTRecs.png)
+
+## On the other hand
+
+The variation in the data may leave a good bit to be desired.  Let's have a look at some basic features of the data.
+
+```{r RBRData}
+library(haven)
+library(dplyr)
+Pew.Data <- read_dta("~/Desktop/Pew/modeledforprediction.dta")
+glimpse(Pew.Data)
+table(Pew.Data$state)
+```
+
+The panel is balanced; in the original, New Mexico, New York, South Carolina, and Vermont are duplicated but the Stata code writes out a transformed dataset for analysis that is recorded.  The technical report accompanying the study and the stata code give us some insights.  In all cases, there are two or more RDF's and they require combining.
+
+# Combining Ratings
+
+In previous work, Skip Krueger and I have treated bond ratings as a multiple rater problem and have deployed cumulative IRT models to measure latent credit quality.  One of the methodologically desireable approaches to the Pew study was a model deploying state-level fixed effects but the ordinal data precludes doing this reliably because states that have always experienced the highest rating will have unbounded fixed effects.  The continuous latent scale post measurement allows us to sidestep that problem.  First, let me scale the data
+
+### Scaling the Ratings
+
+```{r BRScale, echo=TRUE, eval=FALSE}
+library(MCMCpack)
+Scaled.BR <- MCMCordfactanal(~spnum+fitchnum+moodynum, data=Pew.Data, factors=1, burnin = 1e6, mcmc=1e6, thin=100, store.scores=TRUE, tune=0.7, lambda.constraints=list(fitchnum=list(2,"+")), verbose=50000)
+```
+
+```{r DATAL, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+load("~/Desktop/Pew/Scaled-BR-Pew.RData")
+BR.Data <- t(Scaled.BR[,c(26:991)])
+BR.Parms <- Scaled.BR[,c(1:25)]
+state.ratings <- data.frame(state=Pew.Data$state, statefips=Pew.Data$statefips, year=Pew.Data$fyear, BR.Data)
+state.ratings.long <- tidyr::gather(state.ratings, sampleno, value, -statefips, -year, -state)
+state.SE <- state.ratings.long %>% group_by(state,year) %>% summarise(Credit.Quality=mean(value), t1=quantile(value, probs=0.025), t2=quantile(value, probs=0.975))
+```
+
+## What does the scaling look like?
+
+
+```{r Plot2, echo=FALSE, eval=FALSE}
+state.SE %>% filter(state%in%c(names(table(state.SE$state))[c(1:10)])) %>%
+  ggplot(., aes(x=year, y=Credit.Quality, group=state)) +
+    geom_pointrange(aes(ymin=t1, ymax=t2, colour=state, fill=state), alpha=0.1) + 
+    guides(fill="none") +
+    geom_line(aes(colour=state)) +
+#    geom_jitter(width=0.2) +
+#    geom_point(shape=21, size=3, fill="white") +
+    ylim(-4,4)state.SE %>% filter(state%in%c(names(table(state.SE$state))[c(11:20)])) %>%
+  ggplot(., aes(x=year, y=Credit.Quality, group=state)) +
+    geom_pointrange(aes(ymin=t1, ymax=t2, colour=state, fill=state), alpha=0.1) + 
+    guides(fill="none") +
+    geom_line(aes(colour=state)) +
+#    geom_jitter(width=0.2) +
+#    geom_point(shape=21, size=3, fill="white") +
+    ylim(-4,4)
+state.SE %>% filter(state%in%c(names(table(state.SE$state))[c(21:30)])) %>%
+  ggplot(., aes(x=year, y=Credit.Quality, group=state)) +
+    geom_pointrange(aes(ymin=t1, ymax=t2, colour=state, fill=state), alpha=0.1) + 
+    guides(fill="none") +
+    geom_line(aes(colour=state)) +
+#    geom_jitter(width=0.2) +
+#    geom_point(shape=21, size=3, fill="white") +
+    ylim(-4,4)
+state.SE  %>% filter(state%in%c(names(table(state.SE$state))[c(31:40)])) %>%
+  ggplot(., aes(x=year, y=Credit.Quality, group=state)) +
+    geom_pointrange(aes(ymin=t1, ymax=t2, colour=state, fill=state), alpha=0.1) + 
+    guides(fill="none") +
+    geom_line(aes(colour=state)) +
+#    geom_jitter(width=0.2) +
+#    geom_point(shape=21, size=3, fill="white") +
+    ylim(-4,4)
+```
+
+### The First Group
+
+```{r Plot5}
+stored <- list()
+stored <- state.SE %>% group_by(state) %>% filter(state%in%c(names(table(state.SE$state))[c(1:16)])) %>%
+  ggplot(., aes(x=year, y=Credit.Quality)) + theme_minimal() + theme(axis.text.x  = element_text(angle=60)) +
+    geom_ribbon(aes(ymin=t1, ymax=t2, colour=state, fill=state), alpha=0.4) + guides(fill="none", alpha="none") +
+    geom_line() + guides(colour="none") +
+#    geom_jitter(width=0.2) +
+#    geom_point(shape=21, size=3, fill="white") +
+    ylim(-4,4) + facet_wrap(~state)
+stored
+```
+
+### The Second Group
+
+```{r Plot5b}
+stored <- list()
+stored <- state.SE %>% group_by(state) %>% filter(state%in%c(names(table(state.SE$state))[c(17:32)])) %>%
+  ggplot(., aes(x=year, y=Credit.Quality)) + theme_minimal() + theme(axis.text.x  = element_text(angle=60)) +
+    geom_ribbon(aes(ymin=t1, ymax=t2, colour=state, fill=state), alpha=0.4) + guides(fill="none", alpha="none") +
+    geom_line() + guides(colour="none") +
+#    geom_jitter(width=0.2) +
+#    geom_point(shape=21, size=3, fill="white") +
+    ylim(-4,4) + facet_wrap(~state)
+stored
+```
+
+```{r Plot5c}
+stored <- list()
+stored <- state.SE %>% group_by(state) %>% filter(state%in%c(names(table(state.SE$state))[c(33:46)])) %>%
+  ggplot(., aes(x=year, y=Credit.Quality)) + theme_minimal() + theme(axis.text.x  = element_text(angle=60)) +
+    geom_ribbon(aes(ymin=t1, ymax=t2, colour=state, fill=state), alpha=0.4) + guides(fill="none", alpha="none") +
+    geom_line() + guides(colour="none") +
+#    geom_jitter(width=0.2) +
+#    geom_point(shape=21, size=3, fill="white") +
+    ylim(-4,4) + facet_wrap(~state)
+stored
+```

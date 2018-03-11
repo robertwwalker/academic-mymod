@@ -11,6 +11,157 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Pew Data on Bond Ratings and Rainy Day Funds</title>
+      <link>https://rwalker.netlify.com/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
+      <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
+      <description>&lt;div id=&#34;pew-on-rainy-day-funds-and-credit-quality&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Pew on Rainy Day Funds and Credit Quality&lt;/h1&gt;
+&lt;p&gt;The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund. A poorly deployed savings device for cash flow management over the not-so-short term also seems unlikely to bolster market confidence in the repayment abilities of an issuer. If this very simple perspective that seems plausible is true, then a simple replication should be easy. And it is. Pew gladly shared the data and code. If one has access to Stata, the study is easy to replicate.&lt;/p&gt;
+&lt;p&gt;Taken from the website above:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;CPewCTRecs.png&#34; alt=&#34;Pew Reccomendations&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Pew Reccomendations&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;on-the-other-hand&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;On the other hand&lt;/h2&gt;
+&lt;p&gt;The variation in the data may leave a good bit to be desired. Let’s have a look at some basic features of the data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(haven)
+library(dplyr)
+Pew.Data &amp;lt;- read_dta(&amp;quot;~/Desktop/Pew/modeledforprediction.dta&amp;quot;)
+glimpse(Pew.Data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Observations: 966
+## Variables: 45
+## $ fyear            &amp;lt;dbl&amp;gt; 1994, 1995, 1996, 1997, 1998, 1999, 2000, 200...
+## $ statefips        &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
+## $ state            &amp;lt;chr&amp;gt; &amp;quot;Alabama&amp;quot;, &amp;quot;Alabama&amp;quot;, &amp;quot;Alabama&amp;quot;, &amp;quot;Alabama&amp;quot;, &amp;quot;...
+## $ bbalance         &amp;lt;dbl&amp;gt; 0.00000, 0.00000, 0.00000, 0.00000, 0.00000, ...
+## $ withdraw         &amp;lt;dbl&amp;gt; 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.000...
+## $ deposit          &amp;lt;dbl&amp;gt; 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.0...
+## $ interest         &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
+## $ ebalance         &amp;lt;dbl&amp;gt; 0.00000, 0.00000, 0.00000, 0.00000, 0.00000, ...
+## $ fund             &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
+## $ spo              &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0,...
+## $ moodyo           &amp;lt;dbl&amp;gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, 0,...
+## $ fitcho           &amp;lt;dbl&amp;gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...
+## $ spnum            &amp;lt;dbl&amp;gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, ...
+## $ moodynum         &amp;lt;dbl&amp;gt; 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, ...
+## $ fitchnum         &amp;lt;dbl&amp;gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, ...
+## $ surplus          &amp;lt;dbl&amp;gt; -3, -73, 4, -35, 27, 21, 30, -34, -47, -177, ...
+## $ gfebal           &amp;lt;dbl&amp;gt; 128, 54, 58, 23, 51, 72, 101, 67, 19, 113, 34...
+## $ longdebt         &amp;lt;dbl&amp;gt; 0.10800536, 0.09275389, 0.08864151, 0.0814541...
+## $ shortdebt        &amp;lt;dbl&amp;gt; 2.790155e-05, 8.648518e-05, 7.688679e-06, 4.9...
+## $ totaldebt        &amp;lt;dbl&amp;gt; 0.10803326, 0.09284038, 0.08864920, 0.0814590...
+## $ population       &amp;lt;dbl&amp;gt; 8.346216, 8.357078, 8.365626, 8.373577, 8.382...
+## $ pop65            &amp;lt;dbl&amp;gt; 548.045, 554.718, 561.331, 567.094, 571.722, ...
+## $ gfe              &amp;lt;dbl&amp;gt; 3860, 4151, 4240, 4475, 4688, 4919, 5215, 521...
+## $ gfr              &amp;lt;dbl&amp;gt; 3857, 4078, 4244, 4440, 4715, 4940, 5245, 517...
+## $ spi              &amp;lt;dbl&amp;gt; 79368.02, 84194.33, 88048.51, 92206.95, 98699...
+## $ rdfbal           &amp;lt;dbl&amp;gt; 0.0000000, 0.0000000, 0.0000000, 0.0000000, 0...
+## $ rdfdep           &amp;lt;dbl&amp;gt; 0.00000, 0.00000, 0.00000, 0.00000, 0.00000, ...
+## $ rdfwit           &amp;lt;dbl&amp;gt; 0.000000, 0.000000, 0.000000, 0.000000, 0.000...
+## $ gfebalgfe        &amp;lt;dbl&amp;gt; 3.3160622, 1.3008914, 1.3679246, 0.5139665, 1...
+## $ spratingshift    &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ spupgrade        &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ spdowngrade      &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ moodyratingshift &amp;lt;dbl&amp;gt; NA, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0...
+## $ moodyupgrade     &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,...
+## $ moodydowngrade   &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ fitchratingshift &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ fitchupgrade     &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ fitchdowngrade   &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ rdfnet           &amp;lt;dbl&amp;gt; 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.000...
+## $ rdfnetgfe        &amp;lt;dbl&amp;gt; 0.000000, 0.000000, 0.000000, 0.000000, 0.000...
+## $ revenuebw        &amp;lt;dbl&amp;gt; 4.613832, 15.427544, -32.826214, -55.708824, ...
+## $ revenuebwtrend   &amp;lt;dbl&amp;gt; 3852.386, 4062.573, 4276.826, 4495.709, 4709....
+## $ trendstanding    &amp;lt;dbl&amp;gt; 1, 1, -1, -1, 1, 1, 1, 1, -1, -1, -1, -1, 1, ...
+## $ valenceusage     &amp;lt;dbl&amp;gt; 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.000...
+## $ valenceusagegfe  &amp;lt;dbl&amp;gt; 0.000000, 0.000000, 0.000000, 0.000000, 0.000...&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table(Pew.Data$state)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##        Alabama         Alaska        Arizona       Arkansas     California 
+##             21             21             21             21             21 
+##    Connecticut       Delaware        Florida        Georgia         Hawaii 
+##             21             21             21             21             21 
+##          Idaho        Indiana           Iowa       Kentucky      Louisiana 
+##             21             21             21             21             21 
+##          Maine       Maryland  Massachusetts       Michigan      Minnesota 
+##             21             21             21             21             21 
+##    Mississippi       Missouri       Nebraska         Nevada  New Hampshire 
+##             21             21             21             21             21 
+##     New Jersey     New Mexico       New York North Carolina   North Dakota 
+##             21             21             21             21             21 
+##           Ohio       Oklahoma         Oregon   Pennsylvania   Rhode Island 
+##             21             21             21             21             21 
+## South Carolina   South Dakota      Tennessee          Texas           Utah 
+##             21             21             21             21             21 
+##        Vermont       Virginia     Washington  West Virginia      Wisconsin 
+##             21             21             21             21             21 
+##        Wyoming 
+##             21&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The panel is balanced; in the original, New Mexico, New York, South Carolina, and Vermont are duplicated but the Stata code writes out a transformed dataset for analysis that is recorded. The technical report accompanying the study and the stata code give us some insights. In all cases, there are two or more RDF’s and they require combining.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;combining-ratings&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Combining Ratings&lt;/h1&gt;
+&lt;p&gt;In previous work, Skip Krueger and I have treated bond ratings as a multiple rater problem and have deployed cumulative IRT models to measure latent credit quality. One of the methodologically desireable approaches to the Pew study was a model deploying state-level fixed effects but the ordinal data precludes doing this reliably because states that have always experienced the highest rating will have unbounded fixed effects. The continuous latent scale post measurement allows us to sidestep that problem. First, let me scale the data&lt;/p&gt;
+&lt;div id=&#34;scaling-the-ratings&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Scaling the Ratings&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(MCMCpack)
+Scaled.BR &amp;lt;- MCMCordfactanal(~spnum+fitchnum+moodynum, data=Pew.Data, factors=1, burnin = 1e6, mcmc=1e6, thin=100, store.scores=TRUE, tune=0.7, lambda.constraints=list(fitchnum=list(2,&amp;quot;+&amp;quot;)), verbose=50000)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+load(&amp;quot;~/Desktop/Pew/Scaled-BR-Pew.RData&amp;quot;)
+BR.Data &amp;lt;- t(Scaled.BR[,c(26:991)])
+BR.Parms &amp;lt;- Scaled.BR[,c(1:25)]
+state.ratings &amp;lt;- data.frame(state=Pew.Data$state, statefips=Pew.Data$statefips, year=Pew.Data$fyear, BR.Data)
+state.ratings.long &amp;lt;- tidyr::gather(state.ratings, sampleno, value, -statefips, -year, -state)
+state.SE &amp;lt;- state.ratings.long %&amp;gt;% group_by(state,year) %&amp;gt;% summarise(Credit.Quality=mean(value), t1=quantile(value, probs=0.025), t2=quantile(value, probs=0.975))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-does-the-scaling-look-like&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;What does the scaling look like?&lt;/h2&gt;
+&lt;div id=&#34;the-first-group&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;The First Group&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stored &amp;lt;- list()
+stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%c(names(table(state.SE$state))[c(1:16)])) %&amp;gt;%
+  ggplot(., aes(x=year, y=Credit.Quality)) + theme_minimal() + theme(axis.text.x  = element_text(angle=60)) +
+    geom_ribbon(aes(ymin=t1, ymax=t2, colour=state, fill=state), alpha=0.4) + guides(fill=&amp;quot;none&amp;quot;, alpha=&amp;quot;none&amp;quot;) +
+    geom_line() + guides(colour=&amp;quot;none&amp;quot;) +
+#    geom_jitter(width=0.2) +
+#    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
+    ylim(-4,4) + facet_wrap(~state)
+stored&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-second-group&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;The Second Group&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stored &amp;lt;- list()
+stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%c(names(table(state.SE$state))[c(17:32)])) %&amp;gt;%
+  ggplot(., aes(x=year, y=Credit.Quality)) + theme_minimal() + theme(axis.text.x  = element_text(angle=60)) +
+    geom_ribbon(aes(ymin=t1, ymax=t2, colour=state, fill=state), alpha=0.4) + guides(fill=&amp;quot;none&amp;quot;, alpha=&amp;quot;none&amp;quot;) +
+    geom_line() + guides(colour=&amp;quot;none&amp;quot;) +
+#    geom_jitter(width=0.2) +
+#    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
+    ylim(-4,4) + facet_wrap(~state)
+stored&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5b-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stored &amp;lt;- list()
+stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%c(names(table(state.SE$state))[c(33:46)])) %&amp;gt;%
+  ggplot(., aes(x=year, y=Credit.Quality)) + theme_minimal() + theme(axis.text.x  = element_text(angle=60)) +
+    geom_ribbon(aes(ymin=t1, ymax=t2, colour=state, fill=state), alpha=0.4) + guides(fill=&amp;quot;none&amp;quot;, alpha=&amp;quot;none&amp;quot;) +
+    geom_line() + guides(colour=&amp;quot;none&amp;quot;) +
+#    geom_jitter(width=0.2) +
+#    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
+    ylim(-4,4) + facet_wrap(~state)
+stored&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5c-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Mapping with the Government Finance Database</title>
       <link>https://rwalker.netlify.com/post/mapping-with-the-government-finance-database/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
@@ -476,12 +627,12 @@ county_choropleth(my.County.GFD.2015, title=&amp;quot;General Revenue per capita
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(plm)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Loading required package: Formula&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
 ## ✔ tibble  1.3.4     ✔ dplyr   0.7.4
 ## ✔ tidyr   0.7.2     ✔ stringr 1.3.0
 ## ✔ readr   1.1.1     ✔ forcats 0.2.0&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+&lt;pre&gt;&lt;code&gt;## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::between() masks plm::between()
 ## ✖ dplyr::filter()  masks stats::filter()
 ## ✖ dplyr::lag()     masks plm::lag(), stats::lag()
@@ -946,15 +1097,6 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
       <pubDate>Sat, 01 Sep 2012 00:00:00 +0000</pubDate>
       
       <guid>https://rwalker.netlify.com/publication/kwb-publius/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Management Practices and State Bond Ratings</title>
-      <link>https://rwalker.netlify.com/publication/mgmt-state-ratings/</link>
-      <pubDate>Thu, 02 Dec 2010 00:00:00 +0000</pubDate>
-      
-      <guid>https://rwalker.netlify.com/publication/mgmt-state-ratings/</guid>
       <description></description>
     </item>
     
