@@ -21,11 +21,8 @@ The Pew Charitable Trusts released a report last May (2017) that portrays rainy 
 
 Taken from the website above:
 
-<<<<<<< HEAD
-![Pew Recommendations](CPewCTRecs.png)
-=======
-![Pew Recommendations](/img/CPewCTRecs.png)
->>>>>>> d012d5ad3a760c7f9e97a87777c24f6561236dfe
+![Pew Recommendations](img/CPewCTRecs.png)
+
 
 ## On the other hand
 
