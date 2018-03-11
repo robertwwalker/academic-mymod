@@ -21,8 +21,8 @@
 &lt;p&gt;The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund. A poorly deployed savings device for cash flow management over the not-so-short term also seems unlikely to bolster market confidence in the repayment abilities of an issuer. If this very simple perspective that seems plausible is true, then a simple replication should be easy. And it is. Pew gladly shared the data and code. If one has access to Stata, the study is easy to replicate.&lt;/p&gt;
 &lt;p&gt;Taken from the website above:&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;img/CPewCTRecs.png&#34; alt=&#34;Pew Reccomendations&#34; /&gt;
-&lt;p class=&#34;caption&#34;&gt;Pew Reccomendations&lt;/p&gt;
+&lt;img src=&#34;https://rwalker.netlify.com/img/CPewCTRecs.png&#34; alt=&#34;Pew Recommendations&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Pew Recommendations&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;on-the-other-hand&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;On the other hand&lt;/h2&gt;
