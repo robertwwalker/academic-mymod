@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Robert W. Walker on Robert W. Walker</title>
-    <link>https://rwalker.netlify.com/</link>
+    <link>/</link>
     <description>Recent content in Robert W. Walker on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,11 +12,11 @@
     
     <item>
       <title>tidyTuesday - Tuition</title>
-      <link>https://rwalker.netlify.com/post/tidytuesday-tuition/</link>
+      <link>/post/tidytuesday-tuition/</link>
       <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/post/tidytuesday-tuition/</guid>
-      <description>&lt;p&gt;I found a great example on tidyTuesday that I wanted to work on. &lt;code&gt;@JKaupp&lt;/code&gt; Jake Kaupp used this very cool line plot to show the change in average tuition over a ten year period. I loved it. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on &lt;span class=&#34;citation&#34;&gt;[@JKaupp-GitHub]&lt;/span&gt;(&lt;a href=&#34;https://github.com/jkaupp&#34; class=&#34;uri&#34;&gt;https://github.com/jkaupp&lt;/a&gt;). The specific file is &lt;a href=&#34;https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R&#34;&gt;here&lt;/a&gt;. I did not add much. All I wanted was some idea of how the growth rates correspond over the period. I added a cumulative growth rate and encoded the color scheme with it enabling me to play with &lt;em&gt;viridis&lt;/em&gt;. The &lt;em&gt;col_tab&lt;/em&gt; is my creation. I also moved around the labels so that everyone gets a color coded label and we can see who is where, more or less. Enjoy!&lt;/p&gt;
+      <guid>/post/tidytuesday-tuition/</guid>
+      <description>&lt;p&gt;I found a great example on tidyTuesday that I wanted to work on. &lt;code&gt;@JKaupp&lt;/code&gt; Jake Kaupp used this very cool line plot to show the change in average tuition over a ten year period. I loved it. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on &lt;a href=&#34;https://github.com/jkaupp&#34;&gt;Jake Kaupp’s GitHub&lt;/a&gt;. The specific file is &lt;a href=&#34;https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R&#34;&gt;here&lt;/a&gt;. I did not add much. All I wanted was some idea of how the growth rates correspond over the period. I added a cumulative growth rate and encoded the color scheme with it enabling me to play with &lt;em&gt;viridis&lt;/em&gt;. The &lt;em&gt;col_tab&lt;/em&gt; is my creation. I also moved around the labels so that everyone gets a color coded label and we can see who is where, more or less. Enjoy!&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(here)
 library(readxl)
 library(tidyverse)
@@ -68,17 +68,17 @@ my.plot &amp;lt;- plot_data %&amp;gt;%
   theme_minimal(base_family = &amp;quot;Oswald-Light&amp;quot;) +
   theme(panel.grid.minor = element_blank())
 print(my.plot)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-04-03-tidytuesday-tuition_files/figure-html/BorrowedCode-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-04-03-tidytuesday-tuition_files/figure-html/BorrowedCode-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggsave(my.plot, filename = glue(&amp;#39;tidyweek-{Sys.Date()}.png&amp;#39;), height = 8, width = 8, dpi = 300)&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
     <item>
       <title>Pew Data on Bond Ratings and Rainy Day Funds</title>
-      <link>https://rwalker.netlify.com/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
+      <link>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
+      <guid>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
       <description>&lt;div id=&#34;pew-on-rainy-day-funds-and-credit-quality&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Pew on Rainy Day Funds and Credit Quality&lt;/h1&gt;
 &lt;p&gt;The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund. A poorly deployed savings device for cash flow management over the not-so-short term also seems unlikely to bolster market confidence in the repayment abilities of an issuer. If this very simple perspective that seems plausible is true, then a simple replication should be easy. And it is. Pew gladly shared the data and code. If one has access to Stata, the study is easy to replicate.&lt;/p&gt;
@@ -194,7 +194,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-second-group&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;The Second Group&lt;/h3&gt;
@@ -207,7 +207,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5b-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5b-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-third-group&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;The Third Group&lt;/h3&gt;
@@ -220,7 +220,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5c-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5c-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-panel-data-properties&#34; class=&#34;section level2&#34;&gt;
@@ -268,10 +268,10 @@ XTSUM(nlswork, varname=hours, unit=idcode)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Mapping with the Government Finance Database</title>
-      <link>https://rwalker.netlify.com/post/mapping-with-the-government-finance-database/</link>
+      <link>/post/mapping-with-the-government-finance-database/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/post/mapping-with-the-government-finance-database/</guid>
+      <guid>/post/mapping-with-the-government-finance-database/</guid>
       <description>&lt;div id=&#34;the-government-finance-database&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The Government Finance Database&lt;/h1&gt;
 &lt;p&gt;Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the &lt;a href=&#34;http://willamette.edu/mba/research_impact/public_datasets/index.html&#34;&gt;Government Finance data&lt;/a&gt; available from the Census. They published an article in &lt;a href=&#34;http://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0130119&amp;amp;type=printable&#34;&gt;PLoS One&lt;/a&gt; with the rationale; I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states. It seems that &lt;code&gt;read.csv&lt;/code&gt; works better than &lt;code&gt;read_csv&lt;/code&gt; for this task.&lt;/p&gt;
@@ -369,7 +369,7 @@ my.GFD.2015&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;state_choropleth(my.GFD.2015, title=&amp;quot;Total Taxes per capita&amp;quot;, num_colors=1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning in self$bind(): The following regions were missing and are being
 ## set to NA: district of columbia&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/MapTheData-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/MapTheData-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;That’s far too easy. Total taxes, which I have not bothered to look up, appear to contain some unexpected details. What else can be done with it? The final code chunk does it all. To calculate a new map, just change the name of the thing per capitized. What data are available? See below….&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;names(State.Data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##   [1] &amp;quot;SurveyYr&amp;quot;                     &amp;quot;Year4&amp;quot;                       
@@ -680,7 +680,7 @@ my.GFD.2015&lt;/code&gt;&lt;/pre&gt;
 state_choropleth(my.GFD.2015, title=&amp;quot;Total Revenues per capita&amp;quot;, num_colors=1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning in self$bind(): The following regions were missing and are being
 ## set to NA: district of columbia&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;putting-them-together-counties&#34; class=&#34;section level1&#34;&gt;
@@ -692,23 +692,23 @@ my.County.GFD.2015 &amp;lt;- County.Data.2 %&amp;gt;%
   filter(Year4==2012) %&amp;gt;% mutate(value = General_Revenue / Population) %&amp;gt;%
   select(region, value)
 county_choropleth(my.County.GFD.2015, title=&amp;quot;General Revenue per capita&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/County1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/County1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The zoom feature is pretty cool: there are two defined forms for the county and states. The naming conventions follow the &lt;code&gt;county.regions&lt;/code&gt; format and are lower case. Let me grab &lt;em&gt;oregon&lt;/em&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my.County.GFD.2015 &amp;lt;- County.Data.2 %&amp;gt;% 
   filter(Year4==2012) %&amp;gt;% mutate(value = General_Revenue / Population) %&amp;gt;%
   select(region, value)
 county_choropleth(my.County.GFD.2015, title=&amp;quot;General Revenue per capita&amp;quot;, state_zoom=&amp;quot;oregon&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/CountyMZ-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/CountyMZ-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>Longitudinal Panel Data R Packages</title>
-      <link>https://rwalker.netlify.com/post/panel-data-r-packages/</link>
+      <link>/post/panel-data-r-packages/</link>
       <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/post/panel-data-r-packages/</guid>
+      <guid>/post/panel-data-r-packages/</guid>
       <description>&lt;div id=&#34;longitudinal-and-panel-data-analysis-in-r&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Longitudinal and Panel Data Analysis in R&lt;/h1&gt;
 &lt;p&gt;Goal: A CRAN task view for panel/longitudinal data analysis in R.&lt;/p&gt;
@@ -907,10 +907,10 @@ XTSUM(nlswork, varname=hours, unit=idcode)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Black Boxes: A Gender Gap Example</title>
-      <link>https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/</link>
+      <link>/post/black-boxes-a-gender-gap-example/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/</guid>
+      <guid>/post/black-boxes-a-gender-gap-example/</guid>
       <description>&lt;div id=&#34;variance-in-the-outcome-the-black-box&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Variance in the Outcome: The Black Box&lt;/h2&gt;
 &lt;p&gt;Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained. Let’s take an example.&lt;/p&gt;
@@ -945,14 +945,14 @@ abline(h=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;)
 arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;, code=3, length=0.05)
 text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(ORSalScale[c(1:16)])), cex=0.7, col=&amp;quot;blue&amp;quot;)
 text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col=&amp;quot;blue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;invoking-the-function&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Invoking the Function&lt;/h2&gt;
 &lt;p&gt;To represent the black box,let me draw it. The length of each side will be the square root of the black box; our total sum of squares is just under 900 million squared dollars so each side will be approximately 30000. The box appears below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~1, data=OregonSalaries)
 black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBBase-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBBase-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;a-regression-model&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;A Regression Model&lt;/h2&gt;
@@ -975,11 +975,11 @@ text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(OR
 text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col=&amp;quot;blue&amp;quot;)
 text(x=seq(1,16), y=rep(c(42000,43000,44000,45000),4), labels = paste(ceiling(resids[c(1:16)])), cex=0.7, col=&amp;quot;black&amp;quot;)
 text(x=c(17:32), y=rep(c(36000,37000,38000,39000),4), labels = paste(ceiling(resids[c(17:32)])), cex=0.7, col=&amp;quot;red&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The details of the regression estimates and the analysis of variance – the sums of squares – completes the rendering.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~Gender, data=OregonSalaries)
 black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(mod1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ## Call:
@@ -1014,10 +1014,10 @@ black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Correlation Function</title>
-      <link>https://rwalker.netlify.com/post/correlation-function/</link>
+      <link>/post/correlation-function/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/post/correlation-function/</guid>
+      <guid>/post/correlation-function/</guid>
       <description>&lt;div id=&#34;correlations-and-the-impact-on-sums-and-differences&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Correlations and the Impact on Sums and Differences&lt;/h1&gt;
 &lt;p&gt;I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.&lt;/p&gt;
@@ -1039,23 +1039,23 @@ plot(x=df$X1, y=df$X2, xlab=&amp;quot;x1&amp;quot;, ylab=&amp;quot;x2&amp;quot;,
   else { cat(&amp;quot;Correlation must be between -1 and 1&amp;quot;) }
 }
 plot.cor(cor=0.8)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-correlation-function_files/figure-html/CorF-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-correlation-function_files/figure-html/CorF-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The correlation above is 0.8&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;correlation-is--0.8&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Correlation is -0.8&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot.cor(cor=-0.8)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-correlation-function_files/figure-html/CorF2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-correlation-function_files/figure-html/CorF2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>tidytext is neat! White House Communications</title>
-      <link>https://rwalker.netlify.com/post/tidytext-is-neat/</link>
+      <link>/post/tidytext-is-neat/</link>
       <pubDate>Wed, 21 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/post/tidytext-is-neat/</guid>
+      <guid>/post/tidytext-is-neat/</guid>
       <description>&lt;div id=&#34;presidential-press&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Presidential Press&lt;/h1&gt;
 &lt;p&gt;The language of presidential communications is interesting and I know very little about &lt;em&gt;text as data&lt;/em&gt;. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?&lt;/p&gt;
@@ -1171,7 +1171,7 @@ tidy.SB %&amp;gt;%
   geom_col() +
   xlab(NULL) +
   coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/SBplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/SBplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;presidential-actions&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Presidential Actions&lt;/h2&gt;
@@ -1184,7 +1184,7 @@ tidy.PA %&amp;gt;%
   geom_col() +
   xlab(NULL) +
   coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/PAplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/PAplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;word-clouds&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Word Clouds&lt;/h2&gt;
@@ -1196,7 +1196,7 @@ wc &amp;lt;- tidy.PA %&amp;gt;% count(word, sort = TRUE)
 wordcloud(wc$word,  wc$n, min.freq = 1,
           max.words=200, random.order=FALSE, rot.per=0.35, 
           colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/WCPA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/WCPA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;statements-and-briefings-1&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Statements and Briefings&lt;/h3&gt;
@@ -1205,7 +1205,7 @@ wc &amp;lt;- tidy.SB %&amp;gt;% count(word, sort = TRUE)
 wordcloud(wc$word,  wc$n, min.freq = 1,
           max.words=200, random.order=FALSE, rot.per=0.35, 
           colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/WCSB-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/WCSB-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1214,76 +1214,76 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
     
     <item>
       <title>Example Talk</title>
-      <link>https://rwalker.netlify.com/talk/example-talk/</link>
+      <link>/talk/example-talk/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 -0800</pubDate>
       
-      <guid>https://rwalker.netlify.com/talk/example-talk/</guid>
+      <guid>/talk/example-talk/</guid>
       <description>&lt;p&gt;Embed your slides or video here using &lt;a href=&#34;https://sourcethemes.com/academic/post/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;. Further details can easily be added using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>On Generalizing Ordered Cumulative Regression Models</title>
-      <link>https://rwalker.netlify.com/publication/gen-ord-regression/</link>
+      <link>/publication/gen-ord-regression/</link>
       <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/publication/gen-ord-regression/</guid>
+      <guid>/publication/gen-ord-regression/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Bond Ratings</title>
-      <link>https://rwalker.netlify.com/project/bond-ratings/</link>
+      <link>/project/bond-ratings/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/project/bond-ratings/</guid>
+      <guid>/project/bond-ratings/</guid>
       <description>&lt;p&gt;There will be content.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Generalized Ordered Regression Models</title>
-      <link>https://rwalker.netlify.com/project/gen-ord-logit/</link>
+      <link>/project/gen-ord-logit/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/project/gen-ord-logit/</guid>
+      <guid>/project/gen-ord-logit/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Oregon Property Taxes</title>
-      <link>https://rwalker.netlify.com/project/prop-tax/</link>
+      <link>/project/prop-tax/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/project/prop-tax/</guid>
+      <guid>/project/prop-tax/</guid>
       <description>&lt;p&gt;Fred Thompson, Kawika Pierson, and I have written a few papers on the odd property tax limitations in Oregon.  Basically, there is a cap on the rate of growth and no reset at sale provision so assessment quality suffers tremendously.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Property Tax Fairness in Multnomah County, Oregon</title>
-      <link>https://rwalker.netlify.com/publication/cjpp-ptw/</link>
+      <link>/publication/cjpp-ptw/</link>
       <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/publication/cjpp-ptw/</guid>
+      <guid>/publication/cjpp-ptw/</guid>
       <description></description>
     </item>
     
     <item>
       <title>The State, Property Rights, and the Middle Class: Empirical Support for an Aristotelian Observation</title>
-      <link>https://rwalker.netlify.com/publication/midclas2/</link>
+      <link>/publication/midclas2/</link>
       <pubDate>Sun, 01 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/publication/midclas2/</guid>
+      <guid>/publication/midclas2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>A Tale of Two Cities: Learning from Oregon&#39;s Property Tax Administration</title>
-      <link>https://rwalker.netlify.com/publication/ttc-proptaxmc/</link>
+      <link>/publication/ttc-proptaxmc/</link>
       <pubDate>Mon, 02 Sep 2013 00:00:00 +0000</pubDate>
       
-      <guid>https://rwalker.netlify.com/publication/ttc-proptaxmc/</guid>
+      <guid>/publication/ttc-proptaxmc/</guid>
       <description></description>
     </item>
     
