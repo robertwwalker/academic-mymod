@@ -1,13 +1,13 @@
 ---
-title: Longitudinal Panel Data R Packages
-author: Robert W. Walker
+title: "Longitudinal Panel Data R Packages"
+author: "Robert W. Walker"
 date: '2018-02-24'
 slug: panel-data-r-packages
-categories: []
 tags:
-  - Essex
-  - R
-  - panel data
+- Essex
+- R
+- panel data
+categories: []
 ---
 
 # Longitudinal and Panel Data Analysis in R
@@ -28,15 +28,13 @@ There are common transformations undertaken on the data prior to analysis.  For 
 
 $$ x^{W}_{it} = x_{it} - \overline{x}_{i} $$
 
-The within-transformed data are of identical dimensions to the untransformed data.  The other common transformation isolates the $n-vector$ of unit means -- the so-called *between* transformation.
-
-Because the dimensions are non-overlapping/orthogonal; the key result in the applied statistics shows that the total variation in a variable $x$ is the sum of the *within* variance and the *between* variance.
+The within-transformed data are of identical dimensions to the untransformed data.  The other common transformation isolates the $n-vector$ of unit means -- the so-called *between* data.  Because the dimensions are non-overlapping/orthogonal; the key result in the applied statistics shows that the total variation in a variable $x$ is the sum of the *within* variance and the *between* variance.
 
 # Some Basic Summary
 
 *dplyr* makes the basic summary and presentation quite straightforward.  `plm` contains a few datasets; I will choose an excerpt from Summers and Heston's Penn World Tables -- *SumHes*.
 
-```{r DataSum}
+```{r DataSum, message=FALSE, warning=FALSE}
 library(plm)
 library(tidyverse)
 library(dplyr)
@@ -46,13 +44,72 @@ summary(SumHes)
 
 To actually summarize the data in an appropriate fashion, we will use *dplyr* and *summarise* after grouping the data by *country*.
 
-```{r dplyrAn1}
-Sum.Table <- SumHes %>%
-              group_by(country) %>%
-              summarise(mean.gdp=mean(gdp),sd.w.gdp=sd(gdp), mean.pop=mean(pop), sd.w.pop=sd(pop), mean.sr=mean(sr), sd.w.sr=sd(sr))
-Sum.Table
+```{r xtsum1, message=FALSE,warning=FALSE}
+library(tidyverse)
+library(rlang)
+library(haven)
+nlswork <- read_stata("http://www.stata-press.com/data/r13/nlswork.dta")
+nlswork2 <- nlswork
+nlswork2$race <- as.character(nlswork$race)
+xtsum <- function(formula, data) {
+  require(rlang)
+  require(tidyverse)
+  pform <- terms(formula, data=data)
+  unit <- pform[[2]]
+  vars <- attr(pform, "term.labels")
+  cls <- sapply(data, class)
+  data <- data %>% select(which(cls%in%c("numeric","integer")))
+  varnames <- intersect(names(data),vars)
+  sumfunc <- function(data=data, varname, unit) {
+  loc.unit <- enquo(unit)
+  varname <- ensym(varname)
+    ores <- data %>% filter(!is.na(!! varname)==TRUE) %>% summarise(
+    O.mean=round(mean(`$`(data, !! varname), na.rm=TRUE), digits=3),
+    O.sd=round(sd(`$`(data, !! varname), na.rm=TRUE), digits=3), 
+    O.min = min(`$`(data, !! varname), na.rm=TRUE), 
+    O.max=max(`$`(data, !! varname), na.rm=TRUE), 
+    O.SumSQ=round(sum(scale(`$`(data, !! varname), center=TRUE, scale=FALSE)^2, na.rm=TRUE), digits=3), 
+    O.N=sum(as.numeric((!is.na(`$`(data, !! varname))))))
+ bmeans <- data %>% filter(!is.na(!! varname)==TRUE) %>% group_by(!! loc.unit) %>% summarise(
+   meanx=mean(`$`(.data, !! varname), na.rm=T), 
+   t.count=sum(as.numeric(!is.na(`$`(.data, !! varname)))))
+  bres <- bmeans %>% ungroup() %>% summarise(
+    B.sd = round(sd(meanx, na.rm=TRUE), digits=3),
+    B.min = min(meanx, na.rm=TRUE), 
+    B.max=max(meanx, na.rm=TRUE), 
+    Units=sum(as.numeric(!is.na(t.count))), 
+    t.bar=round(mean(t.count, na.rm=TRUE), digits=3))
+  wdat <- data %>% filter(!is.na(!! varname)==TRUE) %>% group_by(!! loc.unit) %>% mutate(
+    W.x = scale(`$`(.data,!! varname), scale=FALSE))
+  wres <- wdat %>% ungroup() %>% summarise(
+    W.sd=round(sd(W.x, na.rm=TRUE), digits=3), 
+    W.min=min(W.x, na.rm=TRUE), 
+    W.max=max(W.x, na.rm=TRUE), 
+    W.SumSQ=round(sum(W.x^2, na.rm=TRUE), digits=3))
+    W.Ratio <- round(wres$W.SumSQ/ores$O.SumSQ, digits=3)
+  return(c(ores,bres,wres,Within.Ovr.Ratio=W.Ratio))
+  }
+res1 <- sapply(varnames, function(x) {sumfunc(data, !!x, !!unit)})
+return(t(res1))
+}  
+xtsum(idcode~., data=nlswork2)
 ```
 
+The previous command takes a panel dataset organized by the unit and decomposes the within and between variance and standard deviation, etc.  To summarize an individual variable in the same fashion, the command XTSUM below should accomplish the task.
+
+```{r XTSUM1V}
+XTSUM <- function(data, varname, unit) {
+  varname <- enquo(varname)
+  unit <- enquo(unit)
+  ores <- nlswork %>% summarise(ovr.mean=mean(!! varname, na.rm=TRUE), ovr.sd=sd(!! varname, na.rm=TRUE), ovr.min = min(!! varname, na.rm=TRUE), ovr.max=max(!! varname, na.rm=TRUE))
+  bmeans <- nlswork %>% group_by(!!unit) %>% summarise(meanx=mean(!! varname, na.rm=T))
+  bres <- bmeans %>% summarise(between.sd = sd(meanx, na.rm=TRUE), between.min = min(meanx, na.rm=TRUE), between.max=max(meanx, na.rm=TRUE), Groups=n())
+  wdat <- nlswork %>% group_by(!!unit) %>% mutate(W.x = scale(!! varname, scale=FALSE))
+  wres <- wdat %>% ungroup() %>% summarise(within.sd=sd(W.x, na.rm=TRUE), within.min=min(W.x, na.rm=TRUE), within.max=max(W.x, na.rm=TRUE))
+  return(list(ores=ores,bres=bres,wres=wres))
+}
+XTSUM(nlswork, varname=hours, unit=idcode)
+```
 
 # Models for panel data: Standard models in *plm()*
 
@@ -87,3 +144,8 @@ LM models are designed to deal with univariate and multivariate longitudinal dat
 ```
 
 The [preprint](https://arxiv.org/pdf/1501.04448.pdf) is here.
+
+# *cquad*
+
+In the study of non-linear panel data models, unobserved heterogeneity and state dependence are hardest with the least information -- binary outcomes.  The *cquad* package for Stata and R utilizes an approach by Bartolucci and Nigro described in [Bartolucci and Pigini](https://www.jstatsoft.org/article/view/v078i07/v78i07.pdf).
+

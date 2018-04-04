@@ -1,13 +1,13 @@
 ---
-title: Longitudinal Panel Data R Packages
-author: Robert W. Walker
+title: "Longitudinal Panel Data R Packages"
+author: "Robert W. Walker"
 date: '2018-02-24'
 slug: panel-data-r-packages
-categories: []
 tags:
-  - Essex
-  - R
-  - panel data
+- Essex
+- R
+- panel data
+categories: []
 ---
 
 
@@ -25,27 +25,15 @@ tags:
 <h2>Common transformations: ANOVA</h2>
 <p>There are common transformations undertaken on the data prior to analysis. For example, the <em>within</em> transformation that underlies a <em>fixed effects</em> regression model transforms each vector of data (for <span class="math inline">\(i\)</span>) as follows:</p>
 <p><span class="math display">\[ x^{W}_{it} = x_{it} - \overline{x}_{i} \]</span></p>
-<p>The within-transformed data are of identical dimensions to the untransformed data. The other common transformation isolates the <span class="math inline">\(n-vector\)</span> of unit means – the so-called <em>between</em> transformation.</p>
-<p>Because the dimensions are non-overlapping/orthogonal; the key result in the applied statistics shows that the total variation in a variable <span class="math inline">\(x\)</span> is the sum of the <em>within</em> variance and the <em>between</em> variance.</p>
+<p>The within-transformed data are of identical dimensions to the untransformed data. The other common transformation isolates the <span class="math inline">\(n-vector\)</span> of unit means – the so-called <em>between</em> data. Because the dimensions are non-overlapping/orthogonal; the key result in the applied statistics shows that the total variation in a variable <span class="math inline">\(x\)</span> is the sum of the <em>within</em> variance and the <em>between</em> variance.</p>
 </div>
 </div>
 <div id="some-basic-summary" class="section level1">
 <h1>Some Basic Summary</h1>
 <p><em>dplyr</em> makes the basic summary and presentation quite straightforward. <code>plm</code> contains a few datasets; I will choose an excerpt from Summers and Heston’s Penn World Tables – <em>SumHes</em>.</p>
-<pre class="r"><code>library(plm)</code></pre>
-<pre><code>## Loading required package: Formula</code></pre>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-## ✔ tibble  1.3.4     ✔ dplyr   0.7.4
-## ✔ tidyr   0.7.2     ✔ stringr 1.3.0
-## ✔ readr   1.1.1     ✔ forcats 0.2.0</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::between() masks plm::between()
-## ✖ dplyr::filter()  masks stats::filter()
-## ✖ dplyr::lag()     masks plm::lag(), stats::lag()
-## ✖ dplyr::lead()    masks plm::lead()</code></pre>
-<pre class="r"><code>library(dplyr)
+<pre class="r"><code>library(plm)
+library(tidyverse)
+library(dplyr)
 data(SumHes)
 summary(SumHes)</code></pre>
 <pre><code>##       year              country      opec       com      
@@ -65,24 +53,123 @@ summary(SumHes)</code></pre>
 ##  Max.   :1051013   Max.   :16570   Max.   :45.50  
 ## </code></pre>
 <p>To actually summarize the data in an appropriate fashion, we will use <em>dplyr</em> and <em>summarise</em> after grouping the data by <em>country</em>.</p>
-<pre class="r"><code>Sum.Table &lt;- SumHes %&gt;%
-              group_by(country) %&gt;%
-              summarise(mean.gdp=mean(gdp),sd.w.gdp=sd(gdp), mean.pop=mean(pop), sd.w.pop=sd(pop), mean.sr=mean(sr), sd.w.sr=sd(sr))
-Sum.Table</code></pre>
-<pre><code>## # A tibble: 125 x 7
-##           country  mean.gdp  sd.w.gdp   mean.pop   sd.w.pop   mean.sr
-##            &lt;fctr&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
-##  1        ALGERIA 2143.0385 551.36402 15346.5769 3430.01994 21.811538
-##  2         ANGOLA  904.4615 209.14573  6456.6538 1160.09175  3.638462
-##  3          BENIN 1094.1538  55.27654  2904.7308  596.99464  6.492308
-##  4       BOTSWANA 1198.6923 576.04470   722.3077  183.67379 19.765385
-##  5   BURKINA FASO  425.8077  42.87565  5997.0769 1023.43984  6.880769
-##  6        BURUNDI  471.1154  63.99645  3637.4615  541.38646  4.403846
-##  7       CAMEROON  917.8077 257.73491  7230.4615 1457.02143  7.776923
-##  8 CAPE VERDE IS.  631.1923 198.28263   264.6923   34.50422 23.603846
-##  9 CENTRAL AFR.R.  697.0385  45.59954  2016.3077  307.93113  6.803846
-## 10           CHAD  623.6538 146.39233  3909.3462  590.55811  2.084615
-## # ... with 115 more rows, and 1 more variables: sd.w.sr &lt;dbl&gt;</code></pre>
+<pre class="r"><code>library(tidyverse)
+library(rlang)
+library(haven)
+nlswork &lt;- read_stata(&quot;http://www.stata-press.com/data/r13/nlswork.dta&quot;)
+nlswork2 &lt;- nlswork
+nlswork2$race &lt;- as.character(nlswork$race)
+xtsum &lt;- function(formula, data) {
+  require(rlang)
+  require(tidyverse)
+  pform &lt;- terms(formula, data=data)
+  unit &lt;- pform[[2]]
+  vars &lt;- attr(pform, &quot;term.labels&quot;)
+  cls &lt;- sapply(data, class)
+  data &lt;- data %&gt;% select(which(cls%in%c(&quot;numeric&quot;,&quot;integer&quot;)))
+  varnames &lt;- intersect(names(data),vars)
+  sumfunc &lt;- function(data=data, varname, unit) {
+  loc.unit &lt;- enquo(unit)
+  varname &lt;- ensym(varname)
+    ores &lt;- data %&gt;% filter(!is.na(!! varname)==TRUE) %&gt;% summarise(
+    O.mean=round(mean(`$`(data, !! varname), na.rm=TRUE), digits=3),
+    O.sd=round(sd(`$`(data, !! varname), na.rm=TRUE), digits=3), 
+    O.min = min(`$`(data, !! varname), na.rm=TRUE), 
+    O.max=max(`$`(data, !! varname), na.rm=TRUE), 
+    O.SumSQ=round(sum(scale(`$`(data, !! varname), center=TRUE, scale=FALSE)^2, na.rm=TRUE), digits=3), 
+    O.N=sum(as.numeric((!is.na(`$`(data, !! varname))))))
+ bmeans &lt;- data %&gt;% filter(!is.na(!! varname)==TRUE) %&gt;% group_by(!! loc.unit) %&gt;% summarise(
+   meanx=mean(`$`(.data, !! varname), na.rm=T), 
+   t.count=sum(as.numeric(!is.na(`$`(.data, !! varname)))))
+  bres &lt;- bmeans %&gt;% ungroup() %&gt;% summarise(
+    B.sd = round(sd(meanx, na.rm=TRUE), digits=3),
+    B.min = min(meanx, na.rm=TRUE), 
+    B.max=max(meanx, na.rm=TRUE), 
+    Units=sum(as.numeric(!is.na(t.count))), 
+    t.bar=round(mean(t.count, na.rm=TRUE), digits=3))
+  wdat &lt;- data %&gt;% filter(!is.na(!! varname)==TRUE) %&gt;% group_by(!! loc.unit) %&gt;% mutate(
+    W.x = scale(`$`(.data,!! varname), scale=FALSE))
+  wres &lt;- wdat %&gt;% ungroup() %&gt;% summarise(
+    W.sd=round(sd(W.x, na.rm=TRUE), digits=3), 
+    W.min=min(W.x, na.rm=TRUE), 
+    W.max=max(W.x, na.rm=TRUE), 
+    W.SumSQ=round(sum(W.x^2, na.rm=TRUE), digits=3))
+    W.Ratio &lt;- round(wres$W.SumSQ/ores$O.SumSQ, digits=3)
+  return(c(ores,bres,wres,Within.Ovr.Ratio=W.Ratio))
+  }
+res1 &lt;- sapply(varnames, function(x) {sumfunc(data, !!x, !!unit)})
+return(t(res1))
+}  
+xtsum(idcode~., data=nlswork2)</code></pre>
+<pre><code>##          O.mean O.sd   O.min O.max    O.SumSQ  O.N   B.sd   B.min B.max   
+## year     77.959 6.384  68    88       1162831  28534 5.157  68    88      
+## birth_yr 48.085 3.013  41    54       258999.4 28534 3.052  41    54      
+## age      29.045 6.701  14    46       1279992  28510 5.486  14    45      
+## msp      0.603  0.489  0     1        6827.437 28518 0.398  0     1       
+## nev_mar  0.23   0.421  0     1        5045.599 28518 0.368  0     1       
+## grade    12.533 2.324  0     18       154082.7 28532 2.567  0     18      
+## collgrad 0.168  0.374  0     1        3989.224 28534 0.405  0     1       
+## not_smsa 0.282  0.45   0     1        5781.348 28526 0.411  0     1       
+## c_city   0.357  0.479  0     1        6549.949 28526 0.427  0     1       
+## south    0.41   0.492  0     1        6898.155 28526 0.467  0     1       
+## ind_code 7.693  2.994  1     12       252718.4 28193 2.543  1     12      
+## occ_code 4.778  3.065  1     13       266984.6 28413 2.865  1     13      
+## union    0.234  0.424  0     1        3452.712 19238 0.334  0     1       
+## wks_ue   2.548  7.294  0     76       1214713  22830 5.181  0     76      
+## ttl_exp  6.215  4.652  0     28.88461 617516.8 28534 3.724  0     24.7062 
+## tenure   3.124  3.751  0     25.91667 395453.2 28101 2.797  0     21.16667
+## hours    36.56  9.87   1     168      2772858  28467 7.847  1     83.5    
+## wks_work 53.989 29.032 0     104      23457236 27831 20.645 0     104     
+## ln_wage  1.675  0.478  0     5.263916 6521.884 28534 0.425  0     3.912023
+##          Units t.bar W.sd  W.min      W.max     W.SumSQ  Within.Ovr.Ratio
+## year     4711  6.057 5.138 -14.16667  14.75     753323.2 0.648           
+## birth_yr 4711  6.057 0     0          0         0        0               
+## age      4710  6.053 5.169 -14.25     14.75     761852.2 0.595           
+## msp      4711  6.053 0.324 -0.9333333 0.9333333 2991.619 0.438           
+## nev_mar  4711  6.053 0.246 -0.9333333 0.9333333 1720.909 0.341           
+## grade    4709  6.059 0     0          0         0        0               
+## collgrad 4711  6.057 0     0          0         0        0               
+## not_smsa 4711  6.055 0.183 -0.9285714 0.9333333 959.921  0.166           
+## c_city   4711  6.055 0.249 -0.9333333 0.9333333 1768.61  0.27            
+## south    4711  6.055 0.16  -0.9333333 0.9333333 728.353  0.106           
+## ind_code 4695  6.005 1.708 -9.2       9.428571  82284.83 0.326           
+## occ_code 4699  6.047 1.65  -10.3      10.66667  77374.88 0.29            
+## union    4150  4.636 0.267 -0.9166667 0.9166667 1369.971 0.397           
+## wks_ue   4645  4.915 6.054 -36.5      61.83333  836703.7 0.689           
+## ttl_exp  4711  6.057 3.484 -15.85799  14.1656   346367.2 0.561           
+## tenure   4699  5.98  2.66  -17.40278  12.5      198792.1 0.503           
+## hours    4710  6.044 7.521 -38.71429  93.5      1610069  0.581           
+## wks_work 4686  5.939 23.97 -72.42857  77.16667  15990016 0.682           
+## ln_wage  4711  6.057 0.293 -2.082629  3.108762  2443.848 0.375</code></pre>
+<p>The previous command takes a panel dataset organized by the unit and decomposes the within and between variance and standard deviation, etc. To summarize an individual variable in the same fashion, the command XTSUM below should accomplish the task.</p>
+<pre class="r"><code>XTSUM &lt;- function(data, varname, unit) {
+  varname &lt;- enquo(varname)
+  unit &lt;- enquo(unit)
+  ores &lt;- nlswork %&gt;% summarise(ovr.mean=mean(!! varname, na.rm=TRUE), ovr.sd=sd(!! varname, na.rm=TRUE), ovr.min = min(!! varname, na.rm=TRUE), ovr.max=max(!! varname, na.rm=TRUE))
+  bmeans &lt;- nlswork %&gt;% group_by(!!unit) %&gt;% summarise(meanx=mean(!! varname, na.rm=T))
+  bres &lt;- bmeans %&gt;% summarise(between.sd = sd(meanx, na.rm=TRUE), between.min = min(meanx, na.rm=TRUE), between.max=max(meanx, na.rm=TRUE), Groups=n())
+  wdat &lt;- nlswork %&gt;% group_by(!!unit) %&gt;% mutate(W.x = scale(!! varname, scale=FALSE))
+  wres &lt;- wdat %&gt;% ungroup() %&gt;% summarise(within.sd=sd(W.x, na.rm=TRUE), within.min=min(W.x, na.rm=TRUE), within.max=max(W.x, na.rm=TRUE))
+  return(list(ores=ores,bres=bres,wres=wres))
+}
+XTSUM(nlswork, varname=hours, unit=idcode)</code></pre>
+<pre><code>## $ores
+## # A tibble: 1 x 4
+##   ovr.mean ovr.sd ovr.min ovr.max
+##      &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1     36.6   9.87      1.    168.
+## 
+## $bres
+## # A tibble: 1 x 4
+##   between.sd between.min between.max Groups
+##        &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;  &lt;int&gt;
+## 1       7.85          1.        83.5   4711
+## 
+## $wres
+## # A tibble: 1 x 3
+##   within.sd within.min within.max
+##       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1      7.52      -38.7       93.5</code></pre>
 </div>
 <div id="models-for-panel-data-standard-models-in-plm" class="section level1">
 <h1>Models for panel data: Standard models in <em>plm()</em></h1>
@@ -113,4 +200,8 @@ Sum.Table</code></pre>
 <h1>Latent Markov models with <em>LMest()</em></h1>
 <pre><code>LM models are designed to deal with univariate and multivariate longitudinal data based on the repeated observation of a panel of subjects across time. More in detail, LM models are specially tailored to study the evolution of an individual characteristic of interest that is not directly observable. This characteristic is represented by a latent process following a Markov chain as in a Hidden Markov (HM) model (Zucchini and MacDonald, 2009). These models also allow us to account for time-varying unobserved heterogeneity in addition to the effect of observable covariates on the response variables.</code></pre>
 <p>The <a href="https://arxiv.org/pdf/1501.04448.pdf">preprint</a> is here.</p>
+</div>
+<div id="cquad" class="section level1">
+<h1><em>cquad</em></h1>
+<p>In the study of non-linear panel data models, unobserved heterogeneity and state dependence are hardest with the least information – binary outcomes. The <em>cquad</em> package for Stata and R utilizes an approach by Bartolucci and Nigro described in <a href="https://www.jstatsoft.org/article/view/v078i07/v78i07.pdf">Bartolucci and Pigini</a>.</p>
 </div>

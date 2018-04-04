@@ -142,6 +142,9 @@ stored &lt;- state.SE %&gt;% group_by(state) %&gt;% filter(state%in%c(names(tabl
     ylim(-4,4) + facet_wrap(~state)
 stored</code></pre>
 <p><img src="/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5b-1.png" width="672" /></p>
+</div>
+<div id="the-third-group" class="section level3">
+<h3>The Third Group</h3>
 <pre class="r"><code>stored &lt;- list()
 stored &lt;- state.SE %&gt;% group_by(state) %&gt;% filter(state%in%c(names(table(state.SE$state))[c(33:46)])) %&gt;%
   ggplot(., aes(x=year, y=Credit.Quality)) + theme_minimal() + theme(axis.text.x  = element_text(angle=60)) +
@@ -153,5 +156,44 @@ stored &lt;- state.SE %&gt;% group_by(state) %&gt;% filter(state%in%c(names(tabl
 stored</code></pre>
 <p><img src="/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5c-1.png" width="672" /></p>
 </div>
+</div>
+<div id="the-panel-data-properties" class="section level2">
+<h2>The Panel Data Properties</h2>
+<p>Panel data estmators for linear problems benefit from a very useful decomposition from ANOVA. The total variation in a variable can be decomposed into two components: a within-unit or short-run component and a between-unit averages component (that is constant for any given unit). It is always important, as emphasised in the modelling in Mundlak (1977), to consider the variance components because they conttribute insights into the nature of inferences by telling us how much information and of what sort is contained in each indicator. The number of controls in the study is manageable so in depth analysis is possible.</p>
+</div>
+<div id="analysing-the-scaled-data" class="section level2">
+<h2>Analysing the Scaled Data</h2>
+<p>With continuous measures on the response imputed over 10,000 samples, we can turn to an analysis of these samples to reexamine the dynamics of rainy day fund expenditures on bond ratings.</p>
+<pre class="r"><code>library(haven)
+nlswork &lt;- read_stata(&quot;http://www.stata-press.com/data/r13/nlswork.dta&quot;)
+library(dplyr)
+XTSUM &lt;- function(data, varname, unit) {
+  varname &lt;- enquo(varname)
+  unit &lt;- enquo(unit)
+  ores &lt;- nlswork %&gt;% summarise(ovr.mean=mean(!! varname, na.rm=TRUE), ovr.sd=sd(!! varname, na.rm=TRUE), ovr.min = min(!! varname, na.rm=TRUE), ovr.max=max(!! varname, na.rm=TRUE), N.overall=sum(as.numeric(!is.na(!! varname))))
+  bmeans &lt;- nlswork %&gt;% group_by(!!unit) %&gt;% summarise(meanx=mean(!! varname, na.rm=T), t.count=sum(as.numeric(!is.na(!! varname))))
+  bres &lt;- bmeans %&gt;% summarise(between.sd = sd(meanx, na.rm=TRUE), between.min = min(meanx, na.rm=TRUE), between.max=max(meanx, na.rm=TRUE), t.bar=mean(t.count, na.rm=TRUE), Groups=n())
+  wdat &lt;- nlswork %&gt;% group_by(!!unit) %&gt;% mutate(W.x = scale(!! varname, scale=FALSE))
+  wres &lt;- wdat %&gt;% ungroup() %&gt;% summarise(within.sd=sd(W.x, na.rm=TRUE), within.min=min(W.x, na.rm=TRUE), within.max=max(W.x, na.rm=TRUE))
+  return(list(ores=ores,bres=bres,wres=wres))
+}
+XTSUM(nlswork, varname=hours, unit=idcode)</code></pre>
+<pre><code>## $ores
+## # A tibble: 1 x 5
+##   ovr.mean ovr.sd ovr.min ovr.max N.overall
+##      &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+## 1     36.6   9.87      1.    168.    28467.
+## 
+## $bres
+## # A tibble: 1 x 5
+##   between.sd between.min between.max t.bar Groups
+##        &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt;
+## 1       7.85          1.        83.5  6.04   4711
+## 
+## $wres
+## # A tibble: 1 x 3
+##   within.sd within.min within.max
+##       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1      7.52      -38.7       93.5</code></pre>
 </div>
 </div>

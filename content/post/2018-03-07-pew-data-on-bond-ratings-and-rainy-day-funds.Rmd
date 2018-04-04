@@ -123,6 +123,8 @@ stored <- state.SE %>% group_by(state) %>% filter(state%in%c(names(table(state.S
 stored
 ```
 
+### The Third Group
+
 ```{r Plot5c}
 stored <- list()
 stored <- state.SE %>% group_by(state) %>% filter(state%in%c(names(table(state.SE$state))[c(33:46)])) %>%
@@ -134,3 +136,90 @@ stored <- state.SE %>% group_by(state) %>% filter(state%in%c(names(table(state.S
     ylim(-4,4) + facet_wrap(~state)
 stored
 ```
+
+## The Panel Data Properties
+
+Panel data estmators for linear problems benefit from a very useful decomposition from ANOVA.  The total variation in a variable can be decomposed into two components: a within-unit or short-run component and a between-unit averages component (that is constant for any given unit).  It is always important, as emphasised in the modelling in Mundlak (1977), to consider the variance components because they conttribute insights into the nature of inferences by telling us how much information and of what sort is contained in each indicator.  The number of controls in the study is manageable so in depth analysis is possible.
+
+```{r AnX, eval=FALSE, echo=FALSE}
+XTSUM <- function(data, varname, units) {
+  myf <- paste(varname, " ~ as.factor()", sep="")
+  lm.res <-  data %>% lm( as.formula(myf), data=.)
+  anova.res <-anova(lm.res)
+  lm.resF <-  data %>% filter(fund==1) %>% lm( as.formula(myf), data=.)
+  anova.resF <-anova(lm.res)
+  return(list(varname=varname,
+            Groups=anova.res$`Df`[[1]],
+            Obs=anova.res$`Df`[[1]],
+            r.sq.Between=summary(lm.res)$r.squared, 
+            Between.SumSq=anova.res$`Sum Sq`[[1]], 
+            Between.MeanSq=anova.res$`Mean Sq`[[1]], 
+            Between.SD=sqrt(anova.res$`Mean Sq`[[1]]),
+            Within.SumSq=anova.res$`Sum Sq`[[2]],
+            Within.MeanSq=anova.res$`Mean Sq`[[2]], 
+            Within.SD=sqrt(anova.res$`Mean Sq`[[2]]),
+            F.Groups=anova.resF$`Df`[[1]],
+            F.r.sq.Between=summary(lm.resF)$r.squared, 
+            F.Between.SumSq=anova.resF$`Sum Sq`[[1]], 
+            F.Between.MeanSq=anova.resF$`Mean Sq`[[1]], 
+            F.Between.SD=sqrt(anova.resF$`Mean Sq`[[1]]),
+            F.Within.SumSq=anova.resF$`Sum Sq`[[2]],
+            F.Within.MeanSq=anova.resF$`Mean Sq`[[2]], 
+            F.Within.SD=sqrt(anova.resF$`Mean Sq`[[2]])))
+}
+sum.vars <- list("rdfbal","valenceusagegfe","gfebal","longdebt","shortdebt","population","pop65")
+sapply(sum.vars, function(x) XTSUM(Pew.Data, varname=x))
+```
+
+
+## Analysing the Scaled Data
+
+With continuous measures on the response imputed over 10,000 samples, we can turn to an analysis of these samples to reexamine the dynamics of rainy day fund expenditures on bond ratings.
+
+
+```{r xtsum1}
+library(haven)
+nlswork <- read_stata("http://www.stata-press.com/data/r13/nlswork.dta")
+library(dplyr)
+XTSUM <- function(data, varname, unit) {
+  varname <- enquo(varname)
+  unit <- enquo(unit)
+  ores <- nlswork %>% summarise(ovr.mean=mean(!! varname, na.rm=TRUE), ovr.sd=sd(!! varname, na.rm=TRUE), ovr.min = min(!! varname, na.rm=TRUE), ovr.max=max(!! varname, na.rm=TRUE), N.overall=sum(as.numeric(!is.na(!! varname))))
+  bmeans <- nlswork %>% group_by(!!unit) %>% summarise(meanx=mean(!! varname, na.rm=T), t.count=sum(as.numeric(!is.na(!! varname))))
+  bres <- bmeans %>% summarise(between.sd = sd(meanx, na.rm=TRUE), between.min = min(meanx, na.rm=TRUE), between.max=max(meanx, na.rm=TRUE), t.bar=mean(t.count, na.rm=TRUE), Groups=n())
+  wdat <- nlswork %>% group_by(!!unit) %>% mutate(W.x = scale(!! varname, scale=FALSE))
+  wres <- wdat %>% ungroup() %>% summarise(within.sd=sd(W.x, na.rm=TRUE), within.min=min(W.x, na.rm=TRUE), within.max=max(W.x, na.rm=TRUE))
+  return(list(ores=ores,bres=bres,wres=wres))
+}
+XTSUM(nlswork, varname=hours, unit=idcode)
+```
+
+
+
+```{r XTSUMOLD, eval=FALSE, echo=FALSE}
+myf <- paste(varname, " ~ as.factor(",unit,")", sep="")
+   lm.res <-  data %>% lm( as.formula(myf), data=., x=TRUE, y=TRUE, na.action=na.omit)
+   anova.res <-anova(lm.res)
+   OVM <- mean(lm.res$y, na.rm=TRUE)
+   OSD <- sd(lm.res$y, na.rm=TRUE)
+   return(list(Variable=varname,
+             Groups=paste(unit),
+             n=anova.res$`Df`[[1]]+1,
+             Obs=length(lm.res$y),
+             Overall.mean=OVM,
+             Overall.sd=OSD,
+             Overall.min=min(lm.res$y, na.rm=TRUE),
+             Overall.max=max(lm.res$y, na.rm=TRUE),
+             r.sq.Between=summary(lm.res)$r.squared, 
+             Between.SumSq=anova.res$`Sum Sq`[[1]], 
+             Between.MeanSq=anova.res$`Mean Sq`[[1]], 
+             Between.SD=sqrt(anova.res$`Mean Sq`[[1]]*(anova.res$`Df`[[1]]/(anova.res$`Df`[[1]]+1))),
+             Within.SumSq=anova.res$`Sum Sq`[[2]],
+             Within.MeanSq=anova.res$`Mean Sq`[[2]], 
+             Within.SD=sqrt(anova.res$`Mean Sq`[[2]]*(anova.res$`Df`[[2]]/sum(anova.res$`Df`))),
+             Min.Within=min(lm.res$residuals, na.rm=TRUE)+OVM,
+             Max.Within=max(lm.res$residuals, na.rm=TRUE)+OVM)
+          )
+}
+```
+
