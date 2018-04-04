@@ -18,7 +18,7 @@
       <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>https://rwalker.netlify.com/post/tidytuesday-tuition/</guid>
-      <description>I found a great example on tidyTuesday that I wanted to work on. A simple embedded line plot that uses color in a creative way. All of the R code for this is on GitHub. I did not add much. All I wanted was some idea of how the growth rates correspond over the period. I added a cumulative growth rate and encoded the color scheme with it enabling me to play with viridis.</description>
+      <description>I found a great example on tidyTuesday that I wanted to work on. @JKaupp Jake Kaupp used this very cool line plot to show the change in average tuition over a ten year period. I loved it. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on [@JKaupp-GitHub](https://github.com/jkaupp). The specific file is here.</description>
     </item>
     
     <item>

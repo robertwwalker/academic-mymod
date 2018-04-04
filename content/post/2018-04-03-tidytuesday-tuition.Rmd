@@ -12,7 +12,7 @@ tags:
   - tidyTuesday
 ---
 
-I found a great example on tidyTuesday that I wanted to work on.  A simple embedded line plot that uses color in a creative way.  All of the R code for this is on [GitHub](https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R).  I did not add much.  All I wanted was some idea of how the growth rates correspond over the period.  I added a cumulative growth rate and encoded the color scheme with it enabling me to play with *viridis*.  The *col_tab* is my creation.
+I found a great example on tidyTuesday that I wanted to work on.  `@JKaupp` Jake Kaupp used this very cool line plot to show the change in average tuition over a ten year period.  I loved it.  The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates.  All of the R code for this is on [@JKaupp-GitHub](https://github.com/jkaupp).  The specific file is [here](https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R).  I did not add much.  All I wanted was some idea of how the growth rates correspond over the period.  I added a cumulative growth rate and encoded the color scheme with it enabling me to play with *viridis*.  The *col_tab* is my creation.  I also moved around the labels so that everyone gets a color coded label and we can see who is where, more or less.  Enjoy!
 
 ```{r BorrowedCode, message=FALSE, warning=FALSE, fig.height=8, fig.width=8}
 library(here)
