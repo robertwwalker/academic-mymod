@@ -16,21 +16,51 @@
       <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/tidytuesday-tuition/</guid>
-      <description>&lt;p&gt;I found a great example on tidyTuesday that I wanted to work on. &lt;code&gt;@JKaupp&lt;/code&gt; Jake Kaupp used this very cool line plot to show the change in average tuition over a ten year period. I loved it. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on &lt;a href=&#34;https://github.com/jkaupp&#34;&gt;Jake Kaupp’s GitHub&lt;/a&gt;. The specific file is &lt;a href=&#34;https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R&#34;&gt;here&lt;/a&gt;. I did not add much. All I wanted was some idea of how the growth rates correspond over the period. I added a cumulative growth rate and encoded the color scheme with it enabling me to play with &lt;em&gt;viridis&lt;/em&gt;. The &lt;em&gt;col_tab&lt;/em&gt; is my creation. I also moved around the labels so that everyone gets a color coded label and we can see who is where, more or less. Enjoy!&lt;/p&gt;
+      <description>&lt;p&gt;I found a great example on tidyTuesday that I wanted to work on. &lt;code&gt;@JakeKaupp&lt;/code&gt; tweeted his &lt;code&gt;#tidyTuesday&lt;/code&gt;: a very cool slope plot of tuition changes averaged by state over the last decade. It is a very informative graphic. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on &lt;a href=&#34;https://github.com/jkaupp&#34;&gt;Jake Kaupp’s GitHub&lt;/a&gt;. The specific file is &lt;a href=&#34;https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R&#34;&gt;here&lt;/a&gt;. I did not add much. All I wanted was some idea of how the growth rates correspond over the period. I added a cumulative growth rate and encoded the color scheme with it enabling me to play with &lt;em&gt;viridis&lt;/em&gt;. The &lt;em&gt;col_tab&lt;/em&gt; is my creation. I also moved around the labels so that everyone gets a color coded label and we can see who is where, more or less. Enjoy!&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(here)
 library(readxl)
 library(tidyverse)
 library(glue)
 library(ggrepel)
-library(psych)
 library(viridis)
 
 tidy_data &amp;lt;-  read_excel(paste0(here(),&amp;quot;/data/tuition/us_avg_tuition.xlsx&amp;quot;)) %&amp;gt;%
   gather(year, avg_tuition, -State) %&amp;gt;%
   rename(state = State)
 
-
 nat_avg &amp;lt;- tidy_data %&amp;gt;%
+  filter(year %in% c(&amp;quot;2005-06&amp;quot;, &amp;quot;2015-16&amp;quot;)) %&amp;gt;%
+  group_by(year) %&amp;gt;%
+  summarize(avg_tuition = mean(avg_tuition)) %&amp;gt;%
+  mutate(state = &amp;quot;National Average&amp;quot;)
+
+
+plot_data &amp;lt;- tidy_data %&amp;gt;%
+  filter(year %in% c(&amp;quot;2005-06&amp;quot;, &amp;quot;2015-16&amp;quot;)) %&amp;gt;%
+  left_join(select(nat_avg, year, nat_avg = avg_tuition), by = &amp;quot;year&amp;quot;) %&amp;gt;%
+  bind_rows(nat_avg)
+
+labels &amp;lt;- plot_data %&amp;gt;%
+  group_by(state) %&amp;gt;%
+  filter(all(avg_tuition &amp;gt; nat_avg)) %&amp;gt;%
+  pull(state) %&amp;gt;%
+  unique()
+
+plot &amp;lt;- plot_data %&amp;gt;%
+  ggplot(., aes(x = year, y = avg_tuition, group = state)) +
+  geom_text_repel(data = filter(plot_data, state %in% labels, year == &amp;quot;2015-16&amp;quot;), aes(label = state), direction = &amp;quot;y&amp;quot;, nudge_x = 0.1, segment.size = 0.1, hjust = 0, family = &amp;quot;Oxygen&amp;quot;, size = 3) +
+  geom_path(color = &amp;quot;grey50&amp;quot;, size = 0.5, alpha = 0.5) +
+  geom_point(color = &amp;quot;grey50&amp;quot;) +
+  geom_path(data = nat_avg, color = &amp;quot;red&amp;quot;, size = 1) +
+  geom_point(data = nat_avg, color = &amp;quot;red&amp;quot;) +
+  scale_y_continuous(labels = scales::dollar) +
+  labs(x = NULL, y = NULL, title = &amp;quot;Comparison of the average US tuition growth between 2005 and 2015&amp;quot;, subtitle = &amp;quot;Eastern and Northeastern students consistently face tutition above the national average, indicated by the red line.&amp;quot;, caption = &amp;quot;\nData: http://trends.collegeboard.org/ | Graphic: @jakekaupp&amp;quot;) +
+  theme_minimal(base_family = &amp;quot;Oswald-Light&amp;quot;) +
+  theme(panel.grid.minor = element_blank())
+print(plot)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-04-03-tidytuesday-tuition_files/figure-html/BorrowedCode-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now I will modify the original that is kept intact above.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nat_avg &amp;lt;- tidy_data %&amp;gt;%
   filter(year %in% c(&amp;quot;2005-06&amp;quot;, &amp;quot;2015-16&amp;quot;)) %&amp;gt;%
   group_by(year) %&amp;gt;%
   summarize(avg_tuition = mean(avg_tuition)) %&amp;gt;%
@@ -67,9 +97,9 @@ my.plot &amp;lt;- plot_data %&amp;gt;%
   labs(x = NULL, y = NULL, title = &amp;quot;Comparison of the average US tuition growth between 2005 and 2015&amp;quot;, subtitle = &amp;quot;Eastern and Northeastern students consistently face tutition above the national average [red line].&amp;quot;, caption = &amp;quot;\nData: http://trends.collegeboard.org/ | Graphic: @jakekaupp | Tweak color:@PieRatio&amp;quot;, cex=0.7) +
   theme_minimal(base_family = &amp;quot;Oswald-Light&amp;quot;) +
   theme(panel.grid.minor = element_blank())
+ggsave(my.plot, filename = glue(&amp;#39;tidyweek-{Sys.Date()}.png&amp;#39;), height = 8, width = 8, dpi = 300)
 print(my.plot)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-03-tidytuesday-tuition_files/figure-html/BorrowedCode-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggsave(my.plot, filename = glue(&amp;#39;tidyweek-{Sys.Date()}.png&amp;#39;), height = 8, width = 8, dpi = 300)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-04-03-tidytuesday-tuition_files/figure-html/ModPlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
