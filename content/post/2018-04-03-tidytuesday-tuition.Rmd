@@ -94,7 +94,7 @@ my.plot <- plot_data %>%
   geom_path(data = nat_avg, color = "red", size = 1) +
   geom_point(data = nat_avg, color = "red") +
   scale_y_continuous(labels = scales::dollar) + 
-  geom_text_repel(data = filter(plot_data, state %in% labels, year == "2015-16"), aes(label = state), direction = "both", nudge_x = 0.4, nudge_y = 1, segment.size = 0.1, family = "Oxygen", size = 2.5) +
+  geom_text_repel(data = filter(plot_data, state %in% labels, year == "2015-16"), aes(label = state), direction = "both", nudge_x = 0.4, nudge_y = 1, segment.size = 0.1, family = "Oxygen", size = 2) +
   labs(x = NULL, y = NULL, title = "Comparison of the average US tuition growth between 2005 and 2015", subtitle = "Eastern and Northeastern students consistently face tutition above the national average [red line].", caption = "\nData: http://trends.collegeboard.org/ | Graphic: @jakekaupp | Tweak color:@PieRatio", cex=0.7) +
   theme_minimal(base_family = "Oswald-Light") +
   theme(panel.grid.minor = element_blank())

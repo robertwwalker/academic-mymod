@@ -1,0 +1,194 @@
+---
+title: Scraping the NFL Salary Cap Data with Python and R
+author: RWW
+date: '2018-04-04'
+slug: scraping-the-nfl-salary-cap-data-with-python-and-r
+categories:
+  - R
+  - tidyverse
+  - python
+  - reticulate
+tags:
+  - tidyverse
+  - R
+  - python
+  - reticulate
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(reticulate)
+use_python("/usr/bin/python3")
+```
+
+# The NFL Data
+
+The key tool is the *SelectorGadget*.  With that, it becomes easy to identify what we need.  I navgiated to the website in base_url and found the team names had links to the cap data.  I will use those links first.  Let's build that.
+
+```{r cars}
+library(rvest)
+base_url <- "http://www.spotrac.com/nfl/"
+read.base <- read_html(base_url)
+team.URL <- read.base %>% html_nodes(".team-name") %>% html_attr('href')
+team.URL
+# Clean up the URLs to get the team names by themselves.
+team.names <- gsub("/cap/","", gsub(base_url, "", team.URL))
+```
+
+## Grabbing Team Tables
+
+Now I need to explore those links.
+
+```{python BSoupNFL3}
+import pandas as pd
+import bs4
+import re
+#import urllib
+import requests
+
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+base_url = "http://www.spotrac.com/nfl/"
+
+def get_page(url):
+    page = urlopen(base_url)
+    soup = BeautifulSoup(page, 'lxml')
+    file = open("spotrac_urls.txt", 'w')
+    file.write(str(soup))
+    file.close()
+
+def get_team_table(url):
+    page = urlopen(url)
+    soup = BeautifulSoup(page, 'lxml')
+
+get_page(base_url)
+
+with open("spotrac_urls.txt", 'r') as file:
+    for line in file:
+        line = line.strip()
+
+from bs4 import BeautifulSoup
+page = open("spotrac_urls.txt", 'r')
+soup = BeautifulSoup(page, "lxml")
+div = soup.find("div","subnav-posts")
+
+links = div.find_all('a')
+for link in links:
+    print(link.get('href'))
+
+len(links)
+
+def get_team_table(url):
+    page = urlopen(url)
+    soup = BeautifulSoup(page, 'lxml')
+    data_rows = [row for row in soup.find("table", "datatable").find_all("tr")]
+    return data_rows
+
+# create an empty list
+team_data = []
+
+for link in links:
+    team_data.append(get_team_table(link.get('href')))
+
+len(team_data)
+
+#data_rows = [row for row in soup.find("td", "center").find_all("tr")]
+table_data = []
+
+#soup = BeautifulSoup(team_data[0], 'lxml')
+
+#This needs to be a nested for loop because inner items of the list are BeautifulSoup Elements
+for row in team_data:
+    for element in row:
+        #print(type(element))
+        if soup.find_all("td", attrs={"class":" right xs-hide "}) is not None:
+            table_data.append(element.get_text())
+
+player_data = []
+for row in table_data:
+    player_data.append(row.split("\n"))
+    #print(player_data)
+
+len(player_data)
+
+import pandas as pd
+df = pd.DataFrame(player_data)
+df = df.drop(14, 1)
+df = df.drop(0, 1)
+df = df.drop(1, 1)
+
+
+df = df.drop(df.index[[0]])
+#df.set_index(1, inplace=True)
+print(df.shape)
+df.head()
+
+players = []
+for row in team_data[0]:
+    if row.get_text("tr") is not None:
+        players.append(row) 
+
+column_headers = [col.get_text() for col in players[0].find_all("th") if col.get_text()]
+len(column_headers)
+
+df.columns = column_headers
+df.head()
+
+#The header repeated itself in the data.  This didn't reveal itself until the data type conversion step below
+#but this fixes all occurrences of it.
+rows_to_be_dropped = df.loc[df['Cap Hit'] == 'Cap %'].index
+rows_to_be_kept = df.loc[df['Cap Hit'] != 'Cap %'].index
+df = df.drop(rows_to_be_dropped)
+df2 = pd.Series(data=rows_to_be_dropped)
+
+#Apply a regex to convert the 'Cap Hit' column from a string to a float.  
+# df['Cap Hit'] =(df['Cap Hit'].replace('[\$,)]', "", regex=True).replace( '[(]','-',   regex=True ).astype(float))
+
+# My fix
+df['Cap.Hit'] = (df['Cap Hit'].replace('[\$,)]', "", regex=True).replace('[-,)]', "", regex=True).replace('\s\s.*', "", regex=True).astype(float))
+df['Base.Salary'] = (df['Base Salary'].replace('[\$,)]', "", regex=True).replace('[-,)]', "", regex=True).astype(float))
+df['Signing.Bonus'] = (df['Signing Bonus'].replace('[\$,)]', "", regex=True).replace('[-,)]', "", regex=True).astype(float))
+df['Roster.Bonus'] = (df['Roster Bonus'].replace('[\$,)]', "", regex=True).replace('[-,)]', "", regex=True).astype(float))
+df['Option.Bonus'] = (df['Option Bonus'].replace('[\$,)]', "", regex=True).replace('[-,)]', "", regex=True).astype(float))
+df['Workout.Bonus'] = (df['Workout Bonus'].replace('[\$,)]', "", regex=True).replace('[-,)]', "", regex=True).astype(float))
+df['Restruc.Bonus'] = (df['Restruc. Bonus'].replace('[\$,)]', "", regex=True).replace('[-,)]', "", regex=True).astype(float))
+df['Misc'] = (df['Misc.'].replace('[\$,)]', "", regex=True).replace('[-,)]', "", regex=True).astype(float))
+df['Dead.Cap'] = (df['Dead Cap'].replace('\(',"",regex=True).replace('\)',"",regex=True).replace('[\$,)]', "", regex=True).replace('[-,)]', "", regex=True).astype(float))
+
+#Sanity check to make sure it worked.
+df['Cap Hit'].sum()
+```
+
+```{r GDF}
+Sal.Data <- py$df
+Team.Cut <- py$df2
+```
+
+The above code pulls the data from the Python environment into R.  Now we can analyse it.
+
+```{r An1}
+library(tidyverse)
+library(skimr)
+names(Sal.Data)[1] <- "Player"
+names(Sal.Data)[2] <- "Position"
+team.names <- gsub("-", " ", team.names)
+simpleCap <- function(x) {
+  s <- strsplit(x, " ")[[1]]
+  paste(toupper(substring(s, 1,1)), substring(s, 2),
+      sep="", collapse=" ")
+}
+team.names <- sapply(team.names, simpleCap)
+Seq.P1 <- diff(c(0,Team.Cut))-1
+Seq.Setter <- c(Seq.P1,dim(Sal.Data)[[1]]-sum(Seq.P1))
+P.by.T <- rep(team.names, times=Seq.Setter)
+Sal.Data$Team <- P.by.T
+skim(Sal.Data)
+```
+
+```{r analys1, eval=TRUE}
+Sal.Data %>% group_by(Team) %>% summarise(Total.Base.Salary=sum(Base.Salary))
+Sal.Data %>% group_by(Position) %>% skim()
+```
+
+Now I have my salary data.

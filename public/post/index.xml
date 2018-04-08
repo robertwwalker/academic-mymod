@@ -2,77 +2,87 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Robert W. Walker</title>
-    <link>/post/</link>
+    <link>https://rwalker.netlify.com/post/</link>
     <description>Recent content in Posts on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 -0800</lastBuildDate>
     
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://rwalker.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Scraping the NFL Salary Cap Data with Python and R</title>
+      <link>https://rwalker.netlify.com/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
+      <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
+      <description>The NFL Data The key tool is the SelectorGadget. With that, it becomes easy to identify what we need. I navgiated to the website in base_url and found the team names had links to the cap data. I will use those links first. Let’s build that.
+library(rvest) base_url &amp;lt;- &amp;quot;http://www.spotrac.com/nfl/&amp;quot; read.base &amp;lt;- read_html(base_url) team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;) team.URL ## [1] &amp;quot;http://www.spotrac.com/nfl/arizona-cardinals/cap/&amp;quot; ## [2] &amp;quot;http://www.spotrac.com/nfl/atlanta-falcons/cap/&amp;quot; ## [3] &amp;quot;http://www.spotrac.com/nfl/baltimore-ravens/cap/&amp;quot; ## [4] &amp;quot;http://www.</description>
+    </item>
+    
+    <item>
       <title>tidyTuesday - Tuition</title>
-      <link>/post/tidytuesday-tuition/</link>
+      <link>https://rwalker.netlify.com/post/tidytuesday-tuition/</link>
       <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytuesday-tuition/</guid>
+      <guid>https://rwalker.netlify.com/post/tidytuesday-tuition/</guid>
       <description>I found a great example on tidyTuesday that I wanted to work on. @JakeKaupp tweeted his #tidyTuesday: a very cool slope plot of tuition changes averaged by state over the last decade. It is a very informative graphic. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on Jake Kaupp’s GitHub. The specific file is here.</description>
     </item>
     
     <item>
       <title>Pew Data on Bond Ratings and Rainy Day Funds</title>
-      <link>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
+      <link>https://rwalker.netlify.com/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
+      <guid>https://rwalker.netlify.com/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
       <description>Pew on Rainy Day Funds and Credit Quality The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund.</description>
     </item>
     
     <item>
       <title>Mapping with the Government Finance Database</title>
-      <link>/post/mapping-with-the-government-finance-database/</link>
+      <link>https://rwalker.netlify.com/post/mapping-with-the-government-finance-database/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/mapping-with-the-government-finance-database/</guid>
+      <guid>https://rwalker.netlify.com/post/mapping-with-the-government-finance-database/</guid>
       <description>The Government Finance Database Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the Government Finance data available from the Census. They published an article in PLoS One with the rationale; I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states.</description>
     </item>
     
     <item>
       <title>Longitudinal Panel Data R Packages</title>
-      <link>/post/panel-data-r-packages/</link>
+      <link>https://rwalker.netlify.com/post/panel-data-r-packages/</link>
       <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/panel-data-r-packages/</guid>
+      <guid>https://rwalker.netlify.com/post/panel-data-r-packages/</guid>
       <description>Longitudinal and Panel Data Analysis in R Goal: A CRAN task view for panel/longitudinal data analysis in R.
 What is Panel Data? Panel data are variously called longitudinal, panel, cross-sectional time series, and pooled time series data. The most precise definition is two-dimensional data; invariably one of the dimensions is time. We can think about a general depiction of what a model with linear coefficients typical for such data structures, though ridiculously overparameterized, like so:</description>
     </item>
     
     <item>
       <title>Black Boxes: A Gender Gap Example</title>
-      <link>/post/black-boxes-a-gender-gap-example/</link>
+      <link>https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/black-boxes-a-gender-gap-example/</guid>
+      <guid>https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/</guid>
       <description>Variance in the Outcome: The Black Box Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained.</description>
     </item>
     
     <item>
       <title>Correlation Function</title>
-      <link>/post/correlation-function/</link>
+      <link>https://rwalker.netlify.com/post/correlation-function/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/correlation-function/</guid>
+      <guid>https://rwalker.netlify.com/post/correlation-function/</guid>
       <description>Correlations and the Impact on Sums and Differences I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.</description>
     </item>
     
     <item>
       <title>tidytext is neat! White House Communications</title>
-      <link>/post/tidytext-is-neat/</link>
+      <link>https://rwalker.netlify.com/post/tidytext-is-neat/</link>
       <pubDate>Wed, 21 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytext-is-neat/</guid>
+      <guid>https://rwalker.netlify.com/post/tidytext-is-neat/</guid>
       <description>Presidential Press The language of presidential communications is interesting and I know very little about text as data. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?
 White House News
 The site is split in four parts: all news, articles, presidential actions, and briefings and statements. The first one is a catch all and the second is news links.</description>

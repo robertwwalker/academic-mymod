@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Robert W. Walker on Robert W. Walker</title>
-    <link>/</link>
+    <link>https://rwalker.netlify.com/</link>
     <description>Recent content in Robert W. Walker on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -11,11 +11,938 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Scraping the NFL Salary Cap Data with Python and R</title>
+      <link>https://rwalker.netlify.com/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
+      <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://rwalker.netlify.com/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
+      <description>&lt;div id=&#34;the-nfl-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;The NFL Data&lt;/h1&gt;
+&lt;p&gt;The key tool is the &lt;em&gt;SelectorGadget&lt;/em&gt;. With that, it becomes easy to identify what we need. I navgiated to the website in base_url and found the team names had links to the cap data. I will use those links first. Let’s build that.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest)
+base_url &amp;lt;- &amp;quot;http://www.spotrac.com/nfl/&amp;quot;
+read.base &amp;lt;- read_html(base_url)
+team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;)
+team.URL&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;http://www.spotrac.com/nfl/arizona-cardinals/cap/&amp;quot;   
+##  [2] &amp;quot;http://www.spotrac.com/nfl/atlanta-falcons/cap/&amp;quot;     
+##  [3] &amp;quot;http://www.spotrac.com/nfl/baltimore-ravens/cap/&amp;quot;    
+##  [4] &amp;quot;http://www.spotrac.com/nfl/buffalo-bills/cap/&amp;quot;       
+##  [5] &amp;quot;http://www.spotrac.com/nfl/carolina-panthers/cap/&amp;quot;   
+##  [6] &amp;quot;http://www.spotrac.com/nfl/chicago-bears/cap/&amp;quot;       
+##  [7] &amp;quot;http://www.spotrac.com/nfl/cincinnati-bengals/cap/&amp;quot;  
+##  [8] &amp;quot;http://www.spotrac.com/nfl/cleveland-browns/cap/&amp;quot;    
+##  [9] &amp;quot;http://www.spotrac.com/nfl/dallas-cowboys/cap/&amp;quot;      
+## [10] &amp;quot;http://www.spotrac.com/nfl/denver-broncos/cap/&amp;quot;      
+## [11] &amp;quot;http://www.spotrac.com/nfl/detroit-lions/cap/&amp;quot;       
+## [12] &amp;quot;http://www.spotrac.com/nfl/green-bay-packers/cap/&amp;quot;   
+## [13] &amp;quot;http://www.spotrac.com/nfl/houston-texans/cap/&amp;quot;      
+## [14] &amp;quot;http://www.spotrac.com/nfl/indianapolis-colts/cap/&amp;quot;  
+## [15] &amp;quot;http://www.spotrac.com/nfl/jacksonville-jaguars/cap/&amp;quot;
+## [16] &amp;quot;http://www.spotrac.com/nfl/kansas-city-chiefs/cap/&amp;quot;  
+## [17] &amp;quot;http://www.spotrac.com/nfl/los-angeles-chargers/cap/&amp;quot;
+## [18] &amp;quot;http://www.spotrac.com/nfl/los-angeles-rams/cap/&amp;quot;    
+## [19] &amp;quot;http://www.spotrac.com/nfl/miami-dolphins/cap/&amp;quot;      
+## [20] &amp;quot;http://www.spotrac.com/nfl/minnesota-vikings/cap/&amp;quot;   
+## [21] &amp;quot;http://www.spotrac.com/nfl/new-england-patriots/cap/&amp;quot;
+## [22] &amp;quot;http://www.spotrac.com/nfl/new-orleans-saints/cap/&amp;quot;  
+## [23] &amp;quot;http://www.spotrac.com/nfl/new-york-giants/cap/&amp;quot;     
+## [24] &amp;quot;http://www.spotrac.com/nfl/new-york-jets/cap/&amp;quot;       
+## [25] &amp;quot;http://www.spotrac.com/nfl/oakland-raiders/cap/&amp;quot;     
+## [26] &amp;quot;http://www.spotrac.com/nfl/philadelphia-eagles/cap/&amp;quot; 
+## [27] &amp;quot;http://www.spotrac.com/nfl/pittsburgh-steelers/cap/&amp;quot; 
+## [28] &amp;quot;http://www.spotrac.com/nfl/san-francisco-49ers/cap/&amp;quot; 
+## [29] &amp;quot;http://www.spotrac.com/nfl/seattle-seahawks/cap/&amp;quot;    
+## [30] &amp;quot;http://www.spotrac.com/nfl/tampa-bay-buccaneers/cap/&amp;quot;
+## [31] &amp;quot;http://www.spotrac.com/nfl/tennessee-titans/cap/&amp;quot;    
+## [32] &amp;quot;http://www.spotrac.com/nfl/washington-redskins/cap/&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Clean up the URLs to get the team names by themselves.
+team.names &amp;lt;- gsub(&amp;quot;/cap/&amp;quot;,&amp;quot;&amp;quot;, gsub(base_url, &amp;quot;&amp;quot;, team.URL))&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;grabbing-team-tables&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Grabbing Team Tables&lt;/h2&gt;
+&lt;p&gt;Now I need to explore those links.&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import pandas as pd
+import bs4
+import re
+#import urllib
+import requests
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+base_url = &amp;quot;http://www.spotrac.com/nfl/&amp;quot;
+def get_page(url):
+    page = urlopen(base_url)
+    soup = BeautifulSoup(page, &amp;#39;lxml&amp;#39;)
+    file = open(&amp;quot;spotrac_urls.txt&amp;quot;, &amp;#39;w&amp;#39;)
+    file.write(str(soup))
+    file.close()
+def get_team_table(url):
+    page = urlopen(url)
+    soup = BeautifulSoup(page, &amp;#39;lxml&amp;#39;)
+get_page(base_url)
+with open(&amp;quot;spotrac_urls.txt&amp;quot;, &amp;#39;r&amp;#39;) as file:
+    for line in file:
+        line = line.strip()
+from bs4 import BeautifulSoup
+page = open(&amp;quot;spotrac_urls.txt&amp;quot;, &amp;#39;r&amp;#39;)
+soup = BeautifulSoup(page, &amp;quot;lxml&amp;quot;)
+div = soup.find(&amp;quot;div&amp;quot;,&amp;quot;subnav-posts&amp;quot;)
+links = div.find_all(&amp;#39;a&amp;#39;)
+for link in links:
+    print(link.get(&amp;#39;href&amp;#39;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## http://www.spotrac.com/nfl/arizona-cardinals/cap/
+## http://www.spotrac.com/nfl/atlanta-falcons/cap/
+## http://www.spotrac.com/nfl/baltimore-ravens/cap/
+## http://www.spotrac.com/nfl/buffalo-bills/cap/
+## http://www.spotrac.com/nfl/carolina-panthers/cap/
+## http://www.spotrac.com/nfl/chicago-bears/cap/
+## http://www.spotrac.com/nfl/cincinnati-bengals/cap/
+## http://www.spotrac.com/nfl/cleveland-browns/cap/
+## http://www.spotrac.com/nfl/dallas-cowboys/cap/
+## http://www.spotrac.com/nfl/denver-broncos/cap/
+## http://www.spotrac.com/nfl/detroit-lions/cap/
+## http://www.spotrac.com/nfl/green-bay-packers/cap/
+## http://www.spotrac.com/nfl/houston-texans/cap/
+## http://www.spotrac.com/nfl/indianapolis-colts/cap/
+## http://www.spotrac.com/nfl/jacksonville-jaguars/cap/
+## http://www.spotrac.com/nfl/kansas-city-chiefs/cap/
+## http://www.spotrac.com/nfl/los-angeles-chargers/cap/
+## http://www.spotrac.com/nfl/los-angeles-rams/cap/
+## http://www.spotrac.com/nfl/miami-dolphins/cap/
+## http://www.spotrac.com/nfl/minnesota-vikings/cap/
+## http://www.spotrac.com/nfl/new-england-patriots/cap/
+## http://www.spotrac.com/nfl/new-orleans-saints/cap/
+## http://www.spotrac.com/nfl/new-york-giants/cap/
+## http://www.spotrac.com/nfl/new-york-jets/cap/
+## http://www.spotrac.com/nfl/oakland-raiders/cap/
+## http://www.spotrac.com/nfl/philadelphia-eagles/cap/
+## http://www.spotrac.com/nfl/pittsburgh-steelers/cap/
+## http://www.spotrac.com/nfl/san-francisco-49ers/cap/
+## http://www.spotrac.com/nfl/seattle-seahawks/cap/
+## http://www.spotrac.com/nfl/tampa-bay-buccaneers/cap/
+## http://www.spotrac.com/nfl/tennessee-titans/cap/
+## http://www.spotrac.com/nfl/washington-redskins/cap/&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;len(links)
+def get_team_table(url):
+    page = urlopen(url)
+    soup = BeautifulSoup(page, &amp;#39;lxml&amp;#39;)
+    data_rows = [row for row in soup.find(&amp;quot;table&amp;quot;, &amp;quot;datatable&amp;quot;).find_all(&amp;quot;tr&amp;quot;)]
+    return data_rows
+# create an empty list
+team_data = []
+for link in links:
+    team_data.append(get_team_table(link.get(&amp;#39;href&amp;#39;)))
+len(team_data)
+#data_rows = [row for row in soup.find(&amp;quot;td&amp;quot;, &amp;quot;center&amp;quot;).find_all(&amp;quot;tr&amp;quot;)]
+table_data = []
+#soup = BeautifulSoup(team_data[0], &amp;#39;lxml&amp;#39;)
+#This needs to be a nested for loop because inner items of the list are BeautifulSoup Elements
+for row in team_data:
+    for element in row:
+        #print(type(element))
+        if soup.find_all(&amp;quot;td&amp;quot;, attrs={&amp;quot;class&amp;quot;:&amp;quot; right xs-hide &amp;quot;}) is not None:
+            table_data.append(element.get_text())
+player_data = []
+for row in table_data:
+    player_data.append(row.split(&amp;quot;\n&amp;quot;))
+    #print(player_data)
+len(player_data)
+import pandas as pd
+df = pd.DataFrame(player_data)
+df = df.drop(14, 1)
+df = df.drop(0, 1)
+df = df.drop(1, 1)
+df = df.drop(df.index[[0]])
+#df.set_index(1, inplace=True)
+print(df.shape)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## (2262, 12)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;df.head()
+players = []
+for row in team_data[0]:
+    if row.get_text(&amp;quot;tr&amp;quot;) is not None:
+        players.append(row) 
+column_headers = [col.get_text() for col in players[0].find_all(&amp;quot;th&amp;quot;) if col.get_text()]
+len(column_headers)
+df.columns = column_headers
+df.head()
+#The header repeated itself in the data.  This didn&amp;#39;t reveal itself until the data type conversion step below
+#but this fixes all occurrences of it.
+rows_to_be_dropped = df.loc[df[&amp;#39;Cap Hit&amp;#39;] == &amp;#39;Cap %&amp;#39;].index
+rows_to_be_kept = df.loc[df[&amp;#39;Cap Hit&amp;#39;] != &amp;#39;Cap %&amp;#39;].index
+df = df.drop(rows_to_be_dropped)
+df2 = pd.Series(data=rows_to_be_dropped)
+#Apply a regex to convert the &amp;#39;Cap Hit&amp;#39; column from a string to a float.  
+# df[&amp;#39;Cap Hit&amp;#39;] =(df[&amp;#39;Cap Hit&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace( &amp;#39;[(]&amp;#39;,&amp;#39;-&amp;#39;,   regex=True ).astype(float))
+# My fix
+df[&amp;#39;Cap.Hit&amp;#39;] = (df[&amp;#39;Cap Hit&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;\s\s.*&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
+df[&amp;#39;Base.Salary&amp;#39;] = (df[&amp;#39;Base Salary&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
+df[&amp;#39;Signing.Bonus&amp;#39;] = (df[&amp;#39;Signing Bonus&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
+df[&amp;#39;Roster.Bonus&amp;#39;] = (df[&amp;#39;Roster Bonus&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
+df[&amp;#39;Option.Bonus&amp;#39;] = (df[&amp;#39;Option Bonus&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
+df[&amp;#39;Workout.Bonus&amp;#39;] = (df[&amp;#39;Workout Bonus&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
+df[&amp;#39;Restruc.Bonus&amp;#39;] = (df[&amp;#39;Restruc. Bonus&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
+df[&amp;#39;Misc&amp;#39;] = (df[&amp;#39;Misc.&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
+df[&amp;#39;Dead.Cap&amp;#39;] = (df[&amp;#39;Dead Cap&amp;#39;].replace(&amp;#39;\(&amp;#39;,&amp;quot;&amp;quot;,regex=True).replace(&amp;#39;\)&amp;#39;,&amp;quot;&amp;quot;,regex=True).replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
+#Sanity check to make sure it worked.
+df[&amp;#39;Cap Hit&amp;#39;].sum()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Sal.Data &amp;lt;- py$df
+Team.Cut &amp;lt;- py$df2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The above code pulls the data from the Python environment into R. Now we can analyse it.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(skimr)
+names(Sal.Data)[1] &amp;lt;- &amp;quot;Player&amp;quot;
+names(Sal.Data)[2] &amp;lt;- &amp;quot;Position&amp;quot;
+team.names &amp;lt;- gsub(&amp;quot;-&amp;quot;, &amp;quot; &amp;quot;, team.names)
+simpleCap &amp;lt;- function(x) {
+  s &amp;lt;- strsplit(x, &amp;quot; &amp;quot;)[[1]]
+  paste(toupper(substring(s, 1,1)), substring(s, 2),
+      sep=&amp;quot;&amp;quot;, collapse=&amp;quot; &amp;quot;)
+}
+team.names &amp;lt;- sapply(team.names, simpleCap)
+Seq.P1 &amp;lt;- diff(c(0,Team.Cut))-1
+Seq.Setter &amp;lt;- c(Seq.P1,dim(Sal.Data)[[1]]-sum(Seq.P1))
+P.by.T &amp;lt;- rep(team.names, times=Seq.Setter)
+Sal.Data$Team &amp;lt;- P.by.T
+skim(Sal.Data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Skim summary statistics
+##  n obs: 2231 
+##  n variables: 22 
+## 
+## Variable type: character 
+##        variable missing complete    n min max empty n_unique
+##     Base Salary       0     2231 2231   2  11     0      452
+##           Cap %       0     2231 2231   4   5     0      472
+##         Cap Hit       0     2231 2231   4  17     0     1028
+##        Dead Cap       0     2231 2231   2  13     0      829
+##           Misc.       0     2231 2231   2  10     0       17
+##    Option Bonus       0     2231 2231   2  10     0       16
+##          Player       0     2231 2231   9  24     0     2218
+##        Position       0     2231 2231   1   3     0       22
+##  Restruc. Bonus       0     2231 2231   2  10     0       54
+##    Roster Bonus       0     2231 2231   2  11     0      151
+##   Signing Bonus       0     2231 2231   2  11     0      651
+##            Team       0     2231 2231  13  20     0       32
+##   Workout Bonus       0     2231 2231   2  10     0       39
+## 
+## Variable type: numeric 
+##       variable missing complete    n       mean         sd p0    p25
+##    Base.Salary       0     2231 2231 1702434.86 2566336.81  0 555000
+##        Cap.Hit       0     2231 2231 2437758.97 3682007.72  0 555000
+##       Dead.Cap       0     2231 2231 2237800.21 5654469.54  0      0
+##           Misc       0     2231 2231    7019.27   70174.92  0      0
+##   Option.Bonus       0     2231 2231   13163.01  167832.21  0      0
+##  Restruc.Bonus       0     2231 2231   44939.89  342072.24  0      0
+##   Roster.Bonus       0     2231 2231  206158.47   1e+06     0      0
+##  Signing.Bonus       0     2231 2231  449255.04  962650.88  0      0
+##  Workout.Bonus       0     2231 2231   20171.67   76895.81  0      0
+##     p50       p75          p100     hist
+##  665410 1500000         2.2e+07 ▇▁▁▁▁▁▁▁
+##  720000 2548437.5       3.7e+07 ▇▁▁▁▁▁▁▁
+##   48203 1300000         8.2e+07 ▇▁▁▁▁▁▁▁
+##       0       0   2085000       ▇▁▁▁▁▁▁▁
+##       0       0   4750000       ▇▁▁▁▁▁▁▁
+##       0       0   5561666       ▇▁▁▁▁▁▁▁
+##       0       0         2.9e+07 ▇▁▁▁▁▁▁▁
+##    2668   4e+05     1e+07       ▇▁▁▁▁▁▁▁
+##       0       0   1335000       ▇▁▁▁▁▁▁▁&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Sal.Data %&amp;gt;% group_by(Team) %&amp;gt;% summarise(Total.Base.Salary=sum(Base.Salary))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 32 x 2
+##    Team               Total.Base.Salary
+##    &amp;lt;chr&amp;gt;                          &amp;lt;dbl&amp;gt;
+##  1 Arizona Cardinals         105149569.
+##  2 Atlanta Falcons           133402353.
+##  3 Baltimore Ravens          111906351.
+##  4 Buffalo Bills              98227460.
+##  5 Carolina Panthers         110158355.
+##  6 Chicago Bears              84498180.
+##  7 Cincinnati Bengals        134855807.
+##  8 Cleveland Browns          122139767.
+##  9 Dallas Cowboys            127547113.
+## 10 Denver Broncos            138542444.
+## # ... with 22 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Sal.Data %&amp;gt;% group_by(Position) %&amp;gt;% skim()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Skim summary statistics
+##  n obs: 2231 
+##  n variables: 22 
+##  group variables: Position 
+## 
+## Variable type: character 
+##  Position       variable missing complete   n min max empty n_unique
+##         C    Base Salary       0       62  62   2  10     0       34
+##         C          Cap %       0       62  62   4   4     0       47
+##         C        Cap Hit       0       62  62   4  17     0       42
+##         C       Dead Cap       0       62  62   2  13     0       33
+##         C          Misc.       0       62  62   2   8     0        3
+##         C   Option Bonus       0       62  62   2  10     0        2
+##         C         Player       0       62  62   9  19     0       62
+##         C Restruc. Bonus       0       62  62   2  10     0        7
+##         C   Roster Bonus       0       62  62   2  11     0       15
+##         C  Signing Bonus       0       62  62   2  10     0       30
+##         C           Team       0       62  62  13  20     0       32
+##         C  Workout Bonus       0       62  62   2   8     0        9
+##        CB    Base Salary       0      239 239   2  11     0       86
+##        CB          Cap %       0      239 239   4   4     0      110
+##        CB        Cap Hit       0      239 239   4  17     0      134
+##        CB       Dead Cap       0      239 239   2  13     0      111
+##        CB          Misc.       0      239 239   2   2     0        1
+##        CB   Option Bonus       0      239 239   2  10     0        3
+##        CB         Player       0      239 239  10  22     0      238
+##        CB Restruc. Bonus       0      239 239   2  10     0        5
+##        CB   Roster Bonus       0      239 239   2  10     0       27
+##        CB  Signing Bonus       0      239 239   2  10     0       96
+##        CB           Team       0      239 239  13  20     0       32
+##        CB  Workout Bonus       0      239 239   2   8     0       15
+##        DE    Base Salary       0      179 179   2  11     0       76
+##        DE          Cap %       0      179 179   4   4     0      107
+##        DE        Cap Hit       0      179 179   4  17     0      112
+##        DE       Dead Cap       0      179 179   2  13     0       94
+##        DE          Misc.       0      179 179   2   8     0        3
+##        DE   Option Bonus       0      179 179   2  10     0        4
+##        DE         Player       0      179 179   9  21     0      179
+##        DE Restruc. Bonus       0      179 179   2  10     0        8
+##        DE   Roster Bonus       0      179 179   2  10     0       26
+##        DE  Signing Bonus       0      179 179   2  10     0       80
+##        DE           Team       0      179 179  13  20     0       32
+##        DE  Workout Bonus       0      179 179   2   8     0       12
+##        DT    Base Salary       0      143 143   2  11     0       62
+##        DT          Cap %       0      143 143   4   5     0       82
+##        DT        Cap Hit       0      143 143   4  17     0       93
+##        DT       Dead Cap       0      143 143   2  13     0       82
+##        DT          Misc.       0      143 143   2   8     0        3
+##        DT   Option Bonus       0      143 143   2  10     0        3
+##        DT         Player       0      143 143   9  20     0      142
+##        DT Restruc. Bonus       0      143 143   2  10     0        3
+##        DT   Roster Bonus       0      143 143   2  10     0       15
+##        DT  Signing Bonus       0      143 143   2  10     0       72
+##        DT           Team       0      143 143  13  20     0       32
+##        DT  Workout Bonus       0      143 143   2  10     0       15
+##        FB    Base Salary       0       26  26   2  10     0       12
+##        FB          Cap %       0       26  26   4   4     0       18
+##        FB        Cap Hit       0       26  26   4  12     0       16
+##        FB       Dead Cap       0       26  26   2  12     0       10
+##        FB          Misc.       0       26  26   2   8     0        2
+##        FB   Option Bonus       0       26  26   2   2     0        1
+##        FB         Player       0       26  26  10  17     0       26
+##        FB Restruc. Bonus       0       26  26   2   2     0        1
+##        FB   Roster Bonus       0       26  26   2   8     0        5
+##        FB  Signing Bonus       0       26  26   2  10     0        9
+##        FB           Team       0       26  26  13  20     0       22
+##        FB  Workout Bonus       0       26  26   2   8     0        4
+##        FS    Base Salary       0       57  57   2  11     0       45
+##        FS          Cap %       0       57  57   4   4     0       52
+##        FS        Cap Hit       0       57  57   4  17     0       51
+##        FS       Dead Cap       0       57  57   2  13     0       42
+##        FS          Misc.       0       57  57   2   8     0        3
+##        FS   Option Bonus       0       57  57   2   8     0        2
+##        FS         Player       0       57  57  10  19     0       57
+##        FS Restruc. Bonus       0       57  57   2   8     0        4
+##        FS   Roster Bonus       0       57  57   2  10     0       11
+##        FS  Signing Bonus       0       57  57   2  10     0       33
+##        FS           Team       0       57  57  13  20     0       31
+##        FS  Workout Bonus       0       57  57   2   8     0        8
+##         G    Base Salary       0      136 136   2  11     0       59
+##         G          Cap %       0      136 136   4   4     0       77
+##         G        Cap Hit       0      136 136   4  17     0       97
+##         G       Dead Cap       0      136 136   2  13     0       84
+##         G          Misc.       0      136 136   2   8     0        4
+##         G   Option Bonus       0      136 136   2   8     0        2
+##         G         Player       0      136 136   9  24     0      136
+##         G Restruc. Bonus       0      136 136   2  10     0        7
+##         G   Roster Bonus       0      136 136   2  10     0       30
+##         G  Signing Bonus       0      136 136   2  10     0       68
+##         G           Team       0      136 136  13  20     0       32
+##         G  Workout Bonus       0      136 136   2   8     0       12
+##       ILB    Base Salary       0      118 118   2  11     0       42
+##       ILB          Cap %       0      118 118   4   4     0       70
+##       ILB        Cap Hit       0      118 118   4  17     0       81
+##       ILB       Dead Cap       0      118 118   2  13     0       72
+##       ILB          Misc.       0      118 118   2   8     0        3
+##       ILB   Option Bonus       0      118 118   2  10     0        3
+##       ILB         Player       0      118 118  10  23     0      118
+##       ILB Restruc. Bonus       0      118 118   2  10     0        2
+##       ILB   Roster Bonus       0      118 118   2  10     0       14
+##       ILB  Signing Bonus       0      118 118   2  10     0       64
+##       ILB           Team       0      118 118  13  20     0       32
+##       ILB  Workout Bonus       0      118 118   2  10     0       14
+##         K    Base Salary       0       38  38   8  10     0       23
+##         K          Cap %       0       38  38   4   4     0       31
+##         K        Cap Hit       0       38  38  10  17     0       25
+##         K       Dead Cap       0       38  38   2  12     0       20
+##         K          Misc.       0       38  38   2  10     0        2
+##         K   Option Bonus       0       38  38   2   2     0        1
+##         K         Player       0       38  38  10  19     0       38
+##         K Restruc. Bonus       0       38  38   2   8     0        2
+##         K   Roster Bonus       0       38  38   2  10     0        8
+##         K  Signing Bonus       0       38  38   2  10     0       15
+##         K           Team       0       38  38  13  20     0       31
+##         K  Workout Bonus       0       38  38   2   8     0        4
+##        LB    Base Salary       0        1   1   8   8     0        1
+##        LB          Cap %       0        1   1   4   4     0        1
+##        LB        Cap Hit       0        1   1  10  10     0        1
+##        LB       Dead Cap       0        1   1  10  10     0        1
+##        LB          Misc.       0        1   1   2   2     0        1
+##        LB   Option Bonus       0        1   1   2   2     0        1
+##        LB         Player       0        1   1  11  11     0        1
+##        LB Restruc. Bonus       0        1   1   2   2     0        1
+##        LB   Roster Bonus       0        1   1   2   2     0        1
+##        LB  Signing Bonus       0        1   1   8   8     0        1
+##        LB           Team       0        1   1  15  15     0        1
+##        LB  Workout Bonus       0        1   1   2   2     0        1
+##        LS    Base Salary       0       33  33   2  10     0       14
+##        LS          Cap %       0       33  33   4   4     0       27
+##        LS        Cap Hit       0       33  33   4  12     0       22
+##        LS       Dead Cap       0       33  33   2  12     0       15
+##        LS          Misc.       0       33  33   2   2     0        1
+##        LS   Option Bonus       0       33  33   2   2     0        1
+##        LS         Player       0       33  33  10  17     0       33
+##        LS Restruc. Bonus       0       33  33   2   8     0        2
+##        LS   Roster Bonus       0       33  33   2   8     0        4
+##        LS  Signing Bonus       0       33  33   2   8     0       12
+##        LS           Team       0       33  33  13  20     0       28
+##        LS  Workout Bonus       0       33  33   2   7     0        4
+##        LT    Base Salary       0       39  39   2  11     0       31
+##        LT          Cap %       0       39  39   4   4     0       38
+##        LT        Cap Hit       0       39  39   4  13     0       38
+##        LT       Dead Cap       0       39  39   2  13     0       31
+##        LT          Misc.       0       39  39   2   8     0        3
+##        LT   Option Bonus       0       39  39   2  10     0        2
+##        LT         Player       0       39  39  10  21     0       39
+##        LT Restruc. Bonus       0       39  39   2  10     0        6
+##        LT   Roster Bonus       0       39  39   2  10     0        8
+##        LT  Signing Bonus       0       39  39   2  10     0       25
+##        LT           Team       0       39  39  13  20     0       29
+##        LT  Workout Bonus       0       39  39   2   8     0        8
+##       OLB    Base Salary       0      171 171   2  11     0       73
+##       OLB          Cap %       0      171 171   4   5     0       97
+##       OLB        Cap Hit       0      171 171   4  17     0      113
+##       OLB       Dead Cap       0      171 171   2  13     0       98
+##       OLB          Misc.       0      171 171   2   8     0        2
+##       OLB   Option Bonus       0      171 171   2   7     0        2
+##       OLB         Player       0      171 171   9  21     0      171
+##       OLB Restruc. Bonus       0      171 171   2  10     0        7
+##       OLB   Roster Bonus       0      171 171   2  10     0       30
+##       OLB  Signing Bonus       0      171 171   2  10     0       84
+##       OLB           Team       0      171 171  13  20     0       32
+##       OLB  Workout Bonus       0      171 171   2   8     0       13
+##         P    Base Salary       0       37  37   2  10     0       24
+##         P          Cap %       0       37  37   4   4     0       30
+##         P        Cap Hit       0       37  37   4  16     0       30
+##         P       Dead Cap       0       37  37   2  12     0       23
+##         P          Misc.       0       37  37   2   2     0        1
+##         P   Option Bonus       0       37  37   2   8     0        2
+##         P         Player       0       37  37   9  18     0       37
+##         P Restruc. Bonus       0       37  37   2   8     0        2
+##         P   Roster Bonus       0       37  37   2  10     0        5
+##         P  Signing Bonus       0       37  37   2  10     0       18
+##         P           Team       0       37  37  13  20     0       31
+##         P  Workout Bonus       0       37  37   2   8     0        5
+##        QB    Base Salary       0       97  97   2  11     0       48
+##        QB          Cap %       0       97  97   4   5     0       71
+##        QB        Cap Hit       0       97  97   4  17     0       65
+##        QB       Dead Cap       0       97  97   2  13     0       57
+##        QB          Misc.       0       97  97   2   2     0        1
+##        QB   Option Bonus       0       97  97   2  10     0        4
+##        QB         Player       0       97  97   9  21     0       97
+##        QB Restruc. Bonus       0       97  97   2  10     0        4
+##        QB   Roster Bonus       0       97  97   2  11     0       23
+##        QB  Signing Bonus       0       97  97   2  11     0       47
+##        QB           Team       0       97  97  13  20     0       32
+##        QB  Workout Bonus       0       97  97   2   8     0        9
+##        RB    Base Salary       0      151 151   2  11     0       50
+##        RB          Cap %       0      151 151   4   4     0       70
+##        RB        Cap Hit       0      151 151   4  17     0       91
+##        RB       Dead Cap       0      151 151   2  13     0       73
+##        RB          Misc.       0      151 151   2   8     0        3
+##        RB   Option Bonus       0      151 151   2   2     0        1
+##        RB         Player       0      151 151   9  20     0      151
+##        RB Restruc. Bonus       0      151 151   2   8     0        2
+##        RB   Roster Bonus       0      151 151   2  10     0       21
+##        RB  Signing Bonus       0      151 151   2  10     0       67
+##        RB           Team       0      151 151  13  20     0       32
+##        RB  Workout Bonus       0      151 151   2   8     0       14
+##        RT    Base Salary       0       53  53   2  10     0       34
+##        RT          Cap %       0       53  53   4   4     0       44
+##        RT        Cap Hit       0       53  53   4  12     0       45
+##        RT       Dead Cap       0       53  53   2  13     0       36
+##        RT          Misc.       0       53  53   2   8     0        3
+##        RT   Option Bonus       0       53  53   2   2     0        1
+##        RT         Player       0       53  53  11  19     0       53
+##        RT Restruc. Bonus       0       53  53   2  10     0        5
+##        RT   Roster Bonus       0       53  53   2  10     0       18
+##        RT  Signing Bonus       0       53  53   2  10     0       29
+##        RT           Team       0       53  53  13  20     0       32
+##        RT  Workout Bonus       0       53  53   2   8     0        5
+##         S    Base Salary       0       68  68   2  10     0       12
+##         S          Cap %       0       68  68   4   4     0       28
+##         S        Cap Hit       0       68  68   4  17     0       34
+##         S       Dead Cap       0       68  68   2  13     0       30
+##         S          Misc.       0       68  68   2   2     0        1
+##         S   Option Bonus       0       68  68   2   2     0        1
+##         S         Player       0       68  68  10  23     0       68
+##         S Restruc. Bonus       0       68  68   2   2     0        1
+##         S   Roster Bonus       0       68  68   2   2     0        1
+##         S  Signing Bonus       0       68  68   2  10     0       30
+##         S           Team       0       68  68  13  20     0       29
+##         S  Workout Bonus       0       68  68   2   2     0        1
+##        SS    Base Salary       0       53  53   2  10     0       31
+##        SS          Cap %       0       53  53   4   4     0       41
+##        SS        Cap Hit       0       53  53   4  12     0       40
+##        SS       Dead Cap       0       53  53   2  13     0       31
+##        SS          Misc.       0       53  53   2   8     0        4
+##        SS   Option Bonus       0       53  53   2   2     0        1
+##        SS         Player       0       53  53  10  18     0       53
+##        SS Restruc. Bonus       0       53  53   2  10     0        5
+##        SS   Roster Bonus       0       53  53   2  10     0       14
+##        SS  Signing Bonus       0       53  53   2  10     0       30
+##        SS           Team       0       53  53  13  20     0       27
+##        SS  Workout Bonus       0       53  53   2   8     0        8
+##         T    Base Salary       0       92  92   8  10     0       16
+##         T          Cap %       0       92  92   4   4     0       30
+##         T        Cap Hit       0       92  92  10  17     0       40
+##         T       Dead Cap       0       92  92   2  13     0       32
+##         T          Misc.       0       92  92   2   2     0        1
+##         T   Option Bonus       0       92  92   2   2     0        1
+##         T         Player       0       92  92   9  22     0       92
+##         T Restruc. Bonus       0       92  92   2   2     0        1
+##         T   Roster Bonus       0       92  92   2   8     0        2
+##         T  Signing Bonus       0       92  92   2  10     0       34
+##         T           Team       0       92  92  13  20     0       32
+##         T  Workout Bonus       0       92  92   2   7     0        4
+##        TE    Base Salary       0      150 150   2  10     0       52
+##        TE          Cap %       0      150 150   4   4     0       72
+##        TE        Cap Hit       0      150 150   4  17     0       92
+##        TE       Dead Cap       0      150 150   2  13     0       74
+##        TE          Misc.       0      150 150   2   8     0        5
+##        TE   Option Bonus       0      150 150   2  10     0        2
+##        TE         Player       0      150 150   9  24     0      149
+##        TE Restruc. Bonus       0      150 150   2  10     0        4
+##        TE   Roster Bonus       0      150 150   2  10     0       21
+##        TE  Signing Bonus       0      150 150   2  10     0       69
+##        TE           Team       0      150 150  13  20     0       32
+##        TE  Workout Bonus       0      150 150   2   8     0       11
+##        WR    Base Salary       0      288 288   2  11     0       78
+##        WR          Cap %       0      288 288   4   5     0      120
+##        WR        Cap Hit       0      288 288   4  17     0      148
+##        WR       Dead Cap       0      288 288   2  13     0      122
+##        WR          Misc.       0      288 288   2  10     0        6
+##        WR   Option Bonus       0      288 288   2  10     0        4
+##        WR         Player       0      288 288   9  23     0      288
+##        WR Restruc. Bonus       0      288 288   2  10     0        4
+##        WR   Roster Bonus       0      288 288   2  11     0       29
+##        WR  Signing Bonus       0      288 288   2  10     0      106
+##        WR           Team       0      288 288  13  20     0       32
+##        WR  Workout Bonus       0      288 288   2   8     0       12
+## 
+## Variable type: numeric 
+##  Position      variable missing complete   n       mean            sd
+##         C   Base.Salary       0       62  62   2e+06    2173761.05   
+##         C       Cap.Hit       0       62  62 3100829.61 3375708.22   
+##         C      Dead.Cap       0       62  62 2767832.15 5237181.07   
+##         C          Misc       0       62  62   13709.68   55196.63   
+##         C  Option.Bonus       0       62  62   26881.71  211666.79   
+##         C Restruc.Bonus       0       62  62  141779.58  628331.26   
+##         C  Roster.Bonus       0       62  62  518901.21 1538486      
+##         C Signing.Bonus       0       62  62  415501.05  685471.23   
+##         C Workout.Bonus       0       62  62   27419.35   77315.31   
+##        CB   Base.Salary       0      239 239 1612477.37 2443121.3    
+##        CB       Cap.Hit       0      239 239 2257504    3322450.3    
+##        CB      Dead.Cap       0      239 239 2304391.41 5206064.99   
+##        CB          Misc       0      239 239       0          0      
+##        CB  Option.Bonus       0      239 239    9483.96  106305.67   
+##        CB Restruc.Bonus       0      239 239   31969.08   3e+05      
+##        CB  Roster.Bonus       0      239 239  154738.48  578055.09   
+##        CB Signing.Bonus       0      239 239  443851.85  868036.51   
+##        CB Workout.Bonus       0      239 239   12054.39   49097.41   
+##        DE   Base.Salary       0      179 179   2e+06    3066391.64   
+##        DE       Cap.Hit       0      179 179 2828454.23 3842173.65   
+##        DE      Dead.Cap       0      179 179 2277470.43 4546177.54   
+##        DE          Misc       0      179 179    3491.62   34220.27   
+##        DE  Option.Bonus       0      179 179   16759.78  139213.7    
+##        DE Restruc.Bonus       0      179 179   53697.85  293267.87   
+##        DE  Roster.Bonus       0      179 179  223479.53  794883.36   
+##        DE Signing.Bonus       0      179 179  533467.36  964178.17   
+##        DE Workout.Bonus       0      179 179   20586.59   58610.47   
+##        DT   Base.Salary       0      143 143   2e+06    3133765.77   
+##        DT       Cap.Hit       0      143 143 2729784.29 4165638.96   
+##        DT      Dead.Cap       0      143 143 2447256.97 5757048.54   
+##        DT          Misc       0      143 143    9790.21   67463.8    
+##        DT  Option.Bonus       0      143 143    9265.73   1e+05      
+##        DT Restruc.Bonus       0      143 143   31783.22  337269.17   
+##        DT  Roster.Bonus       0      143 143  155345.28  653830.39   
+##        DT Signing.Bonus       0      143 143  486623.79  977035.2    
+##        DT Workout.Bonus       0      143 143   43006.99  151893.15   
+##        FB   Base.Salary       0       26  26  782307.69  582786.81   
+##        FB       Cap.Hit       0       26  26  956109.46  919855.95   
+##        FB      Dead.Cap       0       26  26  410522.92  967055.44   
+##        FB          Misc       0       26  26    7692.31   39223.23   
+##        FB  Option.Bonus       0       26  26       0          0      
+##        FB Restruc.Bonus       0       26  26       0          0      
+##        FB  Roster.Bonus       0       26  26   43509.62  114870.59   
+##        FB Signing.Bonus       0       26  26  108176.77  273219.3    
+##        FB Workout.Bonus       0       26  26   14423.08   33296.45   
+##        FS   Base.Salary       0       57  57 2641985.07 2783070.36   
+##        FS       Cap.Hit       0       57  57 3516966.23 3459382.28   
+##        FS      Dead.Cap       0       57  57   3e+06    4798779.28   
+##        FS          Misc       0       57  57   13157.89   73512.82   
+##        FS  Option.Bonus       0       57  57    2192.98   16556.65   
+##        FS Restruc.Bonus       0       57  57   39320.18  173521.19   
+##        FS  Roster.Bonus       0       57  57  132932.67  253842.76   
+##        FS Signing.Bonus       0       57  57  657552.88  974042.55   
+##        FS Workout.Bonus       0       57  57   29824.56   72647.42   
+##         G   Base.Salary       0      136 136 1723297.74 2122560.46   
+##         G       Cap.Hit       0      136 136 2533087.86   3e+06      
+##         G      Dead.Cap       0      136 136 2488203.57 5090059.35   
+##         G          Misc       0      136 136    3492.65   28734.54   
+##         G  Option.Bonus       0      136 136     919.12   10718.66   
+##         G Restruc.Bonus       0      136 136   46427.33  243931.31   
+##         G  Roster.Bonus       0      136 136  326931.78   1e+06      
+##         G Signing.Bonus       0      136 136  421070.71  760171.99   
+##         G Workout.Bonus       0      136 136   20654.41   73618.78   
+##       ILB   Base.Salary       0      118 118 1402311.07 1909201.76   
+##       ILB       Cap.Hit       0      118 118 1881112.36 2496822.94   
+##       ILB      Dead.Cap       0      118 118 1814896.75 3938432.79   
+##       ILB          Misc       0      118 118   10593.22   82651.49   
+##       ILB  Option.Bonus       0      118 118   18644.07  143192.63   
+##       ILB Restruc.Bonus       0      118 118   14830.51  161100.56   
+##       ILB  Roster.Bonus       0      118 118   56276.48  234454.76   
+##       ILB Signing.Bonus       0      118 118  359130.75  687816.66   
+##       ILB Workout.Bonus       0      118 118   21741.53   1e+05      
+##         K   Base.Salary       0       38  38 1383498.11  946083.47   
+##         K       Cap.Hit       0       38  38   2e+06    1563056.19   
+##         K      Dead.Cap       0       38  38 1535888.76 2463741.6    
+##         K          Misc       0       38  38   26315.79  162221.42   
+##         K  Option.Bonus       0       38  38       0          0      
+##         K Restruc.Bonus       0       38  38   15701.74   96792.01   
+##         K  Roster.Bonus       0       38  38  189473.68  447388.5    
+##         K Signing.Bonus       0       38  38  370837.16  506705.77   
+##         K Workout.Bonus       0       38  38   10526.32   33202.68   
+##        LB   Base.Salary       0        1   1  616500         NA      
+##        LB       Cap.Hit       0        1   1  838938         NA      
+##        LB      Dead.Cap       0        1   1  667314         NA      
+##        LB          Misc       0        1   1       0         NA      
+##        LB  Option.Bonus       0        1   1       0         NA      
+##        LB Restruc.Bonus       0        1   1       0         NA      
+##        LB  Roster.Bonus       0        1   1       0         NA      
+##        LB Signing.Bonus       0        1   1  222438         NA      
+##        LB Workout.Bonus       0        1   1       0         NA      
+##        LS   Base.Salary       0       33  33  746515.15  242417.79   
+##        LS       Cap.Hit       0       33  33   8e+05     305318.8    
+##        LS      Dead.Cap       0       33  33  214420.76  328386.49   
+##        LS          Misc       0       33  33       0          0      
+##        LS  Option.Bonus       0       33  33       0          0      
+##        LS Restruc.Bonus       0       33  33    3030.3    17407.77   
+##        LS  Roster.Bonus       0       33  33   30757.58  119197.32   
+##        LS Signing.Bonus       0       33  33   47401.52   60527.37   
+##        LS Workout.Bonus       0       33  33    3333.33    8068.72   
+##        LT   Base.Salary       0       39  39 4508560.13 4117901.21   
+##        LT       Cap.Hit       0       39  39 6514419.51 5192367.81   
+##        LT      Dead.Cap       0       39  39 7478914.69 8353850.18   
+##        LT          Misc       0       39  39   11538.46   50603.64   
+##        LT  Option.Bonus       0       39  39   51282.05  320256.31   
+##        LT Restruc.Bonus       0       39  39  333589.74   1e+06      
+##        LT  Roster.Bonus       0       39  39  416666.67 1164054.68   
+##        LT Signing.Bonus       0       39  39 1119064.51 1169548.04   
+##        LT Workout.Bonus       0       39  39   73717.95  137762.75   
+##       OLB   Base.Salary       0      171 171 1922073.02 2875581.34   
+##       OLB       Cap.Hit       0      171 171 2567012.8  3638739.14   
+##       OLB      Dead.Cap       0      171 171 2121542.18 5263614.22   
+##       OLB          Misc       0      171 171    1169.59   15294.38   
+##       OLB  Option.Bonus       0      171 171     438.6     5735.39   
+##       OLB Restruc.Bonus       0      171 171   78898.63  489491.07   
+##       OLB  Roster.Bonus       0      171 171  147880.33  552101.76   
+##       OLB Signing.Bonus       0      171 171   4e+05     775567.88   
+##       OLB Workout.Bonus       0      171 171   26239.77   84621.2    
+##         P   Base.Salary       0       37  37 1235000     837640      
+##         P       Cap.Hit       0       37  37 1571054.22 1088707.96   
+##         P      Dead.Cap       0       37  37  878227.54 1750652.77   
+##         P          Misc       0       37  37       0          0      
+##         P  Option.Bonus       0       37  37    3378.38   20549.87   
+##         P Restruc.Bonus       0       37  37   18918.92  115079.29   
+##         P  Roster.Bonus       0       37  37   77027.03  241118.51   
+##         P Signing.Bonus       0       37  37  234919.08  292006.09   
+##         P Workout.Bonus       0       37  37    6135.14   19830.06   
+##        QB   Base.Salary       0       97  97 3366594.79 5066824.35   
+##        QB       Cap.Hit       0       97  97 6088303.45 8760930.75   
+##        QB      Dead.Cap       0       97  97 7713951.86       1.6e+07
+##        QB          Misc       0       97  97       0          0      
+##        QB  Option.Bonus       0       97  97   94329.9   572452.52   
+##        QB Restruc.Bonus       0       97  97   1e+05     649315.06   
+##        QB  Roster.Bonus       0       97  97   1e+06    3538264.85   
+##        QB Signing.Bonus       0       97  97 1463950.82 2429488.11   
+##        QB Workout.Bonus       0       97  97   42989.69  134873.9    
+##        RB   Base.Salary       0      151 151 1083537.92 1461494.59   
+##        RB       Cap.Hit       0      151 151 1490927.77   2e+06      
+##        RB      Dead.Cap       0      151 151  926887.99 2458204.17   
+##        RB          Misc       0      151 151    5629.14   52770.9    
+##        RB  Option.Bonus       0      151 151       0          0      
+##        RB Restruc.Bonus       0      151 151    4933.77   60627.24   
+##        RB  Roster.Bonus       0      151 151  115811.26  562375.71   
+##        RB Signing.Bonus       0      151 151  274919.65  679826.44   
+##        RB Workout.Bonus       0      151 151   13943.71   44449.73   
+##        RT   Base.Salary       0       53  53 2248760.08   2e+06      
+##        RT       Cap.Hit       0       53  53 3139886.94 2536202.08   
+##        RT      Dead.Cap       0       53  53 2794249.02 4083228.57   
+##        RT          Misc       0       53  53    6603.77   36739.38   
+##        RT  Option.Bonus       0       53  53       0          0      
+##        RT Restruc.Bonus       0       53  53   1e+05     427037.51   
+##        RT  Roster.Bonus       0       53  53   2e+05     418347.78   
+##        RT Signing.Bonus       0       53  53  568902.81  759956.92   
+##        RT Workout.Bonus       0       53  53   18867.92   47002.88   
+##         S   Base.Salary       0       68  68  576320.49  123126.23   
+##         S       Cap.Hit       0       68  68  668546.07  379314.59   
+##         S      Dead.Cap       0       68  68  385246.1  1495016.73   
+##         S          Misc       0       68  68       0          0      
+##         S  Option.Bonus       0       68  68       0          0      
+##         S Restruc.Bonus       0       68  68       0          0      
+##         S  Roster.Bonus       0       68  68       0          0      
+##         S Signing.Bonus       0       68  68   92225.59  286817.94   
+##         S Workout.Bonus       0       68  68       0          0      
+##        SS   Base.Salary       0       53  53 1551629.98 1532985.61   
+##        SS       Cap.Hit       0       53  53 2338097.13 2309118.12   
+##        SS      Dead.Cap       0       53  53 2381610.53 4134660.49   
+##        SS          Misc       0       53  53   21698.11   92772.17   
+##        SS  Option.Bonus       0       53  53       0          0      
+##        SS Restruc.Bonus       0       53  53   63042.45   3e+05      
+##        SS  Roster.Bonus       0       53  53  150813.55   3e+05      
+##        SS Signing.Bonus       0       53  53  537347     830679.09   
+##        SS Workout.Bonus       0       53  53   19603.77   51637.17   
+##         T   Base.Salary       0       92  92  589409.89  224107.63   
+##         T       Cap.Hit       0       92  92  688377.85  619244.14   
+##         T      Dead.Cap       0       92  92  323929.6  1454244.38   
+##         T          Misc       0       92  92       0          0      
+##         T  Option.Bonus       0       92  92       0          0      
+##         T Restruc.Bonus       0       92  92       0          0      
+##         T  Roster.Bonus       0       92  92    4076.09   39096.45   
+##         T Signing.Bonus       0       92  92   95359.26  391721.34   
+##         T Workout.Bonus       0       92  92    1271.74    6529.9    
+##        TE   Base.Salary       0      150 150 1307663.6  1581423.79   
+##        TE       Cap.Hit       0      150 150 1870980.77 2331825.9    
+##        TE      Dead.Cap       0      150 150 1451122.37 3265051.47   
+##        TE          Misc       0      150 150    7833.33   52226.97   
+##        TE  Option.Bonus       0      150 150   13333.33  163299.32   
+##        TE Restruc.Bonus       0      150 150   40875      3e+05      
+##        TE  Roster.Bonus       0      150 150  172458.33   7e+05      
+##        TE Signing.Bonus       0      150 150  313557.17  646899.81   
+##        TE Workout.Bonus       0      150 150   18226.67   55295.08   
+##        WR   Base.Salary       0      288 288 1632765.15 2497587.52   
+##        WR       Cap.Hit       0      288 288 2322805.36 3410757.9    
+##        WR      Dead.Cap       0      288 288   2e+06      5e+06      
+##        WR          Misc       0      288 288   17135.42  146208.31   
+##        WR  Option.Bonus       0      288 288   18431.71  185192.81   
+##        WR Restruc.Bonus       0      288 288   19913.19  220771.84   
+##        WR  Roster.Bonus       0      288 288  189394.96  890179.64   
+##        WR Signing.Bonus       0      288 288  435484.38  945323.67   
+##        WR Workout.Bonus       0      288 288   13447.92   58047.66   
+##      p0        p25       p50           p75          p100     hist
+##       0  630000     862290.5 2693750         9e+06       ▇▁▂▁▁▁▁▁
+##       0  630000    1371445   5375000             1.2e+07 ▇▂▁▁▁▁▁▁
+##       0       0      90000   3813416.75          2.2e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0        250000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       1666666       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       4427000       ▇▁▁▁▁▁▁▁
+##       0       0          0    247656.25      1e+07       ▇▁▁▁▁▁▁▁
+##       0       0        334    479544.25    2600000       ▇▂▁▁▁▁▁▁
+##       0       0          0         0        350000       ▇▁▁▁▁▁▁▁
+##       0  555000     630000   1341165.5           1.4e+07 ▇▁▁▁▁▁▁▁
+##       0  555000      7e+05   2281092             1.7e+07 ▇▁▁▁▁▁▁▁
+##       0       0       5000   1416165.5           3.4e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0       1400000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       4075000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       4250000       ▇▁▁▁▁▁▁▁
+##       0       0          0    324308.5     4500000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         5e+05       ▇▁▁▁▁▁▁▁
+##       0  555000     773000   1760960.5           1.7e+07 ▇▁▁▁▁▁▁▁
+##       0  556167     881290   3141913.5           1.8e+07 ▇▂▁▁▁▁▁▁
+##       0       0      61863     2e+06             2.5e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0         4e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       1500000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         2e+06       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         6e+06       ▇▁▁▁▁▁▁▁
+##       0       0      22622    670990.5     5064501       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         3e+05       ▇▁▁▁▁▁▁▁
+##       0  555000     630000   1556893             1.7e+07 ▇▁▁▁▁▁▁▁
+##       0  564658     739676     3e+06             2.6e+07 ▇▁▁▁▁▁▁▁
+##       0       0     110892   1329496.5           3.8e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0         5e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       1200000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         4e+06       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         5e+06       ▇▁▁▁▁▁▁▁
+##       0       0      34676     5e+05       5200000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       1335000       ▇▁▁▁▁▁▁▁
+##       0  555000     630000     8e+05       2750000       ▂▇▆▁▂▁▁▁
+##       0  555000     666748.5 1247500       4450000       ▇▇▃▁▁▁▁▁
+##       0       0          0     77826.75    3750000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         2e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0         4e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0     30964.75    1250000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         1e+05       ▇▁▁▁▁▁▁▁
+##       0  762911    1426150   3250000             1.1e+07 ▇▃▁▁▁▁▁▁
+##       0 1100000      2e+06   5597000             1.3e+07 ▇▅▂▁▁▁▂▁
+##       0   58070      8e+05     5e+06             2.8e+07 ▇▂▁▁▁▁▁▁
+##       0       0          0         0         5e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0         0        125000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0        935000       ▇▁▁▁▁▁▁▁
+##       0       0          0    150000         1e+06       ▇▁▁▂▁▁▁▁
+##       0       0     224265    875000       4500000       ▇▂▂▁▁▁▁▁
+##       0       0          0         0        350000       ▇▁▁▁▁▁▁▁
+##       0  555000     790000   1901750         1e+07       ▇▂▁▁▁▁▁▁
+##       0  577293.75  861757.5 3522917             1.2e+07 ▇▂▁▁▁▁▁▁
+##       0       0     168349     2e+06         3e+07       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         3e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0         0        125000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       1697500       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         6e+06       ▇▁▁▁▁▁▁▁
+##       0       0      54918    437499.5     3422391       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         5e+05       ▇▁▁▁▁▁▁▁
+##       0  555000      7e+05     1e+06         1e+07       ▇▁▁▁▁▁▁▁
+##       0  615468.75  717000     2e+06             1.4e+07 ▇▂▁▁▁▁▁▁
+##       0       0      91096.5  784490.25          2.1e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0        750000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       1200000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       1750000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         2e+06       ▇▁▁▁▁▁▁▁
+##       0       0      29104    392244.75    3800000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         1e+06       ▇▁▁▁▁▁▁▁
+##  480000  555000      9e+05     2e+06       3400000       ▇▁▁▁▂▁▁▁
+##  480000  555625    1574642.5 3378125       5250000       ▇▁▂▁▂▂▁▁
+##       0       0     158433.5   2e+06         9e+06       ▇▂▁▁▁▁▁▁
+##       0       0          0         0         1e+06       ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0         6e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0     2e+05         2e+06       ▇▁▁▁▁▁▁▁
+##       0       0       1250    640624.5     1537500       ▇▁▂▁▁▁▁▁
+##       0       0          0         0        150000       ▇▁▁▁▁▁▁▁
+##  616500  616500     616500    616500        616500       ▁▁▁▇▁▁▁▁
+##  838938  838938     838938    838938        838938       ▁▁▁▇▁▁▁▁
+##  667314  667314     667314    667314        667314       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##  222438  222438     222438    222438        222438       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0  555000     790000    915000       1100000       ▁▁▁▆▅▇▅▇
+##       0  555000     730000   1055000       1400000       ▁▁▇▆▇▆▇▃
+##       0       0      47385     4e+05       1436000       ▇▁▂▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0         1e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0         0        580000       ▇▁▁▁▁▁▁▁
+##       0       0          0     90000        168000       ▇▁▁▁▂▁▁▂
+##       0       0          0         0         30000       ▇▁▁▁▁▁▁▁
+##       0  962665.5  1706684   8550000             1.2e+07 ▇▁▁▂▁▂▂▁
+##       0 1560018    5900000         1.1e+07       1.8e+07 ▇▅▁▂▃▃▂▁
+##       0  176968    5833334         1.1e+07       3.5e+07 ▇▃▂▁▂▁▁▁
+##       0       0          0         0        250000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         2e+06       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       5545000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       6375000       ▇▁▁▁▁▁▁▁
+##       0       0      9e+05   1907513.5       4e+06       ▇▂▂▃▂▂▁▁
+##       0       0          0     1e+05         6e+05       ▇▂▁▁▁▁▁▁
+##       0  555000     650000   1550000             1.5e+07 ▇▁▁▁▁▁▁▁
+##       0  555000     754572   2387500             2.1e+07 ▇▁▁▁▁▁▁▁
+##       0       0     116340   1401717             3.8e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0         2e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         75000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       4225000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       4750000       ▇▁▁▁▁▁▁▁
+##       0       0      16504    333333       4100000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         5e+05       ▇▁▁▁▁▁▁▁
+##       0  555000      1e+06   1887000         3e+06       ▁▇▃▃▁▂▂▂
+##       0  556666    1500000   2375000       3646551       ▁▇▁▂▂▃▁▂
+##       0       0      48550     1e+06       9568000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0        125000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         7e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         1e+06       ▇▁▁▁▁▁▁▁
+##       0       0      20002     5e+05         1e+06       ▇▁▁▂▁▁▁▁
+##       0       0          0         0         1e+05       ▇▁▁▁▁▁▁▁
+##       0  555000     790000     3e+06             2.2e+07 ▇▁▁▁▁▁▁▁
+##       0  630000      1e+06   7704446             3.7e+07 ▇▁▁▁▁▁▁▁
+##       0       0      3e+05   5400000             8.2e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0       4750000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       5561666       ▇▁▁▁▁▁▁▁
+##       0       0          0     45000             2.9e+07 ▇▁▁▁▁▁▁▁
+##       0       0      95848   2053960         1e+07       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         6e+05       ▇▁▁▁▁▁▁▁
+##       0  555000     630000     1e+06             1.5e+07 ▇▁▁▁▁▁▁▁
+##       0  555000     659912   1387594.5           1.5e+07 ▇▁▁▁▁▁▁▁
+##       0       0       3334    380315             1.4e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0         6e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0        745000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       5750000       ▇▁▁▁▁▁▁▁
+##       0       0       1666    169030.5     4471516       ▇▁▁▁▁▁▁▁
+##       0       0          0         0        250000       ▇▁▁▁▁▁▁▁
+##       0   7e+05    1750000   3900000       9341000       ▇▅▂▃▁▁▁▁
+##       0  836250    2095704   5400000       9341000       ▇▇▂▂▃▂▂▁
+##       0       0      5e+05   3392000             1.6e+07 ▇▂▁▁▁▁▁▁
+##       0       0          0         0        250000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0       2365000       ▇▁▁▁▁▁▁▁
+##       0       0          0    218750       2500000       ▇▁▁▁▁▁▁▁
+##       0       0     139280   1052746       2900000       ▇▁▁▂▁▁▁▁
+##       0       0          0         0        250000       ▇▁▁▁▁▁▁▁
+##       0  480000     555000    630000         1e+06       ▁▁▁▃▇▁▁▁
+##       0  480000     630000    649762.5     2863615       ▁▇▁▁▁▁▁▁
+##       0       0          0    111628.5       1e+07       ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0     37209       1825892       ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0  630000     875000   1750000       6800000       ▇▃▁▁▁▁▁▁
+##       0  630000    1165000   3750000       9581250       ▇▁▂▂▂▁▁▁
+##       0       0     119916   3750000             1.7e+07 ▇▂▁▁▁▁▁▁
+##       0       0          0         0         5e+05       ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0       2101250       ▇▁▁▁▁▁▁▁
+##       0       0          0    150000       1312500       ▇▁▁▁▁▁▁▁
+##       0       0      1e+05    776819       3582038       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         3e+05       ▇▁▁▁▁▁▁▁
+##  480000  480000     555000    630000       2312212       ▇▁▁▁▁▁▁▁
+##  480000  480000     555000    634793       5586635       ▇▁▁▁▁▁▁▁
+##       0       0          0      7501             1.2e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0             0       ▁▁▁▇▁▁▁▁
+##       0       0          0         0        375000       ▇▁▁▁▁▁▁▁
+##       0       0          0     10269.25    3274423       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         50000       ▇▁▁▁▁▁▁▁
+##       0  555000     630000   1088750       8250000       ▇▂▁▁▁▁▁▁
+##       0  555000      7e+05   2051708             1.1e+07 ▇▂▁▁▁▁▁▁
+##       0       0       7333.5  725000             1.8e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0        450000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         2e+06       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       2500000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         6e+06       ▇▁▁▁▁▁▁▁
+##       0       0          0     2e+05       3666666       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         3e+05       ▇▁▁▁▁▁▁▁
+##       0  555000     630000   1237585.75          1.6e+07 ▇▁▁▁▁▁▁▁
+##       0  555000     660947.5 2717357             1.8e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0     1e+06             3.8e+07 ▇▁▁▁▁▁▁▁
+##       0       0          0         0       2085000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       2350000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0       3240000       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         1e+07       ▇▁▁▁▁▁▁▁
+##       0       0          0     2e+05         7e+06       ▇▁▁▁▁▁▁▁
+##       0       0          0         0         5e+05       ▇▁▁▁▁▁▁▁&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now I have my salary data.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>tidyTuesday - Tuition</title>
-      <link>/post/tidytuesday-tuition/</link>
+      <link>https://rwalker.netlify.com/post/tidytuesday-tuition/</link>
       <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytuesday-tuition/</guid>
+      <guid>https://rwalker.netlify.com/post/tidytuesday-tuition/</guid>
       <description>&lt;p&gt;I found a great example on tidyTuesday that I wanted to work on. &lt;code&gt;@JakeKaupp&lt;/code&gt; tweeted his &lt;code&gt;#tidyTuesday&lt;/code&gt;: a very cool slope plot of tuition changes averaged by state over the last decade. It is a very informative graphic. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on &lt;a href=&#34;https://github.com/jkaupp&#34;&gt;Jake Kaupp’s GitHub&lt;/a&gt;. The specific file is &lt;a href=&#34;https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R&#34;&gt;here&lt;/a&gt;. I did not add much. All I wanted was some idea of how the growth rates correspond over the period. I added a cumulative growth rate and encoded the color scheme with it enabling me to play with &lt;em&gt;viridis&lt;/em&gt;. The &lt;em&gt;col_tab&lt;/em&gt; is my creation. I also moved around the labels so that everyone gets a color coded label and we can see who is where, more or less. Enjoy!&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(here)
 library(readxl)
@@ -58,7 +985,7 @@ plot &amp;lt;- plot_data %&amp;gt;%
   theme_minimal(base_family = &amp;quot;Oswald-Light&amp;quot;) +
   theme(panel.grid.minor = element_blank())
 print(plot)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-03-tidytuesday-tuition_files/figure-html/BorrowedCode-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-04-03-tidytuesday-tuition_files/figure-html/BorrowedCode-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Now I will modify the original that is kept intact above.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nat_avg &amp;lt;- tidy_data %&amp;gt;%
   filter(year %in% c(&amp;quot;2005-06&amp;quot;, &amp;quot;2015-16&amp;quot;)) %&amp;gt;%
@@ -93,22 +1020,22 @@ my.plot &amp;lt;- plot_data %&amp;gt;%
   geom_path(data = nat_avg, color = &amp;quot;red&amp;quot;, size = 1) +
   geom_point(data = nat_avg, color = &amp;quot;red&amp;quot;) +
   scale_y_continuous(labels = scales::dollar) + 
-  geom_text_repel(data = filter(plot_data, state %in% labels, year == &amp;quot;2015-16&amp;quot;), aes(label = state), direction = &amp;quot;both&amp;quot;, nudge_x = 0.4, nudge_y = 1, segment.size = 0.1, family = &amp;quot;Oxygen&amp;quot;, size = 2.5) +
+  geom_text_repel(data = filter(plot_data, state %in% labels, year == &amp;quot;2015-16&amp;quot;), aes(label = state), direction = &amp;quot;both&amp;quot;, nudge_x = 0.4, nudge_y = 1, segment.size = 0.1, family = &amp;quot;Oxygen&amp;quot;, size = 2) +
   labs(x = NULL, y = NULL, title = &amp;quot;Comparison of the average US tuition growth between 2005 and 2015&amp;quot;, subtitle = &amp;quot;Eastern and Northeastern students consistently face tutition above the national average [red line].&amp;quot;, caption = &amp;quot;\nData: http://trends.collegeboard.org/ | Graphic: @jakekaupp | Tweak color:@PieRatio&amp;quot;, cex=0.7) +
   theme_minimal(base_family = &amp;quot;Oswald-Light&amp;quot;) +
   theme(panel.grid.minor = element_blank())
 ggsave(my.plot, filename = glue(&amp;#39;tidyweek-{Sys.Date()}.png&amp;#39;), height = 8, width = 8, dpi = 300)
 print(my.plot)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-03-tidytuesday-tuition_files/figure-html/ModPlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-04-03-tidytuesday-tuition_files/figure-html/ModPlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Pew Data on Bond Ratings and Rainy Day Funds</title>
-      <link>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
+      <link>https://rwalker.netlify.com/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
+      <guid>https://rwalker.netlify.com/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
       <description>&lt;div id=&#34;pew-on-rainy-day-funds-and-credit-quality&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Pew on Rainy Day Funds and Credit Quality&lt;/h1&gt;
 &lt;p&gt;The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund. A poorly deployed savings device for cash flow management over the not-so-short term also seems unlikely to bolster market confidence in the repayment abilities of an issuer. If this very simple perspective that seems plausible is true, then a simple replication should be easy. And it is. Pew gladly shared the data and code. If one has access to Stata, the study is easy to replicate.&lt;/p&gt;
@@ -224,7 +1151,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-second-group&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;The Second Group&lt;/h3&gt;
@@ -237,7 +1164,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5b-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5b-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-third-group&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;The Third Group&lt;/h3&gt;
@@ -250,7 +1177,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5c-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5c-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-panel-data-properties&#34; class=&#34;section level2&#34;&gt;
@@ -298,10 +1225,10 @@ XTSUM(nlswork, varname=hours, unit=idcode)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Mapping with the Government Finance Database</title>
-      <link>/post/mapping-with-the-government-finance-database/</link>
+      <link>https://rwalker.netlify.com/post/mapping-with-the-government-finance-database/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/mapping-with-the-government-finance-database/</guid>
+      <guid>https://rwalker.netlify.com/post/mapping-with-the-government-finance-database/</guid>
       <description>&lt;div id=&#34;the-government-finance-database&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The Government Finance Database&lt;/h1&gt;
 &lt;p&gt;Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the &lt;a href=&#34;http://willamette.edu/mba/research_impact/public_datasets/index.html&#34;&gt;Government Finance data&lt;/a&gt; available from the Census. They published an article in &lt;a href=&#34;http://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0130119&amp;amp;type=printable&#34;&gt;PLoS One&lt;/a&gt; with the rationale; I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states. It seems that &lt;code&gt;read.csv&lt;/code&gt; works better than &lt;code&gt;read_csv&lt;/code&gt; for this task.&lt;/p&gt;
@@ -399,7 +1326,7 @@ my.GFD.2015&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;state_choropleth(my.GFD.2015, title=&amp;quot;Total Taxes per capita&amp;quot;, num_colors=1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning in self$bind(): The following regions were missing and are being
 ## set to NA: district of columbia&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/MapTheData-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/MapTheData-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;That’s far too easy. Total taxes, which I have not bothered to look up, appear to contain some unexpected details. What else can be done with it? The final code chunk does it all. To calculate a new map, just change the name of the thing per capitized. What data are available? See below….&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;names(State.Data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##   [1] &amp;quot;SurveyYr&amp;quot;                     &amp;quot;Year4&amp;quot;                       
@@ -710,7 +1637,7 @@ my.GFD.2015&lt;/code&gt;&lt;/pre&gt;
 state_choropleth(my.GFD.2015, title=&amp;quot;Total Revenues per capita&amp;quot;, num_colors=1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning in self$bind(): The following regions were missing and are being
 ## set to NA: district of columbia&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;putting-them-together-counties&#34; class=&#34;section level1&#34;&gt;
@@ -722,23 +1649,23 @@ my.County.GFD.2015 &amp;lt;- County.Data.2 %&amp;gt;%
   filter(Year4==2012) %&amp;gt;% mutate(value = General_Revenue / Population) %&amp;gt;%
   select(region, value)
 county_choropleth(my.County.GFD.2015, title=&amp;quot;General Revenue per capita&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/County1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/County1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The zoom feature is pretty cool: there are two defined forms for the county and states. The naming conventions follow the &lt;code&gt;county.regions&lt;/code&gt; format and are lower case. Let me grab &lt;em&gt;oregon&lt;/em&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my.County.GFD.2015 &amp;lt;- County.Data.2 %&amp;gt;% 
   filter(Year4==2012) %&amp;gt;% mutate(value = General_Revenue / Population) %&amp;gt;%
   select(region, value)
 county_choropleth(my.County.GFD.2015, title=&amp;quot;General Revenue per capita&amp;quot;, state_zoom=&amp;quot;oregon&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/CountyMZ-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/CountyMZ-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>Longitudinal Panel Data R Packages</title>
-      <link>/post/panel-data-r-packages/</link>
+      <link>https://rwalker.netlify.com/post/panel-data-r-packages/</link>
       <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/panel-data-r-packages/</guid>
+      <guid>https://rwalker.netlify.com/post/panel-data-r-packages/</guid>
       <description>&lt;div id=&#34;longitudinal-and-panel-data-analysis-in-r&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Longitudinal and Panel Data Analysis in R&lt;/h1&gt;
 &lt;p&gt;Goal: A CRAN task view for panel/longitudinal data analysis in R.&lt;/p&gt;
@@ -937,10 +1864,10 @@ XTSUM(nlswork, varname=hours, unit=idcode)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Black Boxes: A Gender Gap Example</title>
-      <link>/post/black-boxes-a-gender-gap-example/</link>
+      <link>https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/black-boxes-a-gender-gap-example/</guid>
+      <guid>https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/</guid>
       <description>&lt;div id=&#34;variance-in-the-outcome-the-black-box&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Variance in the Outcome: The Black Box&lt;/h2&gt;
 &lt;p&gt;Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained. Let’s take an example.&lt;/p&gt;
@@ -975,14 +1902,14 @@ abline(h=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;)
 arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;, code=3, length=0.05)
 text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(ORSalScale[c(1:16)])), cex=0.7, col=&amp;quot;blue&amp;quot;)
 text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col=&amp;quot;blue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;invoking-the-function&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Invoking the Function&lt;/h2&gt;
 &lt;p&gt;To represent the black box,let me draw it. The length of each side will be the square root of the black box; our total sum of squares is just under 900 million squared dollars so each side will be approximately 30000. The box appears below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~1, data=OregonSalaries)
 black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBBase-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBBase-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;a-regression-model&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;A Regression Model&lt;/h2&gt;
@@ -1005,11 +1932,11 @@ text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(OR
 text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col=&amp;quot;blue&amp;quot;)
 text(x=seq(1,16), y=rep(c(42000,43000,44000,45000),4), labels = paste(ceiling(resids[c(1:16)])), cex=0.7, col=&amp;quot;black&amp;quot;)
 text(x=c(17:32), y=rep(c(36000,37000,38000,39000),4), labels = paste(ceiling(resids[c(17:32)])), cex=0.7, col=&amp;quot;red&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The details of the regression estimates and the analysis of variance – the sums of squares – completes the rendering.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~Gender, data=OregonSalaries)
 black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(mod1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ## Call:
@@ -1044,10 +1971,10 @@ black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Correlation Function</title>
-      <link>/post/correlation-function/</link>
+      <link>https://rwalker.netlify.com/post/correlation-function/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/correlation-function/</guid>
+      <guid>https://rwalker.netlify.com/post/correlation-function/</guid>
       <description>&lt;div id=&#34;correlations-and-the-impact-on-sums-and-differences&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Correlations and the Impact on Sums and Differences&lt;/h1&gt;
 &lt;p&gt;I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.&lt;/p&gt;
@@ -1069,23 +1996,23 @@ plot(x=df$X1, y=df$X2, xlab=&amp;quot;x1&amp;quot;, ylab=&amp;quot;x2&amp;quot;,
   else { cat(&amp;quot;Correlation must be between -1 and 1&amp;quot;) }
 }
 plot.cor(cor=0.8)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-correlation-function_files/figure-html/CorF-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-correlation-function_files/figure-html/CorF-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The correlation above is 0.8&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;correlation-is--0.8&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Correlation is -0.8&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot.cor(cor=-0.8)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-correlation-function_files/figure-html/CorF2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-22-correlation-function_files/figure-html/CorF2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>tidytext is neat! White House Communications</title>
-      <link>/post/tidytext-is-neat/</link>
+      <link>https://rwalker.netlify.com/post/tidytext-is-neat/</link>
       <pubDate>Wed, 21 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytext-is-neat/</guid>
+      <guid>https://rwalker.netlify.com/post/tidytext-is-neat/</guid>
       <description>&lt;div id=&#34;presidential-press&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Presidential Press&lt;/h1&gt;
 &lt;p&gt;The language of presidential communications is interesting and I know very little about &lt;em&gt;text as data&lt;/em&gt;. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?&lt;/p&gt;
@@ -1201,7 +2128,7 @@ tidy.SB %&amp;gt;%
   geom_col() +
   xlab(NULL) +
   coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/SBplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/SBplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;presidential-actions&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Presidential Actions&lt;/h2&gt;
@@ -1214,7 +2141,7 @@ tidy.PA %&amp;gt;%
   geom_col() +
   xlab(NULL) +
   coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/PAplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/PAplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;word-clouds&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Word Clouds&lt;/h2&gt;
@@ -1226,7 +2153,7 @@ wc &amp;lt;- tidy.PA %&amp;gt;% count(word, sort = TRUE)
 wordcloud(wc$word,  wc$n, min.freq = 1,
           max.words=200, random.order=FALSE, rot.per=0.35, 
           colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/WCPA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/WCPA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;statements-and-briefings-1&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Statements and Briefings&lt;/h3&gt;
@@ -1235,7 +2162,7 @@ wc &amp;lt;- tidy.SB %&amp;gt;% count(word, sort = TRUE)
 wordcloud(wc$word,  wc$n, min.freq = 1,
           max.words=200, random.order=FALSE, rot.per=0.35, 
           colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/WCSB-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwalker.netlify.com/post/2018-02-21-tidytext-is-neat_files/figure-html/WCSB-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1244,76 +2171,67 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
     
     <item>
       <title>Example Talk</title>
-      <link>/talk/example-talk/</link>
+      <link>https://rwalker.netlify.com/talk/example-talk/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 -0800</pubDate>
       
-      <guid>/talk/example-talk/</guid>
+      <guid>https://rwalker.netlify.com/talk/example-talk/</guid>
       <description>&lt;p&gt;Embed your slides or video here using &lt;a href=&#34;https://sourcethemes.com/academic/post/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;. Further details can easily be added using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>On Generalizing Ordered Cumulative Regression Models</title>
-      <link>/publication/gen-ord-regression/</link>
+      <link>https://rwalker.netlify.com/publication/gen-ord-regression/</link>
       <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>/publication/gen-ord-regression/</guid>
+      <guid>https://rwalker.netlify.com/publication/gen-ord-regression/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Bond Ratings</title>
-      <link>/project/bond-ratings/</link>
+      <link>https://rwalker.netlify.com/project/bond-ratings/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/project/bond-ratings/</guid>
+      <guid>https://rwalker.netlify.com/project/bond-ratings/</guid>
       <description>&lt;p&gt;There will be content.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Generalized Ordered Regression Models</title>
-      <link>/project/gen-ord-logit/</link>
+      <link>https://rwalker.netlify.com/project/gen-ord-logit/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/project/gen-ord-logit/</guid>
+      <guid>https://rwalker.netlify.com/project/gen-ord-logit/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Oregon Property Taxes</title>
-      <link>/project/prop-tax/</link>
+      <link>https://rwalker.netlify.com/project/prop-tax/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/project/prop-tax/</guid>
+      <guid>https://rwalker.netlify.com/project/prop-tax/</guid>
       <description>&lt;p&gt;Fred Thompson, Kawika Pierson, and I have written a few papers on the odd property tax limitations in Oregon.  Basically, there is a cap on the rate of growth and no reset at sale provision so assessment quality suffers tremendously.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Property Tax Fairness in Multnomah County, Oregon</title>
-      <link>/publication/cjpp-ptw/</link>
+      <link>https://rwalker.netlify.com/publication/cjpp-ptw/</link>
       <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>/publication/cjpp-ptw/</guid>
+      <guid>https://rwalker.netlify.com/publication/cjpp-ptw/</guid>
       <description></description>
     </item>
     
     <item>
       <title>The State, Property Rights, and the Middle Class: Empirical Support for an Aristotelian Observation</title>
-      <link>/publication/midclas2/</link>
+      <link>https://rwalker.netlify.com/publication/midclas2/</link>
       <pubDate>Sun, 01 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>/publication/midclas2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>A Tale of Two Cities: Learning from Oregon&#39;s Property Tax Administration</title>
-      <link>/publication/ttc-proptaxmc/</link>
-      <pubDate>Mon, 02 Sep 2013 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/ttc-proptaxmc/</guid>
+      <guid>https://rwalker.netlify.com/publication/midclas2/</guid>
       <description></description>
     </item>
     
