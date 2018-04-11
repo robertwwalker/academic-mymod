@@ -5,30 +5,28 @@
 <meta charset="utf-8"/>
 <!-- end:global -->
 <!-- start:page title -->
-<title>NFL Player Contracts, Salaries, Team Salary Caps, and Transactions</title>
-<meta content="NFL Homepage,contract, salary, transaction,player salaries, payrolls, team salary cap, player contracts" name="keywords"/>
-<meta content="Browse NFL contracts, salaries, team salary caps, cash payrolls, transactions, player valuations and more." name="description"/>
-<meta content="NFL" property="og:title"/>
+<title>EPL Player Contracts, Salaries, Team Payrolls, Wages, Transfers, and Transactions</title>
+<meta content="EPL Homepage,contract, salary, transaction,player salaries, payrolls, team salary cap, player contracts" name="keywords"/>
+<meta content="EPL player transactions, contracts and yearly salaries all in one place!" name="description"/>
+<meta content="EPL" property="og:title"/>
 <meta content="Spotrac.com" property="og:site_name"/>
-<meta content="http://www.spotrac.com/assets/images/thumb/nfl.png" property="og:image"/>
+<meta content="https://www.spotrac.com/assets/images/thumb/epl.png" property="og:image"/>
 <!-- end:page title -->
 <!-- start:responsive web design -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
 <!-- end:responsive web design -->
 <!-- start:web fonts -->
-<link href="//fonts.googleapis.com/css?family=Roboto:400,500,500italic,400italic,700,700italic%7CRoboto+Condensed:400,700%7CRoboto+Slab" rel="stylesheet" type="text/css"/>
-<link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,500italic,400italic,700,700italic%7CRoboto+Condensed:400,700%7CRoboto+Slab" rel="stylesheet" type="text/css"/>
 <!-- end:web fonts -->
-<link href="//www.spotrac.com/resources/css/bootstrap.min.css" rel="stylesheet"/>
-<link href="//www.spotrac.com/resources/css/font-awesome.min.css" rel="stylesheet"/>
-<link href="//www.spotrac.com/resources/css/jquery.sidr.dark.css" rel="stylesheet"/>
-<link href="//www.spotrac.com/resources/css/team.css" rel="stylesheet"/>
-<link href="//www.spotrac.com/resources/css/colors.css" rel="stylesheet"/>
-<link href="//www.spotrac.com/resources/css/option-colors.css" rel="stylesheet"/>
-<link href="//www.spotrac.com/resources/CreativeButtons/css/component.css" rel="stylesheet"/>
-<link href="//www.spotrac.com/resources/css/responsive-tables.css" media="screen" rel="stylesheet" type="text/css"/>
-<link href="//www.spotrac.com/resources/css/style.css" rel="stylesheet"/>
-<script src="//www.spotrac.com/resources/CreativeButtons/js/modernizr.custom.js"></script>
+<!-- start:stylesheets -->
+<link href="http://www.spotrac.com/resources/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="http://www.spotrac.com/resources/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="http://www.spotrac.com/resources/css/weather-icons.min.css" rel="stylesheet"/>
+<link href="http://www.spotrac.com/resources/css/jquery.sidr.dark.css" rel="stylesheet"/>
+<link href="http://www.spotrac.com/resources/css/style.css" rel="stylesheet"/>
+<link href="http://www.spotrac.com/resources/css/team.css" rel="stylesheet"/>
+<link href="http://www.spotrac.com/resources/css/colors.css" rel="stylesheet"/>
+<!-- end:stylesheets -->
 <!--[if lte IE 8]>
 <script src="http://www.spotrac.com/resources/js/respond.js"></script>
 <![endif]-->
@@ -225,7 +223,7 @@
 <a href="https://www.facebook.com/spotrac"><i class="fa fa-facebook"></i> Facebook</a>
 </li>
 <li class="options">
-<a href="http://www.spotrac.com/signin/?redirect=nfl"><i class="fa fa-sign-in"></i>Premium Sign in</a>
+<a href="http://www.spotrac.com/signin/?redirect=epl"><i class="fa fa-sign-in"></i>Premium Sign in</a>
 </li>
 <li class="options">
 <a href="http://www.spotrac.com/register/"><i class="fa fa-pencil-square-o"></i> Register</a>
@@ -284,7 +282,7 @@
 <ul class="nav clearfix col-md-7">
 <li class="home" style="height:40px;"><a href="http://www.spotrac.com/"><span class="glyphicon glyphicon-home"></span></a></li>
 <!---NFL--->
-<li class="cat-nfl active">
+<li class="cat-nfl ">
 <a class="clickable" href="#">NFL <i class="fa fa-caret-down"></i></a>
 <!-- start:submenu-NFL -->
 <div class="subnav-container">
@@ -1023,7 +1021,7 @@
 <!-- end:submenu-tech -->
 </li>
 <!--- EPL--->
-<li class="cat-epl ">
+<li class="cat-epl active">
 <a class="clickable" href="#">EPL <i class="fa fa-caret-down"></i></a>
 <!-- start:submenu-tech -->
 <div class="subnav-container" style="display:none">
@@ -1188,9 +1186,9 @@
 </ul>
 <ul class="options col-md-5">
 <li class="options col-xs-12 col-sm-12 ">
-<a href="http://www.spotrac.com/signin/?redirect=nfl">Sign in</a> | <a href="http://www.spotrac.com/register/"> Register</a> |   
+<a href="http://www.spotrac.com/signin/?redirect=epl">Sign in</a> | <a href="http://www.spotrac.com/register/"> Register</a> |   
 																		<a class="twitter-share-button" data-count="horizontal" data-via="spotrac" href="https://twitter.com/share"> Tweet</a><script src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>
-<iframe id="facebook-share" src="https://www.facebook.com/plugins/like.php?app_id=152185691527861&amp;href=http://www.spotrac.com/nfl/&amp;send=false&amp;layout=button_count&amp;width=75&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=24" style="height:24px !important;"></iframe>
+<iframe id="facebook-share" src="https://www.facebook.com/plugins/like.php?app_id=152185691527861&amp;href=http://www.spotrac.com/epl/&amp;send=false&amp;layout=button_count&amp;width=75&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=24" style="height:24px !important;"></iframe>
 </li>
 </ul>
 </nav>
@@ -1201,50 +1199,36 @@
 <!-- end:header-navigation -->
 </header>
 <!-- end:page header -->
+<header>
 <!-- start:header-navigation-sub -->
 <div id="header-navigation-sub">
 <!-- start:container -->
 <div class="container">
-<nav class="cat-nfl">
+<nav class="cat-epl">
 <ul class="menu">
-<li class="current"><a href="http://www.spotrac.com/nfl/">Teams</a></li>
-<li><a href="http://www.spotrac.com/nfl/cap/">Cap Tracker</a></li>
-<li><a href="http://www.spotrac.com/nfl/positional/">Positional Spending</a></li>
-<li class="dropit-trigger "><a href="#">Contracts <i class="fa fa-caret-down"></i></a>
-<ul class="dropit-submenu">
-<li><a href="http://www.spotrac.com/nfl/contracts/">Active Contracts</a></li>
-<li><a href="http://www.spotrac.com/nfl/contracts/cumulative-cash/">Cumulative Cash</a></li>
-<li><a href="http://www.spotrac.com/nfl/contracts/cumulative-cash-remaining/">Remaining Cash</a></li>
-</ul>
-</li>
+<li class="current"><a href="http://www.spotrac.com/epl/">Teams</a></li>
+<li><a href="http://www.spotrac.com/epl/payroll/">Payroll Tracker</a></li>
+<li><a href="http://www.spotrac.com/epl/contracts/">Contracts</a></li>
+<li><a href="http://www.spotrac.com/epl/positional/">Positional Spending</a></li>
 <li class="dropit-trigger "><a href="#">Top Salaries<i class="fa fa-caret-down"></i></a>
 <ul class="dropit-submenu">
-<li><a href="http://www.spotrac.com/nfl/rankings/cap-hit/">Cap Hits</a></li>
-<li><a href="http://www.spotrac.com/nfl/rankings/base/">Base Salaries</a></li>
-<li><a href="http://www.spotrac.com/nfl/rankings/average/">Average Salaries</a></li>
-<li><a href="http://www.spotrac.com/nfl/rankings/contract-value/">Contracts</a></li>
-<li><a href="http://www.spotrac.com/nfl/rankings/guaranteed/">Guaranteed Money</a></li>
-<li><a href="http://www.spotrac.com/nfl/rankings/earnings/">Career Earnings</a></li>
+<li><a href="http://www.spotrac.com/epl/rankings/">Annual Salary</a></li>
+<li><a href="http://www.spotrac.com/epl/rankings/weekly/">Weekly Wage</a></li>
+<li><a href="http://www.spotrac.com/epl/rankings/contract-value/">Contract Value</a></li>
+<li><a href="http://www.spotrac.com/epl/rankings/transfer-fee/">Transfer Fee</a></li>
 </ul>
 </li>
-<li><a href="http://www.spotrac.com/nfl/free-agents/">Free Agents</a></li>
-<li class="dropit-trigger "><a href="#">Tools <i class="fa fa-caret-down"></i></a>
-<ul class="dropit-submenu">
-<li><a href="http://www.spotrac.com/nfl/injured-reserve/">IR Tracker</a></li>
-<li><a href="http://www.spotrac.com/nfl/fines-suspensions/">Fines/Suspensions</a></li>
-<li><a href="http://www.spotrac.com/nfl/market-value/">Market Values</a></li>
-<li><a href="http://www.spotrac.com/nfl/tools/roster/">Roster/Cap Manager</a></li>
-<li><a href="http://www.spotrac.com/nfl/draft/">Draft Tracker</a></li>
-<li><a href="http://www.spotrac.com/nfl/depth-charts/">Depth Charts Tool</a></li>
+<li><a href="http://www.spotrac.com/epl/free-agents/">Free Agents</a></li>
+<li><a href="http://www.spotrac.com/epl/transfers/">Transfers</a></li>
+<li><a href="http://www.spotrac.com/epl/transactions/">Transactions</a></li>
 </ul>
-</li>
-<li><a href="http://www.spotrac.com/nfl/valuation/">Best Values</a></li>
-<li><a href="http://www.spotrac.com/nfl/transactions/">Transactions</a></li>
-</ul>
-</nav> </div>
+</nav>
+</div>
 <!-- end:container -->
 </div>
 <!-- end:header-navigation-sub -->
+</header>
+<!-- end:page header -->
 <!-- start:container -->
 <div class="container">
 <!-- start:page content -->
@@ -1254,386 +1238,11 @@
 <div id="main">
 <!-- start:col -->
 <header>
-<h1><img alt="NFL Team Contracts &amp; Payrolls" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/nfl.png"/> <strong>NFL Team <span class="xs-hide">Contracts &amp; </span>Payrolls</strong></h1>
+<h1><img alt="NFL Team Contracts &amp; Payrolls" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/premier-league-logo-header_zps41vnv1q1.png"/> <strong>EPL Team <span class="xs-hide">Contracts &amp; </span>Payrolls</strong></h1>
 <span class="borderline"></span>
-<p>Browse NFL <strong>contracts</strong>, <strong>salaries</strong>, <strong>team salary caps</strong>, <strong>cash payrolls</strong>, <strong>transactions</strong>, <strong>player valuations</strong> and more.</p>
+<p>Browse EPL <strong>contracts</strong>, <strong>salaries</strong>, <strong>team salary caps</strong>, <strong>cash payrolls</strong>, <strong>transactions</strong>, <strong>player valuations</strong> and more.</p>
 </header>
-<div class="ad visible-lg"><!-- Ad Unit [3907] Spotrac.com - 728x90 -->
-<div class="switch_placeholder" id="switch_placeholder_7053b41429e7678723e03f4affaf598b"></div>
-<script> (__scads = window.__scads || []).push({"z":3907,"targetId":"switch_placeholder_7053b41429e7678723e03f4affaf598b","domain":"delivery.switchadhub.com","width":"0","height":"0"}); </script>
-<script async="" src="//delivery.switchadhub.com/adserver/sat.js"></script>
-</div>
-<div class="ad visible-md"><!-- Ad Unit [3906] Spotrac.com - 300x250 -->
-<div class="switch_placeholder" id="switch_placeholder_3611efe9c05029a0f126e51b87705ff9"></div>
-<script> (__scads = window.__scads || []).push({"z":3906,"targetId":"switch_placeholder_3611efe9c05029a0f126e51b87705ff9","domain":"delivery.switchadhub.com","width":"0","height":"0"}); </script>
-<script async="" src="//delivery.switchadhub.com/adserver/sat.js"></script>
-</div>
-<div class="ad visible-sm"><!-- Ad Unit [3906] Spotrac.com - 300x250 -->
-<div class="switch_placeholder" id="switch_placeholder_3611efe9c05029a0f126e51b87705ff9"></div>
-<script> (__scads = window.__scads || []).push({"z":3906,"targetId":"switch_placeholder_3611efe9c05029a0f126e51b87705ff9","domain":"delivery.switchadhub.com","width":"0","height":"0"}); </script>
-<script async="" src="//delivery.switchadhub.com/adserver/sat.js"></script>
-</div>
-<div class="ad visible-xs text-center"><!-- Ad Unit [3906] Spotrac.com - 300x250 -->
-<div class="switch_placeholder" id="switch_placeholder_3611efe9c05029a0f126e51b87705ff9"></div>
-<script> (__scads = window.__scads || []).push({"z":3906,"targetId":"switch_placeholder_3611efe9c05029a0f126e51b87705ff9","domain":"delivery.switchadhub.com","width":"0","height":"0"}); </script>
-<script async="" src="//delivery.switchadhub.com/adserver/sat.js"></script>
-</div> <div class="teams">
-<div class="teamlist">
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/arizona-cardinals/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/arizona-cardinals/cap/"><img alt="Arizona Cardinals Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/arizona2.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/arizona-cardinals/cap/">Arizona Cardinals</a></h3>
-<a href="http://www.spotrac.com/nfl/arizona-cardinals/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/arizona-cardinals/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/arizona-cardinals/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/arizona-cardinals/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/arizona-cardinals/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/arizona-cardinals/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/arizona-cardinals/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/atlanta-falcons/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/atlanta-falcons/cap/"><img alt="Atlanta Falcons Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/falcons.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/atlanta-falcons/cap/">Atlanta Falcons</a></h3>
-<a href="http://www.spotrac.com/nfl/atlanta-falcons/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/atlanta-falcons/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/atlanta-falcons/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/atlanta-falcons/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/atlanta-falcons/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/atlanta-falcons/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/atlanta-falcons/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/baltimore-ravens/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/baltimore-ravens/cap/"><img alt="Baltimore Ravens Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/ravens.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/baltimore-ravens/cap/">Baltimore Ravens</a></h3>
-<a href="http://www.spotrac.com/nfl/baltimore-ravens/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/baltimore-ravens/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/baltimore-ravens/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/baltimore-ravens/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/baltimore-ravens/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/baltimore-ravens/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/baltimore-ravens/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/buffalo-bills/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/buffalo-bills/cap/"><img alt="Buffalo Bills Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/buffalo.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/buffalo-bills/cap/">Buffalo Bills</a></h3>
-<a href="http://www.spotrac.com/nfl/buffalo-bills/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/buffalo-bills/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/buffalo-bills/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/buffalo-bills/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/buffalo-bills/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/buffalo-bills/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/buffalo-bills/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/carolina-panthers/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/carolina-panthers/cap/"><img alt="Carolina Panthers Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/panthers.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/carolina-panthers/cap/">Carolina Panthers</a></h3>
-<a href="http://www.spotrac.com/nfl/carolina-panthers/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/carolina-panthers/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/carolina-panthers/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/carolina-panthers/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/carolina-panthers/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/carolina-panthers/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/carolina-panthers/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/chicago-bears/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/chicago-bears/cap/"><img alt="Chicago Bears Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/bears.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/chicago-bears/cap/">Chicago Bears</a></h3>
-<a href="http://www.spotrac.com/nfl/chicago-bears/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/chicago-bears/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/chicago-bears/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/chicago-bears/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/chicago-bears/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/chicago-bears/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/chicago-bears/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/cincinnati-bengals/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/cincinnati-bengals/cap/"><img alt="Cincinnati Bengals Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/bengals.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/cincinnati-bengals/cap/">Cincinnati Bengals</a></h3>
-<a href="http://www.spotrac.com/nfl/cincinnati-bengals/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/cincinnati-bengals/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/cincinnati-bengals/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/cincinnati-bengals/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/cincinnati-bengals/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/cincinnati-bengals/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/cincinnati-bengals/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/cleveland-browns/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/cleveland-browns/cap/"><img alt="Cleveland Browns Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/browns.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/cleveland-browns/cap/">Cleveland Browns</a></h3>
-<a href="http://www.spotrac.com/nfl/cleveland-browns/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/cleveland-browns/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/cleveland-browns/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/cleveland-browns/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/cleveland-browns/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/cleveland-browns/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/cleveland-browns/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/dallas-cowboys/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/dallas-cowboys/cap/"><img alt="Dallas Cowboys Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/dallas.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/dallas-cowboys/cap/">Dallas Cowboys</a></h3>
-<a href="http://www.spotrac.com/nfl/dallas-cowboys/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/dallas-cowboys/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/dallas-cowboys/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/dallas-cowboys/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/dallas-cowboys/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/dallas-cowboys/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/dallas-cowboys/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/denver-broncos/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/denver-broncos/cap/"><img alt="Denver Broncos Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/broncos.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/denver-broncos/cap/">Denver Broncos</a></h3>
-<a href="http://www.spotrac.com/nfl/denver-broncos/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/denver-broncos/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/denver-broncos/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/denver-broncos/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/denver-broncos/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/denver-broncos/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/denver-broncos/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/detroit-lions/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/detroit-lions/cap/"><img alt="Detroit Lions Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/lions.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/detroit-lions/cap/">Detroit Lions</a></h3>
-<a href="http://www.spotrac.com/nfl/detroit-lions/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/detroit-lions/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/detroit-lions/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/detroit-lions/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/detroit-lions/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/detroit-lions/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/detroit-lions/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/green-bay-packers/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/green-bay-packers/cap/"><img alt="Green Bay Packers Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/packers.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/green-bay-packers/cap/">Green Bay Packers</a></h3>
-<a href="http://www.spotrac.com/nfl/green-bay-packers/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/green-bay-packers/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/green-bay-packers/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/green-bay-packers/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/green-bay-packers/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/green-bay-packers/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/green-bay-packers/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/houston-texans/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/houston-texans/cap/"><img alt="Houston Texans Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/texans.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/houston-texans/cap/">Houston Texans</a></h3>
-<a href="http://www.spotrac.com/nfl/houston-texans/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/houston-texans/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/houston-texans/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/houston-texans/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/houston-texans/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/houston-texans/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/houston-texans/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/indianapolis-colts/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/indianapolis-colts/cap/"><img alt="Indianapolis Colts Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/colts.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/indianapolis-colts/cap/">Indianapolis Colts</a></h3>
-<a href="http://www.spotrac.com/nfl/indianapolis-colts/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/indianapolis-colts/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/indianapolis-colts/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/indianapolis-colts/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/indianapolis-colts/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/indianapolis-colts/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/indianapolis-colts/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/jacksonville-jaguars/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/jacksonville-jaguars/cap/"><img alt="Jacksonville Jaguars Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/jaguars.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/jacksonville-jaguars/cap/">Jacksonville Jaguars</a></h3>
-<a href="http://www.spotrac.com/nfl/jacksonville-jaguars/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/jacksonville-jaguars/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/jacksonville-jaguars/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/jacksonville-jaguars/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/jacksonville-jaguars/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/jacksonville-jaguars/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/jacksonville-jaguars/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/kansas-city-chiefs/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/kansas-city-chiefs/cap/"><img alt="Kansas City Chiefs Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/kansascity.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/kansas-city-chiefs/cap/">Kansas City Chiefs</a></h3>
-<a href="http://www.spotrac.com/nfl/kansas-city-chiefs/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/kansas-city-chiefs/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/kansas-city-chiefs/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/kansas-city-chiefs/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/kansas-city-chiefs/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/kansas-city-chiefs/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/kansas-city-chiefs/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/los-angeles-chargers/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/los-angeles-chargers/cap/"><img alt="Los Angeles Chargers Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/NFL_Chargers_logo.svg_.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/los-angeles-chargers/cap/">Los Angeles Chargers</a></h3>
-<a href="http://www.spotrac.com/nfl/los-angeles-chargers/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/los-angeles-chargers/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/los-angeles-chargers/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/los-angeles-chargers/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/los-angeles-chargers/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/los-angeles-chargers/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/los-angeles-chargers/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/los-angeles-rams/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/los-angeles-rams/cap/"><img alt="Los Angeles Rams Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/rams2.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/los-angeles-rams/cap/">Los Angeles Rams</a></h3>
-<a href="http://www.spotrac.com/nfl/los-angeles-rams/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/los-angeles-rams/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/los-angeles-rams/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/los-angeles-rams/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/los-angeles-rams/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/los-angeles-rams/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/los-angeles-rams/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/miami-dolphins/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/miami-dolphins/cap/"><img alt="Miami Dolphins Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/dolphins.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/miami-dolphins/cap/">Miami Dolphins</a></h3>
-<a href="http://www.spotrac.com/nfl/miami-dolphins/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/miami-dolphins/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/miami-dolphins/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/miami-dolphins/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/miami-dolphins/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/miami-dolphins/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/miami-dolphins/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/minnesota-vikings/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/minnesota-vikings/cap/"><img alt="Minnesota Vikings Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/vikings.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/minnesota-vikings/cap/">Minnesota Vikings</a></h3>
-<a href="http://www.spotrac.com/nfl/minnesota-vikings/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/minnesota-vikings/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/minnesota-vikings/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/minnesota-vikings/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/minnesota-vikings/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/minnesota-vikings/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/minnesota-vikings/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/new-england-patriots/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/new-england-patriots/cap/"><img alt="New England Patriots Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/patriots.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/new-england-patriots/cap/">New England Patriots</a></h3>
-<a href="http://www.spotrac.com/nfl/new-england-patriots/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/new-england-patriots/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/new-england-patriots/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/new-england-patriots/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/new-england-patriots/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/new-england-patriots/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/new-england-patriots/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/new-orleans-saints/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/new-orleans-saints/cap/"><img alt="New Orleans Saints Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/neworleans.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/new-orleans-saints/cap/">New Orleans Saints</a></h3>
-<a href="http://www.spotrac.com/nfl/new-orleans-saints/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/new-orleans-saints/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/new-orleans-saints/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/new-orleans-saints/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/new-orleans-saints/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/new-orleans-saints/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/new-orleans-saints/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/new-york-giants/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/new-york-giants/cap/"><img alt="New York Giants Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/nygiants.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/new-york-giants/cap/">New York Giants</a></h3>
-<a href="http://www.spotrac.com/nfl/new-york-giants/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/new-york-giants/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/new-york-giants/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/new-york-giants/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/new-york-giants/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/new-york-giants/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/new-york-giants/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/new-york-jets/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/new-york-jets/cap/"><img alt="New York Jets Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/jets.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/new-york-jets/cap/">New York Jets</a></h3>
-<a href="http://www.spotrac.com/nfl/new-york-jets/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/new-york-jets/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/new-york-jets/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/new-york-jets/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/new-york-jets/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/new-york-jets/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/new-york-jets/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/oakland-raiders/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/oakland-raiders/cap/"><img alt="Oakland Raiders Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/oakland.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/oakland-raiders/cap/">Oakland Raiders</a></h3>
-<a href="http://www.spotrac.com/nfl/oakland-raiders/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/oakland-raiders/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/oakland-raiders/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/oakland-raiders/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/oakland-raiders/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/oakland-raiders/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/oakland-raiders/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/philadelphia-eagles/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/philadelphia-eagles/cap/"><img alt="Philadelphia Eagles Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/eagles1.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/philadelphia-eagles/cap/">Philadelphia Eagles</a></h3>
-<a href="http://www.spotrac.com/nfl/philadelphia-eagles/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/philadelphia-eagles/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/philadelphia-eagles/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/philadelphia-eagles/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/philadelphia-eagles/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/philadelphia-eagles/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/philadelphia-eagles/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/pittsburgh-steelers/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/pittsburgh-steelers/cap/"><img alt="Pittsburgh Steelers Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Pittsburgh-Steelers-logo-psd22874.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/pittsburgh-steelers/cap/">Pittsburgh Steelers</a></h3>
-<a href="http://www.spotrac.com/nfl/pittsburgh-steelers/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/pittsburgh-steelers/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/pittsburgh-steelers/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/pittsburgh-steelers/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/pittsburgh-steelers/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/pittsburgh-steelers/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/pittsburgh-steelers/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/san-francisco-49ers/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/san-francisco-49ers/cap/"><img alt="San Francisco 49ers Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/49erslogo.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/san-francisco-49ers/cap/">San Francisco 49ers</a></h3>
-<a href="http://www.spotrac.com/nfl/san-francisco-49ers/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/san-francisco-49ers/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/san-francisco-49ers/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/san-francisco-49ers/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/san-francisco-49ers/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/san-francisco-49ers/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/san-francisco-49ers/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/seattle-seahawks/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/seattle-seahawks/cap/"><img alt="Seattle Seahawks Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/hawks3.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/seattle-seahawks/cap/">Seattle Seahawks</a></h3>
-<a href="http://www.spotrac.com/nfl/seattle-seahawks/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/seattle-seahawks/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/seattle-seahawks/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/seattle-seahawks/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/seattle-seahawks/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/seattle-seahawks/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/seattle-seahawks/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/tampa-bay-buccaneers/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/tampa-bay-buccaneers/cap/"><img alt="Tampa Bay Buccaneers Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/bucs.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/tampa-bay-buccaneers/cap/">Tampa Bay Buccaneers</a></h3>
-<a href="http://www.spotrac.com/nfl/tampa-bay-buccaneers/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/tampa-bay-buccaneers/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/tampa-bay-buccaneers/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/tampa-bay-buccaneers/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/tampa-bay-buccaneers/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/tampa-bay-buccaneers/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/tampa-bay-buccaneers/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem odd col-md-12" onclick="document.location='http://www.spotrac.com/nfl/tennessee-titans/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/tennessee-titans/cap/"><img alt="Tennessee Titans Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/tennessee.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/tennessee-titans/cap/">Tennessee Titans</a></h3>
-<a href="http://www.spotrac.com/nfl/tennessee-titans/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/tennessee-titans/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/tennessee-titans/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/tennessee-titans/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/tennessee-titans/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/tennessee-titans/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/tennessee-titans/">» Transactions</a></div>
-</div>
-</div>
-<div class="teamitem col-md-12" onclick="document.location='http://www.spotrac.com/nfl/washington-redskins/'">
-<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/nfl/washington-redskins/cap/"><img alt="Washington Redskins Contracts, Cap Hits, Salaries, Free Agents" src="http://d1dglpr230r57l.cloudfront.net/images/thumb/washington.png"/></a></div>
-<div class="teamname col-xs-10 col-md-4">
-<h3><a class="team-name" href="http://www.spotrac.com/nfl/washington-redskins/cap/">Washington Redskins</a></h3>
-<a href="http://www.spotrac.com/nfl/washington-redskins/cap/"><i class="visible-xs fa fa-angle-right"></i></a>
-</div>
-<div class="teamoptions col-md-6">
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/washington-redskins/contracts/">» Active Contracts</a><br/><a href="http://www.spotrac.com/nfl/washington-redskins/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/nfl/washington-redskins/positional/">» Positional Spending</a></div>
-<div class="teamoption"><a href="http://www.spotrac.com/nfl/washington-redskins/cap/">» 2018 Salary Cap Table</a><br/><a href="http://www.spotrac.com/nfl/free-agents/washington-redskins/">» 2018  Free Agents</a><br/><a href="http://www.spotrac.com/nfl/transactions/washington-redskins/">» Transactions</a></div>
-</div>
-</div>
-</div>
-</div>
-<div class="hidden-xs"><div class="ad visible-lg"><script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<div class="ad visible-lg"><script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- Spotrac Leader -->
 <ins class="adsbygoogle" data-ad-client="ca-pub-1743211837214524" data-ad-slot="4905366526" style="display:inline-block;width:728px;height:90px"></ins>
 <script>
@@ -1662,20 +1271,217 @@
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-</div></div>
+</div> <div class="teams">
+<div class="teamlist">
+<div class="teamitem odd col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/afc-bournemouth/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/AFC_Bournemouth_(2013).svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/afc-bournemouth/">AFC Bournemouth</a></h3>
 </div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/afc-bournemouth/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/afc-bournemouth/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/afc-bournemouth/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/afc-bournemouth/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/afc-bournemouth/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/afc-bournemouth/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/arsenal-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Arsenal_FC.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/arsenal-f.c/">Arsenal F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/arsenal-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/arsenal-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/arsenal-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/arsenal-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/arsenal-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/arsenal-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem odd col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/brighton-hove-albion/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/bha.jpg"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/brighton-hove-albion/">Brighton &amp; Hove Albion</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/brighton-hove-albion/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/brighton-hove-albion/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/brighton-hove-albion/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/brighton-hove-albion/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/brighton-hove-albion/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/brighton-hove-albion/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/burnley-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Burnley_FC_badge.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/burnley-f.c/">Burnley F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/burnley-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/burnley-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/burnley-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/burnley-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/burnley-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/burnley-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem odd col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/chelsea-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Chelsea_FC.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/chelsea-f.c/">Chelsea F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/chelsea-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/chelsea-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/chelsea-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/chelsea-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/chelsea-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/chelsea-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/crystal-palace/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Crystal_Palace_FC_logo.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/crystal-palace/">Crystal Palace</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/crystal-palace/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/crystal-palace/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/crystal-palace/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/crystal-palace/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/crystal-palace/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/crystal-palace/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem odd col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/everton-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Everton_FC_Crest-colour.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/everton-f.c/">Everton F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/everton-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/everton-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/everton-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/everton-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/everton-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/everton-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/huddersfield-town/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Huddersfield_Town_FC_logo_(simple).png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/huddersfield-town/">Huddersfield Town</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/huddersfield-town/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/huddersfield-town/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/huddersfield-town/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/huddersfield-town/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/huddersfield-town/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/huddersfield-town/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem odd col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/leicester-city/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Leicester02.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/leicester-city/">Leicester City</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/leicester-city/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/leicester-city/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/leicester-city/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/leicester-city/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/leicester-city/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/leicester-city/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/liverpool-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Liverpool_FC.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/liverpool-f.c/">Liverpool F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/liverpool-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/liverpool-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/liverpool-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/liverpool-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/liverpool-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/liverpool-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem odd col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/manchester-city-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Manchester_City.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/manchester-city-f.c/">Manchester City F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/manchester-city-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/manchester-city-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/manchester-city-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/manchester-city-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/manchester-city-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/manchester-city-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/manchester-united-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Manchester_United_FC_crest.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/manchester-united-f.c/">Manchester United F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/manchester-united-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/manchester-united-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/manchester-united-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/manchester-united-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/manchester-united-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/manchester-united-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem odd col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/newcastle-united-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Newcastle_United_Logo.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/newcastle-united-f.c/">Newcastle United F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/newcastle-united-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/newcastle-united-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/newcastle-united-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/newcastle-united-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/newcastle-united-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/newcastle-united-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/southampton-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/200px-FC_Southampton.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/southampton-f.c/">Southampton F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/southampton-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/southampton-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/southampton-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/southampton-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/southampton-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/southampton-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem odd col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/stoke-city-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Stoke_City_FC.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/stoke-city-f.c/">Stoke City F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/stoke-city-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/stoke-city-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/stoke-city-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/stoke-city-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/stoke-city-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/stoke-city-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/swansea-city-a.f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Swansea_City_AFC_logo_(100th_anniversary).svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/swansea-city-a.f.c/">Swansea City A.F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/swansea-city-a.f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/swansea-city-a.f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/swansea-city-a.f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/swansea-city-a.f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/swansea-city-a.f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/swansea-city-a.f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem odd col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/tottenham-hotspur-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Tottenham_Hotspur.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/tottenham-hotspur-f.c/">Tottenham Hotspur F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/tottenham-hotspur-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/tottenham-hotspur-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/tottenham-hotspur-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/tottenham-hotspur-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/tottenham-hotspur-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/tottenham-hotspur-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/watford/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/Watford.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/watford/">Watford</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/watford/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/watford/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/watford/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/watford/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/watford/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/watford/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem odd col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/west-bromwich-albion-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/150px-West_Bromwich_Albion.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/west-bromwich-albion-f.c/">West Bromwich Albion F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/west-bromwich-albion-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/west-bromwich-albion-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/west-bromwich-albion-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/west-bromwich-albion-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/west-bromwich-albion-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/west-bromwich-albion-f.c/">» Transactions</a></div>
+</div>
+</div>
+<div class="teamitem col-md-12">
+<div class="teamlogo col-xs-2 col-md-2"><a href="http://www.spotrac.com/epl/west-ham-united-f.c/"><img src="http://d1dglpr230r57l.cloudfront.net/images/thumb/West_Ham_United_FC.svg_.png"/></a></div>
+<div class="teamname col-xs-10 col-md-4">
+<h3><a class="team-name" href="http://www.spotrac.com/epl/west-ham-united-f.c/">West Ham United F.C.</a></h3>
+</div>
+<div class="teamoptions col-md-6">
+<div class="teamoption"><a href="http://www.spotrac.com/epl/west-ham-united-f.c/contracts/">» Current Contracts</a><br/><a href="http://www.spotrac.com/epl/west-ham-united-f.c/yearly-cap/">» Salaries by Year</a><br/><a href="http://www.spotrac.com/epl/west-ham-united-f.c/positional/">» Positional Spending</a></div>
+<div class="teamoption"><a href="http://www.spotrac.com/epl/west-ham-united-f.c/payroll/">» 2017-2018 Team Payroll</a><br/><a href="http://www.spotrac.com/epl/free-agents/west-ham-united-f.c/">» 2017  Free Agents</a><br/><a href="http://www.spotrac.com/epl/transactions/west-ham-united-f.c/">» Transactions</a></div>
+</div>
+</div>
+</div>
+</div>
+						
+											 
+					</div>
 <!-- end:main -->
 </div>
 <!-- start:sidebar -->
 <div id="sidebar">
-<!-- start:advertising -->
-<div class="ad">
-<!-- Ad Unit [3906] Spotrac.com - 300x250 -->
-<div class="switch_placeholder" id="switch_placeholder_3611efe9c05029a0f126e51b87705ff9"></div>
-<script> (__scads = window.__scads || []).push({"z":3906,"targetId":"switch_placeholder_3611efe9c05029a0f126e51b87705ff9","domain":"delivery.switchadhub.com","width":"0","height":"0"}); </script>
-<script async="" src="//delivery.switchadhub.com/adserver/sat.js"></script>
-</div>
-<!-- end:advertising -->
 <!-- start:section-module-singles -->
 <section class="module-singles list">
 <!-- start:header -->
@@ -1686,38 +1492,38 @@
 <!-- end:header -->
 <!-- start:singles-container -->
 <ul class="singles-container">
-<li class="odd" onclick="window.location.href='http://www.spotrac.com/redirect/player/6625/'">
-<a class="view" href="http://www.spotrac.com/redirect/player/6625/">view</a>
+<li class="odd" onclick="window.location.href='http://www.spotrac.com/redirect/player/23074/'">
+<a class="view" href="http://www.spotrac.com/redirect/player/23074/">view</a>
 <span class="rank">1</span>
-<a href="http://www.spotrac.com/redirect/player/6625/">Joe Hawley (C, TB)</a>
+<a href="http://www.spotrac.com/redirect/player/23074/">Troy Deeney (F, WAT)</a>
 </li>
-<li onclick="window.location.href='http://www.spotrac.com/redirect/player/4619/'">
-<a class="view" href="http://www.spotrac.com/redirect/player/4619/">view</a>
+<li onclick="window.location.href='http://www.spotrac.com/redirect/player/22877/'">
+<a class="view" href="http://www.spotrac.com/redirect/player/22877/">view</a>
 <span class="rank">2</span>
-<a href="http://www.spotrac.com/redirect/player/4619/">Tom Brady (QB, NE)</a>
+<a href="http://www.spotrac.com/redirect/player/22877/">Yaya Toure (M, MCFC)</a>
 </li>
-<li class="odd" onclick="window.location.href='http://www.spotrac.com/redirect/player/9915/'">
-<a class="view" href="http://www.spotrac.com/redirect/player/9915/">view</a>
+<li class="odd" onclick="window.location.href='http://www.spotrac.com/redirect/player/15578/'">
+<a class="view" href="http://www.spotrac.com/redirect/player/15578/">view</a>
 <span class="rank">3</span>
-<a href="http://www.spotrac.com/redirect/player/9915/">Kirk Cousins (QB, MIN)</a>
+<a href="http://www.spotrac.com/redirect/player/15578/">Alexis Sanchez (F, MUFC)</a>
 </li>
-<li onclick="window.location.href='http://www.spotrac.com/redirect/player/6511/'">
-<a class="view" href="http://www.spotrac.com/redirect/player/6511/">view</a>
+<li onclick="window.location.href='http://www.spotrac.com/redirect/player/24333/'">
+<a class="view" href="http://www.spotrac.com/redirect/player/24333/">view</a>
 <span class="rank">4</span>
-<a href="http://www.spotrac.com/redirect/player/6511/">Ndamukong Suh (DT, LA)</a>
+<a href="http://www.spotrac.com/redirect/player/24333/">Nathangelo Markelo (D, EFC)</a>
 </li>
-<li class="odd" onclick="window.location.href='http://www.spotrac.com/redirect/player/9812/'">
-<a class="view" href="http://www.spotrac.com/redirect/player/9812/">view</a>
+<li class="odd" onclick="window.location.href='http://www.spotrac.com/redirect/player/15455/'">
+<a class="view" href="http://www.spotrac.com/redirect/player/15455/">view</a>
 <span class="rank">5</span>
-<a href="http://www.spotrac.com/redirect/player/9812/">Robert Griffin III (QB, BAL)</a>
+<a href="http://www.spotrac.com/redirect/player/15455/">Mesut Ozil (M, AFC)</a>
 </li>
 </ul>
 <!-- end:singles-container -->
 </section>
 <div class="ad">
 <!-- Ad Unit [3906] Spotrac.com - 300x250 -->
-<div class="switch_placeholder" id="switch_placeholder_3611efe9c05029a0f126e51b87705ff9"></div>
-<script> (__scads = window.__scads || []).push({"z":3906,"targetId":"switch_placeholder_3611efe9c05029a0f126e51b87705ff9","domain":"delivery.switchadhub.com","width":"0","height":"0"}); </script>
+<div class="switch_placeholder" id="switch_placeholder_3df382345d5b88d1a68ef6e95e17f83a"></div>
+<script> (__scads = window.__scads || []).push({"z":3906,"targetId":"switch_placeholder_3df382345d5b88d1a68ef6e95e17f83a","domain":"delivery.switchadhub.com","width":"0","height":"0"}); </script>
 <script async="" src="//delivery.switchadhub.com/adserver/sat.js"></script>
 </div>
 <section class="teamtransactions">
@@ -1731,46 +1537,43 @@
 <div>
 <div class="transitem">
 <span class="transplayer">
-<span class="transdate">Apr 7 2018</span>
-<a href="http://www.spotrac.com/redirect/player/22071/">Des Lawrence</a></span>
-<span class="transdesc">Waived by Detroit (DET)</span>
+<span class="transdate">Apr 2 2018</span>
+<a href="http://www.spotrac.com/redirect/player/22906/">Zlatan Ibrahimovic</a></span>
+<span class="transdesc">Signed a 3 year contract with Los Angeles Galaxy by transfer from Manchester United F.C. (MUFC) </span>
 </div>
 <div class="transitem">
 <span class="transplayer">
-<span class="transdate">Apr 6 2018</span>
-<a href="http://www.spotrac.com/redirect/player/1209/">Thomas Davis</a></span>
-<span class="transdesc">Suspended 4 games for violating the league's PED policy, forfeiting $1,011,029 in 2018 salary with Carolina (CAR)</span>
+<span class="transdate">Feb 23 2018</span>
+<a href="http://www.spotrac.com/redirect/player/23121/">Jose Fonte</a></span>
+<span class="transdesc">Signed a contract with DL Yifang by transfer from West Ham United F.C. (WHUFC) for a $5.01M fee</span>
 </div>
 <div class="transitem">
 <span class="transplayer">
-<span class="transdate">Apr 6 2018</span>
-<a href="http://www.spotrac.com/redirect/player/14548/">Dakota Dozier</a></span>
-<span class="transdesc">Signed a contract with New York (NYJ)</span>
+<span class="transdate">Feb 7 2018</span>
+<a href="http://www.spotrac.com/redirect/player/11890/">Patrice Evra</a></span>
+<span class="transdesc">Signed a half-year contract with West Ham United F.C. (WHUFC)</span>
 </div>
 <div class="transitem">
 <span class="transplayer">
-<span class="transdate">Apr 6 2018</span>
-<a href="http://www.spotrac.com/redirect/player/16780/">Senquez Golson</a></span>
-<span class="transdesc">Signed a contract with Oakland (OAK)</span>
+<span class="transdate">Feb 5 2018</span>
+<a href="http://www.spotrac.com/redirect/player/24965/">Dodi Lukebakio</a></span>
+<span class="transdesc">Signed a 4 1/2 year contract by transfer from RSC Charleroi to Watford (WAT) for a $4.5M fee</span>
 </div>
 <div class="transitem">
 <span class="transplayer">
-<span class="transdate">Apr 6 2018</span>
-<a href="http://www.spotrac.com/redirect/player/12499/">Armonty Bryant</a></span>
-<span class="transdesc">Signed a contract with Oakland (OAK)</span>
+<span class="transdate">Feb 5 2018</span>
+<a href="http://www.spotrac.com/redirect/player/23094/">Tyler Roberts</a></span>
+<span class="transdesc">Signed a 4 1/2 year contract by transfer from West Bromwich Albion F.C. (WBAFC) to Leeds United for a $2.57M fee</span>
 </div>
-<a class="more" href="http://www.spotrac.com/nfl/transactions/">» View More</a>
+<a class="more" href="http://www.spotrac.com/epl/transactions/">» View More</a>
 </div>
 </section>
 <div class="ad">
-<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- Spotrac Sidebar -->
-<ins class="adsbygoogle" data-ad-client="ca-pub-1743211837214524" data-ad-slot="0068993420" style="display:inline-block;width:300px;height:250px"></ins>
-<script>
-			(adsbygoogle = window.adsbygoogle || []).push({});
-			</script>
+<!-- Ad Unit [3906] Spotrac.com - 300x250 -->
+<div class="switch_placeholder" id="switch_placeholder_3df382345d5b88d1a68ef6e95e17f83a"></div>
+<script> (__scads = window.__scads || []).push({"z":3906,"targetId":"switch_placeholder_3df382345d5b88d1a68ef6e95e17f83a","domain":"delivery.switchadhub.com","width":"0","height":"0"}); </script>
+<script async="" src="//delivery.switchadhub.com/adserver/sat.js"></script>
 </div>
-<!-- end:advertising -->
 <!-- start:section-module-singles -->
 <section class="module-singles list">
 <!-- start:header -->
@@ -1781,59 +1584,37 @@
 <!-- end:header -->
 <!-- start:singles-container -->
 <ul class="singles-container">
-<li class="odd" onclick="window.location.href='http://www.spotrac.com/nfl/'">
-<a class="view" href="http://www.spotrac.com/nfl/">view</a>
+<li class="odd" onclick="window.location.href='http://www.spotrac.com/epl/liverpool-f.c/payroll/'">
+<a class="view" href="http://www.spotrac.com/epl/liverpool-f.c/payroll/">view</a>
 <span class="rank">1</span>
-<a href="http://www.spotrac.com/nfl/">NFL Homepage</a>
+<a href="http://www.spotrac.com/epl/liverpool-f.c/payroll/">Liverpool F.C. Cap Table</a>
 </li>
-<li onclick="window.location.href='http://www.spotrac.com/nfl/cap/'">
-<a class="view" href="http://www.spotrac.com/nfl/cap/">view</a>
+<li onclick="window.location.href='http://www.spotrac.com/epl/manchester-united-f.c/payroll/'">
+<a class="view" href="http://www.spotrac.com/epl/manchester-united-f.c/payroll/">view</a>
 <span class="rank">2</span>
-<a href="http://www.spotrac.com/nfl/cap/">NFL Cap Tracker</a>
+<a href="http://www.spotrac.com/epl/manchester-united-f.c/payroll/">Manchester United F.C. Cap Table</a>
 </li>
-<li class="odd" onclick="window.location.href='http://www.spotrac.com/nfl/transactions/'">
-<a class="view" href="http://www.spotrac.com/nfl/transactions/">view</a>
+<li class="odd" onclick="window.location.href='http://www.spotrac.com/epl/'">
+<a class="view" href="http://www.spotrac.com/epl/">view</a>
 <span class="rank">3</span>
-<a href="http://www.spotrac.com/nfl/transactions/"> NFL Transactions</a>
+<a href="http://www.spotrac.com/epl/">EPL Homepage</a>
 </li>
-<li onclick="window.location.href='http://www.spotrac.com/nfl/free-agents/'">
-<a class="view" href="http://www.spotrac.com/nfl/free-agents/">view</a>
+<li onclick="window.location.href='http://www.spotrac.com/epl/manchester-city-f.c/payroll/'">
+<a class="view" href="http://www.spotrac.com/epl/manchester-city-f.c/payroll/">view</a>
 <span class="rank">4</span>
-<a href="http://www.spotrac.com/nfl/free-agents/">2018 NFL Free Agents</a>
+<a href="http://www.spotrac.com/epl/manchester-city-f.c/payroll/">Manchester City F.C. Cap Table</a>
 </li>
-<li class="odd" onclick="window.location.href='http://www.spotrac.com/nfl/new-england-patriots/cap/'">
-<a class="view" href="http://www.spotrac.com/nfl/new-england-patriots/cap/">view</a>
+<li class="odd" onclick="window.location.href='http://www.spotrac.com/epl/chelsea-f.c/payroll/'">
+<a class="view" href="http://www.spotrac.com/epl/chelsea-f.c/payroll/">view</a>
 <span class="rank">5</span>
-<a href="http://www.spotrac.com/nfl/new-england-patriots/cap/">New England Patriots Cap Table</a>
+<a href="http://www.spotrac.com/epl/chelsea-f.c/payroll/">Chelsea F.C. Cap Table</a>
 </li>
 </ul>
 <!-- end:singles-container -->
-</section> <!-- start:advertising -->
-<div class="xs-hide">
-<!-- start:section-module-singles -->
- 
-<section class="module-news top-margin">
-<!-- start:header -->
-<header>
-<h2>Recent Daily Spots  <span class="glyphicon glyphicon-page"></span></h2>
-<span class="borderline"></span>
-</header>
-<!-- end:header -->
-<div class="article-container daily">
-<fieldset class="rsslib">
-<ul><article class="clearfix"><span class="published">Mar 23, 2018</span><h3><a href="http://www.spotrac.com/blog/nfl-minimum-salaries-for-2018/">NFL Minimum Salaries for 2018</a></h3></article>
-<article class="clearfix"><span class="published">Mar 06, 2018</span><h3><a href="http://www.spotrac.com/blog/2018-nfl-franchise-tag-values/">2018 NFL Franchise Tag Values</a></h3></article>
-<article class="clearfix"><span class="published">Feb 14, 2018</span><h3><a href="http://www.spotrac.com/blog/offseason-cap-questions-buffalo-bills/">Offseason Cap Questions: Buffalo Bills</a></h3></article>
-<article class="clearfix"><span class="published">Jan 08, 2018</span><h3><a href="http://www.spotrac.com/blog/the-best-value-nfl-youngsters-of-2017/">Best Value NFL Youngsters of 2017</a></h3></article>
-<article class="clearfix"><span class="published">Nov 26, 2017</span><h3><a href="http://www.spotrac.com/blog/an-early-look-at-2018-nfl-franchise-tag-candidates/">An Early Look at 2018 NFL Franchise Tag Candidates</a></h3></article>
-</ul>
-</fieldset>
-<a class="more" href="https://www.spotrac.com/blog" target="_blank">» Read More</a>
-</div>
 </section> <div class="ad">
 <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- Spotrac Sidebar 2 -->
-<ins ata-ad-slot="1699967346" class="adsbygoogle" data-ad-client="ca-pub-1743211837214524" style="display:inline-block;width:300px;height:250px"></ins>
+<!-- Spotrac Sidebar -->
+<ins class="adsbygoogle" data-ad-client="ca-pub-1743211837214524" data-ad-slot="0068993420" style="display:inline-block;width:300px;height:250px"></ins>
 <script>
 			(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
@@ -1848,15 +1629,7 @@
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 <br/><br/>
 </div>
-</section> </div>
-<div class="ad">
-<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- Spotrac Sidebar -->
-<ins class="adsbygoogle" data-ad-client="ca-pub-1743211837214524" data-ad-slot="0068993420" style="display:inline-block;width:300px;height:250px"></ins>
-<script>
-			(adsbygoogle = window.adsbygoogle || []).push({});
-			</script>
-</div>
+</section>
 </div>
 <!-- end:sidebar -->
 </div>
@@ -1949,6 +1722,7 @@
 <script src="http://www.spotrac.com/resources/js/jquery.min.js"></script>
 <script src="http://www.spotrac.com/resources/js/bootstrap.min.js"></script>
 <script src="http://www.spotrac.com/resources/js/jquery.sidr.min.js"></script>
+<script src="http://www.spotrac.com/resources/js/jquery.carouFredSel-6.2.1-packed.js"></script>
 <script src="http://www.spotrac.com/resources/js/jquery.touchSwipe.min.js"></script>
 <script src="http://www.spotrac.com/resources/js/functions.js"></script>
 <!-- end:scripts -->

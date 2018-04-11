@@ -19,14 +19,16 @@ tags:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(reticulate)
-use_python("/usr/bin/python3")
+use_python("/usr/bin/python")
 ```
 
 # The NFL Data
 
-The key tool is the *SelectorGadget*.  With that, it becomes easy to identify what we need.  I navgiated to the website in base_url and found the team names had links to the cap data.  I will use those links first.  Let's build that.
+[SporTrac](http://www.sportrac.com] has a wonderful array of financial data on sports.  A student going to work for the Seattle Seahawks wanted the NFL salary cap data and I also found data on the English Premier League there.  Now I have a source to scrape the data from.
 
-```{r cars}
+With a source in hand, the key tool is the *SelectorGadget*.  *SelectorGadget* is a browser add-in for Chrome that allows us to select text and identify the css or xpath selector to scrape the data. With that, it becomes easy to identify what we need.  I navgiated to the website in base_url and found the team names had links to the cap data.  I will use those links first.  Let's build that.
+
+```{r RTeams}
 library(rvest)
 base_url <- "http://www.spotrac.com/nfl/"
 read.base <- read_html(base_url)
@@ -36,18 +38,20 @@ team.URL
 team.names <- gsub("/cap/","", gsub(base_url, "", team.URL))
 ```
 
+With 32 team links to scrape, I can now scrape them.  
+
 ## Grabbing Team Tables
 
-Now I need to explore those links.
+Now I need to explore those links.  When I started this, I wanted to learn some Python along the way.  I found the following Python code that worked for the task.  For completeness, I leave it here.
 
-```{python BSoupNFL3}
+```{python BSoupNFL3, eval=FALSE}
 import pandas as pd
 import bs4
 import re
-#import urllib
-import requests
+import urllib2
+#import requests
 
-from urllib.request import urlopen
+from urllib import urlopen
 from bs4 import BeautifulSoup
 base_url = "http://www.spotrac.com/nfl/"
 
@@ -160,18 +164,15 @@ df['Dead.Cap'] = (df['Dead Cap'].replace('\(',"",regex=True).replace('\)',"",reg
 df['Cap Hit'].sum()
 ```
 
+There are a few wonderful things about Beautiful Soup.  But it is still faster and easier for me to do things in R.  Here is some R code for the same task.  The R table is a messy data structure but is easier to get.
+
 ```{r GDF}
-Sal.Data <- py$df
-Team.Cut <- py$df2
-```
-
-The above code pulls the data from the Python environment into R.  Now we can analyse it.
-
-```{r An1}
-library(tidyverse)
-library(skimr)
-names(Sal.Data)[1] <- "Player"
-names(Sal.Data)[2] <- "Position"
+library(stringr)
+data.creator <- function(link) {
+read_html(link) %>% html_nodes("table") %>% html_table(header=TRUE, fill=TRUE) -> res
+names(res) <- c("Active","Draft","Inactive","Team1","Team2")
+return(res)
+  }
 team.names <- gsub("-", " ", team.names)
 simpleCap <- function(x) {
   s <- strsplit(x, " ")[[1]]
@@ -179,16 +180,68 @@ simpleCap <- function(x) {
       sep="", collapse=" ")
 }
 team.names <- sapply(team.names, simpleCap)
-Seq.P1 <- diff(c(0,Team.Cut))-1
-Seq.Setter <- c(Seq.P1,dim(Sal.Data)[[1]]-sum(Seq.P1))
-P.by.T <- rep(team.names, times=Seq.Setter)
-Sal.Data$Team <- P.by.T
-skim(Sal.Data)
+NFL.scrape <- sapply(team.URL, function(x) {data.creator(x)})
+names(NFL.scrape) <- team.names 
+# This is a hack but it works
+Actives <- lapply(NFL.scrape, function(x){x$Active})
+rep.res <- sapply(seq(1,32), function(x) {dim(Actives[[x]])[[1]]})
+clean.me.2 <- function(data) {
+data %>% str_remove_all("[\\t]") %>% str_split("\\n\\n\\n") %>% unlist() %>% matrix(data=., ncol=2, byrow=TRUE) -> dat
+return(dat)
+}
+clean.me <- function(data) {
+str_remove_all(data, "[\\t]")
+}
+clean.me.num <- function(data) {
+str_remove_all(data, "[\\$,()\\-]")
+  }
+Players <- lapply(Actives, function(x){ clean.me.2(x[,1])})
+Last.Name <- unlist(lapply(Players, function(x) {x[,1]}))
+Player.Name <- unlist(lapply(Players, function(x) {x[,2]}))
+Team <- rep(names(Actives),rep.res)
+Position <- unlist(lapply(Actives, function(x){ clean.me(x[,2])}))
+Base.Salary <- unlist(lapply(Actives, function(x){ clean.me.num(x[,'Base Salary'])}))
+Base.Salary <- as.numeric(Base.Salary)
+Signing.Bonus <- unlist(lapply(Actives, function(x){ clean.me.num(x[,'Signing Bonus'])}))
+Signing.Bonus <- as.numeric(Signing.Bonus)
+Roster.Bonus <- unlist(lapply(Actives, function(x){ clean.me.num(x[,'Roster Bonus'])}))
+Roster.Bonus <- as.numeric(Roster.Bonus)
+Option.Bonus <- unlist(lapply(Actives, function(x){ clean.me.num(x[,'Option Bonus'])}))
+Option.Bonus <- as.numeric(Option.Bonus)
+Workout.Bonus <- unlist(lapply(Actives, function(x){ clean.me.num(x[,'Workout Bonus'])}))
+Workout.Bonus <- as.numeric(Workout.Bonus)
+Cap.Pct <- unlist(lapply(Actives, function(x){ x[,'Cap %']}))
+Restruc.Bonus <- unlist(lapply(Actives, function(x){ clean.me.num(x[,'Restruc. Bonus'])}))
+Restruc.Bonus <- as.numeric(Restruc.Bonus)
+Dead.Cap <- unlist(lapply(Actives, function(x){ clean.me.num(x[,'Dead Cap'])}))
+Dead.Cap <- as.numeric(Dead.Cap)
+Misc.Cap <- unlist(lapply(Actives, function(x){ clean.me.num(x[,'Misc.'])}))
+Misc.Cap <- as.numeric(Misc.Cap)
+Cap.Hit <- unlist(lapply(Actives, function(x){ clean.me.num(x[,'Cap Hit'])}))
+Cap.Hit <- str_replace_all(Cap.Hit, pattern="\\s\\s*", "")
+NFL.Salary.Data <- data.frame(Player=Player.Name, 
+                       Last.Name = Last.Name,
+                       Team=Team, 
+                       Position=Position, 
+                       Base.Salary=Base.Salary,
+                       Signing.Bonus=Signing.Bonus,
+                       Roster.Bonus=Roster.Bonus,
+                       Option.Bonus=Option.Bonus,
+                       Workout.Bonus=Workout.Bonus,
+                       Cap.Hit=Cap.Hit,
+                       Restruc.Bonus=Restruc.Bonus,
+                       Dead.Cap=Dead.Cap,
+                       Misc.Cap=Misc.Cap,
+                       Cap.Pct=Cap.Pct)
 ```
 
-```{r analys1, eval=TRUE}
-Sal.Data %>% group_by(Team) %>% summarise(Total.Base.Salary=sum(Base.Salary))
-Sal.Data %>% group_by(Position) %>% skim()
+
+```{r An1}
+library(tidyverse)
+library(skimr)
+skim(NFL.Salary.Data)
+NFL.Salary.Data %>% group_by(Team) %>% summarise(Total.Base.Salary=sum(Base.Salary))
+NFL.Salary.Data %>% group_by(Position) %>% skim(Base.Salary)
 ```
 
 Now I have my salary data.

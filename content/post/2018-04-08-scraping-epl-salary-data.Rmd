@@ -1,0 +1,73 @@
+---
+title: Scraping EPL Salary Data
+author: RWW
+date: '2018-04-08'
+slug: scraping-epl-salary-data
+categories:
+  - R
+  - web scraping
+tags:
+  - R Markdown
+  - R
+  - tidytext
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(reticulate)
+use_python("/usr/lib/python3")
+```
+
+# EPL Scraping
+
+In a previous post, I scraped some NFL data and learned the structure of Sportrac.  Now, I want to scrape the available data on the EPL.
+
+```{r ScrapEPL}
+library(rvest)
+library(tidyverse)
+base_url <- "http://www.spotrac.com/epl/"
+read.base <- read_html(base_url)
+team.URL <- read.base %>% html_nodes(".team-name") %>% html_attr('href')
+team.URL
+# Clean up the URLs to get the team names by themselves.
+team.names <- gsub(base_url, "", team.URL)
+team.names <- gsub("-f.c", " FC", team.names)
+team.names <- gsub("afc", "AFC", team.names)
+team.names <- gsub("a.f.c", "AFC", team.names)
+# Dashes and slashes need to  removed.
+team.names <- gsub("-", " ", team.names)
+team.names <- gsub("/", "", team.names)
+# Fix FC and AFC for Bournemouth
+simpleCap <- function(x) {
+  s <- strsplit(x, " ")[[1]]
+  paste(toupper(substring(s, 1,1)), substring(s, 2), sep="", collapse=" ")
+  }
+# Capitalise and trim white space
+team.names <- sapply(team.names, simpleCap)
+#team.names <- sapply(team.names, trimws)
+names(team.names) <- NULL
+# Now I have a vector of 20 names.
+short.names <- gsub(" FC","", team.names)
+short.names <- gsub(" AFC","", short.names)
+EPL.names <- data.frame(team.names,short.names,team.URL)
+EPL.names
+team_links <- paste0(team.URL,"payroll/",sep="")
+```
+
+## Positional Data
+
+```{r ScrapeR}
+data.creator <- function(link) {
+read_html(link) %>% html_nodes("table") %>% html_table(header=TRUE, fill=TRUE)
+}
+EPL.salary <- sapply(team_links, function(x) {data.creator(x)})
+names(EPL.salary) <- EPL.names$short.names
+Players <- sapply(seq(1,20), function(x) { str_split(EPL.salary[[x]][[1]][,1], "\t", simplify=TRUE)[,31]})
+Position <- sapply(seq(1,20), function(x) { EPL.salary[[x]][[1]][,2]})
+Base.Salary <- sapply(seq(1,20), function(x) { Res <- gsub("£", "", EPL.salary[[x]][[1]][,3]); gsub(",","",Res)})
+EPL.Result <- data.frame(Players=unlist(Players), Position=unlist(Position), Base.Salary=unlist(Base.Salary))
+EPL.Result$Base.Salary <- str_replace(EPL.Result$Base.Salary, "-", NA_character_)
+EPL.Result$Base.Num <- as.numeric(EPL.Result$Base.Salary)
+EPL.Result %>% group_by(Position) %>% summarise(MBN=mean(Base.Num, na.rm=TRUE),sdBSN=sd(Base.Num, na.rm = TRUE))
+```
+

@@ -18,7 +18,7 @@
   <meta name="description" content="Associate Professor of Quantitative Methods">
 
   
-  <link rel="alternate" hreflang="en-us" href="https://rwalker.netlify.com/tags/r-markdown/">
+  <link rel="alternate" hreflang="en-us" href="https://www.data.viajes/tags/r-markdown/">
 
   
 
@@ -61,15 +61,15 @@
   
 
   
-  <link rel="alternate" href="https://rwalker.netlify.com/index.xml" type="application/rss+xml" title="Robert W. Walker">
-  <link rel="feed" href="https://rwalker.netlify.com/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="alternate" href="https://www.data.viajes/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="feed" href="https://www.data.viajes/index.xml" type="application/rss+xml" title="Robert W. Walker">
   
 
   <link rel="manifest" href="/site.webmanifest">
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="https://rwalker.netlify.com/tags/r-markdown/">
+  <link rel="canonical" href="https://www.data.viajes/tags/r-markdown/">
 
   <meta property="twitter:card" content="summary_large_image">
   
@@ -77,12 +77,12 @@
   <meta property="twitter:creator" content="@PieRatio">
   
   <meta property="og:site_name" content="Robert W. Walker">
-  <meta property="og:url" content="https://rwalker.netlify.com/tags/r-markdown/">
+  <meta property="og:url" content="https://www.data.viajes/tags/r-markdown/">
   <meta property="og:title" content="R Markdown | Robert W. Walker">
   <meta property="og:description" content="Associate Professor of Quantitative Methods">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2018-02-22T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2018-04-08T00:00:00&#43;00:00">
   
 
   
@@ -252,7 +252,17 @@
   
   
   <div>
-    <h2><a href="https://rwalker.netlify.com/post/black-boxes-a-gender-gap-example/">Black Boxes: A Gender Gap Example</a></h2>
+    <h2><a href="https://www.data.viajes/post/scraping-epl-salary-data/">Scraping EPL Salary Data</a></h2>
+    <div class="article-style">
+      
+      EPL Scraping In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL.
+library(rvest) library(tidyverse) base_url &lt;- &quot;<a href="http://www.spotrac.com/epl/&quot;" target="_blank">http://www.spotrac.com/epl/&quot;</a> read.base &lt;- read_html(base_url) team.URL &lt;- read.base %&gt;% html_nodes(&quot;.team-name&quot;) %&gt;% html_attr(&#39;href&#39;) team.URL ## [1] &quot;<a href="http://www.spotrac.com/epl/afc-bournemouth/&quot;" target="_blank">http://www.spotrac.com/epl/afc-bournemouth/&quot;</a> ## [2] &quot;<a href="http://www.spotrac.com/epl/arsenal-f.c/&quot;" target="_blank">http://www.spotrac.com/epl/arsenal-f.c/&quot;</a> ## [3] &quot;<a href="http://www.spotrac.com/epl/brighton-hove-albion/&quot;" target="_blank">http://www.spotrac.com/epl/brighton-hove-albion/&quot;</a> ## [4] &quot;<a href="http://www.spotrac.com/epl/burnley-f.c/&quot;" target="_blank">http://www.spotrac.com/epl/burnley-f.c/&quot;</a> ## [5] &quot;<a href="http://www.spotrac.com/epl/chelsea-f.c/&quot;" target="_blank">http://www.spotrac.com/epl/chelsea-f.c/&quot;</a> ## [6] &quot;<a href="http://www.spotrac.com/epl/crystal-palace/&quot;" target="_blank">http://www.spotrac.com/epl/crystal-palace/&quot;</a> ## [7] &quot;<a href="http://www.spotrac.com/epl/everton-f.c/&quot;" target="_blank">http://www.spotrac.com/epl/everton-f.c/&quot;</a> ## [8] &quot;<a href="http://www.spotrac.com/epl/huddersfield-town/&quot;" target="_blank">http://www.spotrac.com/epl/huddersfield-town/&quot;</a> ## [9] &quot;<a href="http://www" target="_blank">http://www</a>.
+      
+    </div>
+  </div>
+  
+  <div>
+    <h2><a href="https://www.data.viajes/post/black-boxes-a-gender-gap-example/">Black Boxes: A Gender Gap Example</a></h2>
     <div class="article-style">
       
       Variance in the Outcome: The Black Box Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained.
@@ -261,7 +271,7 @@
   </div>
   
   <div>
-    <h2><a href="https://rwalker.netlify.com/post/correlation-function/">Correlation Function</a></h2>
+    <h2><a href="https://www.data.viajes/post/correlation-function/">Correlation Function</a></h2>
     <div class="article-style">
       
       Correlations and the Impact on Sums and Differences I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.
@@ -270,7 +280,7 @@
   </div>
   
   <div>
-    <h2><a href="https://rwalker.netlify.com/post/tidytext-is-neat/">tidytext is neat! White House Communications</a></h2>
+    <h2><a href="https://www.data.viajes/post/tidytext-is-neat/">tidytext is neat! White House Communications</a></h2>
     <div class="article-style">
       
       Presidential Press The language of presidential communications is interesting and I know very little about text as data. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?
