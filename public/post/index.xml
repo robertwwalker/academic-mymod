@@ -18,8 +18,8 @@
       <pubDate>Sun, 08 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>https://www.data.viajes/post/scraping-epl-salary-data/</guid>
-      <description>EPL Scraping In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL.
-library(rvest) library(tidyverse) base_url &amp;lt;- &amp;quot;http://www.spotrac.com/epl/&amp;quot; read.base &amp;lt;- read_html(base_url) team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;) team.URL ## [1] &amp;quot;http://www.spotrac.com/epl/afc-bournemouth/&amp;quot; ## [2] &amp;quot;http://www.spotrac.com/epl/arsenal-f.c/&amp;quot; ## [3] &amp;quot;http://www.spotrac.com/epl/brighton-hove-albion/&amp;quot; ## [4] &amp;quot;http://www.spotrac.com/epl/burnley-f.c/&amp;quot; ## [5] &amp;quot;http://www.spotrac.com/epl/chelsea-f.c/&amp;quot; ## [6] &amp;quot;http://www.spotrac.com/epl/crystal-palace/&amp;quot; ## [7] &amp;quot;http://www.spotrac.com/epl/everton-f.c/&amp;quot; ## [8] &amp;quot;http://www.spotrac.com/epl/huddersfield-town/&amp;quot; ## [9] &amp;quot;http://www.</description>
+      <description>EPL Scraping In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.
+library(rvest) library(tidyverse) base_url &amp;lt;- &amp;quot;http://www.spotrac.com/epl/&amp;quot; read.base &amp;lt;- read_html(base_url) team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;) team.</description>
     </item>
     
     <item>

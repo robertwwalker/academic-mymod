@@ -20,6 +20,7 @@ tags:
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(reticulate)
 use_python("/usr/bin/python")
+options(scipen=8)
 ```
 
 # The NFL Data
@@ -124,7 +125,7 @@ df = df.drop(1, 1)
 
 
 df = df.drop(df.index[[0]])
-#df.set_index(1, inplace=True)
+df.set_index(1, inplace=True)
 print(df.shape)
 df.head()
 
@@ -166,7 +167,7 @@ df['Cap Hit'].sum()
 
 There are a few wonderful things about Beautiful Soup.  But it is still faster and easier for me to do things in R.  Here is some R code for the same task.  The R table is a messy data structure but is easier to get.
 
-```{r GDF}
+```{r GDF, eval=FALSE}
 library(stringr)
 data.creator <- function(link) {
 read_html(link) %>% html_nodes("table") %>% html_table(header=TRUE, fill=TRUE) -> res
@@ -233,7 +234,15 @@ NFL.Salary.Data <- data.frame(Player=Player.Name,
                        Dead.Cap=Dead.Cap,
                        Misc.Cap=Misc.Cap,
                        Cap.Pct=Cap.Pct)
+save.image("~/NFL-Data.RData")
 ```
+
+Load up a local copy of the data for now.
+
+```{r DataL, eval=TRUE}
+load("~/NFL-Data.RData")
+```
+
 
 
 ```{r An1}
@@ -245,3 +254,11 @@ NFL.Salary.Data %>% group_by(Position) %>% skim(Base.Salary)
 ```
 
 Now I have my salary data.
+
+```{r Plot}
+gplots::plotmeans(Base.Salary~Position, data=NFL.Salary.Data, n.label=FALSE, cex=0.6)
+```
+
+```{r Plot2}
+boxplot(Base.Salary~Position, data=NFL.Salary.Data)
+```

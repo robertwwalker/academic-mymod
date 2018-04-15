@@ -455,7 +455,7 @@ df = df.drop(14, 1)
 df = df.drop(0, 1)
 df = df.drop(1, 1)
 df = df.drop(df.index[[0]])
-#df.set_index(1, inplace=True)
+df.set_index(1, inplace=True)
 print(df.shape)
 df.head()
 players = []
@@ -552,23 +552,26 @@ NFL.Salary.Data &lt;- data.frame(Player=Player.Name,
                        Restruc.Bonus=Restruc.Bonus,
                        Dead.Cap=Dead.Cap,
                        Misc.Cap=Misc.Cap,
-                       Cap.Pct=Cap.Pct)</code></pre>
+                       Cap.Pct=Cap.Pct)
+save.image(&quot;~/NFL-Data.RData&quot;)</code></pre>
+<p>Load up a local copy of the data for now.</p>
+<pre class="r"><code>load(&quot;~/NFL-Data.RData&quot;)</code></pre>
 <pre class="r"><code>library(tidyverse)
 library(skimr)
 skim(NFL.Salary.Data)</code></pre>
 <pre><code>## Skim summary statistics
-##  n obs: 2240 
+##  n obs: 2239 
 ##  n variables: 14 
 ## 
 ## Variable type: factor 
 ##   variable missing complete    n n_unique
-##    Cap.Hit       0     2240 2240     1043
-##  Last.Name       0     2240 2240     1489
-##     Player       0     2240 2240     2227
-##   Position       0     2240 2240       22
-##       Team       0     2240 2240       32
+##    Cap.Hit       0     2239 2239     1043
+##  Last.Name       0     2239 2239     1489
+##     Player       0     2239 2239     2226
+##   Position       0     2239 2239       22
+##       Team       0     2239 2239       32
 ##                             top_counts ordered
-##  480: 280, 555: 230, 630: 185, 705: 66   FALSE
+##  480: 279, 555: 230, 630: 185, 705: 66   FALSE
 ##     Jon: 41, Wil: 39, Smi: 31, Joh: 30   FALSE
 ##         Aus: 2, Bra: 2, Bra: 2, Chr: 2   FALSE
 ##    WR: 289, CB: 242, DE: 179, OLB: 171   FALSE
@@ -576,31 +579,31 @@ skim(NFL.Salary.Data)</code></pre>
 ## 
 ## Variable type: numeric 
 ##       variable missing complete    n       mean         sd p0       p25
-##    Base.Salary       0     2240 2240 1701833.12 2559557.77  0 555000   
-##        Cap.Pct       0     2240 2240       1.36       2.05  0      0.31
-##       Dead.Cap       0     2240 2240 2236275.57 5645218.44  0      0   
-##       Misc.Cap       0     2240 2240    9145.09   81164.72  0      0   
-##   Option.Bonus       0     2240 2240   13266.37  168013.48  0      0   
-##  Restruc.Bonus       0     2240 2240   44895.26  341612.2   0      0   
-##   Roster.Bonus       0     2240 2240  206874.24   1e+06     0      0   
-##  Signing.Bonus       0     2240 2240  449240.18  960866.84  0      0   
-##  Workout.Bonus       0     2240 2240   20157.59   76573.49  0      0   
-##       p50        p75          p100     hist
-##  7e+05    1500000          2.2e+07 ▇▁▁▁▁▁▁▁
-##      0.41       1.42      18.02    ▇▁▁▁▁▁▁▁
-##  50178    1329366.25       8.2e+07 ▇▁▁▁▁▁▁▁
-##      0          0    2085000       ▇▁▁▁▁▁▁▁
-##      0          0    4750000       ▇▁▁▁▁▁▁▁
-##      0          0    5561666       ▇▁▁▁▁▁▁▁
-##      0          0          2.9e+07 ▇▁▁▁▁▁▁▁
-##   3333      4e+05      1e+07       ▇▁▁▁▁▁▁▁
-##      0          0    1335000       ▇▁▁▁▁▁▁▁</code></pre>
+##    Base.Salary       0     2239 2239 1702378.82 2559999.2   0 555000   
+##        Cap.Pct       0     2239 2239       1.36       2.05  0      0.31
+##       Dead.Cap       0     2239 2239 2237274.35 5646281.55  0      0   
+##       Misc.Cap       0     2239 2239    9149.17   81182.62  0      0   
+##   Option.Bonus       0     2239 2239   13272.29  168050.78  0      0   
+##  Restruc.Bonus       0     2239 2239   44915.31  341687.19  0      0   
+##   Roster.Bonus       0     2239 2239  206966.64 1021892.52  0      0   
+##  Signing.Bonus       0     2239 2239  449440.82  961034.55  0      0   
+##  Workout.Bonus       0     2239 2239   20166.59   76589.41  0      0   
+##        p50        p75        p100     hist
+##  700000    1500000    22500000    ▇▁▁▁▁▁▁▁
+##       0.41       1.42       18.02 ▇▁▁▁▁▁▁▁
+##   50178    1330354.5  82500000    ▇▁▁▁▁▁▁▁
+##       0          0     2085000    ▇▁▁▁▁▁▁▁
+##       0          0     4750000    ▇▁▁▁▁▁▁▁
+##       0          0     5561666    ▇▁▁▁▁▁▁▁
+##       0          0    28800000    ▇▁▁▁▁▁▁▁
+##    3333     397413.5  10500000    ▇▁▁▁▁▁▁▁
+##       0          0     1335000    ▇▁▁▁▁▁▁▁</code></pre>
 <pre class="r"><code>NFL.Salary.Data %&gt;% group_by(Team) %&gt;% summarise(Total.Base.Salary=sum(Base.Salary))</code></pre>
 <pre><code>## # A tibble: 32 x 2
 ##    Team               Total.Base.Salary
 ##    &lt;fct&gt;                          &lt;dbl&gt;
 ##  1 Arizona Cardinals         105629569.
-##  2 Atlanta Falcons           132847353.
+##  2 Atlanta Falcons           132367353.
 ##  3 Baltimore Ravens          111906351.
 ##  4 Buffalo Bills              94577460.
 ##  5 Carolina Panthers         110158355.
@@ -612,58 +615,62 @@ skim(NFL.Salary.Data)</code></pre>
 ## # ... with 22 more rows</code></pre>
 <pre class="r"><code>NFL.Salary.Data %&gt;% group_by(Position) %&gt;% skim(Base.Salary)</code></pre>
 <pre><code>## Skim summary statistics
-##  n obs: 2240 
+##  n obs: 2239 
 ##  n variables: 14 
 ##  group variables: Position 
 ## 
 ## Variable type: numeric 
 ##  Position    variable missing complete   n       mean         sd     p0
-##         C Base.Salary       0       62  62   2e+06    2173761.05      0
+##         C Base.Salary       0       62  62 1964378.97 2173761.05      0
 ##        CB Base.Salary       0      242 242 1594781.37 2433196.22      0
-##        DE Base.Salary       0      179 179   2e+06    3065728.54      0
-##        DT Base.Salary       0      144 144   2e+06    3120185.84      0
+##        DE Base.Salary       0      179 179 2007139.09 3065728.54      0
+##        DT Base.Salary       0      143 143 2014004.03 3128524.16      0
 ##        FB Base.Salary       0       26  26  815000     560564         0
 ##        FS Base.Salary       0       57  57 2641985.07 2783070.36      0
 ##         G Base.Salary       0      136 136 1704599.21 2115607.14      0
 ##       ILB Base.Salary       0      120 120 1378939.22 1901654.33      0
 ##         K Base.Salary       0       38  38 1383498.11  946083.47 480000
 ##        LB Base.Salary       0        1   1  616500         NA    616500
-##        LS Base.Salary       0       34  34  761617.65   2e+05    480000
+##        LS Base.Salary       0       34  34  761617.65  201707.56 480000
 ##        LT Base.Salary       0       38  38 4587732.76 4142986.8       0
 ##       OLB Base.Salary       0      171 171 1938283.55 2869077.82      0
-##         P Base.Salary       0       37  37 1242027.03   8e+05    480000
+##         P Base.Salary       0       37  37 1242027.03  803853.93 480000
 ##        QB Base.Salary       0       96  96 3408382.24 5078200.92      0
 ##        RB Base.Salary       0      151 151 1088425.34 1459116.95      0
-##        RT Base.Salary       0       52  52 2314986.23   2e+06         0
+##        RT Base.Salary       0       52  52 2314986.23 1962841.68      0
 ##         S Base.Salary       0       68  68  576320.49  123126.23      0
 ##        SS Base.Salary       0       53  53 1566535.64 1521405.49      0
 ##         T Base.Salary       0       94  94  587082.02  222252.32 480000
 ##        TE Base.Salary       0      152 152 1301806.18 1570488.64 480000
 ##        WR Base.Salary       0      289 289 1624579.17 2486576.11      0
-##        p25       p50       p75          p100     hist
-##  630000     862290.5 2693750     9e+06       ▇▁▂▁▁▁▁▁
-##  555000     630000   1329725         1.4e+07 ▇▁▁▁▁▁▁▁
-##  555000     790000   1812276         1.7e+07 ▇▁▁▁▁▁▁▁
-##  555000     630000   1687089.5       1.7e+07 ▇▁▁▁▁▁▁▁
-##  555000     667500    837500   2750000       ▂▇▆▁▂▁▁▁
-##  762911    1426150   3250000         1.1e+07 ▇▃▁▁▁▁▁▁
-##  555000     790000   1880750     1e+07       ▇▂▁▁▁▁▁▁
-##  555000      7e+05     1e+06     1e+07       ▇▁▁▁▁▁▁▁
-##  555000      9e+05     2e+06   3400000       ▇▁▁▁▂▁▁▁
-##  616500     616500    616500    616500       ▁▁▁▇▁▁▁▁
-##  573750     790000    915000   1100000       ▇▃▂▃▂▅▆▁
-##  961056.25 2310342   8825000         1.2e+07 ▇▂▁▂▁▂▂▂
-##  555000      7e+05   1639242         1.5e+07 ▇▁▁▁▁▁▁▁
-##  555000      1e+06   1500000     3e+06       ▇▂▃▁▁▂▁▂
-##  592500     831832   3242341         2.2e+07 ▇▁▁▁▁▁▁▁
-##  555000     630000     1e+06         1.5e+07 ▇▁▁▁▁▁▁▁
-##  768750    1897621   3918750   9341000       ▇▅▂▃▁▁▁▁
-##  480000     555000    630000     1e+06       ▁▁▁▃▇▁▁▁
-##  630000     875000   1750000   6800000       ▇▃▁▁▁▁▁▁
-##  480000     555000    630000   2312212       ▇▁▁▁▁▁▁▁
-##  555000     630000     1e+06   8250000       ▇▁▁▁▁▁▁▁
-##  555000     630000   1200000         1.6e+07 ▇▁▁▁▁▁▁▁</code></pre>
+##        p25       p50     p75     p100     hist
+##  630000     862290.5 2693750  9000000 ▇▁▂▁▁▁▁▁
+##  555000     630000   1329725 13500000 ▇▁▁▁▁▁▁▁
+##  555000     790000   1812276 17143000 ▇▁▁▁▁▁▁▁
+##  555000     630000   1760393 16985000 ▇▁▁▁▁▁▁▁
+##  555000     667500    837500  2750000 ▂▇▆▁▂▁▁▁
+##  762911    1426150   3250000 11287000 ▇▃▁▁▁▁▁▁
+##  555000     790000   1880750 10000000 ▇▂▁▁▁▁▁▁
+##  555000     705000   1049127 10000000 ▇▁▁▁▁▁▁▁
+##  555000     899464   2037500  3400000 ▇▁▁▁▂▁▁▁
+##  616500     616500    616500   616500 ▁▁▁▇▁▁▁▁
+##  573750     790000    915000  1100000 ▇▃▂▃▂▅▆▁
+##  961056.25 2310342   8825000 12496000 ▇▂▁▂▁▂▂▂
+##  555000     705000   1639242 14750000 ▇▁▁▁▁▁▁▁
+##  555000    1000000   1500000  3000000 ▇▂▃▁▁▂▁▂
+##  592500     831832   3242341 22500000 ▇▁▁▁▁▁▁▁
+##  555000     630000   1000000 14544000 ▇▁▁▁▁▁▁▁
+##  768750    1897621   3918750  9341000 ▇▅▂▃▁▁▁▁
+##  480000     555000    630000  1037723 ▁▁▁▃▇▁▁▁
+##  630000     875000   1750000  6800000 ▇▃▁▁▁▁▁▁
+##  480000     555000    630000  2312212 ▇▁▁▁▁▁▁▁
+##  555000     630000   1048771  8250000 ▇▁▁▁▁▁▁▁
+##  555000     630000   1200000 15982000 ▇▁▁▁▁▁▁▁</code></pre>
 <p>Now I have my salary data.</p>
+<pre class="r"><code>gplots::plotmeans(Base.Salary~Position, data=NFL.Salary.Data, n.label=FALSE, cex=0.6)</code></pre>
+<p><img src="/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot-1.png" width="672" /></p>
+<pre class="r"><code>boxplot(Base.Salary~Position, data=NFL.Salary.Data)</code></pre>
+<p><img src="/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot2-1.png" width="672" /></p>
 </div>
 </div>
 

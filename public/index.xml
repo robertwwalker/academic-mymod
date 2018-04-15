@@ -18,7 +18,7 @@
       <guid>https://www.data.viajes/post/scraping-epl-salary-data/</guid>
       <description>&lt;div id=&#34;epl-scraping&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;EPL Scraping&lt;/h1&gt;
-&lt;p&gt;In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL.&lt;/p&gt;
+&lt;p&gt;In a previous &lt;a href=&#34;https://www.data.viajes/post/scraping-the-nfl-salary-cap-data-with-python-and-r/&#34;&gt;post&lt;/a&gt;, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest)
 library(tidyverse)
 base_url &amp;lt;- &amp;quot;http://www.spotrac.com/epl/&amp;quot;
@@ -109,28 +109,377 @@ EPL.names&lt;/code&gt;&lt;/pre&gt;
 ## 18                  http://www.spotrac.com/epl/watford/
 ## 19 http://www.spotrac.com/epl/west-bromwich-albion-f.c/
 ## 20      http://www.spotrac.com/epl/west-ham-united-f.c/&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With clean names, I can take each of the scraping tasks in order.&lt;/p&gt;
+&lt;div id=&#34;payroll-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Payroll Data&lt;/h2&gt;
+&lt;p&gt;The teams have payroll information that is broken down into active players, reserves, and loanees. The workflow is first to create the relevant URLs to scrape the payroll data.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;team_links &amp;lt;- paste0(team.URL,&amp;quot;payroll/&amp;quot;,sep=&amp;quot;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;positional-data&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Positional Data&lt;/h2&gt;
+&lt;p&gt;With URLs, I am going to set forth on the task. First, the &lt;em&gt;SelectorGadget&lt;/em&gt; and a glimpse of the documents suggests an easy solution. I want to isolate the table nodes and keep the tables. First, a function for the URLs.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.creator &amp;lt;- function(link) {
 read_html(link) %&amp;gt;% html_nodes(&amp;quot;table&amp;quot;) %&amp;gt;% html_table(header=TRUE, fill=TRUE)
-}
-EPL.salary &amp;lt;- sapply(team_links, function(x) {data.creator(x)})
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now I want to apply data scraping function to the URLs. Then, I want to name the list items, assess the size of the active roster, and then clean up the relevant data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;EPL.salary &amp;lt;- sapply(team_links, function(x) {data.creator(x)})
 names(EPL.salary) &amp;lt;- EPL.names$short.names
+team.len &amp;lt;- sapply(seq(1,20), function(x) { dim(EPL.salary[[x]][[1]])[[1]]})
+Team &amp;lt;- rep(EPL.names$short.names, team.len)
 Players &amp;lt;- sapply(seq(1,20), function(x) { str_split(EPL.salary[[x]][[1]][,1], &amp;quot;\t&amp;quot;, simplify=TRUE)[,31]})
 Position &amp;lt;- sapply(seq(1,20), function(x) { EPL.salary[[x]][[1]][,2]})
 Base.Salary &amp;lt;- sapply(seq(1,20), function(x) { Res &amp;lt;- gsub(&amp;quot;£&amp;quot;, &amp;quot;&amp;quot;, EPL.salary[[x]][[1]][,3]); gsub(&amp;quot;,&amp;quot;,&amp;quot;&amp;quot;,Res)})
-EPL.Result &amp;lt;- data.frame(Players=unlist(Players), Position=unlist(Position), Base.Salary=unlist(Base.Salary))
+EPL.Result &amp;lt;- data.frame(Players=unlist(Players), Team=Team, Position=unlist(Position), Base.Salary=unlist(Base.Salary))
 EPL.Result$Base.Salary &amp;lt;- str_replace(EPL.Result$Base.Salary, &amp;quot;-&amp;quot;, NA_character_)
 EPL.Result$Base.Num &amp;lt;- as.numeric(EPL.Result$Base.Salary)
-EPL.Result %&amp;gt;% group_by(Position) %&amp;gt;% summarise(MBN=mean(Base.Num, na.rm=TRUE),sdBSN=sd(Base.Num, na.rm = TRUE))&lt;/code&gt;&lt;/pre&gt;
+EPL.Result %&amp;gt;% group_by(Position) %&amp;gt;% summarise(Mean.Base.Salary=mean(Base.Num, na.rm=TRUE),sdBS=sd(Base.Num, na.rm = TRUE))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## # A tibble: 4 x 3
-##   Position      MBN    sdBSN
-##   &amp;lt;fct&amp;gt;       &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
-## 1 D        2373070. 1567603.
-## 2 F        3270747. 2511928.
-## 3 GK       2132456. 1871190.
-## 4 M        2874411. 2487494.&lt;/code&gt;&lt;/pre&gt;
+##   Position Mean.Base.Salary     sdBS
+##   &amp;lt;fct&amp;gt;               &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
+## 1 D                2373070. 1567603.
+## 2 F                3270747. 2511928.
+## 3 GK               2132456. 1871190.
+## 4 M                2874411. 2487494.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;EPL.Result %&amp;gt;% group_by(Position,Team) %&amp;gt;% summarise(Mean.Base.Salary=mean(Base.Num, na.rm=TRUE),sdBS=sd(Base.Num, na.rm = TRUE))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 80 x 4
+## # Groups:   Position [?]
+##    Position Team                 Mean.Base.Salary     sdBS
+##    &amp;lt;fct&amp;gt;    &amp;lt;fct&amp;gt;                           &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
+##  1 D        AFC Bournemouth              1586000.  447321.
+##  2 D        Arsenal                      4044444. 1376473.
+##  3 D        Brighton Hove Albion         1289600.  337711.
+##  4 D        Burnley                      1255429.  262465.
+##  5 D        Chelsea                      3307200. 2018898.
+##  6 D        Crystal Palace               2392000. 1231643.
+##  7 D        Everton                      2453455. 1385547.
+##  8 D        Huddersfield Town             994500.  407972.
+##  9 D        Leicester City               1999111.  914118.
+## 10 D        Liverpool                    3120000. 1742000.
+## # ... with 70 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Finally, a little picture to describe spending on the active roster.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fplot &amp;lt;- ggplot(EPL.Result, aes(Base.Num,Team))
+gpl &amp;lt;- fplot + geom_jitter(height=0.25, width=0) + facet_wrap(~Position) + labs(x=&amp;quot;Base Salary&amp;quot;)
+gpl&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-08-scraping-epl-salary-data_files/figure-html/Picture-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;contracts&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Contracts&lt;/h2&gt;
+&lt;p&gt;The contracts are stored in a different URL structure that is accessible via &lt;em&gt;contracts&lt;/em&gt; in the html tree by tean. Firstm I want to paste the names together with links to explore.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;team_links &amp;lt;- paste0(team.URL,&amp;quot;contracts/&amp;quot;,sep=&amp;quot;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now I have all the links that I need and can turn to processing the data. This is something of a mess. Let me first grab some data to showcase the problem. In what follows, first I will grab the HTML files.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Base.Contracts &amp;lt;- lapply(team_links, read_html)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Processing them is a bit more difficult. What does the basic table look like?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Base.Contracts[[1]] %&amp;gt;% html_nodes(&amp;quot;table&amp;quot;) %&amp;gt;% html_table(header=TRUE, fill=TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [[1]]
+##                  Player (34) Pos. Age
+## 1         DefoeJermain Defoe    F  35
+## 2       BegovicAsmir Begovic   GK  30
+## 3            KingJoshua King    F  26
+## 4              AkeNathan Ake    D  23
+## 5        SurmanAndrew Surman    M  31
+## 6           ArterHarry Arter    M  28
+## 7             CookSteve Cook    D  26
+## 8              IbeJordon Ibe    M  22
+## 9         GoslingDan Gosling    M  28
+## 10           SmithAdam Smith    D  26
+## 11          AfobeBenik Afobe    F  25
+## 12            CookLewis Cook    M  21
+## 13      FrancisSimon Francis    D  33
+## 14       WilsonCallum Wilson    F  26
+## 15      GrabbanLewis Grabban    F  30
+## 16         FraserRyan Fraser    M  24
+## 17    DanielsCharlie Daniels    D  31
+## 18           SmithBrad Smith    D  24
+## 19    GradelMax-Alain Gradel    F  30
+## 20         MingsTyrone Mings    D  25
+## 21     FedericiAdam Federici   GK  33
+## 22          BorucArtur Boruc   GK  38
+## 23        MoussetLys Mousset    F  22
+## 24             PughMarc Pugh    M  31
+## 25    HyndmanEmerson Hyndman    M  22
+## 26      WigginsRhoys Wiggins    D  30
+## 27     MahoneyConnor Mahoney    F  21
+## 28 StanislasJunior Stanislas    M  28
+## 29         AllsopRyan Allsop   GK  25
+## 30    RamsdaleAaron Ramsdale   GK  19
+## 31      CargillBaily Cargill    D  22
+## 32       ButcherMatt Butcher    M  20
+## 33      SurridgeSam Surridge    F  20
+## 34    WhitfieldBen Whitfield    M  22
+##                                                             Contract Terms
+## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
+## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
+## 3  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
+## 4  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
+## 5    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
+## 6    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 7    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 8    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
+## 9    7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
+## 10   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
+## 11   6318000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,318,000
+## 12   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
+## 13   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
+## 14   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
+## 15   6032000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,032,000
+## 16   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 17   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
+## 18   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 19   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
+## 20   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
+## 21   4680000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,680,000
+## 22   4160000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 23   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 24   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
+## 25   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
+## 26   2496000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
+## 27   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
+## 28   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
+## 29      884000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£884,000
+## 30      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
+## 31      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
+## 32        93600\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£93,600
+## 33        46800\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£46,800
+## 34                  0\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+##    Avg. Salary Transfer Fee Expires
+## 1   £5,380,000            -    2020
+## 2   £3,640,000   £9,780,000    2021
+## 3   £2,340,000            -    2021
+## 4   £2,080,000  £19,380,000    2022
+## 5   £1,820,000     £536,000    2019
+## 6   £2,080,000            -    2021
+## 7   £2,080,000     £150,000    2021
+## 8   £1,976,000  £15,000,000    2020
+## 9   £1,820,000            -    2021
+## 10  £1,820,000            -    2021
+## 11  £1,263,600  £11,310,000    2020
+## 12  £1,560,000   £5,950,000    2020
+## 13  £1,560,000            -    2019
+## 14  £1,560,000   £3,000,000    2020
+## 15  £1,508,000   £8,210,000    2019
+## 16  £1,404,000     £400,000    2020
+## 17  £1,820,000     £191,000    2020
+## 18  £1,300,000   £3,060,000    2020
+## 19  £1,196,000   £7,000,000    2020
+## 20  £1,196,000   £9,610,000    2021
+## 21  £1,560,000            -    2019
+## 22  £2,080,000  £10,000,000    2018
+## 23  £1,040,000   £5,530,000    2020
+## 24  £1,300,000     £100,000    2018
+## 25    £780,000            -    2020
+## 26    £832,000     £221,000    2018
+## 27    £624,000            -    2021
+## 28    £780,000            -    2020
+## 29    £442,000            -    2018
+## 30    £156,000     £799,000    2021
+## 31    £156,000            -    2018
+## 32     £31,200            -    2018
+## 33     £23,400            -    2018
+## 34           -            -    2018&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The names and the contract year and terms are going to require parsing. I have chosen the first html that corresponds to Bournemouth; other teams are worse because loan players are in a second table. That impacts the wage bill, perhaps, depending on the arrangement in the loan, but the contract details from the player do not have that team as signatory. This has to be fixed. That is easy enough to fix, there are two embedded tables and I can select the first one. When it comes to the names, there is no easy separation for the first column; I will grab them from nodes in the html.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.creator &amp;lt;- function(data) { 
+  data %&amp;gt;% html_nodes(&amp;quot;table&amp;quot;) %&amp;gt;% html_table(header=TRUE, fill=TRUE) -&amp;gt; ret.tab
+  nrowsm &amp;lt;- dim(ret.tab[[1]])[[1]]
+  split.me &amp;lt;- ret.tab[[1]][,4]
+  tempdf &amp;lt;- data.frame(matrix(data=gsub(&amp;quot;\t|-&amp;quot;,&amp;quot;&amp;quot;,unlist(strsplit(split.me, &amp;quot;\\n&amp;quot;))), nrow=nrowsm, byrow=TRUE))
+  names(tempdf) &amp;lt;- c(&amp;quot;value&amp;quot;,&amp;quot;years&amp;quot;,&amp;quot;value.pds&amp;quot;)
+  data %&amp;gt;% html_nodes(&amp;quot;.player&amp;quot;) %&amp;gt;% html_nodes(&amp;quot;a&amp;quot;) %&amp;gt;% html_text() -&amp;gt; Player.Names
+  Player.Names &amp;lt;- Player.Names[c(1:nrowsm)]
+  data %&amp;gt;% html_nodes(&amp;quot;.player&amp;quot;) %&amp;gt;% html_nodes(&amp;quot;a&amp;quot;) %&amp;gt;% html_attr(&amp;quot;href&amp;quot;) -&amp;gt; Player.Links
+  Player.links &amp;lt;- Player.Links[c(1:nrowsm)]
+  data %&amp;gt;% html_nodes(&amp;quot;.player&amp;quot;) %&amp;gt;% html_nodes(&amp;quot;span&amp;quot;) %&amp;gt;% html_text() -&amp;gt; Last.Name
+  Last.Name &amp;lt;- Last.Name[c(1:nrowsm)]
+  names(ret.tab[1][[1]])[c(1:2)] &amp;lt;- c(&amp;quot;Player&amp;quot;,&amp;quot;Position&amp;quot;)
+#  data.frame(ret.tab[,c(5,6,7)]) 
+  return(data.frame(ret.tab[1][[1]],tempdf,Player.Names,Player.links,Last.Name))
+}
+EPL.Contracts &amp;lt;- lapply(Base.Contracts, data.creator)
+names(EPL.Contracts) &amp;lt;- EPL.names$short.names
+EPL.Contracts[[1]]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                       Player Position Age
+## 1         DefoeJermain Defoe        F  35
+## 2       BegovicAsmir Begovic       GK  30
+## 3            KingJoshua King        F  26
+## 4              AkeNathan Ake        D  23
+## 5        SurmanAndrew Surman        M  31
+## 6           ArterHarry Arter        M  28
+## 7             CookSteve Cook        D  26
+## 8              IbeJordon Ibe        M  22
+## 9         GoslingDan Gosling        M  28
+## 10           SmithAdam Smith        D  26
+## 11          AfobeBenik Afobe        F  25
+## 12            CookLewis Cook        M  21
+## 13      FrancisSimon Francis        D  33
+## 14       WilsonCallum Wilson        F  26
+## 15      GrabbanLewis Grabban        F  30
+## 16         FraserRyan Fraser        M  24
+## 17    DanielsCharlie Daniels        D  31
+## 18           SmithBrad Smith        D  24
+## 19    GradelMax-Alain Gradel        F  30
+## 20         MingsTyrone Mings        D  25
+## 21     FedericiAdam Federici       GK  33
+## 22          BorucArtur Boruc       GK  38
+## 23        MoussetLys Mousset        F  22
+## 24             PughMarc Pugh        M  31
+## 25    HyndmanEmerson Hyndman        M  22
+## 26      WigginsRhoys Wiggins        D  30
+## 27     MahoneyConnor Mahoney        F  21
+## 28 StanislasJunior Stanislas        M  28
+## 29         AllsopRyan Allsop       GK  25
+## 30    RamsdaleAaron Ramsdale       GK  19
+## 31      CargillBaily Cargill        D  22
+## 32       ButcherMatt Butcher        M  20
+## 33      SurridgeSam Surridge        F  20
+## 34    WhitfieldBen Whitfield        M  22
+##                                                             Contract.Terms
+## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
+## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
+## 3  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
+## 4  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
+## 5    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
+## 6    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 7    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 8    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
+## 9    7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
+## 10   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
+## 11   6318000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,318,000
+## 12   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
+## 13   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
+## 14   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
+## 15   6032000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,032,000
+## 16   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 17   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
+## 18   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 19   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
+## 20   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
+## 21   4680000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,680,000
+## 22   4160000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 23   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 24   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
+## 25   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
+## 26   2496000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
+## 27   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
+## 28   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
+## 29      884000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£884,000
+## 30      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
+## 31      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
+## 32        93600\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£93,600
+## 33        46800\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£46,800
+## 34                  0\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+##    Avg..Salary Transfer.Fee Expires    value years   value.pds
+## 1   £5,380,000            -    2020 16140000  3 yr £16,140,000
+## 2   £3,640,000   £9,780,000    2021 14560000  4 yr £14,560,000
+## 3   £2,340,000            -    2021 11700000  5 yr £11,700,000
+## 4   £2,080,000  £19,380,000    2022 10400000  5 yr £10,400,000
+## 5   £1,820,000     £536,000    2019  9100000  5 yr  £9,100,000
+## 6   £2,080,000            -    2021  8320000  4 yr  £8,320,000
+## 7   £2,080,000     £150,000    2021  8320000  4 yr  £8,320,000
+## 8   £1,976,000  £15,000,000    2020  7904000  4 yr  £7,904,000
+## 9   £1,820,000            -    2021  7280000  4 yr  £7,280,000
+## 10  £1,820,000            -    2021  7280000  4 yr  £7,280,000
+## 11  £1,263,600  £11,310,000    2020  6318000  5 yr  £6,318,000
+## 12  £1,560,000   £5,950,000    2020  6240000  4 yr  £6,240,000
+## 13  £1,560,000            -    2019  6240000  4 yr  £6,240,000
+## 14  £1,560,000   £3,000,000    2020  6240000  4 yr  £6,240,000
+## 15  £1,508,000   £8,210,000    2019  6032000  4 yr  £6,032,000
+## 16  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000
+## 17  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000
+## 18  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000
+## 19  £1,196,000   £7,000,000    2020  4784000  4 yr  £4,784,000
+## 20  £1,196,000   £9,610,000    2021  4784000  4 yr  £4,784,000
+## 21  £1,560,000            -    2019  4680000  3 yr  £4,680,000
+## 22  £2,080,000  £10,000,000    2018  4160000  2 yr  £4,160,000
+## 23  £1,040,000   £5,530,000    2020  4160000  4 yr  £4,160,000
+## 24  £1,300,000     £100,000    2018  3900000  3 yr  £3,900,000
+## 25    £780,000            -    2020  3120000  4 yr  £3,120,000
+## 26    £832,000     £221,000    2018  2496000  3 yr  £2,496,000
+## 27    £624,000            -    2021  2496000  4 yr  £2,496,000
+## 28    £780,000            -    2020  2340000  3 yr  £2,340,000
+## 29    £442,000            -    2018   884000  2 yr    £884,000
+## 30    £156,000     £799,000    2021   780000  5 yr    £780,000
+## 31    £156,000            -    2018   468000  3 yr    £468,000
+## 32     £31,200            -    2018    93600  3 yr     £93,600
+## 33     £23,400            -    2018    46800  2 yr     £46,800
+## 34           -            -    2018        0  1 yr            
+##        Player.Names                                  Player.links
+## 1     Jermain Defoe http://www.spotrac.com/redirect/player/23836/
+## 2     Asmir Begovic http://www.spotrac.com/redirect/player/22625/
+## 3       Joshua King http://www.spotrac.com/redirect/player/22685/
+## 4        Nathan Ake http://www.spotrac.com/redirect/player/15521/
+## 5     Andrew Surman http://www.spotrac.com/redirect/player/22692/
+## 6       Harry Arter http://www.spotrac.com/redirect/player/22674/
+## 7        Steve Cook http://www.spotrac.com/redirect/player/22677/
+## 8        Jordon Ibe http://www.spotrac.com/redirect/player/22684/
+## 9       Dan Gosling http://www.spotrac.com/redirect/player/22682/
+## 10       Adam Smith http://www.spotrac.com/redirect/player/22689/
+## 11      Benik Afobe http://www.spotrac.com/redirect/player/22673/
+## 12       Lewis Cook http://www.spotrac.com/redirect/player/22676/
+## 13    Simon Francis http://www.spotrac.com/redirect/player/22679/
+## 14    Callum Wilson http://www.spotrac.com/redirect/player/22694/
+## 15    Lewis Grabban http://www.spotrac.com/redirect/player/24011/
+## 16      Ryan Fraser http://www.spotrac.com/redirect/player/22680/
+## 17  Charlie Daniels http://www.spotrac.com/redirect/player/22678/
+## 18       Brad Smith http://www.spotrac.com/redirect/player/22690/
+## 19 Max-Alain Gradel http://www.spotrac.com/redirect/player/22683/
+## 20     Tyrone Mings http://www.spotrac.com/redirect/player/22686/
+## 21    Adam Federici http://www.spotrac.com/redirect/player/22663/
+## 22      Artur Boruc http://www.spotrac.com/redirect/player/22660/
+## 23      Lys Mousset http://www.spotrac.com/redirect/player/22687/
+## 24        Marc Pugh http://www.spotrac.com/redirect/player/22688/
+## 25  Emerson Hyndman http://www.spotrac.com/redirect/player/23139/
+## 26    Rhoys Wiggins http://www.spotrac.com/redirect/player/23138/
+## 27   Connor Mahoney http://www.spotrac.com/redirect/player/24030/
+## 28 Junior Stanislas http://www.spotrac.com/redirect/player/22691/
+## 29      Ryan Allsop http://www.spotrac.com/redirect/player/22662/
+## 30   Aaron Ramsdale http://www.spotrac.com/redirect/player/22661/
+## 31    Baily Cargill http://www.spotrac.com/redirect/player/22675/
+## 32     Matt Butcher http://www.spotrac.com/redirect/player/23140/
+## 33     Sam Surridge http://www.spotrac.com/redirect/player/22693/
+## 34    Ben Whitfield http://www.spotrac.com/redirect/player/24356/
+##    Last.Name
+## 1      Defoe
+## 2    Begovic
+## 3       King
+## 4        Ake
+## 5     Surman
+## 6      Arter
+## 7       Cook
+## 8        Ibe
+## 9    Gosling
+## 10     Smith
+## 11     Afobe
+## 12      Cook
+## 13   Francis
+## 14    Wilson
+## 15   Grabban
+## 16    Fraser
+## 17   Daniels
+## 18     Smith
+## 19    Gradel
+## 20     Mings
+## 21  Federici
+## 22     Boruc
+## 23   Mousset
+## 24      Pugh
+## 25   Hyndman
+## 26   Wiggins
+## 27   Mahoney
+## 28 Stanislas
+## 29    Allsop
+## 30  Ramsdale
+## 31   Cargill
+## 32   Butcher
+## 33  Surridge
+## 34 Whitfield&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The data now have some junk alongside workable versions of the variables of interest. It is worth noting that the header of the contracts data allows us to verify the size of the table as we picked it up [though I do rename them to allow the rbind to work]. This also suggests a strategy for picking up the rownames that is different than the above method that uses the dimension of the html table. Perhaps I should just gsub the header to recover the integer number of players. To tidy the data, they need to be stacked. A simple do.call and row bind will probably work.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Team.Base &amp;lt;- sapply(EPL.Contracts, dim)[1,]
+Team &amp;lt;- rep(as.character(names(Team.Base)),Team.Base)
+EPL.Contracts.df &amp;lt;- do.call(&amp;quot;rbind&amp;quot;,EPL.Contracts)
+rownames(EPL.Contracts.df) &amp;lt;- NULL
+EPL.Contracts.df$Team &amp;lt;- Team
+EPL.Contracts.df$value &amp;lt;- as.numeric(as.character(EPL.Contracts.df$value))
+EPL.Contracts.df %&amp;gt;% group_by(Team) %&amp;gt;% summarise(Team.Mean=mean(value, na.rm=TRUE)/1e3) -&amp;gt; Team.mean
+pp &amp;lt;- Team.mean %&amp;gt;% arrange(Team.Mean)
+pp %&amp;gt;% ggplot(aes(Team.Mean,Team)) + geom_point() + labs(x=&amp;quot;Avg. Salary (1000s)&amp;quot;) -&amp;gt; cplot
+cplot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
@@ -248,7 +597,7 @@ df = df.drop(14, 1)
 df = df.drop(0, 1)
 df = df.drop(1, 1)
 df = df.drop(df.index[[0]])
-#df.set_index(1, inplace=True)
+df.set_index(1, inplace=True)
 print(df.shape)
 df.head()
 players = []
@@ -345,23 +694,26 @@ NFL.Salary.Data &amp;lt;- data.frame(Player=Player.Name,
                        Restruc.Bonus=Restruc.Bonus,
                        Dead.Cap=Dead.Cap,
                        Misc.Cap=Misc.Cap,
-                       Cap.Pct=Cap.Pct)&lt;/code&gt;&lt;/pre&gt;
+                       Cap.Pct=Cap.Pct)
+save.image(&amp;quot;~/NFL-Data.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Load up a local copy of the data for now.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;load(&amp;quot;~/NFL-Data.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
 library(skimr)
 skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Skim summary statistics
-##  n obs: 2240 
+##  n obs: 2239 
 ##  n variables: 14 
 ## 
 ## Variable type: factor 
 ##   variable missing complete    n n_unique
-##    Cap.Hit       0     2240 2240     1043
-##  Last.Name       0     2240 2240     1489
-##     Player       0     2240 2240     2227
-##   Position       0     2240 2240       22
-##       Team       0     2240 2240       32
+##    Cap.Hit       0     2239 2239     1043
+##  Last.Name       0     2239 2239     1489
+##     Player       0     2239 2239     2226
+##   Position       0     2239 2239       22
+##       Team       0     2239 2239       32
 ##                             top_counts ordered
-##  480: 280, 555: 230, 630: 185, 705: 66   FALSE
+##  480: 279, 555: 230, 630: 185, 705: 66   FALSE
 ##     Jon: 41, Wil: 39, Smi: 31, Joh: 30   FALSE
 ##         Aus: 2, Bra: 2, Bra: 2, Chr: 2   FALSE
 ##    WR: 289, CB: 242, DE: 179, OLB: 171   FALSE
@@ -369,31 +721,31 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 ## 
 ## Variable type: numeric 
 ##       variable missing complete    n       mean         sd p0       p25
-##    Base.Salary       0     2240 2240 1701833.12 2559557.77  0 555000   
-##        Cap.Pct       0     2240 2240       1.36       2.05  0      0.31
-##       Dead.Cap       0     2240 2240 2236275.57 5645218.44  0      0   
-##       Misc.Cap       0     2240 2240    9145.09   81164.72  0      0   
-##   Option.Bonus       0     2240 2240   13266.37  168013.48  0      0   
-##  Restruc.Bonus       0     2240 2240   44895.26  341612.2   0      0   
-##   Roster.Bonus       0     2240 2240  206874.24   1e+06     0      0   
-##  Signing.Bonus       0     2240 2240  449240.18  960866.84  0      0   
-##  Workout.Bonus       0     2240 2240   20157.59   76573.49  0      0   
-##       p50        p75          p100     hist
-##  7e+05    1500000          2.2e+07 ▇▁▁▁▁▁▁▁
-##      0.41       1.42      18.02    ▇▁▁▁▁▁▁▁
-##  50178    1329366.25       8.2e+07 ▇▁▁▁▁▁▁▁
-##      0          0    2085000       ▇▁▁▁▁▁▁▁
-##      0          0    4750000       ▇▁▁▁▁▁▁▁
-##      0          0    5561666       ▇▁▁▁▁▁▁▁
-##      0          0          2.9e+07 ▇▁▁▁▁▁▁▁
-##   3333      4e+05      1e+07       ▇▁▁▁▁▁▁▁
-##      0          0    1335000       ▇▁▁▁▁▁▁▁&lt;/code&gt;&lt;/pre&gt;
+##    Base.Salary       0     2239 2239 1702378.82 2559999.2   0 555000   
+##        Cap.Pct       0     2239 2239       1.36       2.05  0      0.31
+##       Dead.Cap       0     2239 2239 2237274.35 5646281.55  0      0   
+##       Misc.Cap       0     2239 2239    9149.17   81182.62  0      0   
+##   Option.Bonus       0     2239 2239   13272.29  168050.78  0      0   
+##  Restruc.Bonus       0     2239 2239   44915.31  341687.19  0      0   
+##   Roster.Bonus       0     2239 2239  206966.64 1021892.52  0      0   
+##  Signing.Bonus       0     2239 2239  449440.82  961034.55  0      0   
+##  Workout.Bonus       0     2239 2239   20166.59   76589.41  0      0   
+##        p50        p75        p100     hist
+##  700000    1500000    22500000    ▇▁▁▁▁▁▁▁
+##       0.41       1.42       18.02 ▇▁▁▁▁▁▁▁
+##   50178    1330354.5  82500000    ▇▁▁▁▁▁▁▁
+##       0          0     2085000    ▇▁▁▁▁▁▁▁
+##       0          0     4750000    ▇▁▁▁▁▁▁▁
+##       0          0     5561666    ▇▁▁▁▁▁▁▁
+##       0          0    28800000    ▇▁▁▁▁▁▁▁
+##    3333     397413.5  10500000    ▇▁▁▁▁▁▁▁
+##       0          0     1335000    ▇▁▁▁▁▁▁▁&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;NFL.Salary.Data %&amp;gt;% group_by(Team) %&amp;gt;% summarise(Total.Base.Salary=sum(Base.Salary))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## # A tibble: 32 x 2
 ##    Team               Total.Base.Salary
 ##    &amp;lt;fct&amp;gt;                          &amp;lt;dbl&amp;gt;
 ##  1 Arizona Cardinals         105629569.
-##  2 Atlanta Falcons           132847353.
+##  2 Atlanta Falcons           132367353.
 ##  3 Baltimore Ravens          111906351.
 ##  4 Buffalo Bills              94577460.
 ##  5 Carolina Panthers         110158355.
@@ -405,58 +757,62 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 ## # ... with 22 more rows&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;NFL.Salary.Data %&amp;gt;% group_by(Position) %&amp;gt;% skim(Base.Salary)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Skim summary statistics
-##  n obs: 2240 
+##  n obs: 2239 
 ##  n variables: 14 
 ##  group variables: Position 
 ## 
 ## Variable type: numeric 
 ##  Position    variable missing complete   n       mean         sd     p0
-##         C Base.Salary       0       62  62   2e+06    2173761.05      0
+##         C Base.Salary       0       62  62 1964378.97 2173761.05      0
 ##        CB Base.Salary       0      242 242 1594781.37 2433196.22      0
-##        DE Base.Salary       0      179 179   2e+06    3065728.54      0
-##        DT Base.Salary       0      144 144   2e+06    3120185.84      0
+##        DE Base.Salary       0      179 179 2007139.09 3065728.54      0
+##        DT Base.Salary       0      143 143 2014004.03 3128524.16      0
 ##        FB Base.Salary       0       26  26  815000     560564         0
 ##        FS Base.Salary       0       57  57 2641985.07 2783070.36      0
 ##         G Base.Salary       0      136 136 1704599.21 2115607.14      0
 ##       ILB Base.Salary       0      120 120 1378939.22 1901654.33      0
 ##         K Base.Salary       0       38  38 1383498.11  946083.47 480000
 ##        LB Base.Salary       0        1   1  616500         NA    616500
-##        LS Base.Salary       0       34  34  761617.65   2e+05    480000
+##        LS Base.Salary       0       34  34  761617.65  201707.56 480000
 ##        LT Base.Salary       0       38  38 4587732.76 4142986.8       0
 ##       OLB Base.Salary       0      171 171 1938283.55 2869077.82      0
-##         P Base.Salary       0       37  37 1242027.03   8e+05    480000
+##         P Base.Salary       0       37  37 1242027.03  803853.93 480000
 ##        QB Base.Salary       0       96  96 3408382.24 5078200.92      0
 ##        RB Base.Salary       0      151 151 1088425.34 1459116.95      0
-##        RT Base.Salary       0       52  52 2314986.23   2e+06         0
+##        RT Base.Salary       0       52  52 2314986.23 1962841.68      0
 ##         S Base.Salary       0       68  68  576320.49  123126.23      0
 ##        SS Base.Salary       0       53  53 1566535.64 1521405.49      0
 ##         T Base.Salary       0       94  94  587082.02  222252.32 480000
 ##        TE Base.Salary       0      152 152 1301806.18 1570488.64 480000
 ##        WR Base.Salary       0      289 289 1624579.17 2486576.11      0
-##        p25       p50       p75          p100     hist
-##  630000     862290.5 2693750     9e+06       ▇▁▂▁▁▁▁▁
-##  555000     630000   1329725         1.4e+07 ▇▁▁▁▁▁▁▁
-##  555000     790000   1812276         1.7e+07 ▇▁▁▁▁▁▁▁
-##  555000     630000   1687089.5       1.7e+07 ▇▁▁▁▁▁▁▁
-##  555000     667500    837500   2750000       ▂▇▆▁▂▁▁▁
-##  762911    1426150   3250000         1.1e+07 ▇▃▁▁▁▁▁▁
-##  555000     790000   1880750     1e+07       ▇▂▁▁▁▁▁▁
-##  555000      7e+05     1e+06     1e+07       ▇▁▁▁▁▁▁▁
-##  555000      9e+05     2e+06   3400000       ▇▁▁▁▂▁▁▁
-##  616500     616500    616500    616500       ▁▁▁▇▁▁▁▁
-##  573750     790000    915000   1100000       ▇▃▂▃▂▅▆▁
-##  961056.25 2310342   8825000         1.2e+07 ▇▂▁▂▁▂▂▂
-##  555000      7e+05   1639242         1.5e+07 ▇▁▁▁▁▁▁▁
-##  555000      1e+06   1500000     3e+06       ▇▂▃▁▁▂▁▂
-##  592500     831832   3242341         2.2e+07 ▇▁▁▁▁▁▁▁
-##  555000     630000     1e+06         1.5e+07 ▇▁▁▁▁▁▁▁
-##  768750    1897621   3918750   9341000       ▇▅▂▃▁▁▁▁
-##  480000     555000    630000     1e+06       ▁▁▁▃▇▁▁▁
-##  630000     875000   1750000   6800000       ▇▃▁▁▁▁▁▁
-##  480000     555000    630000   2312212       ▇▁▁▁▁▁▁▁
-##  555000     630000     1e+06   8250000       ▇▁▁▁▁▁▁▁
-##  555000     630000   1200000         1.6e+07 ▇▁▁▁▁▁▁▁&lt;/code&gt;&lt;/pre&gt;
+##        p25       p50     p75     p100     hist
+##  630000     862290.5 2693750  9000000 ▇▁▂▁▁▁▁▁
+##  555000     630000   1329725 13500000 ▇▁▁▁▁▁▁▁
+##  555000     790000   1812276 17143000 ▇▁▁▁▁▁▁▁
+##  555000     630000   1760393 16985000 ▇▁▁▁▁▁▁▁
+##  555000     667500    837500  2750000 ▂▇▆▁▂▁▁▁
+##  762911    1426150   3250000 11287000 ▇▃▁▁▁▁▁▁
+##  555000     790000   1880750 10000000 ▇▂▁▁▁▁▁▁
+##  555000     705000   1049127 10000000 ▇▁▁▁▁▁▁▁
+##  555000     899464   2037500  3400000 ▇▁▁▁▂▁▁▁
+##  616500     616500    616500   616500 ▁▁▁▇▁▁▁▁
+##  573750     790000    915000  1100000 ▇▃▂▃▂▅▆▁
+##  961056.25 2310342   8825000 12496000 ▇▂▁▂▁▂▂▂
+##  555000     705000   1639242 14750000 ▇▁▁▁▁▁▁▁
+##  555000    1000000   1500000  3000000 ▇▂▃▁▁▂▁▂
+##  592500     831832   3242341 22500000 ▇▁▁▁▁▁▁▁
+##  555000     630000   1000000 14544000 ▇▁▁▁▁▁▁▁
+##  768750    1897621   3918750  9341000 ▇▅▂▃▁▁▁▁
+##  480000     555000    630000  1037723 ▁▁▁▃▇▁▁▁
+##  630000     875000   1750000  6800000 ▇▃▁▁▁▁▁▁
+##  480000     555000    630000  2312212 ▇▁▁▁▁▁▁▁
+##  555000     630000   1048771  8250000 ▇▁▁▁▁▁▁▁
+##  555000     630000   1200000 15982000 ▇▁▁▁▁▁▁▁&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now I have my salary data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gplots::plotmeans(Base.Salary~Position, data=NFL.Salary.Data, n.label=FALSE, cex=0.6)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;boxplot(Base.Salary~Position, data=NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
