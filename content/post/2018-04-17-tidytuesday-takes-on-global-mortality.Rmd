@@ -95,6 +95,7 @@ mydf <- t(data.frame(ggplot.res))
 mydf <- data.frame(value=mydf,name=rownames(mydf))
 mydf <- mydf %>% arrange(value)
 mydf$name <- factor(mydf$name, levels = mydf$name)
-cplot <- ggplot(mydf, aes(name,value)) + geom_bar(stat="identity") + coord_flip() + ylab("Within Country Percent of Total Variation") + xlab("Cause of Mortality") + ggtitle("Within-country variation in the Causes of Death (1990-2016)")
+mydf <- mydf %>% mutate(Emph=as.numeric(value>0.5))
+cplot <- ggplot(mydf, aes(name,value, fill=Emph)) + geom_bar(stat="identity") + coord_flip() + ylab("Within  Percent of Total Variation") + xlab("Cause of Mortality") + ggtitle("Within-country variation in the Causes of Death") + guides(fill="none")
 cplot
 ```

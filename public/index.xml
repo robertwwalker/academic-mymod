@@ -269,7 +269,8 @@ mydf &amp;lt;- t(data.frame(ggplot.res))
 mydf &amp;lt;- data.frame(value=mydf,name=rownames(mydf))
 mydf &amp;lt;- mydf %&amp;gt;% arrange(value)
 mydf$name &amp;lt;- factor(mydf$name, levels = mydf$name)
-cplot &amp;lt;- ggplot(mydf, aes(name,value)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + ylab(&amp;quot;Within Country Percent of Total Variation&amp;quot;) + xlab(&amp;quot;Cause of Mortality&amp;quot;) + ggtitle(&amp;quot;Within-country variation in the Causes of Death (1990-2016)&amp;quot;)
+mydf &amp;lt;- mydf %&amp;gt;% mutate(Emph=as.numeric(value&amp;gt;0.5))
+cplot &amp;lt;- ggplot(mydf, aes(name,value, fill=Emph)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + ylab(&amp;quot;Within  Percent of Total Variation&amp;quot;) + xlab(&amp;quot;Cause of Mortality&amp;quot;) + ggtitle(&amp;quot;Within-country variation in the Causes of Death&amp;quot;) + guides(fill=&amp;quot;none&amp;quot;)
 cplot&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;

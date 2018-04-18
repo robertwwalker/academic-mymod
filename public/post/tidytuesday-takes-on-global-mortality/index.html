@@ -596,7 +596,8 @@ mydf &lt;- t(data.frame(ggplot.res))
 mydf &lt;- data.frame(value=mydf,name=rownames(mydf))
 mydf &lt;- mydf %&gt;% arrange(value)
 mydf$name &lt;- factor(mydf$name, levels = mydf$name)
-cplot &lt;- ggplot(mydf, aes(name,value)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() + ylab(&quot;Within Country Percent of Total Variation&quot;) + xlab(&quot;Cause of Mortality&quot;) + ggtitle(&quot;Within-country variation in the Causes of Death (1990-2016)&quot;)
+mydf &lt;- mydf %&gt;% mutate(Emph=as.numeric(value&gt;0.5))
+cplot &lt;- ggplot(mydf, aes(name,value, fill=Emph)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() + ylab(&quot;Within  Percent of Total Variation&quot;) + xlab(&quot;Cause of Mortality&quot;) + ggtitle(&quot;Within-country variation in the Causes of Death&quot;) + guides(fill=&quot;none&quot;)
 cplot</code></pre>
 <p><img src="/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png" width="672" /></p>
 </div>
