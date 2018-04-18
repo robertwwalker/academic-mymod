@@ -1166,6 +1166,92 @@ url('https://www.data.viajes/img/headers/bubbles-wide.jpg');
       
           
       
+
+      
+      
+        
+        
+
+<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-04-17 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2018-04-17
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/tidyverse">tidyverse</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/" itemprop="url">tidyTuesday takes on global mortality</a>
+  </h3>
+  <div class="article-style" itemprop="articleBody">
+    
+    tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
+library(readxl) library(skimr) url &lt;- &quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/global_mortality.xlsx&quot; destfile &lt;- &quot;global_mortality.xlsx&quot; curl::curl_download(url, destfile) global_mortality &lt;- read_excel(destfile) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## Variable type: character ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## Variable type: numeric ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+
+        
+
+        
+        
+
+        
+        
+          
+      
+          
+      
           
       
 
@@ -1510,94 +1596,6 @@ With a source in hand, the key tool is the SelectorGadget. SelectorGadget is a b
       
 
       
-
-        
-
-        
-        
-
-        
-        
-          
-      
-          
-      
-
-      
-      
-        
-        
-
-<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2018-02-25 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      2018-02-25
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Robert W. Walker">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    11 min read
-  </span>
-  
-
-  
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/r">R</a
-    >, 
-    
-    <a href="/categories/maps">Maps</a
-    >, 
-    
-    <a href="/categories/public-finance">Public Finance</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="https://www.data.viajes/post/mapping-with-the-government-finance-database/" itemprop="url">Mapping with the Government Finance Database</a>
-  </h3>
-  <div class="article-style" itemprop="articleBody">
-    
-    The Government Finance Database Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the Government Finance data available from the Census. They published an article in PLoS One with the rationale; I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="https://www.data.viajes/post/mapping-with-the-government-finance-database/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-      
-
-      
     
 
   </div>
@@ -1854,7 +1852,7 @@ With a source in hand, the key tool is the SelectorGadget. SelectorGadget is a b
           
           
           
-          <a href="/tags/tidytuesday" style="font-size:0.8rem">tidyTuesday</a>
+          <a href="/tags/tidytuesday" style="font-size:1.311750992628768rem">tidyTuesday</a>
         
           
           
@@ -1868,7 +1866,7 @@ With a source in hand, the key tool is the SelectorGadget. SelectorGadget is a b
           
           
           
-          <a href="/tags/tidyverse" style="font-size:1.611106133023426rem">tidyverse</a>
+          <a href="/tags/tidyverse" style="font-size:1.8235019852575358rem">tidyverse</a>
         
       </div>
     

@@ -82,7 +82,7 @@
   <meta property="og:description" content="Associate Professor of Quantitative Methods">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2018-04-08T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2018-04-17T00:00:00&#43;00:00">
   
 
   
@@ -250,6 +250,16 @@
   
 
   
+  
+  <div>
+    <h2><a href="https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/">tidyTuesday takes on global mortality</a></h2>
+    <div class="article-style">
+      
+      tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
+library(readxl) library(skimr) url &lt;- &quot;<a href="https://github.com/rfordatascience/tidytuesday/raw/master/data/global_mortality.xlsx&quot;" target="_blank">https://github.com/rfordatascience/tidytuesday/raw/master/data/global_mortality.xlsx&quot;</a> destfile &lt;- &quot;global_mortality.xlsx&quot; curl::curl_download(url, destfile) global_mortality &lt;- read_excel(destfile) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## Variable type: character ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## Variable type: numeric ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.
+      
+    </div>
+  </div>
   
   <div>
     <h2><a href="https://www.data.viajes/post/scraping-epl-salary-data/">Scraping EPL Salary Data</a></h2>

@@ -11,6 +11,272 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>tidyTuesday takes on global mortality</title>
+      <link>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</link>
+      <pubDate>Tue, 17 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</guid>
+      <description>&lt;div id=&#34;tidytuesday-on-global-mortality&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;tidyTuesday on Global Mortality&lt;/h1&gt;
+&lt;p&gt;The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in &lt;a href=&#34;https://ourworldindata.org/what-does-the-world-die-from&#34;&gt;the original&lt;/a&gt;. For whatever reason, I cannot open this data remotely.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(readxl)
+library(skimr)
+url &amp;lt;- &amp;quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/global_mortality.xlsx&amp;quot;
+destfile &amp;lt;- &amp;quot;global_mortality.xlsx&amp;quot;
+curl::curl_download(url, destfile)
+global_mortality &amp;lt;- read_excel(destfile)
+skim(global_mortality)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Skim summary statistics
+##  n obs: 6156 
+##  n variables: 35 
+## 
+## Variable type: character 
+##      variable missing complete    n min max empty n_unique
+##       country       0     6156 6156   4  32     0      228
+##  country_code     864     5292 6156   3   8     0      196
+## 
+## Variable type: numeric 
+##                                  variable missing complete    n     mean
+##                     Alcohol disorders (%)       0     6156 6156    0.32 
+##                               Cancers (%)       0     6156 6156   14.39 
+##               Cardiovascular diseases (%)       0     6156 6156   29.93 
+##                              Conflict (%)    1398     4758 6156    0.29 
+##                              Dementia (%)       0     6156 6156    3.22 
+##                              Diabetes (%)       0     6156 6156    6.29 
+##                    Diarrheal diseases (%)       0     6156 6156    3.2  
+##                    Digestive diseases (%)       0     6156 6156    1.97 
+##                              Drowning (%)       0     6156 6156    0.71 
+##                        Drug disorders (%)       0     6156 6156    0.18 
+##                                  Fire (%)       0     6156 6156    0.33 
+##  Heat-related (hot and cold exposure) (%)       0     6156 6156    0.1  
+##                             Hepatitis (%)       0     6156 6156    0.16 
+##                              HIV/AIDS (%)       0     6156 6156    3.35 
+##                              Homicide (%)       0     6156 6156    0.98 
+##        Intestinal infectious diseases (%)       0     6156 6156    0.18 
+##                        Kidney disease (%)       0     6156 6156    2.09 
+##                         Liver disease (%)       0     6156 6156    2.12 
+##          Lower respiratory infections (%)       0     6156 6156    5.84 
+##                               Malaria (%)       0     6156 6156    1.8  
+##                       Maternal deaths (%)       0     6156 6156    0.59 
+##                            Meningitis (%)       0     6156 6156    0.78 
+##                     Natural disasters (%)       0     6156 6156    0.095
+##                       Neonatal deaths (%)       0     6156 6156    4.57 
+##              Nutritional deficiencies (%)       0     6156 6156    1.1  
+##                     Parkinson disease (%)       0     6156 6156    0.29 
+##           Protein-energy malnutrition (%)       0     6156 6156    1    
+##                  Respiratory diseases (%)       0     6156 6156    4.1  
+##                        Road accidents (%)       0     6156 6156    2.53 
+##                               Suicide (%)       0     6156 6156    1.39 
+##                             Terrorism (%)    1398     4758 6156    0.037
+##                          Tuberculosis (%)       0     6156 6156    2.13 
+##                                      year       0     6156 6156 2003    
+##     sd         p0        p25       p50      p75    p100     hist
+##   0.41    0.013      0.078      0.16      0.39     3.08 ▇▂▁▁▁▁▁▁
+##   8.15    0.58       6.93      13.31     21.36    33.62 ▃▇▅▅▃▃▃▁
+##  14.02    1.43      18.74      30.65     38.45    67.39 ▂▅▃▇▆▂▂▁
+##   2.4     0          0          0         0.017   82.32 ▇▁▁▁▁▁▁▁
+##   2.75    0.045      1.01       2.53      4.33    16.67 ▇▆▂▂▁▁▁▁
+##   4.44    0.33       3.2        4.99      7.93    35.82 ▇▆▂▁▁▁▁▁
+##   4.36    0.0083     0.18       0.77      5.29    25.18 ▇▂▁▁▁▁▁▁
+##   0.68    0.31       1.51       1.93      2.29     5.16 ▁▅▇▅▂▁▁▁
+##   0.51    0.053      0.35       0.61      0.96     4.51 ▇▆▂▁▁▁▁▁
+##   0.19    0.0018     0.058      0.12      0.23     1.31 ▇▃▁▁▁▁▁▁
+##   0.18    0.057      0.19       0.32      0.43     1.34 ▇▇▆▂▁▁▁▁
+##   0.13    0.0071     0.042      0.07      0.11     1.17 ▇▁▁▁▁▁▁▁
+##   0.17    0.0048     0.038      0.11      0.24     1.58 ▇▃▁▁▁▁▁▁
+##   7.81    0          0.081      0.44      2.33    62.19 ▇▁▁▁▁▁▁▁
+##   1.45    0.045      0.24       0.52      1       14.23 ▇▁▁▁▁▁▁▁
+##   0.3     7.1e-05    0.00077    0.014     0.27     2.28 ▇▂▁▁▁▁▁▁
+##   1.49    0.056      0.9        1.73      2.96     9.95 ▇▇▅▂▁▁▁▁
+##   1.24    0.19       1.34       1.83      2.54    11.65 ▇▇▂▁▁▁▁▁
+##   3.42    0.68       3.21       5.14      8.16    20.04 ▆▇▅▃▂▁▁▁
+##   4.21    0          0          0.0027    0.48    24.43 ▇▁▁▁▁▁▁▁
+##   0.7     0.0019     0.032      0.24      1        3.41 ▇▂▁▂▁▁▁▁
+##   0.97    0.028      0.11       0.35      1.02     6.98 ▇▁▁▁▁▁▁▁
+##   1.28    0          0          0         0.017   65.29 ▇▁▁▁▁▁▁▁
+##   3.85    0.041      0.69       3.89      7.74    17.81 ▇▃▃▃▂▁▁▁
+##   1.87    0.0037     0.09       0.4       1.34    35.55 ▇▁▁▁▁▁▁▁
+##   0.26    0.0023     0.074      0.21      0.43     1.59 ▇▅▂▂▁▁▁▁
+##   1.81    0.0011     0.058      0.32      1.22    35.52 ▇▁▁▁▁▁▁▁
+##   2.35    0.3        2.26       3.63      5.38    16.29 ▆▇▆▂▁▁▁▁
+##   2.19    0.28       1.36       1.93      2.9     20.9  ▇▂▁▁▁▁▁▁
+##   1.11    0.1        0.69       1.18      1.8     15.41 ▇▂▁▁▁▁▁▁
+##   0.23    0          0          0         0.004    5.88 ▇▁▁▁▁▁▁▁
+##   2.65    0.011      0.24       0.91      3.33    16.47 ▇▂▂▁▁▁▁▁
+##   7.79 1990       1996       2003      2010     2016    ▇▆▆▇▆▆▆▇&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
+## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
+## ✔ readr   1.1.1     ✔ forcats 0.3.0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::contains()    masks skimr::contains()
+## ✖ dplyr::ends_with()   masks skimr::ends_with()
+## ✖ dplyr::everything()  masks skimr::everything()
+## ✖ dplyr::filter()      masks stats::filter()
+## ✖ dplyr::lag()         masks stats::lag()
+## ✖ dplyr::matches()     masks skimr::matches()
+## ✖ dplyr::num_range()   masks skimr::num_range()
+## ✖ dplyr::one_of()      masks skimr::one_of()
+## ✖ dplyr::starts_with() masks skimr::starts_with()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Counts &amp;lt;- read.csv(&amp;quot;~/Downloads/annual-number-of-deaths-by-cause.csv&amp;quot;)
+Counts %&amp;gt;% filter(Year==2016) %&amp;gt;% select(-Code,-Entity,-Execution..deaths.,-Year) %&amp;gt;% apply(., 2, function(x) { sum(x, na.rm=TRUE)}) -&amp;gt; temp1
+pp.df &amp;lt;- data.frame(Total.Deaths=temp1,name=names(temp1))
+pp.df &amp;lt;- pp.df %&amp;gt;% arrange(Total.Deaths)
+pp.df$name &amp;lt;- factor(pp.df$name, levels = pp.df$name)
+cplot &amp;lt;- ggplot(pp.df, aes(name,Total.Deaths)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + scale_fill_gradientn(colours = terrain.colors(10)) + ggtitle(&amp;quot;The Causes of Global Mortailty (2016)&amp;quot;)
+cplot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/COrig-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;With a reenactment of the base target plots, I can turn to new visuals. I wanted to be able to develop a comparison of the various classified causes of death and to try out my nifty function for summarizing panel data. So here goes….&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;xtsum &amp;lt;- function(formula, data) {
+  require(rlang)
+  require(tidyverse)
+  pform &amp;lt;- terms(formula, data=data)
+  unit &amp;lt;- pform[[2]]
+  vars &amp;lt;- attr(pform, &amp;quot;term.labels&amp;quot;)
+  cls &amp;lt;- sapply(data, class)
+  data &amp;lt;- data %&amp;gt;% select(which(cls%in%c(&amp;quot;numeric&amp;quot;,&amp;quot;integer&amp;quot;)))
+  varnames &amp;lt;- intersect(names(data),vars)
+  sumfunc &amp;lt;- function(data=data, varname, unit) {
+  loc.unit &amp;lt;- enquo(unit)
+  varname &amp;lt;- ensym(varname)
+    ores &amp;lt;- data %&amp;gt;% filter(!is.na(!! varname)==TRUE) %&amp;gt;% summarise(
+    O.mean=round(mean(`$`(data, !! varname), na.rm=TRUE), digits=3),
+    O.sd=round(sd(`$`(data, !! varname), na.rm=TRUE), digits=3), 
+    O.min = min(`$`(data, !! varname), na.rm=TRUE), 
+    O.max=max(`$`(data, !! varname), na.rm=TRUE), 
+    O.SumSQ=round(sum(scale(`$`(data, !! varname), center=TRUE, scale=FALSE)^2, na.rm=TRUE), digits=3), 
+    O.N=sum(as.numeric((!is.na(`$`(data, !! varname))))))
+ bmeans &amp;lt;- data %&amp;gt;% filter(!is.na(!! varname)==TRUE) %&amp;gt;% group_by(!! loc.unit) %&amp;gt;% summarise(
+   meanx=mean(`$`(.data, !! varname), na.rm=T), 
+   t.count=sum(as.numeric(!is.na(`$`(.data, !! varname)))))
+  bres &amp;lt;- bmeans %&amp;gt;% ungroup() %&amp;gt;% summarise(
+    B.sd = round(sd(meanx, na.rm=TRUE), digits=3),
+    B.min = min(meanx, na.rm=TRUE), 
+    B.max=max(meanx, na.rm=TRUE), 
+    Units=sum(as.numeric(!is.na(t.count))), 
+    t.bar=round(mean(t.count, na.rm=TRUE), digits=3))
+  wdat &amp;lt;- data %&amp;gt;% filter(!is.na(!! varname)==TRUE) %&amp;gt;% group_by(!! loc.unit) %&amp;gt;% mutate(
+    W.x = scale(`$`(.data,!! varname), scale=FALSE))
+  wres &amp;lt;- wdat %&amp;gt;% ungroup() %&amp;gt;% summarise(
+    W.sd=round(sd(W.x, na.rm=TRUE), digits=3), 
+    W.min=min(W.x, na.rm=TRUE), 
+    W.max=max(W.x, na.rm=TRUE), 
+    W.SumSQ=round(sum(W.x^2, na.rm=TRUE), digits=3))
+    W.Ratio &amp;lt;- round(wres$W.SumSQ/ores$O.SumSQ, digits=3)
+  return(c(ores,bres,wres,Within.Ovr.Ratio=W.Ratio))
+  }
+res1 &amp;lt;- sapply(varnames, function(x) {sumfunc(data, !!x, !!unit)})
+return(t(res1))
+}  
+global_mortality$countryN &amp;lt;- as.numeric(as.factor(global_mortality$country))
+names(global_mortality) &amp;lt;- gsub(&amp;quot; \\(%\\)&amp;quot;,&amp;quot;&amp;quot;,names(global_mortality))
+# For some reason, the xtsum function does not respond to the weird variable names but will accept them devoid of (%)
+myxt.res &amp;lt;- xtsum(countryN~., data=global_mortality)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: rlang&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;rlang&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:purrr&amp;#39;:
+## 
+##     %@%, %||%, as_function, flatten, flatten_chr, flatten_dbl,
+##     flatten_int, flatten_lgl, invoke, list_along, modify, prepend,
+##     rep_along, splice&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;skim(global_mortality)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Skim summary statistics
+##  n obs: 6156 
+##  n variables: 36 
+## 
+## Variable type: character 
+##      variable missing complete    n min max empty n_unique
+##       country       0     6156 6156   4  32     0      228
+##  country_code     864     5292 6156   3   8     0      196
+## 
+## Variable type: numeric 
+##                              variable missing complete    n     mean    sd
+##                     Alcohol disorders       0     6156 6156    0.32   0.41
+##                               Cancers       0     6156 6156   14.39   8.15
+##               Cardiovascular diseases       0     6156 6156   29.93  14.02
+##                              Conflict    1398     4758 6156    0.29   2.4 
+##                              countryN       0     6156 6156  114.5   65.82
+##                              Dementia       0     6156 6156    3.22   2.75
+##                              Diabetes       0     6156 6156    6.29   4.44
+##                    Diarrheal diseases       0     6156 6156    3.2    4.36
+##                    Digestive diseases       0     6156 6156    1.97   0.68
+##                              Drowning       0     6156 6156    0.71   0.51
+##                        Drug disorders       0     6156 6156    0.18   0.19
+##                                  Fire       0     6156 6156    0.33   0.18
+##  Heat-related (hot and cold exposure)       0     6156 6156    0.1    0.13
+##                             Hepatitis       0     6156 6156    0.16   0.17
+##                              HIV/AIDS       0     6156 6156    3.35   7.81
+##                              Homicide       0     6156 6156    0.98   1.45
+##        Intestinal infectious diseases       0     6156 6156    0.18   0.3 
+##                        Kidney disease       0     6156 6156    2.09   1.49
+##                         Liver disease       0     6156 6156    2.12   1.24
+##          Lower respiratory infections       0     6156 6156    5.84   3.42
+##                               Malaria       0     6156 6156    1.8    4.21
+##                       Maternal deaths       0     6156 6156    0.59   0.7 
+##                            Meningitis       0     6156 6156    0.78   0.97
+##                     Natural disasters       0     6156 6156    0.095  1.28
+##                       Neonatal deaths       0     6156 6156    4.57   3.85
+##              Nutritional deficiencies       0     6156 6156    1.1    1.87
+##                     Parkinson disease       0     6156 6156    0.29   0.26
+##           Protein-energy malnutrition       0     6156 6156    1      1.81
+##                  Respiratory diseases       0     6156 6156    4.1    2.35
+##                        Road accidents       0     6156 6156    2.53   2.19
+##                               Suicide       0     6156 6156    1.39   1.11
+##                             Terrorism    1398     4758 6156    0.037  0.23
+##                          Tuberculosis       0     6156 6156    2.13   2.65
+##                                  year       0     6156 6156 2003      7.79
+##          p0        p25       p50      p75    p100     hist
+##     0.013      0.078      0.16      0.39     3.08 ▇▂▁▁▁▁▁▁
+##     0.58       6.93      13.31     21.36    33.62 ▃▇▅▅▃▃▃▁
+##     1.43      18.74      30.65     38.45    67.39 ▂▅▃▇▆▂▂▁
+##     0          0          0         0.017   82.32 ▇▁▁▁▁▁▁▁
+##     1         57.75     114.5     171.25   228    ▇▇▇▇▇▇▇▇
+##     0.045      1.01       2.53      4.33    16.67 ▇▆▂▂▁▁▁▁
+##     0.33       3.2        4.99      7.93    35.82 ▇▆▂▁▁▁▁▁
+##     0.0083     0.18       0.77      5.29    25.18 ▇▂▁▁▁▁▁▁
+##     0.31       1.51       1.93      2.29     5.16 ▁▅▇▅▂▁▁▁
+##     0.053      0.35       0.61      0.96     4.51 ▇▆▂▁▁▁▁▁
+##     0.0018     0.058      0.12      0.23     1.31 ▇▃▁▁▁▁▁▁
+##     0.057      0.19       0.32      0.43     1.34 ▇▇▆▂▁▁▁▁
+##     0.0071     0.042      0.07      0.11     1.17 ▇▁▁▁▁▁▁▁
+##     0.0048     0.038      0.11      0.24     1.58 ▇▃▁▁▁▁▁▁
+##     0          0.081      0.44      2.33    62.19 ▇▁▁▁▁▁▁▁
+##     0.045      0.24       0.52      1       14.23 ▇▁▁▁▁▁▁▁
+##     7.1e-05    0.00077    0.014     0.27     2.28 ▇▂▁▁▁▁▁▁
+##     0.056      0.9        1.73      2.96     9.95 ▇▇▅▂▁▁▁▁
+##     0.19       1.34       1.83      2.54    11.65 ▇▇▂▁▁▁▁▁
+##     0.68       3.21       5.14      8.16    20.04 ▆▇▅▃▂▁▁▁
+##     0          0          0.0027    0.48    24.43 ▇▁▁▁▁▁▁▁
+##     0.0019     0.032      0.24      1        3.41 ▇▂▁▂▁▁▁▁
+##     0.028      0.11       0.35      1.02     6.98 ▇▁▁▁▁▁▁▁
+##     0          0          0         0.017   65.29 ▇▁▁▁▁▁▁▁
+##     0.041      0.69       3.89      7.74    17.81 ▇▃▃▃▂▁▁▁
+##     0.0037     0.09       0.4       1.34    35.55 ▇▁▁▁▁▁▁▁
+##     0.0023     0.074      0.21      0.43     1.59 ▇▅▂▂▁▁▁▁
+##     0.0011     0.058      0.32      1.22    35.52 ▇▁▁▁▁▁▁▁
+##     0.3        2.26       3.63      5.38    16.29 ▆▇▆▂▁▁▁▁
+##     0.28       1.36       1.93      2.9     20.9  ▇▂▁▁▁▁▁▁
+##     0.1        0.69       1.18      1.8     15.41 ▇▂▁▁▁▁▁▁
+##     0          0          0         0.004    5.88 ▇▁▁▁▁▁▁▁
+##     0.011      0.24       0.91      3.33    16.47 ▇▂▂▁▁▁▁▁
+##  1990       1996       2003      2010     2016    ▇▆▆▇▆▆▆▇&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot.res &amp;lt;- data.frame(myxt.res)
+ggplot.res &amp;lt;- ggplot.res[-1,]; ggplot.res &amp;lt;- ggplot.res[,16]
+mydf &amp;lt;- t(data.frame(ggplot.res))
+mydf &amp;lt;- data.frame(value=mydf,name=rownames(mydf))
+mydf &amp;lt;- mydf %&amp;gt;% arrange(value)
+mydf$name &amp;lt;- factor(mydf$name, levels = mydf$name)
+cplot &amp;lt;- ggplot(mydf, aes(name,value)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + ylab(&amp;quot;Within Country Percent of Total Variation&amp;quot;) + xlab(&amp;quot;Cause of Mortality&amp;quot;) + ggtitle(&amp;quot;Within-country variation in the Causes of Death (1990-2016)&amp;quot;)
+cplot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Scraping EPL Salary Data</title>
       <link>https://www.data.viajes/post/scraping-epl-salary-data/</link>
       <pubDate>Sun, 08 Apr 2018 00:00:00 +0000</pubDate>
@@ -2103,15 +2369,6 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
       <guid>https://www.data.viajes/project/prop-tax/</guid>
       <description>&lt;p&gt;Fred Thompson, Kawika Pierson, and I have written a few papers on the odd property tax limitations in Oregon.  Basically, there is a cap on the rate of growth and no reset at sale provision so assessment quality suffers tremendously.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Property Tax Fairness in Multnomah County, Oregon</title>
-      <link>https://www.data.viajes/publication/cjpp-ptw/</link>
-      <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.data.viajes/publication/cjpp-ptw/</guid>
-      <description></description>
     </item>
     
   </channel>
