@@ -475,11 +475,18 @@ EPL.Contracts.df &amp;lt;- do.call(&amp;quot;rbind&amp;quot;,EPL.Contracts)
 rownames(EPL.Contracts.df) &amp;lt;- NULL
 EPL.Contracts.df$Team &amp;lt;- Team
 EPL.Contracts.df$value &amp;lt;- as.numeric(as.character(EPL.Contracts.df$value))
-EPL.Contracts.df %&amp;gt;% group_by(Team) %&amp;gt;% summarise(Team.Mean=mean(value, na.rm=TRUE)/1e3) -&amp;gt; Team.mean
+EPL.Contracts.df %&amp;gt;% group_by(Team) %&amp;gt;% summarise(Team.Mean=mean(value, na.rm=TRUE)/1e3, Team.SD=sd(value, na.rm=TRUE)) -&amp;gt; Team.mean
 pp &amp;lt;- Team.mean %&amp;gt;% arrange(Team.Mean)
-pp %&amp;gt;% ggplot(aes(Team.Mean,Team)) + geom_point() + labs(x=&amp;quot;Avg. Salary (1000s)&amp;quot;) -&amp;gt; cplot
+pp$Team &amp;lt;- factor(pp$Team, levels = pp$Team)
+pp %&amp;gt;% ggplot(aes(Team.Mean,Team, size=Team.SD)) + geom_point() + labs(x=&amp;quot;Avg. Contract (1000s)&amp;quot;) -&amp;gt; cplot
 cplot&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;EPL.Contracts.df %&amp;gt;% group_by(Team) %&amp;gt;% summarise(Age.Mean=mean(Age, na.rm=TRUE), Age.SD=sd(Age, na.rm=TRUE)) -&amp;gt; Team.mean
+Team.mean %&amp;gt;% ungroup() %&amp;gt;% arrange(., Age.Mean) -&amp;gt; pp
+pp$Team &amp;lt;- factor(pp$Team, levels = pp$Team)
+pp %&amp;gt;% ggplot(aes(Age.Mean,Team,size=Age.SD)) + geom_point() + labs(x=&amp;quot;Age&amp;quot;) -&amp;gt; cplot
+cplot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>

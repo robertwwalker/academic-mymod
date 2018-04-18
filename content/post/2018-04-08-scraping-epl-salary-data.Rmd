@@ -152,9 +152,17 @@ EPL.Contracts.df <- do.call("rbind",EPL.Contracts)
 rownames(EPL.Contracts.df) <- NULL
 EPL.Contracts.df$Team <- Team
 EPL.Contracts.df$value <- as.numeric(as.character(EPL.Contracts.df$value))
-EPL.Contracts.df %>% group_by(Team) %>% summarise(Team.Mean=mean(value, na.rm=TRUE)/1e3) -> Team.mean
+EPL.Contracts.df %>% group_by(Team) %>% summarise(Team.Mean=mean(value, na.rm=TRUE)/1e3, Team.SD=sd(value, na.rm=TRUE)) -> Team.mean
 pp <- Team.mean %>% arrange(Team.Mean)
-pp %>% ggplot(aes(Team.Mean,Team)) + geom_point() + labs(x="Avg. Salary (1000s)") -> cplot
+pp$Team <- factor(pp$Team, levels = pp$Team)
+pp %>% ggplot(aes(Team.Mean,Team, size=Team.SD)) + geom_point() + labs(x="Avg. Contract (1000s)") -> cplot
 cplot
 ```
 
+```{r EPLT2}
+EPL.Contracts.df %>% group_by(Team) %>% summarise(Age.Mean=mean(Age, na.rm=TRUE), Age.SD=sd(Age, na.rm=TRUE)) -> Team.mean
+Team.mean %>% ungroup() %>% arrange(., Age.Mean) -> pp
+pp$Team <- factor(pp$Team, levels = pp$Team)
+pp %>% ggplot(aes(Age.Mean,Team,size=Age.SD)) + geom_point() + labs(x="Age") -> cplot
+cplot
+```

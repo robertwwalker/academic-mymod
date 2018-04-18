@@ -473,10 +473,17 @@ EPL.Contracts.df &lt;- do.call(&quot;rbind&quot;,EPL.Contracts)
 rownames(EPL.Contracts.df) &lt;- NULL
 EPL.Contracts.df$Team &lt;- Team
 EPL.Contracts.df$value &lt;- as.numeric(as.character(EPL.Contracts.df$value))
-EPL.Contracts.df %&gt;% group_by(Team) %&gt;% summarise(Team.Mean=mean(value, na.rm=TRUE)/1e3) -&gt; Team.mean
+EPL.Contracts.df %&gt;% group_by(Team) %&gt;% summarise(Team.Mean=mean(value, na.rm=TRUE)/1e3, Team.SD=sd(value, na.rm=TRUE)) -&gt; Team.mean
 pp &lt;- Team.mean %&gt;% arrange(Team.Mean)
-pp %&gt;% ggplot(aes(Team.Mean,Team)) + geom_point() + labs(x=&quot;Avg. Salary (1000s)&quot;) -&gt; cplot
+pp$Team &lt;- factor(pp$Team, levels = pp$Team)
+pp %&gt;% ggplot(aes(Team.Mean,Team, size=Team.SD)) + geom_point() + labs(x=&quot;Avg. Contract (1000s)&quot;) -&gt; cplot
 cplot</code></pre>
 <p><img src="/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT-1.png" width="672" /></p>
+<pre class="r"><code>EPL.Contracts.df %&gt;% group_by(Team) %&gt;% summarise(Age.Mean=mean(Age, na.rm=TRUE), Age.SD=sd(Age, na.rm=TRUE)) -&gt; Team.mean
+Team.mean %&gt;% ungroup() %&gt;% arrange(., Age.Mean) -&gt; pp
+pp$Team &lt;- factor(pp$Team, levels = pp$Team)
+pp %&gt;% ggplot(aes(Age.Mean,Team,size=Age.SD)) + geom_point() + labs(x=&quot;Age&quot;) -&gt; cplot
+cplot</code></pre>
+<p><img src="/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT2-1.png" width="672" /></p>
 </div>
 </div>
