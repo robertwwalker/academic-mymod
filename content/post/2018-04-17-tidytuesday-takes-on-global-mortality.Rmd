@@ -19,10 +19,13 @@ The three generic challenge graphics involve two global summaries, a raw count b
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
+Here is this week's tidyTuesday.
 
 ```{r DataLoad}
 library(readxl)
 library(skimr)
+library(tidyverse)
+require(rlang)
 url <- "https://github.com/rfordatascience/tidytuesday/raw/master/data/global_mortality.xlsx"
 destfile <- "global_mortality.xlsx"
 curl::curl_download(url, destfile)
@@ -30,8 +33,9 @@ global_mortality <- read_excel(destfile)
 skim(global_mortality)
 ```
 
+That loads the data for the challenge.
+
 ```{r COrig}
-library(tidyverse)
 Counts <- read.csv("~/Downloads/annual-number-of-deaths-by-cause.csv")
 Counts %>% filter(Year==2016) %>% select(-Code,-Entity,-Execution..deaths.,-Year) %>% apply(., 2, function(x) { sum(x, na.rm=TRUE)}) -> temp1
 pp.df <- data.frame(Total.Deaths=temp1,name=names(temp1))
@@ -41,12 +45,10 @@ cplot <- ggplot(pp.df, aes(name,Total.Deaths)) + geom_bar(stat="identity") + coo
 cplot
 ```
 
-With a reenactment of the base target plots, I can turn to new visuals.  I wanted to be able to develop a comparison of the various classified causes of death and to try out my nifty function for summarizing panel data.  So here goes....
+With a reenactment of the base target plots, I can turn to new visuals.  I wanted to be able to develop a comparison of the various classified causes of death and to try out my nifty function for summarizing panel data.  So here goes.
 
-```{r TTuesdayPlot}
+```{r TTuesP}
 xtsum <- function(formula, data) {
-  require(rlang)
-  require(tidyverse)
   pform <- terms(formula, data=data)
   unit <- pform[[2]]
   vars <- attr(pform, "term.labels")
@@ -97,12 +99,11 @@ The function output can be read as follows.  It needs better formatting as a tab
 
 ```{r Result}
 ggplot.res <- data.frame(myxt.res)
-ggplot.res <- ggplot.res[-1,]; ggplot.res <- ggplot.res[,16]
+ggplot.res <- ggplot.res[-1,]; ggplot.res <- ggplot.res[,17]
 mydf <- t(data.frame(ggplot.res))
 mydf <- data.frame(value=mydf,name=rownames(mydf))
 mydf <- mydf %>% arrange(value)
 mydf$name <- factor(mydf$name, levels = mydf$name)
 mydf <- mydf %>% mutate(Emph=as.numeric(value>0.5))
-cplot <- ggplot(mydf, aes(name,value, fill=Emph)) + geom_bar(stat="identity") + coord_flip() + ylab("Within Percent of Total Variation") + xlab("Cause of Mortality") + ggtitle("Within-country variation in the Causes of Death") + guides(fill="none")
-print(cplot)
+mydf %>% ggplot(aes(name,value, fill=Emph)) + geom_bar(stat="identity") + coord_flip() + ylab("Within Percent of Total Variation") + xlab("Cause of Mortality") + ggtitle("Within-country variation in the Causes of Death") + guides(fill="none")
 ```
