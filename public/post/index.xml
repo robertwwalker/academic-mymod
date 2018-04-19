@@ -14,10 +14,10 @@
     
     <item>
       <title>Global mortality tidyTuesday</title>
-      <link>https://www.data.viajes/post/tidy-tuesday-takes-on-global-mortality/</link>
+      <link>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</link>
       <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/tidy-tuesday-takes-on-global-mortality/</guid>
+      <guid>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</guid>
       <description>tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
 Here is this week’s tidyTuesday.
 library(readxl) library(skimr) library(tidyverse) require(rlang) url &amp;lt;- &amp;quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/global_mortality.xlsx&amp;quot; destfile &amp;lt;- &amp;quot;global_mortality.xlsx&amp;quot; curl::curl_download(url, destfile) global_mortality &amp;lt;- read_excel(destfile) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## Variable type: character ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## Variable type: numeric ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.</description>

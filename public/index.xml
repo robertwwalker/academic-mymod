@@ -12,10 +12,10 @@
     
     <item>
       <title>Global mortality tidyTuesday</title>
-      <link>https://www.data.viajes/post/tidy-tuesday-takes-on-global-mortality/</link>
+      <link>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</link>
       <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/tidy-tuesday-takes-on-global-mortality/</guid>
+      <guid>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</guid>
       <description>&lt;div id=&#34;tidytuesday-on-global-mortality&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;tidyTuesday on Global Mortality&lt;/h1&gt;
 &lt;p&gt;The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in &lt;a href=&#34;https://ourworldindata.org/what-does-the-world-die-from&#34;&gt;the original&lt;/a&gt;. For whatever reason, I cannot open this data remotely.&lt;/p&gt;
