@@ -159,8 +159,21 @@ return(t(res1))
 global_mortality$countryN &amp;lt;- as.numeric(as.factor(global_mortality$country))
 names(global_mortality) &amp;lt;- gsub(&amp;quot; \\(%\\)&amp;quot;,&amp;quot;&amp;quot;,names(global_mortality))
 # For some reason, the xtsum function does not respond to the weird variable names but will accept them devoid of (%)
+<<<<<<< HEAD
 myxt.res &amp;lt;- xtsum(countryN~., data=global_mortality)
 myxt.res&lt;/code&gt;&lt;/pre&gt;
+=======
+myxt.res &amp;lt;- xtsum(countryN~., data=global_mortality)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: rlang&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;rlang&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:purrr&amp;#39;:
+## 
+##     %@%, %||%, as_function, flatten, flatten_chr, flatten_dbl,
+##     flatten_int, flatten_lgl, invoke, list_along, modify, prepend,
+##     rep_along, splice&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;myxt.res&lt;/code&gt;&lt;/pre&gt;
+>>>>>>> bb018960fe885189bcc69101c40cdba5f807e82b
 &lt;pre&gt;&lt;code&gt;##              O.mean O.sd  O.min       O.max    O.SumSQ  O.N  B.mean B.sd 
 ## year         2003   7.79  1990        2016     373464   6156 2003   0    
 ## Cancers      14.387 8.154 0.5822726   33.6175  409267.1 6156 14.387 8.034

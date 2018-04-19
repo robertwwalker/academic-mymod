@@ -486,8 +486,21 @@ return(t(res1))
 global_mortality$countryN &lt;- as.numeric(as.factor(global_mortality$country))
 names(global_mortality) &lt;- gsub(&quot; \\(%\\)&quot;,&quot;&quot;,names(global_mortality))
 # For some reason, the xtsum function does not respond to the weird variable names but will accept them devoid of (%)
+<<<<<<< HEAD
 myxt.res &lt;- xtsum(countryN~., data=global_mortality)
 myxt.res</code></pre>
+=======
+myxt.res &lt;- xtsum(countryN~., data=global_mortality)</code></pre>
+<pre><code>## Loading required package: rlang</code></pre>
+<pre><code>## 
+## Attaching package: &#39;rlang&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
+## 
+##     %@%, %||%, as_function, flatten, flatten_chr, flatten_dbl,
+##     flatten_int, flatten_lgl, invoke, list_along, modify, prepend,
+##     rep_along, splice</code></pre>
+<pre class="r"><code>myxt.res</code></pre>
+>>>>>>> bb018960fe885189bcc69101c40cdba5f807e82b
 <pre><code>##              O.mean O.sd  O.min       O.max    O.SumSQ  O.N  B.mean B.sd 
 ## year         2003   7.79  1990        2016     373464   6156 2003   0    
 ## Cancers      14.387 8.154 0.5822726   33.6175  409267.1 6156 14.387 8.034
