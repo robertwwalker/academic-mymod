@@ -273,7 +273,7 @@ library(readxl) library(skimr) library(tidyverse) require(rlang) url &lt;- &quot
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    7 min read
+    8 min read
   </span>
   
 
@@ -486,6 +486,7 @@ cplot</code></pre>
 res1 &lt;- sapply(varnames, function(x) {sumfunc(data, !!x, !!unit)})
 return(t(res1))
 }  
+global_mortality$countryF &lt;- as.factor(global_mortality$country)
 global_mortality$countryN &lt;- as.numeric(as.factor(global_mortality$country))
 names(global_mortality) &lt;- gsub(&quot; \\(%\\)&quot;,&quot;&quot;,names(global_mortality))
 # For some reason, the xtsum function does not respond to the weird variable names but will accept them devoid of (%)
@@ -546,6 +547,16 @@ mydf$name &lt;- factor(mydf$name, levels = mydf$name)
 mydf &lt;- mydf %&gt;% mutate(Emph=as.numeric(value&gt;0.5))
 mydf %&gt;% ggplot(aes(name,value, fill=Emph)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() + ylab(&quot;Within Percent of Total Variation&quot;) + xlab(&quot;Cause of Mortality&quot;) + ggtitle(&quot;Within-country variation in the Causes of Death&quot;) + guides(fill=&quot;none&quot;)</code></pre>
 <p><img src="/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png" width="672" /></p>
+<pre class="r"><code>Mean.Homicide &lt;- global_mortality %&gt;% group_by(countryF) %&gt;% summarise(mymean=mean(Homicide, na.rm=TRUE))
+Mean.Homicide %&gt;% ungroup() %&gt;% arrange(mymean) -&gt; mydf
+mydf$countryF &lt;- factor(mydf$countryF, levels = mydf$countryF)
+mydf %&gt;% ungroup() %&gt;% top_n(30, mymean) %&gt;% arrange(mymean) %&gt;% mutate(Emph=c(rep(1,10),rep(2,10),rep(3,10))) -&gt; mydf
+mydf %&gt;% ggplot(aes(countryF,mymean, fill=Emph)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() + ylab(&quot;Homicides&quot;) + ggtitle(&quot;Top 30 Countries/Places in Homicide&quot;) + xlab(&quot;&quot;) + guides(fill=&quot;none&quot;) -&gt; Homicideplot
+Homicideplot</code></pre>
+<p><img src="/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/MHG30-1.png" width="672" /></p>
+<pre class="r"><code>global_mortality %&gt;% filter(year==2016) %&gt;% ggplot(aes(`Drug disorders`,`Alcohol disorders`)) + geom_point() + ggtitle(&quot;Drugs and Alcohol in 2016&quot;) -&gt; scatterDA
+scatterDA</code></pre>
+<p><img src="/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/DandA-1.png" width="672" /></p>
 </div>
 
     </div>

@@ -88,6 +88,7 @@ xtsum <- function(formula, data) {
 res1 <- sapply(varnames, function(x) {sumfunc(data, !!x, !!unit)})
 return(t(res1))
 }  
+global_mortality$countryF <- as.factor(global_mortality$country)
 global_mortality$countryN <- as.numeric(as.factor(global_mortality$country))
 names(global_mortality) <- gsub(" \\(%\\)","",names(global_mortality))
 # For some reason, the xtsum function does not respond to the weird variable names but will accept them devoid of (%)
@@ -107,3 +108,20 @@ mydf$name <- factor(mydf$name, levels = mydf$name)
 mydf <- mydf %>% mutate(Emph=as.numeric(value>0.5))
 mydf %>% ggplot(aes(name,value, fill=Emph)) + geom_bar(stat="identity") + coord_flip() + ylab("Within Percent of Total Variation") + xlab("Cause of Mortality") + ggtitle("Within-country variation in the Causes of Death") + guides(fill="none")
 ```
+
+```{r MHG30}
+Mean.Homicide <- global_mortality %>% group_by(countryF) %>% summarise(mymean=mean(Homicide, na.rm=TRUE))
+Mean.Homicide %>% ungroup() %>% arrange(mymean) -> mydf
+mydf$countryF <- factor(mydf$countryF, levels = mydf$countryF)
+mydf %>% ungroup() %>% top_n(30, mymean) %>% arrange(mymean) %>% mutate(Emph=c(rep(1,10),rep(2,10),rep(3,10))) -> mydf
+mydf %>% ggplot(aes(countryF,mymean, fill=Emph)) + geom_bar(stat="identity") + coord_flip() + ylab("Homicides") + ggtitle("Top 30 Countries/Places in Homicide") + xlab("") + guides(fill="none") -> Homicideplot
+Homicideplot
+
+```
+
+```{r DandA}
+global_mortality %>% filter(year==2016) %>% ggplot(aes(`Drug disorders`,`Alcohol disorders`)) + geom_point() + ggtitle("Drugs and Alcohol in 2016") -> scatterDA
+scatterDA
+```
+
+

@@ -157,6 +157,7 @@ cplot&lt;/code&gt;&lt;/pre&gt;
 res1 &amp;lt;- sapply(varnames, function(x) {sumfunc(data, !!x, !!unit)})
 return(t(res1))
 }  
+global_mortality$countryF &amp;lt;- as.factor(global_mortality$country)
 global_mortality$countryN &amp;lt;- as.numeric(as.factor(global_mortality$country))
 names(global_mortality) &amp;lt;- gsub(&amp;quot; \\(%\\)&amp;quot;,&amp;quot;&amp;quot;,names(global_mortality))
 # For some reason, the xtsum function does not respond to the weird variable names but will accept them devoid of (%)
@@ -217,6 +218,16 @@ mydf$name &amp;lt;- factor(mydf$name, levels = mydf$name)
 mydf &amp;lt;- mydf %&amp;gt;% mutate(Emph=as.numeric(value&amp;gt;0.5))
 mydf %&amp;gt;% ggplot(aes(name,value, fill=Emph)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + ylab(&amp;quot;Within Percent of Total Variation&amp;quot;) + xlab(&amp;quot;Cause of Mortality&amp;quot;) + ggtitle(&amp;quot;Within-country variation in the Causes of Death&amp;quot;) + guides(fill=&amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Mean.Homicide &amp;lt;- global_mortality %&amp;gt;% group_by(countryF) %&amp;gt;% summarise(mymean=mean(Homicide, na.rm=TRUE))
+Mean.Homicide %&amp;gt;% ungroup() %&amp;gt;% arrange(mymean) -&amp;gt; mydf
+mydf$countryF &amp;lt;- factor(mydf$countryF, levels = mydf$countryF)
+mydf %&amp;gt;% ungroup() %&amp;gt;% top_n(30, mymean) %&amp;gt;% arrange(mymean) %&amp;gt;% mutate(Emph=c(rep(1,10),rep(2,10),rep(3,10))) -&amp;gt; mydf
+mydf %&amp;gt;% ggplot(aes(countryF,mymean, fill=Emph)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + ylab(&amp;quot;Homicides&amp;quot;) + ggtitle(&amp;quot;Top 30 Countries/Places in Homicide&amp;quot;) + xlab(&amp;quot;&amp;quot;) + guides(fill=&amp;quot;none&amp;quot;) -&amp;gt; Homicideplot
+Homicideplot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/MHG30-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;global_mortality %&amp;gt;% filter(year==2016) %&amp;gt;% ggplot(aes(`Drug disorders`,`Alcohol disorders`)) + geom_point() + ggtitle(&amp;quot;Drugs and Alcohol in 2016&amp;quot;) -&amp;gt; scatterDA
+scatterDA&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/DandA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
