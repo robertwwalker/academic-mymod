@@ -1,8 +1,8 @@
 ---
-title: tidyTuesday takes on global mortality
+title: Global mortality tidyTuesday
 author: RWW
 date: '2018-04-17'
-slug: tidytuesday-takes-on-global-mortality
+slug: global-mortality-tidyTuesday
 categories:
   - tidyverse
   - R
@@ -14,6 +14,10 @@ tags:
 # tidyTuesday on Global Mortality
 
 The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type.  The individual county breakdowns are recorded for a predetermined year below.  This can all be seen in [the original](https://ourworldindata.org/what-does-the-world-die-from).  For whatever reason, I cannot open this data remotely.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
 
 
 ```{r DataLoad}
@@ -62,7 +66,8 @@ xtsum <- function(formula, data) {
  bmeans <- data %>% filter(!is.na(!! varname)==TRUE) %>% group_by(!! loc.unit) %>% summarise(
    meanx=mean(`$`(.data, !! varname), na.rm=T), 
    t.count=sum(as.numeric(!is.na(`$`(.data, !! varname)))))
-  bres <- bmeans %>% ungroup() %>% summarise(
+    bres <- bmeans %>% ungroup() %>% summarise(
+    B.mean = round(mean(meanx, na.rm=TRUE), digits=3),
     B.sd = round(sd(meanx, na.rm=TRUE), digits=3),
     B.min = min(meanx, na.rm=TRUE), 
     B.max=max(meanx, na.rm=TRUE), 
@@ -85,8 +90,10 @@ global_mortality$countryN <- as.numeric(as.factor(global_mortality$country))
 names(global_mortality) <- gsub(" \\(%\\)","",names(global_mortality))
 # For some reason, the xtsum function does not respond to the weird variable names but will accept them devoid of (%)
 myxt.res <- xtsum(countryN~., data=global_mortality)
-skim(global_mortality)
+myxt.res
 ```
+
+The function output can be read as follows.  It needs better formatting as a table.  For now, O. is an overall measure, overall mean, standard deviation, minimum, maximum, sum of squares and total observations.  A between mean, standard deviation, minimum, and maximum with the number of units and the average number of time points.  Finally, we have a within standard deviation, minimum, maximum, sum of squares, and a within proportion of the overall variance.  In this case, terrorism and conflict are the two variables that vary almost entirely within and far less between countries.  I suspect this is because they are rather high in a few places and consistently so.
 
 ```{r Result}
 ggplot.res <- data.frame(myxt.res)
@@ -96,6 +103,6 @@ mydf <- data.frame(value=mydf,name=rownames(mydf))
 mydf <- mydf %>% arrange(value)
 mydf$name <- factor(mydf$name, levels = mydf$name)
 mydf <- mydf %>% mutate(Emph=as.numeric(value>0.5))
-cplot <- ggplot(mydf, aes(name,value, fill=Emph)) + geom_bar(stat="identity") + coord_flip() + ylab("Within  Percent of Total Variation") + xlab("Cause of Mortality") + ggtitle("Within-country variation in the Causes of Death") + guides(fill="none")
-cplot
+cplot <- ggplot(mydf, aes(name,value, fill=Emph)) + geom_bar(stat="identity") + coord_flip() + ylab("Within Percent of Total Variation") + xlab("Cause of Mortality") + ggtitle("Within-country variation in the Causes of Death") + guides(fill="none")
+print(cplot)
 ```

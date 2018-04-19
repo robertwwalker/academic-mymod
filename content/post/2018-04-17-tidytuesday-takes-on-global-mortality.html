@@ -1,8 +1,8 @@
 ---
-title: tidyTuesday takes on global mortality
+title: Global mortality tidyTuesday
 author: RWW
 date: '2018-04-17'
-slug: tidytuesday-takes-on-global-mortality
+slug: global-mortality-tidyTuesday
 categories:
   - tidyverse
   - R
@@ -101,23 +101,8 @@ skim(global_mortality)</code></pre>
 ##   0.23    0          0          0         0.004    5.88 ▇▁▁▁▁▁▁▁
 ##   2.65    0.011      0.24       0.91      3.33    16.47 ▇▂▂▁▁▁▁▁
 ##   7.79 1990       1996       2003      2010     2016    ▇▆▆▇▆▆▆▇</code></pre>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
-## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
-## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::contains()    masks skimr::contains()
-## ✖ dplyr::ends_with()   masks skimr::ends_with()
-## ✖ dplyr::everything()  masks skimr::everything()
-## ✖ dplyr::filter()      masks stats::filter()
-## ✖ dplyr::lag()         masks stats::lag()
-## ✖ dplyr::matches()     masks skimr::matches()
-## ✖ dplyr::num_range()   masks skimr::num_range()
-## ✖ dplyr::one_of()      masks skimr::one_of()
-## ✖ dplyr::starts_with() masks skimr::starts_with()</code></pre>
-<pre class="r"><code>Counts &lt;- read.csv(&quot;~/Downloads/annual-number-of-deaths-by-cause.csv&quot;)
+<pre class="r"><code>library(tidyverse)
+Counts &lt;- read.csv(&quot;~/Downloads/annual-number-of-deaths-by-cause.csv&quot;)
 Counts %&gt;% filter(Year==2016) %&gt;% select(-Code,-Entity,-Execution..deaths.,-Year) %&gt;% apply(., 2, function(x) { sum(x, na.rm=TRUE)}) -&gt; temp1
 pp.df &lt;- data.frame(Total.Deaths=temp1,name=names(temp1))
 pp.df &lt;- pp.df %&gt;% arrange(Total.Deaths)
@@ -148,7 +133,8 @@ cplot</code></pre>
  bmeans &lt;- data %&gt;% filter(!is.na(!! varname)==TRUE) %&gt;% group_by(!! loc.unit) %&gt;% summarise(
    meanx=mean(`$`(.data, !! varname), na.rm=T), 
    t.count=sum(as.numeric(!is.na(`$`(.data, !! varname)))))
-  bres &lt;- bmeans %&gt;% ungroup() %&gt;% summarise(
+    bres &lt;- bmeans %&gt;% ungroup() %&gt;% summarise(
+    B.mean = round(mean(meanx, na.rm=TRUE), digits=3),
     B.sd = round(sd(meanx, na.rm=TRUE), digits=3),
     B.min = min(meanx, na.rm=TRUE), 
     B.max=max(meanx, na.rm=TRUE), 
@@ -170,96 +156,54 @@ return(t(res1))
 global_mortality$countryN &lt;- as.numeric(as.factor(global_mortality$country))
 names(global_mortality) &lt;- gsub(&quot; \\(%\\)&quot;,&quot;&quot;,names(global_mortality))
 # For some reason, the xtsum function does not respond to the weird variable names but will accept them devoid of (%)
-myxt.res &lt;- xtsum(countryN~., data=global_mortality)</code></pre>
-<pre><code>## Loading required package: rlang</code></pre>
-<pre><code>## 
-## Attaching package: &#39;rlang&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
-## 
-##     %@%, %||%, as_function, flatten, flatten_chr, flatten_dbl,
-##     flatten_int, flatten_lgl, invoke, list_along, modify, prepend,
-##     rep_along, splice</code></pre>
-<pre class="r"><code>skim(global_mortality)</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 6156 
-##  n variables: 36 
-## 
-## Variable type: character 
-##      variable missing complete    n min max empty n_unique
-##       country       0     6156 6156   4  32     0      228
-##  country_code     864     5292 6156   3   8     0      196
-## 
-## Variable type: numeric 
-##                              variable missing complete    n     mean    sd
-##                     Alcohol disorders       0     6156 6156    0.32   0.41
-##                               Cancers       0     6156 6156   14.39   8.15
-##               Cardiovascular diseases       0     6156 6156   29.93  14.02
-##                              Conflict    1398     4758 6156    0.29   2.4 
-##                              countryN       0     6156 6156  114.5   65.82
-##                              Dementia       0     6156 6156    3.22   2.75
-##                              Diabetes       0     6156 6156    6.29   4.44
-##                    Diarrheal diseases       0     6156 6156    3.2    4.36
-##                    Digestive diseases       0     6156 6156    1.97   0.68
-##                              Drowning       0     6156 6156    0.71   0.51
-##                        Drug disorders       0     6156 6156    0.18   0.19
-##                                  Fire       0     6156 6156    0.33   0.18
-##  Heat-related (hot and cold exposure)       0     6156 6156    0.1    0.13
-##                             Hepatitis       0     6156 6156    0.16   0.17
-##                              HIV/AIDS       0     6156 6156    3.35   7.81
-##                              Homicide       0     6156 6156    0.98   1.45
-##        Intestinal infectious diseases       0     6156 6156    0.18   0.3 
-##                        Kidney disease       0     6156 6156    2.09   1.49
-##                         Liver disease       0     6156 6156    2.12   1.24
-##          Lower respiratory infections       0     6156 6156    5.84   3.42
-##                               Malaria       0     6156 6156    1.8    4.21
-##                       Maternal deaths       0     6156 6156    0.59   0.7 
-##                            Meningitis       0     6156 6156    0.78   0.97
-##                     Natural disasters       0     6156 6156    0.095  1.28
-##                       Neonatal deaths       0     6156 6156    4.57   3.85
-##              Nutritional deficiencies       0     6156 6156    1.1    1.87
-##                     Parkinson disease       0     6156 6156    0.29   0.26
-##           Protein-energy malnutrition       0     6156 6156    1      1.81
-##                  Respiratory diseases       0     6156 6156    4.1    2.35
-##                        Road accidents       0     6156 6156    2.53   2.19
-##                               Suicide       0     6156 6156    1.39   1.11
-##                             Terrorism    1398     4758 6156    0.037  0.23
-##                          Tuberculosis       0     6156 6156    2.13   2.65
-##                                  year       0     6156 6156 2003      7.79
-##          p0        p25       p50      p75    p100     hist
-##     0.013      0.078      0.16      0.39     3.08 ▇▂▁▁▁▁▁▁
-##     0.58       6.93      13.31     21.36    33.62 ▃▇▅▅▃▃▃▁
-##     1.43      18.74      30.65     38.45    67.39 ▂▅▃▇▆▂▂▁
-##     0          0          0         0.017   82.32 ▇▁▁▁▁▁▁▁
-##     1         57.75     114.5     171.25   228    ▇▇▇▇▇▇▇▇
-##     0.045      1.01       2.53      4.33    16.67 ▇▆▂▂▁▁▁▁
-##     0.33       3.2        4.99      7.93    35.82 ▇▆▂▁▁▁▁▁
-##     0.0083     0.18       0.77      5.29    25.18 ▇▂▁▁▁▁▁▁
-##     0.31       1.51       1.93      2.29     5.16 ▁▅▇▅▂▁▁▁
-##     0.053      0.35       0.61      0.96     4.51 ▇▆▂▁▁▁▁▁
-##     0.0018     0.058      0.12      0.23     1.31 ▇▃▁▁▁▁▁▁
-##     0.057      0.19       0.32      0.43     1.34 ▇▇▆▂▁▁▁▁
-##     0.0071     0.042      0.07      0.11     1.17 ▇▁▁▁▁▁▁▁
-##     0.0048     0.038      0.11      0.24     1.58 ▇▃▁▁▁▁▁▁
-##     0          0.081      0.44      2.33    62.19 ▇▁▁▁▁▁▁▁
-##     0.045      0.24       0.52      1       14.23 ▇▁▁▁▁▁▁▁
-##     7.1e-05    0.00077    0.014     0.27     2.28 ▇▂▁▁▁▁▁▁
-##     0.056      0.9        1.73      2.96     9.95 ▇▇▅▂▁▁▁▁
-##     0.19       1.34       1.83      2.54    11.65 ▇▇▂▁▁▁▁▁
-##     0.68       3.21       5.14      8.16    20.04 ▆▇▅▃▂▁▁▁
-##     0          0          0.0027    0.48    24.43 ▇▁▁▁▁▁▁▁
-##     0.0019     0.032      0.24      1        3.41 ▇▂▁▂▁▁▁▁
-##     0.028      0.11       0.35      1.02     6.98 ▇▁▁▁▁▁▁▁
-##     0          0          0         0.017   65.29 ▇▁▁▁▁▁▁▁
-##     0.041      0.69       3.89      7.74    17.81 ▇▃▃▃▂▁▁▁
-##     0.0037     0.09       0.4       1.34    35.55 ▇▁▁▁▁▁▁▁
-##     0.0023     0.074      0.21      0.43     1.59 ▇▅▂▂▁▁▁▁
-##     0.0011     0.058      0.32      1.22    35.52 ▇▁▁▁▁▁▁▁
-##     0.3        2.26       3.63      5.38    16.29 ▆▇▆▂▁▁▁▁
-##     0.28       1.36       1.93      2.9     20.9  ▇▂▁▁▁▁▁▁
-##     0.1        0.69       1.18      1.8     15.41 ▇▂▁▁▁▁▁▁
-##     0          0          0         0.004    5.88 ▇▁▁▁▁▁▁▁
-##     0.011      0.24       0.91      3.33    16.47 ▇▂▂▁▁▁▁▁
-##  1990       1996       2003      2010     2016    ▇▆▆▇▆▆▆▇</code></pre>
+myxt.res &lt;- xtsum(countryN~., data=global_mortality)
+myxt.res</code></pre>
+<pre><code>##              O.mean O.sd  O.min       O.max    O.SumSQ  O.N  B.mean B.sd 
+## year         2003   7.79  1990        2016     373464   6156 2003   0    
+## Cancers      14.387 8.154 0.5822726   33.6175  409267.1 6156 14.387 8.034
+## Diabetes     6.286  4.436 0.3271329   35.81619 121099.2 6156 6.286  4.24 
+## Dementia     3.221  2.746 0.04475178  16.67248 46417.87 6156 3.221  2.618
+## Tuberculosis 2.133  2.648 0.01088091  16.46586 43159.87 6156 2.133  2.554
+## Suicide      1.391  1.111 0.1016103   15.41202 7591.252 6156 1.391  1.086
+## Malaria      1.801  4.213 0           24.42596 109251.4 6156 1.801  4.11 
+## Homicide     0.983  1.454 0.04520209  14.22926 13007.95 6156 0.983  1.425
+## Meningitis   0.783  0.967 0.02798604  6.981346 5760.664 6156 0.783  0.951
+## Drowning     0.714  0.514 0.05330638  4.510948 1628.778 6156 0.714  0.487
+## Hepatitis    0.161  0.165 0.004847886 1.583289 167.675  6156 0.161  0.158
+## Fire         0.334  0.181 0.05691324  1.343686 201.769  6156 0.334  0.168
+## Conflict     0.291  2.399 0           82.317   27372.61 4758 0.291  0.921
+## Terrorism    0.037  0.229 0           5.877    250.161  4758 0.037  0.121
+##              B.min       B.max     Units t.bar W.sd  W.min      W.max    
+## year         2003        2003      228   27    7.79  -13        13       
+## Cancers      3.109526    30.19716  228   27    1.489 -8.017757  5.449552 
+## Diabetes     1.183787    27.70547  228   27    1.331 -9.750057  10.92867 
+## Dementia     0.2734327   11.82133  228   27    0.847 -5.183193  5.145011 
+## Tuberculosis 0.03205589  14.84698  228   27    0.72  -6.169898  7.156982 
+## Suicide      0.2441106   12.16457  228   27    0.243 -2.210464  3.247445 
+## Malaria      0           20.10408  228   27    0.963 -7.916651  6.903596 
+## Homicide     0.05593046  11.06133  228   27    0.303 -3.487857  3.167933 
+## Meningitis   0.04221932  5.315156  228   27    0.187 -1.984723  2.166714 
+## Drowning     0.06142987  3.515331  228   27    0.168 -1.775808  1.274717 
+## Hepatitis    0.008156611 0.9932521 228   27    0.048 -0.3946904 0.8763799
+## Fire         0.07003296  0.9950066 228   27    0.069 -0.4329619 0.8721761
+## Conflict     0           9.320885  183   26    2.216 -9.320885  78.38404 
+## Terrorism    0           1.298962  183   26    0.195 -1.298962  4.578038 
+##              W.SumSQ  Within.Ovr.Ratio
+## year         373464   1               
+## Cancers      13651.25 0.033           
+## Diabetes     10897.8  0.09            
+## Dementia     4420.371 0.095           
+## Tuberculosis 3193.133 0.074           
+## Suicide      364.808  0.048           
+## Malaria      5711.216 0.052           
+## Homicide     564.186  0.043           
+## Meningitis   216.175  0.038           
+## Drowning     174.405  0.107           
+## Hepatitis    14.147   0.084           
+## Fire         29.045   0.144           
+## Conflict     23357.85 0.853           
+## Terrorism    180.881  0.723</code></pre>
+<p>The function output can be read as follows. It needs better formatting as a table. For now, O. is an overall measure, overall mean, standard deviation, minimum, maximum, sum of squares and total observations. A between mean, standard deviation, minimum, and maximum with the number of units and the average number of time points. Finally, we have a within standard deviation, minimum, maximum, sum of squares, and a within proportion of the overall variance. In this case, terrorism and conflict are the two variables that vary almost entirely within and far less between countries. I suspect this is because they are rather high in a few places and consistently so.</p>
 <pre class="r"><code>ggplot.res &lt;- data.frame(myxt.res)
 ggplot.res &lt;- ggplot.res[-1,]; ggplot.res &lt;- ggplot.res[,16]
 mydf &lt;- t(data.frame(ggplot.res))
@@ -267,7 +211,7 @@ mydf &lt;- data.frame(value=mydf,name=rownames(mydf))
 mydf &lt;- mydf %&gt;% arrange(value)
 mydf$name &lt;- factor(mydf$name, levels = mydf$name)
 mydf &lt;- mydf %&gt;% mutate(Emph=as.numeric(value&gt;0.5))
-cplot &lt;- ggplot(mydf, aes(name,value, fill=Emph)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() + ylab(&quot;Within  Percent of Total Variation&quot;) + xlab(&quot;Cause of Mortality&quot;) + ggtitle(&quot;Within-country variation in the Causes of Death&quot;) + guides(fill=&quot;none&quot;)
-cplot</code></pre>
+cplot &lt;- ggplot(mydf, aes(name,value, fill=Emph)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() + ylab(&quot;Within Percent of Total Variation&quot;) + xlab(&quot;Cause of Mortality&quot;) + ggtitle(&quot;Within-country variation in the Causes of Death&quot;) + guides(fill=&quot;none&quot;)
+print(cplot)</code></pre>
 <p><img src="/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png" width="672" /></p>
 </div>
