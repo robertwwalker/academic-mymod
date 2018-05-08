@@ -224,6 +224,9 @@ NFL.Salary.Data &lt;- data.frame(Player=Player.Name,
 save.image(&quot;~/NFL-Data.RData&quot;)</code></pre>
 <p>Load up a local copy of the data for now.</p>
 <pre class="r"><code>load(&quot;~/NFL-Data.RData&quot;)</code></pre>
+</div>
+<div id="summaries" class="section level2">
+<h2>Summaries</h2>
 <pre class="r"><code>library(tidyverse)
 library(skimr)
 skim(NFL.Salary.Data)</code></pre>
@@ -339,5 +342,35 @@ skim(NFL.Salary.Data)</code></pre>
 <p><img src="/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot-1.png" width="672" /></p>
 <pre class="r"><code>boxplot(Base.Salary~Position, data=NFL.Salary.Data)</code></pre>
 <p><img src="/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot2-1.png" width="672" /></p>
+</div>
+<div id="combining-and-categorizing-data" class="section level2">
+<h2>Combining and Categorizing Data</h2>
+<pre class="r"><code>NFL.Salary.Data$Pos.Char &lt;- NFL.Salary.Data$SideOfBall &lt;- NFL.SubTeam &lt;- as.character(NFL.Salary.Data$Position)
+O.Line &lt;- c(&quot;LT&quot;,&quot;RT&quot;,&quot;C&quot;,&quot;G&quot;,&quot;T&quot;)
+D.Line &lt;- c(&quot;DT&quot;,&quot;DE&quot;)
+LineBackers &lt;- c(&quot;LB&quot;,&quot;ILB&quot;,&quot;OLB&quot;)
+Safeties &lt;- c(&quot;S&quot;,&quot;SS&quot;,&quot;FS&quot;)
+CBs &lt;- c(&quot;CB&quot;)
+Special.Teams &lt;- c(&quot;K&quot;,&quot;P&quot;,&quot;LS&quot;)
+RBs &lt;- c(&quot;RB&quot;,&quot;FB&quot;)
+TEs &lt;- c(&quot;TE&quot;)
+WRs &lt;- c(&quot;WR&quot;)
+QBs &lt;- c(&quot;QB&quot;)
+Offense &lt;- c(QBs,RBs,WRs,TEs,O.Line)
+Defense &lt;- c(D.Line,LineBackers,Safeties,CBs)
+NFL.Salary.Data$SideOfBall[NFL.Salary.Data$Pos.Char %in% Offense] &lt;- &quot;Offense&quot;
+NFL.Salary.Data$SideOfBall[NFL.Salary.Data$Pos.Char %in% Special.Teams] &lt;- &quot;Special Teams&quot;
+NFL.Salary.Data$SideOfBall[NFL.Salary.Data$Pos.Char %in% Defense] &lt;- &quot;Defense&quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% Special.Teams] &lt;- &quot;Special Teams&quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% QBs] &lt;- &quot;Quarterbacks&quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% RBs] &lt;- &quot;Running Backs&quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% TEs] &lt;- &quot;Tight Ends&quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% WRs] &lt;- &quot;Wide Receivers&quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% O.Line] &lt;- &quot;Offensive Line&quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% LineBackers] &lt;- &quot;Linebackers&quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% CBs] &lt;- &quot;Cornerbacks&quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% D.Line] &lt;- &quot;Defensive Line&quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% Safeties] &lt;- &quot;Safeties&quot;</code></pre>
+<p>That gives some positional details to the data also.</p>
 </div>
 </div>

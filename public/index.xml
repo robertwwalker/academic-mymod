@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Robert W. Walker on Robert W. Walker</title>
-    <link>/</link>
+    <link>https://www.data.viajes/</link>
     <description>Recent content in Robert W. Walker on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,10 +12,10 @@
     
     <item>
       <title>Global mortality tidyTuesday</title>
-      <link>/post/tidytuesday-takes-on-global-mortality/</link>
+      <link>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</link>
       <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytuesday-takes-on-global-mortality/</guid>
+      <guid>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</guid>
       <description>&lt;div id=&#34;tidytuesday-on-global-mortality&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;tidyTuesday on Global Mortality&lt;/h1&gt;
 &lt;p&gt;The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in &lt;a href=&#34;https://ourworldindata.org/what-does-the-world-die-from&#34;&gt;the original&lt;/a&gt;. For whatever reason, I cannot open this data remotely.&lt;/p&gt;
@@ -115,7 +115,7 @@ pp.df &amp;lt;- pp.df %&amp;gt;% arrange(Total.Deaths)
 pp.df$name &amp;lt;- factor(pp.df$name, levels = pp.df$name)
 cplot &amp;lt;- ggplot(pp.df, aes(name,Total.Deaths)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + scale_fill_gradientn(colours = terrain.colors(10)) + ggtitle(&amp;quot;The Causes of Global Mortailty (2016)&amp;quot;)
 cplot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/COrig-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/COrig-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;With a reenactment of the base target plots, I can turn to new visuals. I wanted to be able to develop a comparison of the various classified causes of death and to try out my nifty function for summarizing panel data. So here goes.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;xtsum &amp;lt;- function(formula, data) {
   pform &amp;lt;- terms(formula, data=data)
@@ -217,27 +217,27 @@ mydf &amp;lt;- mydf %&amp;gt;% arrange(value)
 mydf$name &amp;lt;- factor(mydf$name, levels = mydf$name)
 mydf &amp;lt;- mydf %&amp;gt;% mutate(Emph=as.numeric(value&amp;gt;0.5))
 mydf %&amp;gt;% ggplot(aes(name,value, fill=Emph)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + ylab(&amp;quot;Within Percent of Total Variation&amp;quot;) + xlab(&amp;quot;Cause of Mortality&amp;quot;) + ggtitle(&amp;quot;Within-country variation in the Causes of Death&amp;quot;) + guides(fill=&amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Mean.Homicide &amp;lt;- global_mortality %&amp;gt;% group_by(countryF) %&amp;gt;% summarise(mymean=mean(Homicide, na.rm=TRUE))
 Mean.Homicide %&amp;gt;% ungroup() %&amp;gt;% arrange(mymean) -&amp;gt; mydf
 mydf$countryF &amp;lt;- factor(mydf$countryF, levels = mydf$countryF)
 mydf %&amp;gt;% ungroup() %&amp;gt;% top_n(30, mymean) %&amp;gt;% arrange(mymean) %&amp;gt;% mutate(Emph=c(rep(1,10),rep(2,10),rep(3,10))) -&amp;gt; mydf
 mydf %&amp;gt;% ggplot(aes(countryF,mymean, fill=Emph)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + ylab(&amp;quot;Homicides&amp;quot;) + ggtitle(&amp;quot;Top 30 Countries/Places in Homicide&amp;quot;) + xlab(&amp;quot;&amp;quot;) + guides(fill=&amp;quot;none&amp;quot;) -&amp;gt; Homicideplot
 Homicideplot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/MHG30-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/MHG30-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;global_mortality %&amp;gt;% filter(year==2016) %&amp;gt;% ggplot(aes(`Drug disorders`,`Alcohol disorders`)) + geom_point() + ggtitle(&amp;quot;Drugs and Alcohol in 2016&amp;quot;) -&amp;gt; scatterDA
 scatterDA&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/DandA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/DandA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>Scraping EPL Salary Data</title>
-      <link>/post/scraping-epl-salary-data/</link>
+      <link>https://www.data.viajes/post/scraping-epl-salary-data/</link>
       <pubDate>Sun, 08 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/scraping-epl-salary-data/</guid>
+      <guid>https://www.data.viajes/post/scraping-epl-salary-data/</guid>
       <description>&lt;div id=&#34;epl-scraping&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;EPL Scraping&lt;/h1&gt;
 &lt;p&gt;In a previous &lt;a href=&#34;https://www.data.viajes/post/scraping-the-nfl-salary-cap-data-with-python-and-r/&#34;&gt;post&lt;/a&gt;, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.&lt;/p&gt;
@@ -379,7 +379,7 @@ EPL.Result %&amp;gt;% group_by(Position) %&amp;gt;% summarise(Mean.Base.Salary=m
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fplot &amp;lt;- ggplot(EPL.Result, aes(Base.Num,Team))
 gpl &amp;lt;- fplot + geom_jitter(height=0.25, width=0) + facet_wrap(~Position) + labs(x=&amp;quot;Base Salary&amp;quot;)
 gpl&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-08-scraping-epl-salary-data_files/figure-html/Picture-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-08-scraping-epl-salary-data_files/figure-html/Picture-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;contracts&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Contracts&lt;/h2&gt;
@@ -400,7 +400,7 @@ gpl&lt;/code&gt;&lt;/pre&gt;
 ## 7             CookSteve Cook    D  27
 ## 8              IbeJordon Ibe    M  22
 ## 9         GoslingDan Gosling    M  28
-## 10           SmithAdam Smith    D  26
+## 10           SmithAdam Smith    D  27
 ## 11          AfobeBenik Afobe    F  25
 ## 12            CookLewis Cook    M  21
 ## 13      FrancisSimon Francis    D  33
@@ -525,7 +525,7 @@ EPL.Contracts[[1]]&lt;/code&gt;&lt;/pre&gt;
 ## 7             CookSteve Cook        D  27
 ## 8              IbeJordon Ibe        M  22
 ## 9         GoslingDan Gosling        M  28
-## 10           SmithAdam Smith        D  26
+## 10           SmithAdam Smith        D  27
 ## 11          AfobeBenik Afobe        F  25
 ## 12            CookLewis Cook        M  21
 ## 13      FrancisSimon Francis        D  33
@@ -702,13 +702,13 @@ pp &amp;lt;- Team.mean %&amp;gt;% arrange(Team.Mean)
 pp$Team &amp;lt;- factor(pp$Team, levels = pp$Team)
 pp %&amp;gt;% ggplot(aes(Team.Mean,Team, size=Team.SD)) + geom_point() + labs(x=&amp;quot;Avg. Contract (1000s)&amp;quot;) -&amp;gt; cplot
 cplot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;EPL.Contracts.df %&amp;gt;% group_by(Team) %&amp;gt;% summarise(Age.Mean=mean(Age, na.rm=TRUE), Age.SD=sd(Age, na.rm=TRUE)) -&amp;gt; Team.mean
 Team.mean %&amp;gt;% ungroup() %&amp;gt;% arrange(., Age.Mean) -&amp;gt; pp
 pp$Team &amp;lt;- factor(pp$Team, levels = pp$Team)
 pp %&amp;gt;% ggplot(aes(Age.Mean,Team,size=Age.SD)) + geom_point() + labs(x=&amp;quot;Age&amp;quot;) -&amp;gt; cplot
 cplot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
@@ -716,10 +716,10 @@ cplot&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Scraping the NFL Salary Cap Data with Python and R</title>
-      <link>/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
+      <link>https://www.data.viajes/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
+      <guid>https://www.data.viajes/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
       <description>&lt;div id=&#34;the-nfl-data&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The NFL Data&lt;/h1&gt;
 &lt;p&gt;[SporTrac](&lt;a href=&#34;http://www.sportrac.com&#34; class=&#34;uri&#34;&gt;http://www.sportrac.com&lt;/a&gt;] has a wonderful array of financial data on sports. A student going to work for the Seattle Seahawks wanted the NFL salary cap data and I also found data on the English Premier League there. Now I have a source to scrape the data from.&lt;/p&gt;
@@ -927,6 +927,9 @@ NFL.Salary.Data &amp;lt;- data.frame(Player=Player.Name,
 save.image(&amp;quot;~/NFL-Data.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Load up a local copy of the data for now.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;load(&amp;quot;~/NFL-Data.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summaries&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Summaries&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
 library(skimr)
 skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
@@ -1039,9 +1042,39 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 ##  555000     630000   1200000 15982000 ▇▁▁▁▁▁▁▁&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now I have my salary data.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gplots::plotmeans(Base.Salary~Position, data=NFL.Salary.Data, n.label=FALSE, cex=0.6)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;boxplot(Base.Salary~Position, data=NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;combining-and-categorizing-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Combining and Categorizing Data&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;NFL.Salary.Data$Pos.Char &amp;lt;- NFL.Salary.Data$SideOfBall &amp;lt;- NFL.SubTeam &amp;lt;- as.character(NFL.Salary.Data$Position)
+O.Line &amp;lt;- c(&amp;quot;LT&amp;quot;,&amp;quot;RT&amp;quot;,&amp;quot;C&amp;quot;,&amp;quot;G&amp;quot;,&amp;quot;T&amp;quot;)
+D.Line &amp;lt;- c(&amp;quot;DT&amp;quot;,&amp;quot;DE&amp;quot;)
+LineBackers &amp;lt;- c(&amp;quot;LB&amp;quot;,&amp;quot;ILB&amp;quot;,&amp;quot;OLB&amp;quot;)
+Safeties &amp;lt;- c(&amp;quot;S&amp;quot;,&amp;quot;SS&amp;quot;,&amp;quot;FS&amp;quot;)
+CBs &amp;lt;- c(&amp;quot;CB&amp;quot;)
+Special.Teams &amp;lt;- c(&amp;quot;K&amp;quot;,&amp;quot;P&amp;quot;,&amp;quot;LS&amp;quot;)
+RBs &amp;lt;- c(&amp;quot;RB&amp;quot;,&amp;quot;FB&amp;quot;)
+TEs &amp;lt;- c(&amp;quot;TE&amp;quot;)
+WRs &amp;lt;- c(&amp;quot;WR&amp;quot;)
+QBs &amp;lt;- c(&amp;quot;QB&amp;quot;)
+Offense &amp;lt;- c(QBs,RBs,WRs,TEs,O.Line)
+Defense &amp;lt;- c(D.Line,LineBackers,Safeties,CBs)
+NFL.Salary.Data$SideOfBall[NFL.Salary.Data$Pos.Char %in% Offense] &amp;lt;- &amp;quot;Offense&amp;quot;
+NFL.Salary.Data$SideOfBall[NFL.Salary.Data$Pos.Char %in% Special.Teams] &amp;lt;- &amp;quot;Special Teams&amp;quot;
+NFL.Salary.Data$SideOfBall[NFL.Salary.Data$Pos.Char %in% Defense] &amp;lt;- &amp;quot;Defense&amp;quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% Special.Teams] &amp;lt;- &amp;quot;Special Teams&amp;quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% QBs] &amp;lt;- &amp;quot;Quarterbacks&amp;quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% RBs] &amp;lt;- &amp;quot;Running Backs&amp;quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% TEs] &amp;lt;- &amp;quot;Tight Ends&amp;quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% WRs] &amp;lt;- &amp;quot;Wide Receivers&amp;quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% O.Line] &amp;lt;- &amp;quot;Offensive Line&amp;quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% LineBackers] &amp;lt;- &amp;quot;Linebackers&amp;quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% CBs] &amp;lt;- &amp;quot;Cornerbacks&amp;quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% D.Line] &amp;lt;- &amp;quot;Defensive Line&amp;quot;
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% Safeties] &amp;lt;- &amp;quot;Safeties&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That gives some positional details to the data also.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
@@ -1049,10 +1082,10 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>tidyTuesday - Tuition</title>
-      <link>/post/tidytuesday-tuition/</link>
+      <link>https://www.data.viajes/post/tidytuesday-tuition/</link>
       <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytuesday-tuition/</guid>
+      <guid>https://www.data.viajes/post/tidytuesday-tuition/</guid>
       <description>&lt;p&gt;I found a great example on tidyTuesday that I wanted to work on. &lt;code&gt;@JakeKaupp&lt;/code&gt; tweeted his &lt;code&gt;#tidyTuesday&lt;/code&gt;: a very cool slope plot of tuition changes averaged by state over the last decade. It is a very informative graphic. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on &lt;a href=&#34;https://github.com/jkaupp&#34;&gt;Jake Kaupp’s GitHub&lt;/a&gt;. The specific file is &lt;a href=&#34;https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R&#34;&gt;here&lt;/a&gt;. I did not add much. All I wanted was some idea of how the growth rates correspond over the period. I added a cumulative growth rate and encoded the color scheme with it enabling me to play with &lt;em&gt;viridis&lt;/em&gt;. The &lt;em&gt;col_tab&lt;/em&gt; is my creation. I also moved around the labels so that everyone gets a color coded label and we can see who is where, more or less. Enjoy!&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(here)
 library(readxl)
@@ -1095,7 +1128,7 @@ plot &amp;lt;- plot_data %&amp;gt;%
   theme_minimal(base_family = &amp;quot;Oswald-Light&amp;quot;) +
   theme(panel.grid.minor = element_blank())
 print(plot)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-03-tidytuesday-tuition_files/figure-html/BorrowedCode-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-03-tidytuesday-tuition_files/figure-html/BorrowedCode-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Now I will modify the original that is kept intact above.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nat_avg &amp;lt;- tidy_data %&amp;gt;%
   filter(year %in% c(&amp;quot;2005-06&amp;quot;, &amp;quot;2015-16&amp;quot;)) %&amp;gt;%
@@ -1136,16 +1169,16 @@ my.plot &amp;lt;- plot_data %&amp;gt;%
   theme(panel.grid.minor = element_blank())
 ggsave(my.plot, filename = glue(&amp;#39;tidyweek-{Sys.Date()}.png&amp;#39;), height = 8, width = 8, dpi = 300)
 print(my.plot)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-04-03-tidytuesday-tuition_files/figure-html/ModPlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-03-tidytuesday-tuition_files/figure-html/ModPlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Pew Data on Bond Ratings and Rainy Day Funds</title>
-      <link>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
+      <link>https://www.data.viajes/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
+      <guid>https://www.data.viajes/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
       <description>&lt;div id=&#34;pew-on-rainy-day-funds-and-credit-quality&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Pew on Rainy Day Funds and Credit Quality&lt;/h1&gt;
 &lt;p&gt;The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund. A poorly deployed savings device for cash flow management over the not-so-short term also seems unlikely to bolster market confidence in the repayment abilities of an issuer. If this very simple perspective that seems plausible is true, then a simple replication should be easy. And it is. Pew gladly shared the data and code. If one has access to Stata, the study is easy to replicate.&lt;/p&gt;
@@ -1261,7 +1294,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-second-group&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;The Second Group&lt;/h3&gt;
@@ -1274,7 +1307,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5b-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5b-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-third-group&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;The Third Group&lt;/h3&gt;
@@ -1287,7 +1320,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5c-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5c-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-panel-data-properties&#34; class=&#34;section level2&#34;&gt;
@@ -1335,10 +1368,10 @@ XTSUM(nlswork, varname=hours, unit=idcode)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Mapping with the Government Finance Database</title>
-      <link>/post/mapping-with-the-government-finance-database/</link>
+      <link>https://www.data.viajes/post/mapping-with-the-government-finance-database/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/mapping-with-the-government-finance-database/</guid>
+      <guid>https://www.data.viajes/post/mapping-with-the-government-finance-database/</guid>
       <description>&lt;div id=&#34;the-government-finance-database&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The Government Finance Database&lt;/h1&gt;
 &lt;p&gt;Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the &lt;a href=&#34;http://willamette.edu/mba/research_impact/public_datasets/index.html&#34;&gt;Government Finance data&lt;/a&gt; available from the Census. They published an article in &lt;a href=&#34;http://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0130119&amp;amp;type=printable&#34;&gt;PLoS One&lt;/a&gt; with the rationale; I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states. It seems that &lt;code&gt;read.csv&lt;/code&gt; works better than &lt;code&gt;read_csv&lt;/code&gt; for this task.&lt;/p&gt;
@@ -1436,7 +1469,7 @@ my.GFD.2015&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;state_choropleth(my.GFD.2015, title=&amp;quot;Total Taxes per capita&amp;quot;, num_colors=1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning in self$bind(): The following regions were missing and are being
 ## set to NA: district of columbia&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/MapTheData-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/MapTheData-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;That’s far too easy. Total taxes, which I have not bothered to look up, appear to contain some unexpected details. What else can be done with it? The final code chunk does it all. To calculate a new map, just change the name of the thing per capitized. What data are available? See below….&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;names(State.Data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##   [1] &amp;quot;SurveyYr&amp;quot;                     &amp;quot;Year4&amp;quot;                       
@@ -1747,7 +1780,7 @@ my.GFD.2015&lt;/code&gt;&lt;/pre&gt;
 state_choropleth(my.GFD.2015, title=&amp;quot;Total Revenues per capita&amp;quot;, num_colors=1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning in self$bind(): The following regions were missing and are being
 ## set to NA: district of columbia&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;putting-them-together-counties&#34; class=&#34;section level1&#34;&gt;
@@ -1759,23 +1792,23 @@ my.County.GFD.2015 &amp;lt;- County.Data.2 %&amp;gt;%
   filter(Year4==2012) %&amp;gt;% mutate(value = General_Revenue / Population) %&amp;gt;%
   select(region, value)
 county_choropleth(my.County.GFD.2015, title=&amp;quot;General Revenue per capita&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/County1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/County1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The zoom feature is pretty cool: there are two defined forms for the county and states. The naming conventions follow the &lt;code&gt;county.regions&lt;/code&gt; format and are lower case. Let me grab &lt;em&gt;oregon&lt;/em&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my.County.GFD.2015 &amp;lt;- County.Data.2 %&amp;gt;% 
   filter(Year4==2012) %&amp;gt;% mutate(value = General_Revenue / Population) %&amp;gt;%
   select(region, value)
 county_choropleth(my.County.GFD.2015, title=&amp;quot;General Revenue per capita&amp;quot;, state_zoom=&amp;quot;oregon&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/CountyMZ-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/CountyMZ-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>Longitudinal Panel Data R Packages</title>
-      <link>/post/panel-data-r-packages/</link>
+      <link>https://www.data.viajes/post/panel-data-r-packages/</link>
       <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/panel-data-r-packages/</guid>
+      <guid>https://www.data.viajes/post/panel-data-r-packages/</guid>
       <description>&lt;div id=&#34;longitudinal-and-panel-data-analysis-in-r&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Longitudinal and Panel Data Analysis in R&lt;/h1&gt;
 &lt;p&gt;Goal: A CRAN task view for panel/longitudinal data analysis in R.&lt;/p&gt;
@@ -1974,10 +2007,10 @@ XTSUM(nlswork, varname=hours, unit=idcode)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Black Boxes: A Gender Gap Example</title>
-      <link>/post/black-boxes-a-gender-gap-example/</link>
+      <link>https://www.data.viajes/post/black-boxes-a-gender-gap-example/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/black-boxes-a-gender-gap-example/</guid>
+      <guid>https://www.data.viajes/post/black-boxes-a-gender-gap-example/</guid>
       <description>&lt;div id=&#34;variance-in-the-outcome-the-black-box&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Variance in the Outcome: The Black Box&lt;/h2&gt;
 &lt;p&gt;Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained. Let’s take an example.&lt;/p&gt;
@@ -2012,14 +2045,14 @@ abline(h=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;)
 arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;, code=3, length=0.05)
 text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(ORSalScale[c(1:16)])), cex=0.7, col=&amp;quot;blue&amp;quot;)
 text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col=&amp;quot;blue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;invoking-the-function&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Invoking the Function&lt;/h2&gt;
 &lt;p&gt;To represent the black box,let me draw it. The length of each side will be the square root of the black box; our total sum of squares is just under 900 million squared dollars so each side will be approximately 30000. The box appears below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~1, data=OregonSalaries)
 black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBBase-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBBase-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;a-regression-model&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;A Regression Model&lt;/h2&gt;
@@ -2042,11 +2075,11 @@ text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(OR
 text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col=&amp;quot;blue&amp;quot;)
 text(x=seq(1,16), y=rep(c(42000,43000,44000,45000),4), labels = paste(ceiling(resids[c(1:16)])), cex=0.7, col=&amp;quot;black&amp;quot;)
 text(x=c(17:32), y=rep(c(36000,37000,38000,39000),4), labels = paste(ceiling(resids[c(17:32)])), cex=0.7, col=&amp;quot;red&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The details of the regression estimates and the analysis of variance – the sums of squares – completes the rendering.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~Gender, data=OregonSalaries)
 black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(mod1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ## Call:
@@ -2081,10 +2114,10 @@ black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Correlation Function</title>
-      <link>/post/correlation-function/</link>
+      <link>https://www.data.viajes/post/correlation-function/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/correlation-function/</guid>
+      <guid>https://www.data.viajes/post/correlation-function/</guid>
       <description>&lt;div id=&#34;correlations-and-the-impact-on-sums-and-differences&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Correlations and the Impact on Sums and Differences&lt;/h1&gt;
 &lt;p&gt;I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.&lt;/p&gt;
@@ -2106,23 +2139,23 @@ plot(x=df$X1, y=df$X2, xlab=&amp;quot;x1&amp;quot;, ylab=&amp;quot;x2&amp;quot;,
   else { cat(&amp;quot;Correlation must be between -1 and 1&amp;quot;) }
 }
 plot.cor(cor=0.8)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-correlation-function_files/figure-html/CorF-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-correlation-function_files/figure-html/CorF-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The correlation above is 0.8&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;correlation-is--0.8&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Correlation is -0.8&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot.cor(cor=-0.8)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-22-correlation-function_files/figure-html/CorF2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-correlation-function_files/figure-html/CorF2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>tidytext is neat! White House Communications</title>
-      <link>/post/tidytext-is-neat/</link>
+      <link>https://www.data.viajes/post/tidytext-is-neat/</link>
       <pubDate>Wed, 21 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytext-is-neat/</guid>
+      <guid>https://www.data.viajes/post/tidytext-is-neat/</guid>
       <description>&lt;div id=&#34;presidential-press&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Presidential Press&lt;/h1&gt;
 &lt;p&gt;The language of presidential communications is interesting and I know very little about &lt;em&gt;text as data&lt;/em&gt;. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?&lt;/p&gt;
@@ -2238,7 +2271,7 @@ tidy.SB %&amp;gt;%
   geom_col() +
   xlab(NULL) +
   coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/SBplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-21-tidytext-is-neat_files/figure-html/SBplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;presidential-actions&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Presidential Actions&lt;/h2&gt;
@@ -2251,7 +2284,7 @@ tidy.PA %&amp;gt;%
   geom_col() +
   xlab(NULL) +
   coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/PAplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-21-tidytext-is-neat_files/figure-html/PAplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;word-clouds&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Word Clouds&lt;/h2&gt;
@@ -2263,7 +2296,7 @@ wc &amp;lt;- tidy.PA %&amp;gt;% count(word, sort = TRUE)
 wordcloud(wc$word,  wc$n, min.freq = 1,
           max.words=200, random.order=FALSE, rot.per=0.35, 
           colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/WCPA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-21-tidytext-is-neat_files/figure-html/WCPA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;statements-and-briefings-1&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Statements and Briefings&lt;/h3&gt;
@@ -2272,7 +2305,7 @@ wc &amp;lt;- tidy.SB %&amp;gt;% count(word, sort = TRUE)
 wordcloud(wc$word,  wc$n, min.freq = 1,
           max.words=200, random.order=FALSE, rot.per=0.35, 
           colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-02-21-tidytext-is-neat_files/figure-html/WCSB-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-21-tidytext-is-neat_files/figure-html/WCSB-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2281,48 +2314,48 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
     
     <item>
       <title>Example Talk</title>
-      <link>/talk/example-talk/</link>
+      <link>https://www.data.viajes/talk/example-talk/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 -0800</pubDate>
       
-      <guid>/talk/example-talk/</guid>
+      <guid>https://www.data.viajes/talk/example-talk/</guid>
       <description>&lt;p&gt;Embed your slides or video here using &lt;a href=&#34;https://sourcethemes.com/academic/post/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;. Further details can easily be added using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>On Generalizing Ordered Cumulative Regression Models</title>
-      <link>/publication/gen-ord-regression/</link>
+      <link>https://www.data.viajes/publication/gen-ord-regression/</link>
       <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>/publication/gen-ord-regression/</guid>
+      <guid>https://www.data.viajes/publication/gen-ord-regression/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Bond Ratings</title>
-      <link>/project/bond-ratings/</link>
+      <link>https://www.data.viajes/project/bond-ratings/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/project/bond-ratings/</guid>
+      <guid>https://www.data.viajes/project/bond-ratings/</guid>
       <description>&lt;p&gt;There will be content.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Generalized Ordered Regression Models</title>
-      <link>/project/gen-ord-logit/</link>
+      <link>https://www.data.viajes/project/gen-ord-logit/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/project/gen-ord-logit/</guid>
+      <guid>https://www.data.viajes/project/gen-ord-logit/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Oregon Property Taxes</title>
-      <link>/project/prop-tax/</link>
+      <link>https://www.data.viajes/project/prop-tax/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/project/prop-tax/</guid>
+      <guid>https://www.data.viajes/project/prop-tax/</guid>
       <description>&lt;p&gt;Fred Thompson, Kawika Pierson, and I have written a few papers on the odd property tax limitations in Oregon.  Basically, there is a cap on the rate of growth and no reset at sale provision so assessment quality suffers tremendously.&lt;/p&gt;
 </description>
     </item>

@@ -243,7 +243,7 @@ Load up a local copy of the data for now.
 load("~/NFL-Data.RData")
 ```
 
-
+## Summaries
 
 ```{r An1}
 library(tidyverse)
@@ -262,3 +262,36 @@ gplots::plotmeans(Base.Salary~Position, data=NFL.Salary.Data, n.label=FALSE, cex
 ```{r Plot2}
 boxplot(Base.Salary~Position, data=NFL.Salary.Data)
 ```
+
+## Combining and Categorizing Data
+
+```{r}
+NFL.Salary.Data$Pos.Char <- NFL.Salary.Data$SideOfBall <- NFL.SubTeam <- as.character(NFL.Salary.Data$Position)
+O.Line <- c("LT","RT","C","G","T")
+D.Line <- c("DT","DE")
+LineBackers <- c("LB","ILB","OLB")
+Safeties <- c("S","SS","FS")
+CBs <- c("CB")
+Special.Teams <- c("K","P","LS")
+RBs <- c("RB","FB")
+TEs <- c("TE")
+WRs <- c("WR")
+QBs <- c("QB")
+Offense <- c(QBs,RBs,WRs,TEs,O.Line)
+Defense <- c(D.Line,LineBackers,Safeties,CBs)
+NFL.Salary.Data$SideOfBall[NFL.Salary.Data$Pos.Char %in% Offense] <- "Offense"
+NFL.Salary.Data$SideOfBall[NFL.Salary.Data$Pos.Char %in% Special.Teams] <- "Special Teams"
+NFL.Salary.Data$SideOfBall[NFL.Salary.Data$Pos.Char %in% Defense] <- "Defense"
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% Special.Teams] <- "Special Teams"
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% QBs] <- "Quarterbacks"
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% RBs] <- "Running Backs"
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% TEs] <- "Tight Ends"
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% WRs] <- "Wide Receivers"
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% O.Line] <- "Offensive Line"
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% LineBackers] <- "Linebackers"
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% CBs] <- "Cornerbacks"
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% D.Line] <- "Defensive Line"
+NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% Safeties] <- "Safeties"
+```
+
+That gives some positional details to the data also.
