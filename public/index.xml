@@ -11,6 +11,88 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>tidyTuesday: coffee chains</title>
+      <link>https://www.data.viajes/post/tidytuesday-coffee-chains/</link>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.data.viajes/post/tidytuesday-coffee-chains/</guid>
+      <description>&lt;div id=&#34;the-tidytuesday-for-this-week-is-coffee-chain-locations&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;The tidyTuesday for this week is coffee chain locations&lt;/h1&gt;
+&lt;p&gt;For this week: 1. The basic link to the &lt;a href=&#34;https://github.com/rfordatascience/tidytuesday&#34;&gt;&lt;code&gt;#tidyTuesday&lt;/code&gt;&lt;/a&gt; shows &lt;a href=&#34;http://flowingdata.com/2014/03/18/coffee-place-geography/&#34;&gt;an original article&lt;/a&gt; for Week 6.&lt;/p&gt;
+&lt;p&gt;First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(readxl)
+url &amp;lt;- &amp;quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/week6_coffee_chains.xlsx&amp;quot;
+destfile &amp;lt;- &amp;quot;Coffee_chains.xlsx&amp;quot;
+curl::curl_download(url, destfile)
+Coffee.chains &amp;lt;- read_excel(destfile)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;What do the data look like?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(skimr)
+library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
+## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
+## ✔ readr   1.1.1     ✔ forcats 0.3.0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::contains()    masks skimr::contains()
+## ✖ dplyr::ends_with()   masks skimr::ends_with()
+## ✖ dplyr::everything()  masks skimr::everything()
+## ✖ dplyr::filter()      masks stats::filter()
+## ✖ dplyr::lag()         masks stats::lag()
+## ✖ dplyr::matches()     masks skimr::matches()
+## ✖ dplyr::num_range()   masks skimr::num_range()
+## ✖ dplyr::one_of()      masks skimr::one_of()
+## ✖ dplyr::starts_with() masks skimr::starts_with()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;skim(Coffee.chains)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Skim summary statistics
+##  n obs: 25600 
+##  n variables: 13 
+## 
+## Variable type: character 
+##        variable missing complete     n min max empty n_unique
+##           Brand       0    25600 25600   7  21     0        4
+##            City      14    25586 25600   2  29     0     5470
+##         Country       0    25600 25600   2   2     0       73
+##  Ownership Type       0    25600 25600   8  13     0        4
+##    Phone Number    6861    18739 25600   1  18     0    18559
+##        Postcode    1521    24079 25600   1   9     0    18888
+##  State/Province       0    25600 25600   1   3     0      338
+##      Store Name       0    25600 25600   2  60     0    25364
+##    Store Number       0    25600 25600   5  12     0    25599
+##  Street Address       2    25598 25600   1 234     0    25353
+##        Timezone       0    25600 25600  18  30     0      101
+## 
+## Variable type: numeric 
+##   variable missing complete     n   mean    sd      p0     p25    p50
+##   Latitude       1    25599 25600  34.79 13.34  -46.41   31.24  36.75
+##  Longitude       1    25599 25600 -27.87 96.84 -159.46 -104.66 -79.35
+##     p75   p100     hist
+##   41.57  64.85 ▁▁▁▁▂▇▇▁
+##  100.63 176.92 ▃▇▂▁▁▁▅▁&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table(Coffee.chains$Brand)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Coffee House Holdings       Evolution Fresh             Starbucks 
+##                     1                     2                 25249 
+##               Teavana 
+##                   348&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A basic plot of the global Starbucks data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggmap)
+mapWorld &amp;lt;- borders(&amp;quot;world&amp;quot;, colour=&amp;quot;gray50&amp;quot;, fill=&amp;quot;gray50&amp;quot;) # create a layer of borders&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;maps&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:purrr&amp;#39;:
+## 
+##     map&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mp &amp;lt;- ggplot() +   mapWorld
+mp &amp;lt;- mp + geom_point(aes(x=Coffee.chains$Longitude, y=Coffee.chains$Latitude) ,color=&amp;quot;dark green&amp;quot;, size=0.5) + xlab(&amp;quot;&amp;quot;) + ylab(&amp;quot;&amp;quot;)
+mp&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_point).&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-05-09-tidytuesday-coffee-chains_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Global mortality tidyTuesday</title>
       <link>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</link>
       <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
@@ -766,7 +848,7 @@ team.names &amp;lt;- gsub(&amp;quot;/cap/&amp;quot;,&amp;quot;&amp;quot;, gsub(b
 &lt;p&gt;With 32 team links to scrape, I can now scrape them.&lt;/p&gt;
 &lt;div id=&#34;grabbing-team-tables&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Grabbing Team Tables&lt;/h2&gt;
-&lt;p&gt;Now I need to explore those links. When I started this, I wanted to learn some Python along the way. I found the following Python code that worked for the task. For completeness, I leave it here.&lt;/p&gt;
+&lt;p&gt;Now I need to explore those links. When I started this, I wanted to learn some Python along the way. I found the following &lt;a href=&#34;https://wcontractor.github.io/nfl-salary-part2.html&#34;&gt;Python code&lt;/a&gt; that worked for the task. For completeness, I leave it here.&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import pandas as pd
 import bs4
 import re
@@ -841,6 +923,8 @@ df.head()
 #but this fixes all occurrences of it.
 rows_to_be_dropped = df.loc[df[&amp;#39;Cap Hit&amp;#39;] == &amp;#39;Cap %&amp;#39;].index
 rows_to_be_kept = df.loc[df[&amp;#39;Cap Hit&amp;#39;] != &amp;#39;Cap %&amp;#39;].index
+totlen = len(df)
+df2a = df.drop(rows_to_be_kept)
 df = df.drop(rows_to_be_dropped)
 df2 = pd.Series(data=rows_to_be_dropped)
 #Apply a regex to convert the &amp;#39;Cap Hit&amp;#39; column from a string to a float.  
@@ -2348,16 +2432,6 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
       
       <guid>https://www.data.viajes/project/gen-ord-logit/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Oregon Property Taxes</title>
-      <link>https://www.data.viajes/project/prop-tax/</link>
-      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.data.viajes/project/prop-tax/</guid>
-      <description>&lt;p&gt;Fred Thompson, Kawika Pierson, and I have written a few papers on the odd property tax limitations in Oregon.  Basically, there is a cap on the rate of growth and no reset at sale provision so assessment quality suffers tremendously.&lt;/p&gt;
-</description>
     </item>
     
   </channel>

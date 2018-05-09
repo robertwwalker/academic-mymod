@@ -43,7 +43,7 @@ With 32 team links to scrape, I can now scrape them.
 
 ## Grabbing Team Tables
 
-Now I need to explore those links.  When I started this, I wanted to learn some Python along the way.  I found the following Python code that worked for the task.  For completeness, I leave it here.
+Now I need to explore those links.  When I started this, I wanted to learn some Python along the way.  I found the following [Python code](https://wcontractor.github.io/nfl-salary-part2.html) that worked for the task.  For completeness, I leave it here.
 
 ```{python BSoupNFL3, eval=FALSE}
 import pandas as pd
@@ -144,6 +144,8 @@ df.head()
 #but this fixes all occurrences of it.
 rows_to_be_dropped = df.loc[df['Cap Hit'] == 'Cap %'].index
 rows_to_be_kept = df.loc[df['Cap Hit'] != 'Cap %'].index
+totlen = len(df)
+df2a = df.drop(rows_to_be_kept)
 df = df.drop(rows_to_be_dropped)
 df2 = pd.Series(data=rows_to_be_dropped)
 

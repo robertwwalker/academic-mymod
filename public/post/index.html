@@ -252,6 +252,80 @@
 
   <span class="article-date">
     
+    <time datetime="2018-05-09 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2018-05-09
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    2 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/tidyverse">tidyverse</a
+    >, 
+    
+    <a href="/categories/maps">Maps</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="https://www.data.viajes/post/tidytuesday-coffee-chains/" itemprop="url">tidyTuesday: coffee chains</a>
+  </h3>
+  <div class="article-style" itemprop="articleBody">
+    
+    The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
+First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
+library(readxl) url &lt;- &quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/week6_coffee_chains.xlsx&quot; destfile &lt;- &quot;Coffee_chains.xlsx&quot; curl::curl_download(url, destfile) Coffee.chains &lt;- read_excel(destfile) What do the data look like?
+library(skimr) library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="https://www.data.viajes/post/tidytuesday-coffee-chains/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+  
+    
+    
+
+<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
     <time datetime="2018-04-18 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
       2018-04-18
     </time>
@@ -856,66 +930,17 @@ What is Panel Data? Panel data are variously called longitudinal, panel, cross-s
 </div>
 
   
+
+  
+<nav>
+  <ul class="pager">
     
     
-
-<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
+    <li><a href="/post/page/2/">&gt;</a></li>
     
-    <time datetime="2018-02-21 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      2018-02-21
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Robert W. Walker">
-  </span>
+  </ul>
+</nav>
 
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    4 min read
-  </span>
-  
-
-  
-  
-
-  
-  
-  
-  
-
-  
-
-</div>
-
-
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="https://www.data.viajes/post/tidytext-is-neat/" itemprop="url">tidytext is neat! White House Communications</a>
-  </h3>
-  <div class="article-style" itemprop="articleBody">
-    
-    Presidential Press The language of presidential communications is interesting and I know very little about text as data. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?
-White House News
-The site is split in four parts: all news, articles, presidential actions, and briefings and statements. The first one is a catch all and the second is news links.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="https://www.data.viajes/post/tidytext-is-neat/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-  
-
-  
 
 
 </div>

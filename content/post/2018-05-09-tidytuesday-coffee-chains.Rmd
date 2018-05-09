@@ -1,0 +1,49 @@
+---
+title: 'tidyTuesday: coffee chains'
+author: RWW
+date: '2018-05-09'
+slug: tidytuesday-coffee-chains
+categories:
+  - R
+  - tidyverse
+  - Maps
+tags:
+  - R
+  - tidyTuesday
+  - tidyverse
+---
+
+# The tidyTuesday for this week is coffee chain locations
+
+For this week:
+1. The basic link to the [`#tidyTuesday`](https://github.com/rfordatascience/tidytuesday) shows [an original article](http://flowingdata.com/2014/03/18/coffee-place-geography/) for Week 6.
+
+First, let's import the data; it is a single Excel spreadsheet.  The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
+
+```{r LoadData}
+library(readxl)
+url <- "https://github.com/rfordatascience/tidytuesday/raw/master/data/week6_coffee_chains.xlsx"
+destfile <- "Coffee_chains.xlsx"
+curl::curl_download(url, destfile)
+Coffee.chains <- read_excel(destfile)
+```
+
+What do the data look like?
+
+```{r}
+library(skimr)
+library(tidyverse)
+skim(Coffee.chains)
+table(Coffee.chains$Brand)
+```
+
+A basic plot of the global Starbucks data.
+
+```{r}
+library(ggmap)
+mapWorld <- borders("world", colour="gray50", fill="gray50") # create a layer of borders
+mp <- ggplot() +   mapWorld
+mp <- mp + geom_point(aes(x=Coffee.chains$Longitude, y=Coffee.chains$Latitude) ,color="dark green", size=0.5) + xlab("") + ylab("")
+mp
+```
+
