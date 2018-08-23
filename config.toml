@@ -273,6 +273,11 @@ defaultContentLanguageInSubdir = false
   url = "#contact"
   weight = 6
 
+[[menu.main]]
+   name = "Curriculum Vitae"
+   url = "img/vita.pdf"
+   weight = 4
+
 # Taxonomies.
 [taxonomies]
   tag = "tags"
