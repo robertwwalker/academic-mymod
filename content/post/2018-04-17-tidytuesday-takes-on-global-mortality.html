@@ -17,25 +17,23 @@ tags:
 <h1>tidyTuesday on Global Mortality</h1>
 <p>The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in <a href="https://ourworldindata.org/what-does-the-world-die-from">the original</a>. For whatever reason, I cannot open this data remotely.</p>
 <p>Here is this week’s tidyTuesday.</p>
-<pre class="r"><code>library(readxl)
+<pre class="r"><code>library(here)
+library(readxl)
 library(skimr)
 library(tidyverse)
-require(rlang)
-url &lt;- &quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/global_mortality.xlsx&quot;
-destfile &lt;- &quot;global_mortality.xlsx&quot;
-curl::curl_download(url, destfile)
-global_mortality &lt;- read_excel(destfile)
+library(rlang)
+global_mortality &lt;- read_excel(paste0(here(),&quot;/data/global_mortality.xlsx&quot;))
 skim(global_mortality)</code></pre>
 <pre><code>## Skim summary statistics
 ##  n obs: 6156 
 ##  n variables: 35 
 ## 
-## Variable type: character 
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────
 ##      variable missing complete    n min max empty n_unique
 ##       country       0     6156 6156   4  32     0      228
 ##  country_code     864     5292 6156   3   8     0      196
 ## 
-## Variable type: numeric 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
 ##                                  variable missing complete    n     mean
 ##                     Alcohol disorders (%)       0     6156 6156    0.32 
 ##                               Cancers (%)       0     6156 6156   14.39 
@@ -105,7 +103,7 @@ skim(global_mortality)</code></pre>
 ##   2.65    0.011      0.24       0.91      3.33    16.47 ▇▂▂▁▁▁▁▁
 ##   7.79 1990       1996       2003      2010     2016    ▇▆▆▇▆▆▆▇</code></pre>
 <p>That loads the data for the challenge.</p>
-<pre class="r"><code>Counts &lt;- read.csv(&quot;~/Downloads/annual-number-of-deaths-by-cause.csv&quot;)
+<pre class="r"><code>Counts &lt;- read.csv(paste0(here(),&quot;/data/annual-number-of-deaths-by-cause.csv&quot;))
 Counts %&gt;% filter(Year==2016) %&gt;% select(-Code,-Entity,-Execution..deaths.,-Year) %&gt;% apply(., 2, function(x) { sum(x, na.rm=TRUE)}) -&gt; temp1
 pp.df &lt;- data.frame(Total.Deaths=temp1,name=names(temp1))
 pp.df &lt;- pp.df %&gt;% arrange(Total.Deaths)

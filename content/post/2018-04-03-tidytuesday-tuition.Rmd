@@ -21,7 +21,6 @@ library(tidyverse)
 library(glue)
 library(ggrepel)
 library(viridis)
-
 tidy_data <-  read_excel(paste0(here(),"/data/tuition/us_avg_tuition.xlsx")) %>%
   gather(year, avg_tuition, -State) %>%
   rename(state = State)

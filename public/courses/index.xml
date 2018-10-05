@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Courses on Robert W. Walker</title>
+    <link>https://www.data.viajes/courses/</link>
+    <description>Recent content in Courses on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.data.viajes/courses/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Teaching</title>
+      <link>https://www.data.viajes/courses/5103dadm/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.data.viajes/courses/5103dadm/</guid>
+      <description>In the Atkinson Graduate School of Management at Willamette University:
+ GSM 5103: Data Analysis, Modelling, and Decision-Making GSMPR 622: Data Analysis, Modelling, and Decision-Making GSM 6270: Negotiation, Bargaining, and the Economics of Strategy GSM 6271: Evidence-Based Management  In the Essex Summer School in Social Science Data Analysis:
+ 3C: Pooled Cross-Sectional Time Series Analysis  </description>
+    </item>
+    
+  </channel>
+</rss>

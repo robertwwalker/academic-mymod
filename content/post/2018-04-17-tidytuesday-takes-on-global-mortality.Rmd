@@ -22,21 +22,19 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 Here is this week's tidyTuesday.
 
 ```{r DataLoad}
+library(here)
 library(readxl)
 library(skimr)
 library(tidyverse)
-require(rlang)
-url <- "https://github.com/rfordatascience/tidytuesday/raw/master/data/global_mortality.xlsx"
-destfile <- "global_mortality.xlsx"
-curl::curl_download(url, destfile)
-global_mortality <- read_excel(destfile)
+library(rlang)
+global_mortality <- read_excel(paste0(here(),"/data/global_mortality.xlsx"))
 skim(global_mortality)
 ```
 
 That loads the data for the challenge.
 
 ```{r COrig}
-Counts <- read.csv("~/Downloads/annual-number-of-deaths-by-cause.csv")
+Counts <- read.csv(paste0(here(),"/data/annual-number-of-deaths-by-cause.csv"))
 Counts %>% filter(Year==2016) %>% select(-Code,-Entity,-Execution..deaths.,-Year) %>% apply(., 2, function(x) { sum(x, na.rm=TRUE)}) -> temp1
 pp.df <- data.frame(Total.Deaths=temp1,name=names(temp1))
 pp.df <- pp.df %>% arrange(Total.Deaths)

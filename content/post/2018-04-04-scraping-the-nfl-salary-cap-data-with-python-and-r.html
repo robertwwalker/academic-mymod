@@ -26,38 +26,38 @@ base_url &lt;- &quot;http://www.spotrac.com/nfl/&quot;
 read.base &lt;- read_html(base_url)
 team.URL &lt;- read.base %&gt;% html_nodes(&quot;.team-name&quot;) %&gt;% html_attr(&#39;href&#39;)
 team.URL</code></pre>
-<pre><code>##  [1] &quot;http://www.spotrac.com/nfl/arizona-cardinals/cap/&quot;   
-##  [2] &quot;http://www.spotrac.com/nfl/atlanta-falcons/cap/&quot;     
-##  [3] &quot;http://www.spotrac.com/nfl/baltimore-ravens/cap/&quot;    
-##  [4] &quot;http://www.spotrac.com/nfl/buffalo-bills/cap/&quot;       
-##  [5] &quot;http://www.spotrac.com/nfl/carolina-panthers/cap/&quot;   
-##  [6] &quot;http://www.spotrac.com/nfl/chicago-bears/cap/&quot;       
-##  [7] &quot;http://www.spotrac.com/nfl/cincinnati-bengals/cap/&quot;  
-##  [8] &quot;http://www.spotrac.com/nfl/cleveland-browns/cap/&quot;    
-##  [9] &quot;http://www.spotrac.com/nfl/dallas-cowboys/cap/&quot;      
-## [10] &quot;http://www.spotrac.com/nfl/denver-broncos/cap/&quot;      
-## [11] &quot;http://www.spotrac.com/nfl/detroit-lions/cap/&quot;       
-## [12] &quot;http://www.spotrac.com/nfl/green-bay-packers/cap/&quot;   
-## [13] &quot;http://www.spotrac.com/nfl/houston-texans/cap/&quot;      
-## [14] &quot;http://www.spotrac.com/nfl/indianapolis-colts/cap/&quot;  
-## [15] &quot;http://www.spotrac.com/nfl/jacksonville-jaguars/cap/&quot;
-## [16] &quot;http://www.spotrac.com/nfl/kansas-city-chiefs/cap/&quot;  
-## [17] &quot;http://www.spotrac.com/nfl/los-angeles-chargers/cap/&quot;
-## [18] &quot;http://www.spotrac.com/nfl/los-angeles-rams/cap/&quot;    
-## [19] &quot;http://www.spotrac.com/nfl/miami-dolphins/cap/&quot;      
-## [20] &quot;http://www.spotrac.com/nfl/minnesota-vikings/cap/&quot;   
-## [21] &quot;http://www.spotrac.com/nfl/new-england-patriots/cap/&quot;
-## [22] &quot;http://www.spotrac.com/nfl/new-orleans-saints/cap/&quot;  
-## [23] &quot;http://www.spotrac.com/nfl/new-york-giants/cap/&quot;     
-## [24] &quot;http://www.spotrac.com/nfl/new-york-jets/cap/&quot;       
-## [25] &quot;http://www.spotrac.com/nfl/oakland-raiders/cap/&quot;     
-## [26] &quot;http://www.spotrac.com/nfl/philadelphia-eagles/cap/&quot; 
-## [27] &quot;http://www.spotrac.com/nfl/pittsburgh-steelers/cap/&quot; 
-## [28] &quot;http://www.spotrac.com/nfl/san-francisco-49ers/cap/&quot; 
-## [29] &quot;http://www.spotrac.com/nfl/seattle-seahawks/cap/&quot;    
-## [30] &quot;http://www.spotrac.com/nfl/tampa-bay-buccaneers/cap/&quot;
-## [31] &quot;http://www.spotrac.com/nfl/tennessee-titans/cap/&quot;    
-## [32] &quot;http://www.spotrac.com/nfl/washington-redskins/cap/&quot;</code></pre>
+<pre><code>##  [1] &quot;https://www.spotrac.com/nfl/arizona-cardinals/cap/&quot;   
+##  [2] &quot;https://www.spotrac.com/nfl/atlanta-falcons/cap/&quot;     
+##  [3] &quot;https://www.spotrac.com/nfl/baltimore-ravens/cap/&quot;    
+##  [4] &quot;https://www.spotrac.com/nfl/buffalo-bills/cap/&quot;       
+##  [5] &quot;https://www.spotrac.com/nfl/carolina-panthers/cap/&quot;   
+##  [6] &quot;https://www.spotrac.com/nfl/chicago-bears/cap/&quot;       
+##  [7] &quot;https://www.spotrac.com/nfl/cincinnati-bengals/cap/&quot;  
+##  [8] &quot;https://www.spotrac.com/nfl/cleveland-browns/cap/&quot;    
+##  [9] &quot;https://www.spotrac.com/nfl/dallas-cowboys/cap/&quot;      
+## [10] &quot;https://www.spotrac.com/nfl/denver-broncos/cap/&quot;      
+## [11] &quot;https://www.spotrac.com/nfl/detroit-lions/cap/&quot;       
+## [12] &quot;https://www.spotrac.com/nfl/green-bay-packers/cap/&quot;   
+## [13] &quot;https://www.spotrac.com/nfl/houston-texans/cap/&quot;      
+## [14] &quot;https://www.spotrac.com/nfl/indianapolis-colts/cap/&quot;  
+## [15] &quot;https://www.spotrac.com/nfl/jacksonville-jaguars/cap/&quot;
+## [16] &quot;https://www.spotrac.com/nfl/kansas-city-chiefs/cap/&quot;  
+## [17] &quot;https://www.spotrac.com/nfl/los-angeles-chargers/cap/&quot;
+## [18] &quot;https://www.spotrac.com/nfl/los-angeles-rams/cap/&quot;    
+## [19] &quot;https://www.spotrac.com/nfl/miami-dolphins/cap/&quot;      
+## [20] &quot;https://www.spotrac.com/nfl/minnesota-vikings/cap/&quot;   
+## [21] &quot;https://www.spotrac.com/nfl/new-england-patriots/cap/&quot;
+## [22] &quot;https://www.spotrac.com/nfl/new-orleans-saints/cap/&quot;  
+## [23] &quot;https://www.spotrac.com/nfl/new-york-giants/cap/&quot;     
+## [24] &quot;https://www.spotrac.com/nfl/new-york-jets/cap/&quot;       
+## [25] &quot;https://www.spotrac.com/nfl/oakland-raiders/cap/&quot;     
+## [26] &quot;https://www.spotrac.com/nfl/philadelphia-eagles/cap/&quot; 
+## [27] &quot;https://www.spotrac.com/nfl/pittsburgh-steelers/cap/&quot; 
+## [28] &quot;https://www.spotrac.com/nfl/san-francisco-49ers/cap/&quot; 
+## [29] &quot;https://www.spotrac.com/nfl/seattle-seahawks/cap/&quot;    
+## [30] &quot;https://www.spotrac.com/nfl/tampa-bay-buccaneers/cap/&quot;
+## [31] &quot;https://www.spotrac.com/nfl/tennessee-titans/cap/&quot;    
+## [32] &quot;https://www.spotrac.com/nfl/washington-redskins/cap/&quot;</code></pre>
 <pre class="r"><code># Clean up the URLs to get the team names by themselves.
 team.names &lt;- gsub(&quot;/cap/&quot;,&quot;&quot;, gsub(base_url, &quot;&quot;, team.URL))</code></pre>
 <p>With 32 team links to scrape, I can now scrape them.</p>
@@ -236,7 +236,7 @@ skim(NFL.Salary.Data)</code></pre>
 ##  n obs: 2239 
 ##  n variables: 14 
 ## 
-## Variable type: factor 
+## ── Variable type:factor ──────────────────────────────────────────────────────────────────────────────────────────────────
 ##   variable missing complete    n n_unique
 ##    Cap.Hit       0     2239 2239     1043
 ##  Last.Name       0     2239 2239     1489
@@ -250,7 +250,7 @@ skim(NFL.Salary.Data)</code></pre>
 ##    WR: 289, CB: 242, DE: 179, OLB: 171   FALSE
 ##     New: 86, Ind: 78, New: 78, Cle: 77   FALSE
 ## 
-## Variable type: numeric 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
 ##       variable missing complete    n       mean         sd p0       p25
 ##    Base.Salary       0     2239 2239 1702378.82 2559999.2   0 555000   
 ##        Cap.Pct       0     2239 2239       1.36       2.05  0      0.31
@@ -275,16 +275,16 @@ skim(NFL.Salary.Data)</code></pre>
 <pre><code>## # A tibble: 32 x 2
 ##    Team               Total.Base.Salary
 ##    &lt;fct&gt;                          &lt;dbl&gt;
-##  1 Arizona Cardinals         105629569.
-##  2 Atlanta Falcons           132367353.
-##  3 Baltimore Ravens          111906351.
-##  4 Buffalo Bills              94577460.
-##  5 Carolina Panthers         110158355.
-##  6 Chicago Bears              85128180.
-##  7 Cincinnati Bengals        134855807.
-##  8 Cleveland Browns          122139767.
-##  9 Dallas Cowboys            128347113.
-## 10 Denver Broncos            140672444.
+##  1 Arizona Cardinals          105629569
+##  2 Atlanta Falcons            132367353
+##  3 Baltimore Ravens           111906351
+##  4 Buffalo Bills               94577460
+##  5 Carolina Panthers          110158355
+##  6 Chicago Bears               85128180
+##  7 Cincinnati Bengals         134855807
+##  8 Cleveland Browns           122139767
+##  9 Dallas Cowboys             128347113
+## 10 Denver Broncos             140672444
 ## # ... with 22 more rows</code></pre>
 <pre class="r"><code>NFL.Salary.Data %&gt;% group_by(Position) %&gt;% skim(Base.Salary)</code></pre>
 <pre><code>## Skim summary statistics
@@ -292,7 +292,7 @@ skim(NFL.Salary.Data)</code></pre>
 ##  n variables: 14 
 ##  group variables: Position 
 ## 
-## Variable type: numeric 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
 ##  Position    variable missing complete   n       mean         sd     p0
 ##         C Base.Salary       0       62  62 1964378.97 2173761.05      0
 ##        CB Base.Salary       0      242 242 1594781.37 2433196.22      0

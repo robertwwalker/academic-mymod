@@ -19,8 +19,7 @@
   
   <meta name="description" content="The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(readxl) url &lt;- &quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/week6_coffee_chains.xlsx&quot; destfile &lt;- &quot;Coffee_chains.xlsx&quot; curl::curl_download(url, destfile) Coffee.chains &lt;- read_excel(destfile) What do the data look like?
-library(skimr) library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.">
+library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.">
 
   
   <link rel="alternate" hreflang="en-us" href="https://www.data.viajes/post/tidytuesday-coffee-chains/">
@@ -86,8 +85,7 @@ library(skimr) library(tidyverse) ## ── Attaching packages ─────�
   <meta property="og:title" content="tidyTuesday: coffee chains | Robert W. Walker">
   <meta property="og:description" content="The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(readxl) url &lt;- &quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/week6_coffee_chains.xlsx&quot; destfile &lt;- &quot;Coffee_chains.xlsx&quot; curl::curl_download(url, destfile) Coffee.chains &lt;- read_excel(destfile) What do the data look like?
-library(skimr) library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.">
+library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2018-05-09T00:00:00&#43;00:00">
@@ -193,6 +191,25 @@ library(skimr) library(tidyverse) ## ── Attaching packages ─────�
         
 
         <li class="nav-item">
+          <a href="/img/vita.pdf">
+            
+            <span>Curriculum Vitae</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
           <a href="/#projects">
             
             <span>Projects</span>
@@ -275,7 +292,7 @@ library(skimr) library(tidyverse) ## ── Attaching packages ─────�
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    4 min read
   </span>
   
 
@@ -354,35 +371,42 @@ library(skimr) library(tidyverse) ## ── Attaching packages ─────�
 <h1>The tidyTuesday for this week is coffee chain locations</h1>
 <p>For this week: 1. The basic link to the <a href="https://github.com/rfordatascience/tidytuesday"><code>#tidyTuesday</code></a> shows <a href="http://flowingdata.com/2014/03/18/coffee-place-geography/">an original article</a> for Week 6.</p>
 <p>First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.</p>
+<pre class="r"><code>library(here)</code></pre>
+<pre><code>## here() starts at /home/rob/R/MyNLWeb</code></pre>
 <pre class="r"><code>library(readxl)
-url &lt;- &quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/week6_coffee_chains.xlsx&quot;
-destfile &lt;- &quot;Coffee_chains.xlsx&quot;
-curl::curl_download(url, destfile)
-Coffee.chains &lt;- read_excel(destfile)</code></pre>
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.6
+## ✔ tidyr   0.8.1     ✔ stringr 1.3.1
+## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
+<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(janitor)
+library(geofacet)
+library(ggbeeswarm)
+library(ggrepel)
+Starbucks &lt;- read_excel(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;starbucks&quot;)
+Dunkin.Donuts &lt;- read_excel(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;dunkin&quot;)
+Tim.Hortons &lt;- read_excel(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;timhorton&quot;)
+# A great function appears below that I grabbed from Stack Overflow a while back.....
+read_excel_allsheets &lt;- function(filename, tibble = TRUE) {
+    sheets &lt;- readxl::excel_sheets(filename)
+    x &lt;- lapply(sheets, function(X) readxl::read_excel(filename, sheet = X))
+    if(!tibble) x &lt;- lapply(x, as.data.frame)
+    names(x) &lt;- sheets
+    x
+}
+coffee.xl &lt;- read_excel_allsheets(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;))</code></pre>
 <p>What do the data look like?</p>
 <pre class="r"><code>library(skimr)
-library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
-## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
-## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::contains()    masks skimr::contains()
-## ✖ dplyr::ends_with()   masks skimr::ends_with()
-## ✖ dplyr::everything()  masks skimr::everything()
-## ✖ dplyr::filter()      masks stats::filter()
-## ✖ dplyr::lag()         masks stats::lag()
-## ✖ dplyr::matches()     masks skimr::matches()
-## ✖ dplyr::num_range()   masks skimr::num_range()
-## ✖ dplyr::one_of()      masks skimr::one_of()
-## ✖ dplyr::starts_with() masks skimr::starts_with()</code></pre>
-<pre class="r"><code>skim(Coffee.chains)</code></pre>
+skim(Starbucks)</code></pre>
 <pre><code>## Skim summary statistics
 ##  n obs: 25600 
 ##  n variables: 13 
 ## 
-## Variable type: character 
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────
 ##        variable missing complete     n min max empty n_unique
 ##           Brand       0    25600 25600   7  21     0        4
 ##            City      14    25586 25600   2  29     0     5470
@@ -396,32 +420,88 @@ library(tidyverse)</code></pre>
 ##  Street Address       2    25598 25600   1 234     0    25353
 ##        Timezone       0    25600 25600  18  30     0      101
 ## 
-## Variable type: numeric 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
 ##   variable missing complete     n   mean    sd      p0     p25    p50
 ##   Latitude       1    25599 25600  34.79 13.34  -46.41   31.24  36.75
 ##  Longitude       1    25599 25600 -27.87 96.84 -159.46 -104.66 -79.35
 ##     p75   p100     hist
 ##   41.57  64.85 ▁▁▁▁▂▇▇▁
 ##  100.63 176.92 ▃▇▂▁▁▁▅▁</code></pre>
-<pre class="r"><code>table(Coffee.chains$Brand)</code></pre>
-<pre><code>## 
-## Coffee House Holdings       Evolution Fresh             Starbucks 
-##                     1                     2                 25249 
-##               Teavana 
-##                   348</code></pre>
+<pre class="r"><code>skim(Dunkin.Donuts)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 4898 
+##  n variables: 22 
+## 
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────
+##    variable missing complete    n min max empty n_unique
+##    biz_info    4091      807 4898  14  18     0      709
+##    biz_name       0     4898 4898   8  38     0       33
+##   biz_phone       0     4898 4898  14  14     0     4562
+##   e_address       0     4898 4898   6  61     0     4864
+##      e_city       0     4898 4898   2  27     0     1770
+##   e_country       0     4898 4898   3   3     0        1
+##     e_state       0     4898 4898   2   2     0       41
+##  e_zip_full       0     4898 4898  10  10     0      545
+##  loc_county       0     4898 4898   3  21     0      395
+##     loc_DST       0     4898 4898   1   1     0        3
+##    loc_PMSA       0     4898 4898   2   4     0       53
+##      loc_TZ       0     4898 4898   3   5     0        5
+##     web_url       0     4898 4898  20 175     0       22
+## 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
+##           variable missing complete    n     mean       sd      p0
+##           e_postal       0     4898 4898 21528.34 20311.57 1001   
+##                 id       0     4898 4898  2459.46  1420.28    1   
+##      loc_area_code       0     4898 4898   590.09   229.26  201   
+##           loc_FIPS       0     4898 4898 27911.17 12470.14 1069   
+##   loc_LAT_centroid       0     4898 4898    39.62     4.33   21.42
+##       loc_LAT_poly       0     4898 4898    39.62     4.32   21.39
+##  loc_LONG_centroid       0     4898 4898   -77.55     7.31 -157.93
+##      loc_LONG_poly       0     4898 4898   -77.55     7.31 -157.96
+##            loc_MSA       0     4898 4898  4284.65  2849.57  160   
+##       p25      p50      p75     p100     hist
+##   6080    13334.5  32810.75 98112    ▇▃▂▁▂▁▁▁
+##   1231.25  2458.5   3686.75  4920    ▇▇▇▇▇▇▇▇
+##    401      610      781      989    ▆▃▅▅▇▇▆▃
+##  17031    26125    36111    55111    ▁▇▅▇▆▆▆▂
+##     39.39    41.22    42.11    47.63 ▁▁▁▁▁▅▇▁
+##     39.38    41.2     42.09    47.64 ▁▁▁▁▁▅▇▁
+##    -81.44   -75.08   -72.66   -67.23 ▁▁▁▁▁▁▃▇
+##    -81.44   -75.08   -72.66   -67.28 ▁▁▁▁▁▁▃▇
+##   1520     3800     6880     9320    ▇▇▅▂▂▇▅▂</code></pre>
+<pre class="r"><code>skim(Tim.Hortons)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 4955 
+##  n variables: 6 
+## 
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────
+##     variable missing complete    n min max empty n_unique
+##      address       0     4955 4955   6  51     0     4803
+##         city       0     4955 4955   3  38     0     1206
+##      country       0     4955 4955   2   2     0        2
+##  postal_code       0     4955 4955   4   7     0     4328
+##        state       0     4955 4955   2   2     0       27
+##   store_name       0     4955 4955   2  63     0     3167</code></pre>
 <p>A basic plot of the global Starbucks data.</p>
-<pre class="r"><code>library(ggmap)
-mapWorld &lt;- borders(&quot;world&quot;, colour=&quot;gray50&quot;, fill=&quot;gray50&quot;) # create a layer of borders</code></pre>
+<pre class="r"><code>library(ggmap)</code></pre>
+<pre><code>## Google Maps API Terms of Service: http://developers.google.com/maps/terms.</code></pre>
+<pre><code>## Please cite ggmap if you use it: see citation(&quot;ggmap&quot;) for details.</code></pre>
+<pre class="r"><code>mapWorld &lt;- borders(&quot;world&quot;, colour=&quot;gray50&quot;, fill=&quot;gray50&quot;) # create a layer of borders</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;maps&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:purrr&#39;:
 ## 
 ##     map</code></pre>
 <pre class="r"><code>mp &lt;- ggplot() +   mapWorld
-mp &lt;- mp + geom_point(aes(x=Coffee.chains$Longitude, y=Coffee.chains$Latitude) ,color=&quot;dark green&quot;, size=0.5) + xlab(&quot;&quot;) + ylab(&quot;&quot;)
+mp &lt;- mp + geom_point(aes(x=Starbucks$Longitude, y=Starbucks$Latitude) ,color=&quot;dark green&quot;, size=0.5) + xlab(&quot;&quot;) + ylab(&quot;&quot;)
+mp &lt;- mp + geom_point(aes(x=Dunkin.Donuts$loc_LONG_centroid, y=Dunkin.Donuts$loc_LAT_centroid) ,color=&quot;orange&quot;, size=0.5) + xlab(&quot;&quot;) + ylab(&quot;&quot;)
 mp</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 <p><img src="/post/2018-05-09-tidytuesday-coffee-chains_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div id="starbucks-and-dunkin" class="section level2">
+<h2>Starbucks and Dunkin</h2>
+<p>Google Maps interface changed and I have not updated this part. Shame.</p>
+</div>
 </div>
 
     </div>

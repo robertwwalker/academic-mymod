@@ -189,6 +189,25 @@ library(rvest) library(tidyverse) base_url &lt;- &quot;http://www.spotrac.com/ep
         
 
         <li class="nav-item">
+          <a href="/img/vita.pdf">
+            
+            <span>Curriculum Vitae</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
           <a href="/#projects">
             
             <span>Projects</span>
@@ -352,26 +371,26 @@ base_url &lt;- &quot;http://www.spotrac.com/epl/&quot;
 read.base &lt;- read_html(base_url)
 team.URL &lt;- read.base %&gt;% html_nodes(&quot;.team-name&quot;) %&gt;% html_attr(&#39;href&#39;)
 team.URL</code></pre>
-<pre><code>##  [1] &quot;http://www.spotrac.com/epl/afc-bournemouth/&quot;         
-##  [2] &quot;http://www.spotrac.com/epl/arsenal-f.c/&quot;             
-##  [3] &quot;http://www.spotrac.com/epl/brighton-hove-albion/&quot;    
-##  [4] &quot;http://www.spotrac.com/epl/burnley-f.c/&quot;             
-##  [5] &quot;http://www.spotrac.com/epl/chelsea-f.c/&quot;             
-##  [6] &quot;http://www.spotrac.com/epl/crystal-palace/&quot;          
-##  [7] &quot;http://www.spotrac.com/epl/everton-f.c/&quot;             
-##  [8] &quot;http://www.spotrac.com/epl/huddersfield-town/&quot;       
-##  [9] &quot;http://www.spotrac.com/epl/leicester-city/&quot;          
-## [10] &quot;http://www.spotrac.com/epl/liverpool-f.c/&quot;           
-## [11] &quot;http://www.spotrac.com/epl/manchester-city-f.c/&quot;     
-## [12] &quot;http://www.spotrac.com/epl/manchester-united-f.c/&quot;   
-## [13] &quot;http://www.spotrac.com/epl/newcastle-united-f.c/&quot;    
-## [14] &quot;http://www.spotrac.com/epl/southampton-f.c/&quot;         
-## [15] &quot;http://www.spotrac.com/epl/stoke-city-f.c/&quot;          
-## [16] &quot;http://www.spotrac.com/epl/swansea-city-a.f.c/&quot;      
-## [17] &quot;http://www.spotrac.com/epl/tottenham-hotspur-f.c/&quot;   
-## [18] &quot;http://www.spotrac.com/epl/watford/&quot;                 
-## [19] &quot;http://www.spotrac.com/epl/west-bromwich-albion-f.c/&quot;
-## [20] &quot;http://www.spotrac.com/epl/west-ham-united-f.c/&quot;</code></pre>
+<pre><code>##  [1] &quot;https://www.spotrac.com/epl/afc-bournemouth/&quot;            
+##  [2] &quot;https://www.spotrac.com/epl/arsenal-f.c/&quot;                
+##  [3] &quot;https://www.spotrac.com/epl/brighton-hove-albion/&quot;       
+##  [4] &quot;https://www.spotrac.com/epl/burnley-f.c/&quot;                
+##  [5] &quot;https://www.spotrac.com/epl/cardiff-city-f.c/&quot;           
+##  [6] &quot;https://www.spotrac.com/epl/chelsea-f.c/&quot;                
+##  [7] &quot;https://www.spotrac.com/epl/crystal-palace/&quot;             
+##  [8] &quot;https://www.spotrac.com/epl/everton-f.c/&quot;                
+##  [9] &quot;https://www.spotrac.com/epl/fulham-f.c/&quot;                 
+## [10] &quot;https://www.spotrac.com/epl/huddersfield-town/&quot;          
+## [11] &quot;https://www.spotrac.com/epl/leicester-city/&quot;             
+## [12] &quot;https://www.spotrac.com/epl/liverpool-f.c/&quot;              
+## [13] &quot;https://www.spotrac.com/epl/manchester-city-f.c/&quot;        
+## [14] &quot;https://www.spotrac.com/epl/manchester-united-f.c/&quot;      
+## [15] &quot;https://www.spotrac.com/epl/newcastle-united-f.c/&quot;       
+## [16] &quot;https://www.spotrac.com/epl/southampton-f.c/&quot;            
+## [17] &quot;https://www.spotrac.com/epl/tottenham-hotspur-f.c/&quot;      
+## [18] &quot;https://www.spotrac.com/epl/watford/&quot;                    
+## [19] &quot;https://www.spotrac.com/epl/west-ham-united-f.c/&quot;        
+## [20] &quot;https://www.spotrac.com/epl/wolverhampton-wanderers-f.c/&quot;</code></pre>
 <pre class="r"><code># Clean up the URLs to get the team names by themselves.
 team.names &lt;- gsub(base_url, &quot;&quot;, team.URL)
 team.names &lt;- gsub(&quot;-f.c&quot;, &quot; FC&quot;, team.names)
@@ -394,48 +413,69 @@ short.names &lt;- gsub(&quot; FC&quot;,&quot;&quot;, team.names)
 short.names &lt;- gsub(&quot; AFC&quot;,&quot;&quot;, short.names)
 EPL.names &lt;- data.frame(team.names,short.names,team.URL)
 EPL.names</code></pre>
-<pre><code>##                 team.names          short.names
-## 1          AFC Bournemouth      AFC Bournemouth
-## 2               Arsenal FC              Arsenal
-## 3     Brighton Hove Albion Brighton Hove Albion
-## 4               Burnley FC              Burnley
-## 5               Chelsea FC              Chelsea
-## 6           Crystal Palace       Crystal Palace
-## 7               Everton FC              Everton
-## 8        Huddersfield Town    Huddersfield Town
-## 9           Leicester City       Leicester City
-## 10            Liverpool FC            Liverpool
-## 11      Manchester City FC      Manchester City
-## 12    Manchester United FC    Manchester United
-## 13     Newcastle United FC     Newcastle United
-## 14          Southampton FC          Southampton
-## 15           Stoke City FC           Stoke City
-## 16        Swansea City AFC         Swansea City
-## 17    Tottenham Hotspur FC    Tottenham Hotspur
-## 18                 Watford              Watford
-## 19 West Bromwich Albion FC West Bromwich Albion
-## 20      West Ham United FC      West Ham United
-##                                                team.URL
-## 1           http://www.spotrac.com/epl/afc-bournemouth/
-## 2               http://www.spotrac.com/epl/arsenal-f.c/
-## 3      http://www.spotrac.com/epl/brighton-hove-albion/
-## 4               http://www.spotrac.com/epl/burnley-f.c/
-## 5               http://www.spotrac.com/epl/chelsea-f.c/
-## 6            http://www.spotrac.com/epl/crystal-palace/
-## 7               http://www.spotrac.com/epl/everton-f.c/
-## 8         http://www.spotrac.com/epl/huddersfield-town/
-## 9            http://www.spotrac.com/epl/leicester-city/
-## 10            http://www.spotrac.com/epl/liverpool-f.c/
-## 11      http://www.spotrac.com/epl/manchester-city-f.c/
-## 12    http://www.spotrac.com/epl/manchester-united-f.c/
-## 13     http://www.spotrac.com/epl/newcastle-united-f.c/
-## 14          http://www.spotrac.com/epl/southampton-f.c/
-## 15           http://www.spotrac.com/epl/stoke-city-f.c/
-## 16       http://www.spotrac.com/epl/swansea-city-a.f.c/
-## 17    http://www.spotrac.com/epl/tottenham-hotspur-f.c/
-## 18                  http://www.spotrac.com/epl/watford/
-## 19 http://www.spotrac.com/epl/west-bromwich-albion-f.c/
-## 20      http://www.spotrac.com/epl/west-ham-united-f.c/</code></pre>
+<pre><code>##                                            team.names
+## 1             Https:www.spotrac.comeplAFC Bournemouth
+## 2                  Https:www.spotrac.comeplarsenal FC
+## 3        Https:www.spotrac.comeplbrighton Hove Albion
+## 4                  Https:www.spotrac.comeplburnley FC
+## 5             Https:www.spotrac.comeplcardiff City FC
+## 6                  Https:www.spotrac.comeplchelsea FC
+## 7              Https:www.spotrac.comeplcrystal Palace
+## 8                  Https:www.spotrac.comepleverton FC
+## 9                   Https:www.spotrac.comeplfulham FC
+## 10          Https:www.spotrac.comeplhuddersfield Town
+## 11             Https:www.spotrac.comeplleicester City
+## 12               Https:www.spotrac.comeplliverpool FC
+## 13         Https:www.spotrac.comeplmanchester City FC
+## 14       Https:www.spotrac.comeplmanchester United FC
+## 15        Https:www.spotrac.comeplnewcastle United FC
+## 16             Https:www.spotrac.comeplsouthampton FC
+## 17       Https:www.spotrac.comepltottenham Hotspur FC
+## 18                    Https:www.spotrac.comeplwatford
+## 19         Https:www.spotrac.comeplwest Ham United FC
+## 20 Https:www.spotrac.comeplwolverhampton Wanderers FC
+##                                        short.names
+## 1          Https:www.spotrac.comeplAFC Bournemouth
+## 2                  Https:www.spotrac.comeplarsenal
+## 3     Https:www.spotrac.comeplbrighton Hove Albion
+## 4                  Https:www.spotrac.comeplburnley
+## 5             Https:www.spotrac.comeplcardiff City
+## 6                  Https:www.spotrac.comeplchelsea
+## 7           Https:www.spotrac.comeplcrystal Palace
+## 8                  Https:www.spotrac.comepleverton
+## 9                   Https:www.spotrac.comeplfulham
+## 10       Https:www.spotrac.comeplhuddersfield Town
+## 11          Https:www.spotrac.comeplleicester City
+## 12               Https:www.spotrac.comeplliverpool
+## 13         Https:www.spotrac.comeplmanchester City
+## 14       Https:www.spotrac.comeplmanchester United
+## 15        Https:www.spotrac.comeplnewcastle United
+## 16             Https:www.spotrac.comeplsouthampton
+## 17       Https:www.spotrac.comepltottenham Hotspur
+## 18                 Https:www.spotrac.comeplwatford
+## 19         Https:www.spotrac.comeplwest Ham United
+## 20 Https:www.spotrac.comeplwolverhampton Wanderers
+##                                                    team.URL
+## 1              https://www.spotrac.com/epl/afc-bournemouth/
+## 2                  https://www.spotrac.com/epl/arsenal-f.c/
+## 3         https://www.spotrac.com/epl/brighton-hove-albion/
+## 4                  https://www.spotrac.com/epl/burnley-f.c/
+## 5             https://www.spotrac.com/epl/cardiff-city-f.c/
+## 6                  https://www.spotrac.com/epl/chelsea-f.c/
+## 7               https://www.spotrac.com/epl/crystal-palace/
+## 8                  https://www.spotrac.com/epl/everton-f.c/
+## 9                   https://www.spotrac.com/epl/fulham-f.c/
+## 10           https://www.spotrac.com/epl/huddersfield-town/
+## 11              https://www.spotrac.com/epl/leicester-city/
+## 12               https://www.spotrac.com/epl/liverpool-f.c/
+## 13         https://www.spotrac.com/epl/manchester-city-f.c/
+## 14       https://www.spotrac.com/epl/manchester-united-f.c/
+## 15        https://www.spotrac.com/epl/newcastle-united-f.c/
+## 16             https://www.spotrac.com/epl/southampton-f.c/
+## 17       https://www.spotrac.com/epl/tottenham-hotspur-f.c/
+## 18                     https://www.spotrac.com/epl/watford/
+## 19         https://www.spotrac.com/epl/west-ham-united-f.c/
+## 20 https://www.spotrac.com/epl/wolverhampton-wanderers-f.c/</code></pre>
 <p>With clean names, I can take each of the scraping tasks in order.</p>
 <div id="payroll-data" class="section level2">
 <h2>Payroll Data</h2>
@@ -460,25 +500,25 @@ EPL.Result %&gt;% group_by(Position) %&gt;% summarise(Mean.Base.Salary=mean(Base
 <pre><code>## # A tibble: 4 x 3
 ##   Position Mean.Base.Salary     sdBS
 ##   &lt;fct&gt;               &lt;dbl&gt;    &lt;dbl&gt;
-## 1 D                2373070. 1567603.
-## 2 F                3270747. 2511928.
-## 3 GK               2132456. 1871190.
-## 4 M                2874411. 2487494.</code></pre>
+## 1 D                2645330. 1616542.
+## 2 F                3576724. 3150683.
+## 3 GK               2693167. 2446144.
+## 4 M                3212368. 2938723.</code></pre>
 <pre class="r"><code>EPL.Result %&gt;% group_by(Position,Team) %&gt;% summarise(Mean.Base.Salary=mean(Base.Num, na.rm=TRUE),sdBS=sd(Base.Num, na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 80 x 4
 ## # Groups:   Position [?]
-##    Position Team                 Mean.Base.Salary     sdBS
-##    &lt;fct&gt;    &lt;fct&gt;                           &lt;dbl&gt;    &lt;dbl&gt;
-##  1 D        AFC Bournemouth              1586000.  447321.
-##  2 D        Arsenal                      4044444. 1376473.
-##  3 D        Brighton Hove Albion         1289600.  337711.
-##  4 D        Burnley                      1255429.  262465.
-##  5 D        Chelsea                      3307200. 2018898.
-##  6 D        Crystal Palace               2392000. 1231643.
-##  7 D        Everton                      2453455. 1385547.
-##  8 D        Huddersfield Town             994500.  407972.
-##  9 D        Leicester City               1999111.  914118.
-## 10 D        Liverpool                    3120000. 1742000.
+##    Position Team                                  Mean.Base.Salary    sdBS
+##    &lt;fct&gt;    &lt;fct&gt;                                            &lt;dbl&gt;   &lt;dbl&gt;
+##  1 D        Https:www.spotrac.comeplAFC Bournemo…         1759333.  3.38e5
+##  2 D        Https:www.spotrac.comeplarsenal               3933800   1.58e6
+##  3 D        Https:www.spotrac.comeplbrighton Hov…         1369333.  3.82e5
+##  4 D        Https:www.spotrac.comeplburnley               1255429.  2.62e5
+##  5 D        Https:www.spotrac.comeplcardiff City           728000   4.53e5
+##  6 D        Https:www.spotrac.comeplchelsea               4882222.  1.22e6
+##  7 D        Https:www.spotrac.comeplcrystal Pala…         2801500   1.18e6
+##  8 D        Https:www.spotrac.comepleverton               2086500   1.08e6
+##  9 D        Https:www.spotrac.comeplfulham                1040000   3.68e5
+## 10 D        Https:www.spotrac.comeplhuddersfield…         1092000   4.92e5
 ## # ... with 70 more rows</code></pre>
 <p>Finally, a little picture to describe spending on the active roster.</p>
 <pre class="r"><code>fplot &lt;- ggplot(EPL.Result, aes(Base.Num,Team))
@@ -495,111 +535,96 @@ gpl</code></pre>
 <p>Processing them is a bit more difficult. What does the basic table look like?</p>
 <pre class="r"><code>Base.Contracts[[1]] %&gt;% html_nodes(&quot;table&quot;) %&gt;% html_table(header=TRUE, fill=TRUE)</code></pre>
 <pre><code>## [[1]]
-##                  Player (34) Pos. Age
+##                  Player (29) Pos. Age
 ## 1         DefoeJermain Defoe    F  35
-## 2       BegovicAsmir Begovic   GK  30
-## 3            KingJoshua King    F  26
-## 4              AkeNathan Ake    D  23
-## 5        SurmanAndrew Surman    M  31
-## 6           ArterHarry Arter    M  28
-## 7             CookSteve Cook    D  27
-## 8              IbeJordon Ibe    M  22
-## 9         GoslingDan Gosling    M  28
-## 10           SmithAdam Smith    D  27
-## 11          AfobeBenik Afobe    F  25
+## 2       BegovicAsmir Begovic   GK  31
+## 3        WilsonCallum Wilson    F  26
+## 4            KingJoshua King    F  26
+## 5              AkeNathan Ake    D  23
+## 6        SurmanAndrew Surman    M  32
+## 7           ArterHarry Arter    M  28
+## 8             CookSteve Cook    D  27
+## 9              IbeJordon Ibe    M  22
+## 10        GoslingDan Gosling    M  28
+## 11           SmithAdam Smith    D  27
 ## 12            CookLewis Cook    M  21
 ## 13      FrancisSimon Francis    D  33
-## 14       WilsonCallum Wilson    F  26
-## 15      GrabbanLewis Grabban    F  30
-## 16         FraserRyan Fraser    M  24
-## 17    DanielsCharlie Daniels    D  31
-## 18           SmithBrad Smith    D  24
-## 19    GradelMax-Alain Gradel    F  30
-## 20         MingsTyrone Mings    D  25
-## 21     FedericiAdam Federici   GK  33
-## 22          BorucArtur Boruc   GK  38
-## 23        MoussetLys Mousset    F  22
-## 24             PughMarc Pugh    M  31
-## 25    HyndmanEmerson Hyndman    M  22
-## 26      WigginsRhoys Wiggins    D  30
-## 27     MahoneyConnor Mahoney    F  21
-## 28 StanislasJunior Stanislas    M  28
-## 29         AllsopRyan Allsop   GK  25
-## 30    RamsdaleAaron Ramsdale   GK  19
-## 31      CargillBaily Cargill    D  22
-## 32       ButcherMatt Butcher    M  20
-## 33      SurridgeSam Surridge    F  20
-## 34    WhitfieldBen Whitfield    M  22
+## 14         FraserRyan Fraser    M  24
+## 15    DanielsCharlie Daniels    D  32
+## 16           SmithBrad Smith    D  24
+## 17         MingsTyrone Mings    D  25
+## 18        MoussetLys Mousset    F  22
+## 19             PughMarc Pugh    M  31
+## 20    HyndmanEmerson Hyndman    M  22
+## 21     MahoneyConnor Mahoney    F  21
+## 22 StanislasJunior Stanislas    M  28
+## 23          BorucArtur Boruc   GK  38
+## 24    RamsdaleAaron Ramsdale   GK  20
+## 25       SimpsonJack Simpson    D  21
+## 26         TaylorKyle Taylor    M  19
+## 27        BrooksDavid Brooks    M  21
+## 28      LermaJefferson Lerma    M  23
+## 29            RicoDiego Rico    D  25
 ##                                                             Contract Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
 ## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
-## 3  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
-## 4  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
-## 5    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
-## 6    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 3  12480000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£12,480,000
+## 4  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
+## 5  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
+## 6    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
 ## 7    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
-## 8    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
-## 9    7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
+## 8    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 9    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
 ## 10   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
-## 11   6318000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,318,000
+## 11   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
 ## 12   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
 ## 13   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 14   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 15   6032000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,032,000
-## 16   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
-## 17   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
-## 18   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
-## 19   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
-## 20   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
-## 21   4680000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,680,000
-## 22   4160000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 23   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 24   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
-## 25   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
-## 26   2496000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
-## 27   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
-## 28   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
-## 29      884000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£884,000
-## 30      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
-## 31      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
-## 32        93600\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£93,600
-## 33        46800\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£46,800
-## 34                  0\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 14   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 15   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
+## 16   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 17   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
+## 18   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 19   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
+## 20   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
+## 21   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
+## 22   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
+## 23   2080000\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,080,000
+## 24      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
+## 25                  0\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 26                  0\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 27                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 28                  0\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 29                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
 ##    Avg. Salary Transfer Fee Expires
 ## 1   £5,380,000            -    2020
 ## 2   £3,640,000   £9,780,000    2021
-## 3   £2,340,000            -    2021
-## 4   £2,080,000  £19,380,000    2022
-## 5   £1,820,000     £536,000    2019
-## 6   £2,080,000            -    2021
-## 7   £2,080,000     £150,000    2021
-## 8   £1,976,000  £15,000,000    2020
-## 9   £1,820,000            -    2021
+## 3   £3,120,000   £3,000,000    2022
+## 4   £2,340,000            -    2021
+## 5   £2,080,000  £19,380,000    2022
+## 6   £1,820,000     £536,000    2020
+## 7   £2,080,000            -    2021
+## 8   £2,080,000     £150,000    2021
+## 9   £1,976,000  £15,000,000    2020
 ## 10  £1,820,000            -    2021
-## 11  £1,263,600  £11,310,000    2020
+## 11  £1,820,000            -    2021
 ## 12  £1,560,000   £5,950,000    2020
 ## 13  £1,560,000            -    2019
-## 14  £1,560,000   £3,000,000    2020
-## 15  £1,508,000   £8,210,000    2019
-## 16  £1,404,000     £400,000    2020
-## 17  £1,820,000     £191,000    2020
-## 18  £1,300,000   £3,060,000    2020
-## 19  £1,196,000   £7,000,000    2020
-## 20  £1,196,000   £9,610,000    2021
-## 21  £1,560,000            -    2019
-## 22  £2,080,000  £10,000,000    2018
-## 23  £1,040,000   £5,530,000    2020
-## 24  £1,300,000     £100,000    2018
-## 25    £780,000            -    2020
-## 26    £832,000     £221,000    2018
-## 27    £624,000            -    2021
-## 28    £780,000            -    2020
-## 29    £442,000            -    2018
-## 30    £156,000     £799,000    2021
-## 31    £156,000            -    2018
-## 32     £31,200            -    2018
-## 33     £23,400            -    2018
-## 34           -            -    2018</code></pre>
+## 14  £1,404,000     £400,000    2020
+## 15  £1,820,000     £191,000    2020
+## 16  £1,300,000   £3,060,000    2020
+## 17  £1,196,000   £9,610,000    2021
+## 18  £1,040,000   £5,530,000    2020
+## 19  £1,300,000     £100,000    2019
+## 20    £780,000            -    2020
+## 21    £624,000            -    2021
+## 22    £780,000            -    2020
+## 23  £2,080,000  £10,000,000    2019
+## 24    £156,000     £799,000    2021
+## 25           -            -    2020
+## 26           -            -    2019
+## 27           -  £10,125,000    2022
+## 28           -  £25,125,000    2023
+## 29           -  £10,750,000    2022</code></pre>
 <p>The names and the contract year and terms are going to require parsing. I have chosen the first html that corresponds to Bournemouth; other teams are worse because loan players are in a second table. That impacts the wage bill, perhaps, depending on the arrangement in the loan, but the contract details from the player do not have that team as signatory. This has to be fixed. That is easy enough to fix, there are two embedded tables and I can select the first one. When it comes to the names, there is no easy separation for the first column; I will grab them from nodes in the html.</p>
 <pre class="r"><code>data.creator &lt;- function(data) { 
   data %&gt;% html_nodes(&quot;table&quot;) %&gt;% html_table(header=TRUE, fill=TRUE) -&gt; ret.tab
@@ -622,179 +647,154 @@ names(EPL.Contracts) &lt;- EPL.names$short.names
 EPL.Contracts[[1]]</code></pre>
 <pre><code>##                       Player Position Age
 ## 1         DefoeJermain Defoe        F  35
-## 2       BegovicAsmir Begovic       GK  30
-## 3            KingJoshua King        F  26
-## 4              AkeNathan Ake        D  23
-## 5        SurmanAndrew Surman        M  31
-## 6           ArterHarry Arter        M  28
-## 7             CookSteve Cook        D  27
-## 8              IbeJordon Ibe        M  22
-## 9         GoslingDan Gosling        M  28
-## 10           SmithAdam Smith        D  27
-## 11          AfobeBenik Afobe        F  25
+## 2       BegovicAsmir Begovic       GK  31
+## 3        WilsonCallum Wilson        F  26
+## 4            KingJoshua King        F  26
+## 5              AkeNathan Ake        D  23
+## 6        SurmanAndrew Surman        M  32
+## 7           ArterHarry Arter        M  28
+## 8             CookSteve Cook        D  27
+## 9              IbeJordon Ibe        M  22
+## 10        GoslingDan Gosling        M  28
+## 11           SmithAdam Smith        D  27
 ## 12            CookLewis Cook        M  21
 ## 13      FrancisSimon Francis        D  33
-## 14       WilsonCallum Wilson        F  26
-## 15      GrabbanLewis Grabban        F  30
-## 16         FraserRyan Fraser        M  24
-## 17    DanielsCharlie Daniels        D  31
-## 18           SmithBrad Smith        D  24
-## 19    GradelMax-Alain Gradel        F  30
-## 20         MingsTyrone Mings        D  25
-## 21     FedericiAdam Federici       GK  33
-## 22          BorucArtur Boruc       GK  38
-## 23        MoussetLys Mousset        F  22
-## 24             PughMarc Pugh        M  31
-## 25    HyndmanEmerson Hyndman        M  22
-## 26      WigginsRhoys Wiggins        D  30
-## 27     MahoneyConnor Mahoney        F  21
-## 28 StanislasJunior Stanislas        M  28
-## 29         AllsopRyan Allsop       GK  25
-## 30    RamsdaleAaron Ramsdale       GK  19
-## 31      CargillBaily Cargill        D  22
-## 32       ButcherMatt Butcher        M  20
-## 33      SurridgeSam Surridge        F  20
-## 34    WhitfieldBen Whitfield        M  22
+## 14         FraserRyan Fraser        M  24
+## 15    DanielsCharlie Daniels        D  32
+## 16           SmithBrad Smith        D  24
+## 17         MingsTyrone Mings        D  25
+## 18        MoussetLys Mousset        F  22
+## 19             PughMarc Pugh        M  31
+## 20    HyndmanEmerson Hyndman        M  22
+## 21     MahoneyConnor Mahoney        F  21
+## 22 StanislasJunior Stanislas        M  28
+## 23          BorucArtur Boruc       GK  38
+## 24    RamsdaleAaron Ramsdale       GK  20
+## 25       SimpsonJack Simpson        D  21
+## 26         TaylorKyle Taylor        M  19
+## 27        BrooksDavid Brooks        M  21
+## 28      LermaJefferson Lerma        M  23
+## 29            RicoDiego Rico        D  25
 ##                                                             Contract.Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
 ## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
-## 3  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
-## 4  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
-## 5    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
-## 6    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 3  12480000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£12,480,000
+## 4  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
+## 5  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
+## 6    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
 ## 7    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
-## 8    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
-## 9    7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
+## 8    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 9    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
 ## 10   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
-## 11   6318000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,318,000
+## 11   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
 ## 12   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
 ## 13   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 14   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 15   6032000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,032,000
-## 16   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
-## 17   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
-## 18   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
-## 19   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
-## 20   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
-## 21   4680000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,680,000
-## 22   4160000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 23   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 24   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
-## 25   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
-## 26   2496000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
-## 27   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
-## 28   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
-## 29      884000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£884,000
-## 30      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
-## 31      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
-## 32        93600\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£93,600
-## 33        46800\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£46,800
-## 34                  0\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 14   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 15   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
+## 16   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 17   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
+## 18   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 19   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
+## 20   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
+## 21   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
+## 22   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
+## 23   2080000\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,080,000
+## 24      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
+## 25                  0\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 26                  0\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 27                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 28                  0\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 29                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
 ##    Avg..Salary Transfer.Fee Expires    value years   value.pds
 ## 1   £5,380,000            -    2020 16140000  3 yr £16,140,000
 ## 2   £3,640,000   £9,780,000    2021 14560000  4 yr £14,560,000
-## 3   £2,340,000            -    2021 11700000  5 yr £11,700,000
-## 4   £2,080,000  £19,380,000    2022 10400000  5 yr £10,400,000
-## 5   £1,820,000     £536,000    2019  9100000  5 yr  £9,100,000
-## 6   £2,080,000            -    2021  8320000  4 yr  £8,320,000
-## 7   £2,080,000     £150,000    2021  8320000  4 yr  £8,320,000
-## 8   £1,976,000  £15,000,000    2020  7904000  4 yr  £7,904,000
-## 9   £1,820,000            -    2021  7280000  4 yr  £7,280,000
+## 3   £3,120,000   £3,000,000    2022 12480000  4 yr £12,480,000
+## 4   £2,340,000            -    2021 11700000  5 yr £11,700,000
+## 5   £2,080,000  £19,380,000    2022 10400000  5 yr £10,400,000
+## 6   £1,820,000     £536,000    2020  9100000  5 yr  £9,100,000
+## 7   £2,080,000            -    2021  8320000  4 yr  £8,320,000
+## 8   £2,080,000     £150,000    2021  8320000  4 yr  £8,320,000
+## 9   £1,976,000  £15,000,000    2020  7904000  4 yr  £7,904,000
 ## 10  £1,820,000            -    2021  7280000  4 yr  £7,280,000
-## 11  £1,263,600  £11,310,000    2020  6318000  5 yr  £6,318,000
+## 11  £1,820,000            -    2021  7280000  4 yr  £7,280,000
 ## 12  £1,560,000   £5,950,000    2020  6240000  4 yr  £6,240,000
 ## 13  £1,560,000            -    2019  6240000  4 yr  £6,240,000
-## 14  £1,560,000   £3,000,000    2020  6240000  4 yr  £6,240,000
-## 15  £1,508,000   £8,210,000    2019  6032000  4 yr  £6,032,000
-## 16  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000
-## 17  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000
-## 18  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000
-## 19  £1,196,000   £7,000,000    2020  4784000  4 yr  £4,784,000
-## 20  £1,196,000   £9,610,000    2021  4784000  4 yr  £4,784,000
-## 21  £1,560,000            -    2019  4680000  3 yr  £4,680,000
-## 22  £2,080,000  £10,000,000    2018  4160000  2 yr  £4,160,000
-## 23  £1,040,000   £5,530,000    2020  4160000  4 yr  £4,160,000
-## 24  £1,300,000     £100,000    2018  3900000  3 yr  £3,900,000
-## 25    £780,000            -    2020  3120000  4 yr  £3,120,000
-## 26    £832,000     £221,000    2018  2496000  3 yr  £2,496,000
-## 27    £624,000            -    2021  2496000  4 yr  £2,496,000
-## 28    £780,000            -    2020  2340000  3 yr  £2,340,000
-## 29    £442,000            -    2018   884000  2 yr    £884,000
-## 30    £156,000     £799,000    2021   780000  5 yr    £780,000
-## 31    £156,000            -    2018   468000  3 yr    £468,000
-## 32     £31,200            -    2018    93600  3 yr     £93,600
-## 33     £23,400            -    2018    46800  2 yr     £46,800
-## 34           -            -    2018        0  1 yr            
-##        Player.Names                                  Player.links
-## 1     Jermain Defoe http://www.spotrac.com/redirect/player/23836/
-## 2     Asmir Begovic http://www.spotrac.com/redirect/player/22625/
-## 3       Joshua King http://www.spotrac.com/redirect/player/22685/
-## 4        Nathan Ake http://www.spotrac.com/redirect/player/15521/
-## 5     Andrew Surman http://www.spotrac.com/redirect/player/22692/
-## 6       Harry Arter http://www.spotrac.com/redirect/player/22674/
-## 7        Steve Cook http://www.spotrac.com/redirect/player/22677/
-## 8        Jordon Ibe http://www.spotrac.com/redirect/player/22684/
-## 9       Dan Gosling http://www.spotrac.com/redirect/player/22682/
-## 10       Adam Smith http://www.spotrac.com/redirect/player/22689/
-## 11      Benik Afobe http://www.spotrac.com/redirect/player/22673/
-## 12       Lewis Cook http://www.spotrac.com/redirect/player/22676/
-## 13    Simon Francis http://www.spotrac.com/redirect/player/22679/
-## 14    Callum Wilson http://www.spotrac.com/redirect/player/22694/
-## 15    Lewis Grabban http://www.spotrac.com/redirect/player/24011/
-## 16      Ryan Fraser http://www.spotrac.com/redirect/player/22680/
-## 17  Charlie Daniels http://www.spotrac.com/redirect/player/22678/
-## 18       Brad Smith http://www.spotrac.com/redirect/player/22690/
-## 19 Max-Alain Gradel http://www.spotrac.com/redirect/player/22683/
-## 20     Tyrone Mings http://www.spotrac.com/redirect/player/22686/
-## 21    Adam Federici http://www.spotrac.com/redirect/player/22663/
-## 22      Artur Boruc http://www.spotrac.com/redirect/player/22660/
-## 23      Lys Mousset http://www.spotrac.com/redirect/player/22687/
-## 24        Marc Pugh http://www.spotrac.com/redirect/player/22688/
-## 25  Emerson Hyndman http://www.spotrac.com/redirect/player/23139/
-## 26    Rhoys Wiggins http://www.spotrac.com/redirect/player/23138/
-## 27   Connor Mahoney http://www.spotrac.com/redirect/player/24030/
-## 28 Junior Stanislas http://www.spotrac.com/redirect/player/22691/
-## 29      Ryan Allsop http://www.spotrac.com/redirect/player/22662/
-## 30   Aaron Ramsdale http://www.spotrac.com/redirect/player/22661/
-## 31    Baily Cargill http://www.spotrac.com/redirect/player/22675/
-## 32     Matt Butcher http://www.spotrac.com/redirect/player/23140/
-## 33     Sam Surridge http://www.spotrac.com/redirect/player/22693/
-## 34    Ben Whitfield http://www.spotrac.com/redirect/player/24356/
+## 14  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000
+## 15  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000
+## 16  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000
+## 17  £1,196,000   £9,610,000    2021  4784000  4 yr  £4,784,000
+## 18  £1,040,000   £5,530,000    2020  4160000  4 yr  £4,160,000
+## 19  £1,300,000     £100,000    2019  3900000  3 yr  £3,900,000
+## 20    £780,000            -    2020  3120000  4 yr  £3,120,000
+## 21    £624,000            -    2021  2496000  4 yr  £2,496,000
+## 22    £780,000            -    2020  2340000  3 yr  £2,340,000
+## 23  £2,080,000  £10,000,000    2019  2080000  1 yr  £2,080,000
+## 24    £156,000     £799,000    2021   780000  5 yr    £780,000
+## 25           -            -    2020        0  3 yr            
+## 26           -            -    2019        0  2 yr            
+## 27           -  £10,125,000    2022        0  4 yr            
+## 28           -  £25,125,000    2023        0  5 yr            
+## 29           -  £10,750,000    2022        0  4 yr            
+##        Player.Names                                   Player.links
+## 1     Jermain Defoe https://www.spotrac.com/redirect/player/23836/
+## 2     Asmir Begovic https://www.spotrac.com/redirect/player/22625/
+## 3     Callum Wilson https://www.spotrac.com/redirect/player/22694/
+## 4       Joshua King https://www.spotrac.com/redirect/player/22685/
+## 5        Nathan Ake https://www.spotrac.com/redirect/player/15521/
+## 6     Andrew Surman https://www.spotrac.com/redirect/player/22692/
+## 7       Harry Arter https://www.spotrac.com/redirect/player/22674/
+## 8        Steve Cook https://www.spotrac.com/redirect/player/22677/
+## 9        Jordon Ibe https://www.spotrac.com/redirect/player/22684/
+## 10      Dan Gosling https://www.spotrac.com/redirect/player/22682/
+## 11       Adam Smith https://www.spotrac.com/redirect/player/22689/
+## 12       Lewis Cook https://www.spotrac.com/redirect/player/22676/
+## 13    Simon Francis https://www.spotrac.com/redirect/player/22679/
+## 14      Ryan Fraser https://www.spotrac.com/redirect/player/22680/
+## 15  Charlie Daniels https://www.spotrac.com/redirect/player/22678/
+## 16       Brad Smith https://www.spotrac.com/redirect/player/22690/
+## 17     Tyrone Mings https://www.spotrac.com/redirect/player/22686/
+## 18      Lys Mousset https://www.spotrac.com/redirect/player/22687/
+## 19        Marc Pugh https://www.spotrac.com/redirect/player/22688/
+## 20  Emerson Hyndman https://www.spotrac.com/redirect/player/23139/
+## 21   Connor Mahoney https://www.spotrac.com/redirect/player/24030/
+## 22 Junior Stanislas https://www.spotrac.com/redirect/player/22691/
+## 23      Artur Boruc https://www.spotrac.com/redirect/player/22660/
+## 24   Aaron Ramsdale https://www.spotrac.com/redirect/player/22661/
+## 25     Jack Simpson https://www.spotrac.com/redirect/player/24102/
+## 26      Kyle Taylor https://www.spotrac.com/redirect/player/27876/
+## 27     David Brooks https://www.spotrac.com/redirect/player/27877/
+## 28  Jefferson Lerma https://www.spotrac.com/redirect/player/27878/
+## 29       Diego Rico https://www.spotrac.com/redirect/player/27879/
 ##    Last.Name
 ## 1      Defoe
 ## 2    Begovic
-## 3       King
-## 4        Ake
-## 5     Surman
-## 6      Arter
-## 7       Cook
-## 8        Ibe
-## 9    Gosling
-## 10     Smith
-## 11     Afobe
+## 3     Wilson
+## 4       King
+## 5        Ake
+## 6     Surman
+## 7      Arter
+## 8       Cook
+## 9        Ibe
+## 10   Gosling
+## 11     Smith
 ## 12      Cook
 ## 13   Francis
-## 14    Wilson
-## 15   Grabban
-## 16    Fraser
-## 17   Daniels
-## 18     Smith
-## 19    Gradel
-## 20     Mings
-## 21  Federici
-## 22     Boruc
-## 23   Mousset
-## 24      Pugh
-## 25   Hyndman
-## 26   Wiggins
-## 27   Mahoney
-## 28 Stanislas
-## 29    Allsop
-## 30  Ramsdale
-## 31   Cargill
-## 32   Butcher
-## 33  Surridge
-## 34 Whitfield</code></pre>
+## 14    Fraser
+## 15   Daniels
+## 16     Smith
+## 17     Mings
+## 18   Mousset
+## 19      Pugh
+## 20   Hyndman
+## 21   Mahoney
+## 22 Stanislas
+## 23     Boruc
+## 24  Ramsdale
+## 25   Simpson
+## 26    Taylor
+## 27    Brooks
+## 28     Lerma
+## 29      Rico</code></pre>
 <p>The data now have some junk alongside workable versions of the variables of interest. It is worth noting that the header of the contracts data allows us to verify the size of the table as we picked it up [though I do rename them to allow the rbind to work]. This also suggests a strategy for picking up the rownames that is different than the above method that uses the dimension of the html table. Perhaps I should just gsub the header to recover the integer number of players. To tidy the data, they need to be stacked. A simple do.call and row bind will probably work.</p>
 <pre class="r"><code>Team.Base &lt;- sapply(EPL.Contracts, dim)[1,]
 Team &lt;- rep(as.character(names(Team.Base)),Team.Base)
@@ -844,9 +844,9 @@ cplot</code></pre>
         
         <li><a href="/post/tidytext-is-neat/">tidytext is neat! White House Communications</a></li>
         
-        <li><a href="/post/correlation-function/">Correlation Function</a></li>
-        
         <li><a href="/post/black-boxes-a-gender-gap-example/">Black Boxes: A Gender Gap Example</a></li>
+        
+        <li><a href="/post/correlation-function/">Correlation Function</a></li>
         
         <li><a href="/post/scraping-the-nfl-salary-cap-data-with-python-and-r/">Scraping the NFL Salary Cap Data with Python and R</a></li>
         

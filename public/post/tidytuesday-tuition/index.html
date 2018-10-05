@@ -187,6 +187,25 @@
         
 
         <li class="nav-item">
+          <a href="/img/vita.pdf">
+            
+            <span>Curriculum Vitae</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
           <a href="/#projects">
             
             <span>Projects</span>
@@ -348,7 +367,6 @@ library(tidyverse)
 library(glue)
 library(ggrepel)
 library(viridis)
-
 tidy_data &lt;-  read_excel(paste0(here(),&quot;/data/tuition/us_avg_tuition.xlsx&quot;)) %&gt;%
   gather(year, avg_tuition, -State) %&gt;%
   rename(state = State)

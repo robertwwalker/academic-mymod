@@ -11,6 +11,29 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Teaching</title>
+      <link>https://www.data.viajes/courses/5103dadm/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.data.viajes/courses/5103dadm/</guid>
+      <description>&lt;p&gt;In the Atkinson Graduate School of Management at Willamette University:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;GSM 5103: Data Analysis, Modelling, and Decision-Making&lt;/li&gt;
+&lt;li&gt;GSMPR 622: Data Analysis, Modelling, and Decision-Making&lt;/li&gt;
+&lt;li&gt;GSM 6270: Negotiation, Bargaining, and the Economics of Strategy&lt;/li&gt;
+&lt;li&gt;GSM 6271: Evidence-Based Management&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the Essex Summer School in Social Science Data Analysis:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;3C: Pooled Cross-Sectional Time Series Analysis&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>tidyTuesday: coffee chains</title>
       <link>https://www.data.viajes/post/tidytuesday-coffee-chains/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
@@ -20,35 +43,42 @@
 &lt;h1&gt;The tidyTuesday for this week is coffee chain locations&lt;/h1&gt;
 &lt;p&gt;For this week: 1. The basic link to the &lt;a href=&#34;https://github.com/rfordatascience/tidytuesday&#34;&gt;&lt;code&gt;#tidyTuesday&lt;/code&gt;&lt;/a&gt; shows &lt;a href=&#34;http://flowingdata.com/2014/03/18/coffee-place-geography/&#34;&gt;an original article&lt;/a&gt; for Week 6.&lt;/p&gt;
 &lt;p&gt;First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(here)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## here() starts at /home/rob/R/MyNLWeb&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(readxl)
-url &amp;lt;- &amp;quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/week6_coffee_chains.xlsx&amp;quot;
-destfile &amp;lt;- &amp;quot;Coffee_chains.xlsx&amp;quot;
-curl::curl_download(url, destfile)
-Coffee.chains &amp;lt;- read_excel(destfile)&lt;/code&gt;&lt;/pre&gt;
+library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.6
+## ✔ tidyr   0.8.1     ✔ stringr 1.3.1
+## ✔ readr   1.1.1     ✔ forcats 0.3.0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(janitor)
+library(geofacet)
+library(ggbeeswarm)
+library(ggrepel)
+Starbucks &amp;lt;- read_excel(paste0(here(),&amp;quot;/data/week6_coffee_chains.xlsx&amp;quot;), sheet = &amp;quot;starbucks&amp;quot;)
+Dunkin.Donuts &amp;lt;- read_excel(paste0(here(),&amp;quot;/data/week6_coffee_chains.xlsx&amp;quot;), sheet = &amp;quot;dunkin&amp;quot;)
+Tim.Hortons &amp;lt;- read_excel(paste0(here(),&amp;quot;/data/week6_coffee_chains.xlsx&amp;quot;), sheet = &amp;quot;timhorton&amp;quot;)
+# A great function appears below that I grabbed from Stack Overflow a while back.....
+read_excel_allsheets &amp;lt;- function(filename, tibble = TRUE) {
+    sheets &amp;lt;- readxl::excel_sheets(filename)
+    x &amp;lt;- lapply(sheets, function(X) readxl::read_excel(filename, sheet = X))
+    if(!tibble) x &amp;lt;- lapply(x, as.data.frame)
+    names(x) &amp;lt;- sheets
+    x
+}
+coffee.xl &amp;lt;- read_excel_allsheets(paste0(here(),&amp;quot;/data/week6_coffee_chains.xlsx&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;What do the data look like?&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(skimr)
-library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
-## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
-## ✔ readr   1.1.1     ✔ forcats 0.3.0&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::contains()    masks skimr::contains()
-## ✖ dplyr::ends_with()   masks skimr::ends_with()
-## ✖ dplyr::everything()  masks skimr::everything()
-## ✖ dplyr::filter()      masks stats::filter()
-## ✖ dplyr::lag()         masks stats::lag()
-## ✖ dplyr::matches()     masks skimr::matches()
-## ✖ dplyr::num_range()   masks skimr::num_range()
-## ✖ dplyr::one_of()      masks skimr::one_of()
-## ✖ dplyr::starts_with() masks skimr::starts_with()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;skim(Coffee.chains)&lt;/code&gt;&lt;/pre&gt;
+skim(Starbucks)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Skim summary statistics
 ##  n obs: 25600 
 ##  n variables: 13 
 ## 
-## Variable type: character 
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────
 ##        variable missing complete     n min max empty n_unique
 ##           Brand       0    25600 25600   7  21     0        4
 ##            City      14    25586 25600   2  29     0     5470
@@ -62,32 +92,88 @@ library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
 ##  Street Address       2    25598 25600   1 234     0    25353
 ##        Timezone       0    25600 25600  18  30     0      101
 ## 
-## Variable type: numeric 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
 ##   variable missing complete     n   mean    sd      p0     p25    p50
 ##   Latitude       1    25599 25600  34.79 13.34  -46.41   31.24  36.75
 ##  Longitude       1    25599 25600 -27.87 96.84 -159.46 -104.66 -79.35
 ##     p75   p100     hist
 ##   41.57  64.85 ▁▁▁▁▂▇▇▁
 ##  100.63 176.92 ▃▇▂▁▁▁▅▁&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table(Coffee.chains$Brand)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Coffee House Holdings       Evolution Fresh             Starbucks 
-##                     1                     2                 25249 
-##               Teavana 
-##                   348&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;skim(Dunkin.Donuts)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Skim summary statistics
+##  n obs: 4898 
+##  n variables: 22 
+## 
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────
+##    variable missing complete    n min max empty n_unique
+##    biz_info    4091      807 4898  14  18     0      709
+##    biz_name       0     4898 4898   8  38     0       33
+##   biz_phone       0     4898 4898  14  14     0     4562
+##   e_address       0     4898 4898   6  61     0     4864
+##      e_city       0     4898 4898   2  27     0     1770
+##   e_country       0     4898 4898   3   3     0        1
+##     e_state       0     4898 4898   2   2     0       41
+##  e_zip_full       0     4898 4898  10  10     0      545
+##  loc_county       0     4898 4898   3  21     0      395
+##     loc_DST       0     4898 4898   1   1     0        3
+##    loc_PMSA       0     4898 4898   2   4     0       53
+##      loc_TZ       0     4898 4898   3   5     0        5
+##     web_url       0     4898 4898  20 175     0       22
+## 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
+##           variable missing complete    n     mean       sd      p0
+##           e_postal       0     4898 4898 21528.34 20311.57 1001   
+##                 id       0     4898 4898  2459.46  1420.28    1   
+##      loc_area_code       0     4898 4898   590.09   229.26  201   
+##           loc_FIPS       0     4898 4898 27911.17 12470.14 1069   
+##   loc_LAT_centroid       0     4898 4898    39.62     4.33   21.42
+##       loc_LAT_poly       0     4898 4898    39.62     4.32   21.39
+##  loc_LONG_centroid       0     4898 4898   -77.55     7.31 -157.93
+##      loc_LONG_poly       0     4898 4898   -77.55     7.31 -157.96
+##            loc_MSA       0     4898 4898  4284.65  2849.57  160   
+##       p25      p50      p75     p100     hist
+##   6080    13334.5  32810.75 98112    ▇▃▂▁▂▁▁▁
+##   1231.25  2458.5   3686.75  4920    ▇▇▇▇▇▇▇▇
+##    401      610      781      989    ▆▃▅▅▇▇▆▃
+##  17031    26125    36111    55111    ▁▇▅▇▆▆▆▂
+##     39.39    41.22    42.11    47.63 ▁▁▁▁▁▅▇▁
+##     39.38    41.2     42.09    47.64 ▁▁▁▁▁▅▇▁
+##    -81.44   -75.08   -72.66   -67.23 ▁▁▁▁▁▁▃▇
+##    -81.44   -75.08   -72.66   -67.28 ▁▁▁▁▁▁▃▇
+##   1520     3800     6880     9320    ▇▇▅▂▂▇▅▂&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;skim(Tim.Hortons)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Skim summary statistics
+##  n obs: 4955 
+##  n variables: 6 
+## 
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────
+##     variable missing complete    n min max empty n_unique
+##      address       0     4955 4955   6  51     0     4803
+##         city       0     4955 4955   3  38     0     1206
+##      country       0     4955 4955   2   2     0        2
+##  postal_code       0     4955 4955   4   7     0     4328
+##        state       0     4955 4955   2   2     0       27
+##   store_name       0     4955 4955   2  63     0     3167&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;A basic plot of the global Starbucks data.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggmap)
-mapWorld &amp;lt;- borders(&amp;quot;world&amp;quot;, colour=&amp;quot;gray50&amp;quot;, fill=&amp;quot;gray50&amp;quot;) # create a layer of borders&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggmap)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Google Maps API Terms of Service: http://developers.google.com/maps/terms.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Please cite ggmap if you use it: see citation(&amp;quot;ggmap&amp;quot;) for details.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mapWorld &amp;lt;- borders(&amp;quot;world&amp;quot;, colour=&amp;quot;gray50&amp;quot;, fill=&amp;quot;gray50&amp;quot;) # create a layer of borders&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ## Attaching package: &amp;#39;maps&amp;#39;&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:purrr&amp;#39;:
 ## 
 ##     map&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mp &amp;lt;- ggplot() +   mapWorld
-mp &amp;lt;- mp + geom_point(aes(x=Coffee.chains$Longitude, y=Coffee.chains$Latitude) ,color=&amp;quot;dark green&amp;quot;, size=0.5) + xlab(&amp;quot;&amp;quot;) + ylab(&amp;quot;&amp;quot;)
+mp &amp;lt;- mp + geom_point(aes(x=Starbucks$Longitude, y=Starbucks$Latitude) ,color=&amp;quot;dark green&amp;quot;, size=0.5) + xlab(&amp;quot;&amp;quot;) + ylab(&amp;quot;&amp;quot;)
+mp &amp;lt;- mp + geom_point(aes(x=Dunkin.Donuts$loc_LONG_centroid, y=Dunkin.Donuts$loc_LAT_centroid) ,color=&amp;quot;orange&amp;quot;, size=0.5) + xlab(&amp;quot;&amp;quot;) + ylab(&amp;quot;&amp;quot;)
 mp&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_point).&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-05-09-tidytuesday-coffee-chains_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;starbucks-and-dunkin&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Starbucks and Dunkin&lt;/h2&gt;
+&lt;p&gt;Google Maps interface changed and I have not updated this part. Shame.&lt;/p&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -102,25 +188,23 @@ mp&lt;/code&gt;&lt;/pre&gt;
 &lt;h1&gt;tidyTuesday on Global Mortality&lt;/h1&gt;
 &lt;p&gt;The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in &lt;a href=&#34;https://ourworldindata.org/what-does-the-world-die-from&#34;&gt;the original&lt;/a&gt;. For whatever reason, I cannot open this data remotely.&lt;/p&gt;
 &lt;p&gt;Here is this week’s tidyTuesday.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(readxl)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(here)
+library(readxl)
 library(skimr)
 library(tidyverse)
-require(rlang)
-url &amp;lt;- &amp;quot;https://github.com/rfordatascience/tidytuesday/raw/master/data/global_mortality.xlsx&amp;quot;
-destfile &amp;lt;- &amp;quot;global_mortality.xlsx&amp;quot;
-curl::curl_download(url, destfile)
-global_mortality &amp;lt;- read_excel(destfile)
+library(rlang)
+global_mortality &amp;lt;- read_excel(paste0(here(),&amp;quot;/data/global_mortality.xlsx&amp;quot;))
 skim(global_mortality)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Skim summary statistics
 ##  n obs: 6156 
 ##  n variables: 35 
 ## 
-## Variable type: character 
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────
 ##      variable missing complete    n min max empty n_unique
 ##       country       0     6156 6156   4  32     0      228
 ##  country_code     864     5292 6156   3   8     0      196
 ## 
-## Variable type: numeric 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
 ##                                  variable missing complete    n     mean
 ##                     Alcohol disorders (%)       0     6156 6156    0.32 
 ##                               Cancers (%)       0     6156 6156   14.39 
@@ -190,7 +274,7 @@ skim(global_mortality)&lt;/code&gt;&lt;/pre&gt;
 ##   2.65    0.011      0.24       0.91      3.33    16.47 ▇▂▂▁▁▁▁▁
 ##   7.79 1990       1996       2003      2010     2016    ▇▆▆▇▆▆▆▇&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;That loads the data for the challenge.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Counts &amp;lt;- read.csv(&amp;quot;~/Downloads/annual-number-of-deaths-by-cause.csv&amp;quot;)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Counts &amp;lt;- read.csv(paste0(here(),&amp;quot;/data/annual-number-of-deaths-by-cause.csv&amp;quot;))
 Counts %&amp;gt;% filter(Year==2016) %&amp;gt;% select(-Code,-Entity,-Execution..deaths.,-Year) %&amp;gt;% apply(., 2, function(x) { sum(x, na.rm=TRUE)}) -&amp;gt; temp1
 pp.df &amp;lt;- data.frame(Total.Deaths=temp1,name=names(temp1))
 pp.df &amp;lt;- pp.df %&amp;gt;% arrange(Total.Deaths)
@@ -329,26 +413,26 @@ base_url &amp;lt;- &amp;quot;http://www.spotrac.com/epl/&amp;quot;
 read.base &amp;lt;- read_html(base_url)
 team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;)
 team.URL&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;http://www.spotrac.com/epl/afc-bournemouth/&amp;quot;         
-##  [2] &amp;quot;http://www.spotrac.com/epl/arsenal-f.c/&amp;quot;             
-##  [3] &amp;quot;http://www.spotrac.com/epl/brighton-hove-albion/&amp;quot;    
-##  [4] &amp;quot;http://www.spotrac.com/epl/burnley-f.c/&amp;quot;             
-##  [5] &amp;quot;http://www.spotrac.com/epl/chelsea-f.c/&amp;quot;             
-##  [6] &amp;quot;http://www.spotrac.com/epl/crystal-palace/&amp;quot;          
-##  [7] &amp;quot;http://www.spotrac.com/epl/everton-f.c/&amp;quot;             
-##  [8] &amp;quot;http://www.spotrac.com/epl/huddersfield-town/&amp;quot;       
-##  [9] &amp;quot;http://www.spotrac.com/epl/leicester-city/&amp;quot;          
-## [10] &amp;quot;http://www.spotrac.com/epl/liverpool-f.c/&amp;quot;           
-## [11] &amp;quot;http://www.spotrac.com/epl/manchester-city-f.c/&amp;quot;     
-## [12] &amp;quot;http://www.spotrac.com/epl/manchester-united-f.c/&amp;quot;   
-## [13] &amp;quot;http://www.spotrac.com/epl/newcastle-united-f.c/&amp;quot;    
-## [14] &amp;quot;http://www.spotrac.com/epl/southampton-f.c/&amp;quot;         
-## [15] &amp;quot;http://www.spotrac.com/epl/stoke-city-f.c/&amp;quot;          
-## [16] &amp;quot;http://www.spotrac.com/epl/swansea-city-a.f.c/&amp;quot;      
-## [17] &amp;quot;http://www.spotrac.com/epl/tottenham-hotspur-f.c/&amp;quot;   
-## [18] &amp;quot;http://www.spotrac.com/epl/watford/&amp;quot;                 
-## [19] &amp;quot;http://www.spotrac.com/epl/west-bromwich-albion-f.c/&amp;quot;
-## [20] &amp;quot;http://www.spotrac.com/epl/west-ham-united-f.c/&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;https://www.spotrac.com/epl/afc-bournemouth/&amp;quot;            
+##  [2] &amp;quot;https://www.spotrac.com/epl/arsenal-f.c/&amp;quot;                
+##  [3] &amp;quot;https://www.spotrac.com/epl/brighton-hove-albion/&amp;quot;       
+##  [4] &amp;quot;https://www.spotrac.com/epl/burnley-f.c/&amp;quot;                
+##  [5] &amp;quot;https://www.spotrac.com/epl/cardiff-city-f.c/&amp;quot;           
+##  [6] &amp;quot;https://www.spotrac.com/epl/chelsea-f.c/&amp;quot;                
+##  [7] &amp;quot;https://www.spotrac.com/epl/crystal-palace/&amp;quot;             
+##  [8] &amp;quot;https://www.spotrac.com/epl/everton-f.c/&amp;quot;                
+##  [9] &amp;quot;https://www.spotrac.com/epl/fulham-f.c/&amp;quot;                 
+## [10] &amp;quot;https://www.spotrac.com/epl/huddersfield-town/&amp;quot;          
+## [11] &amp;quot;https://www.spotrac.com/epl/leicester-city/&amp;quot;             
+## [12] &amp;quot;https://www.spotrac.com/epl/liverpool-f.c/&amp;quot;              
+## [13] &amp;quot;https://www.spotrac.com/epl/manchester-city-f.c/&amp;quot;        
+## [14] &amp;quot;https://www.spotrac.com/epl/manchester-united-f.c/&amp;quot;      
+## [15] &amp;quot;https://www.spotrac.com/epl/newcastle-united-f.c/&amp;quot;       
+## [16] &amp;quot;https://www.spotrac.com/epl/southampton-f.c/&amp;quot;            
+## [17] &amp;quot;https://www.spotrac.com/epl/tottenham-hotspur-f.c/&amp;quot;      
+## [18] &amp;quot;https://www.spotrac.com/epl/watford/&amp;quot;                    
+## [19] &amp;quot;https://www.spotrac.com/epl/west-ham-united-f.c/&amp;quot;        
+## [20] &amp;quot;https://www.spotrac.com/epl/wolverhampton-wanderers-f.c/&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Clean up the URLs to get the team names by themselves.
 team.names &amp;lt;- gsub(base_url, &amp;quot;&amp;quot;, team.URL)
 team.names &amp;lt;- gsub(&amp;quot;-f.c&amp;quot;, &amp;quot; FC&amp;quot;, team.names)
@@ -371,48 +455,69 @@ short.names &amp;lt;- gsub(&amp;quot; FC&amp;quot;,&amp;quot;&amp;quot;, team.na
 short.names &amp;lt;- gsub(&amp;quot; AFC&amp;quot;,&amp;quot;&amp;quot;, short.names)
 EPL.names &amp;lt;- data.frame(team.names,short.names,team.URL)
 EPL.names&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                 team.names          short.names
-## 1          AFC Bournemouth      AFC Bournemouth
-## 2               Arsenal FC              Arsenal
-## 3     Brighton Hove Albion Brighton Hove Albion
-## 4               Burnley FC              Burnley
-## 5               Chelsea FC              Chelsea
-## 6           Crystal Palace       Crystal Palace
-## 7               Everton FC              Everton
-## 8        Huddersfield Town    Huddersfield Town
-## 9           Leicester City       Leicester City
-## 10            Liverpool FC            Liverpool
-## 11      Manchester City FC      Manchester City
-## 12    Manchester United FC    Manchester United
-## 13     Newcastle United FC     Newcastle United
-## 14          Southampton FC          Southampton
-## 15           Stoke City FC           Stoke City
-## 16        Swansea City AFC         Swansea City
-## 17    Tottenham Hotspur FC    Tottenham Hotspur
-## 18                 Watford              Watford
-## 19 West Bromwich Albion FC West Bromwich Albion
-## 20      West Ham United FC      West Ham United
-##                                                team.URL
-## 1           http://www.spotrac.com/epl/afc-bournemouth/
-## 2               http://www.spotrac.com/epl/arsenal-f.c/
-## 3      http://www.spotrac.com/epl/brighton-hove-albion/
-## 4               http://www.spotrac.com/epl/burnley-f.c/
-## 5               http://www.spotrac.com/epl/chelsea-f.c/
-## 6            http://www.spotrac.com/epl/crystal-palace/
-## 7               http://www.spotrac.com/epl/everton-f.c/
-## 8         http://www.spotrac.com/epl/huddersfield-town/
-## 9            http://www.spotrac.com/epl/leicester-city/
-## 10            http://www.spotrac.com/epl/liverpool-f.c/
-## 11      http://www.spotrac.com/epl/manchester-city-f.c/
-## 12    http://www.spotrac.com/epl/manchester-united-f.c/
-## 13     http://www.spotrac.com/epl/newcastle-united-f.c/
-## 14          http://www.spotrac.com/epl/southampton-f.c/
-## 15           http://www.spotrac.com/epl/stoke-city-f.c/
-## 16       http://www.spotrac.com/epl/swansea-city-a.f.c/
-## 17    http://www.spotrac.com/epl/tottenham-hotspur-f.c/
-## 18                  http://www.spotrac.com/epl/watford/
-## 19 http://www.spotrac.com/epl/west-bromwich-albion-f.c/
-## 20      http://www.spotrac.com/epl/west-ham-united-f.c/&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                                            team.names
+## 1             Https:www.spotrac.comeplAFC Bournemouth
+## 2                  Https:www.spotrac.comeplarsenal FC
+## 3        Https:www.spotrac.comeplbrighton Hove Albion
+## 4                  Https:www.spotrac.comeplburnley FC
+## 5             Https:www.spotrac.comeplcardiff City FC
+## 6                  Https:www.spotrac.comeplchelsea FC
+## 7              Https:www.spotrac.comeplcrystal Palace
+## 8                  Https:www.spotrac.comepleverton FC
+## 9                   Https:www.spotrac.comeplfulham FC
+## 10          Https:www.spotrac.comeplhuddersfield Town
+## 11             Https:www.spotrac.comeplleicester City
+## 12               Https:www.spotrac.comeplliverpool FC
+## 13         Https:www.spotrac.comeplmanchester City FC
+## 14       Https:www.spotrac.comeplmanchester United FC
+## 15        Https:www.spotrac.comeplnewcastle United FC
+## 16             Https:www.spotrac.comeplsouthampton FC
+## 17       Https:www.spotrac.comepltottenham Hotspur FC
+## 18                    Https:www.spotrac.comeplwatford
+## 19         Https:www.spotrac.comeplwest Ham United FC
+## 20 Https:www.spotrac.comeplwolverhampton Wanderers FC
+##                                        short.names
+## 1          Https:www.spotrac.comeplAFC Bournemouth
+## 2                  Https:www.spotrac.comeplarsenal
+## 3     Https:www.spotrac.comeplbrighton Hove Albion
+## 4                  Https:www.spotrac.comeplburnley
+## 5             Https:www.spotrac.comeplcardiff City
+## 6                  Https:www.spotrac.comeplchelsea
+## 7           Https:www.spotrac.comeplcrystal Palace
+## 8                  Https:www.spotrac.comepleverton
+## 9                   Https:www.spotrac.comeplfulham
+## 10       Https:www.spotrac.comeplhuddersfield Town
+## 11          Https:www.spotrac.comeplleicester City
+## 12               Https:www.spotrac.comeplliverpool
+## 13         Https:www.spotrac.comeplmanchester City
+## 14       Https:www.spotrac.comeplmanchester United
+## 15        Https:www.spotrac.comeplnewcastle United
+## 16             Https:www.spotrac.comeplsouthampton
+## 17       Https:www.spotrac.comepltottenham Hotspur
+## 18                 Https:www.spotrac.comeplwatford
+## 19         Https:www.spotrac.comeplwest Ham United
+## 20 Https:www.spotrac.comeplwolverhampton Wanderers
+##                                                    team.URL
+## 1              https://www.spotrac.com/epl/afc-bournemouth/
+## 2                  https://www.spotrac.com/epl/arsenal-f.c/
+## 3         https://www.spotrac.com/epl/brighton-hove-albion/
+## 4                  https://www.spotrac.com/epl/burnley-f.c/
+## 5             https://www.spotrac.com/epl/cardiff-city-f.c/
+## 6                  https://www.spotrac.com/epl/chelsea-f.c/
+## 7               https://www.spotrac.com/epl/crystal-palace/
+## 8                  https://www.spotrac.com/epl/everton-f.c/
+## 9                   https://www.spotrac.com/epl/fulham-f.c/
+## 10           https://www.spotrac.com/epl/huddersfield-town/
+## 11              https://www.spotrac.com/epl/leicester-city/
+## 12               https://www.spotrac.com/epl/liverpool-f.c/
+## 13         https://www.spotrac.com/epl/manchester-city-f.c/
+## 14       https://www.spotrac.com/epl/manchester-united-f.c/
+## 15        https://www.spotrac.com/epl/newcastle-united-f.c/
+## 16             https://www.spotrac.com/epl/southampton-f.c/
+## 17       https://www.spotrac.com/epl/tottenham-hotspur-f.c/
+## 18                     https://www.spotrac.com/epl/watford/
+## 19         https://www.spotrac.com/epl/west-ham-united-f.c/
+## 20 https://www.spotrac.com/epl/wolverhampton-wanderers-f.c/&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;With clean names, I can take each of the scraping tasks in order.&lt;/p&gt;
 &lt;div id=&#34;payroll-data&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Payroll Data&lt;/h2&gt;
@@ -437,25 +542,25 @@ EPL.Result %&amp;gt;% group_by(Position) %&amp;gt;% summarise(Mean.Base.Salary=m
 &lt;pre&gt;&lt;code&gt;## # A tibble: 4 x 3
 ##   Position Mean.Base.Salary     sdBS
 ##   &amp;lt;fct&amp;gt;               &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
-## 1 D                2373070. 1567603.
-## 2 F                3270747. 2511928.
-## 3 GK               2132456. 1871190.
-## 4 M                2874411. 2487494.&lt;/code&gt;&lt;/pre&gt;
+## 1 D                2645330. 1616542.
+## 2 F                3576724. 3150683.
+## 3 GK               2693167. 2446144.
+## 4 M                3212368. 2938723.&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;EPL.Result %&amp;gt;% group_by(Position,Team) %&amp;gt;% summarise(Mean.Base.Salary=mean(Base.Num, na.rm=TRUE),sdBS=sd(Base.Num, na.rm = TRUE))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## # A tibble: 80 x 4
 ## # Groups:   Position [?]
-##    Position Team                 Mean.Base.Salary     sdBS
-##    &amp;lt;fct&amp;gt;    &amp;lt;fct&amp;gt;                           &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
-##  1 D        AFC Bournemouth              1586000.  447321.
-##  2 D        Arsenal                      4044444. 1376473.
-##  3 D        Brighton Hove Albion         1289600.  337711.
-##  4 D        Burnley                      1255429.  262465.
-##  5 D        Chelsea                      3307200. 2018898.
-##  6 D        Crystal Palace               2392000. 1231643.
-##  7 D        Everton                      2453455. 1385547.
-##  8 D        Huddersfield Town             994500.  407972.
-##  9 D        Leicester City               1999111.  914118.
-## 10 D        Liverpool                    3120000. 1742000.
+##    Position Team                                  Mean.Base.Salary    sdBS
+##    &amp;lt;fct&amp;gt;    &amp;lt;fct&amp;gt;                                            &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;
+##  1 D        Https:www.spotrac.comeplAFC Bournemo…         1759333.  3.38e5
+##  2 D        Https:www.spotrac.comeplarsenal               3933800   1.58e6
+##  3 D        Https:www.spotrac.comeplbrighton Hov…         1369333.  3.82e5
+##  4 D        Https:www.spotrac.comeplburnley               1255429.  2.62e5
+##  5 D        Https:www.spotrac.comeplcardiff City           728000   4.53e5
+##  6 D        Https:www.spotrac.comeplchelsea               4882222.  1.22e6
+##  7 D        Https:www.spotrac.comeplcrystal Pala…         2801500   1.18e6
+##  8 D        Https:www.spotrac.comepleverton               2086500   1.08e6
+##  9 D        Https:www.spotrac.comeplfulham                1040000   3.68e5
+## 10 D        Https:www.spotrac.comeplhuddersfield…         1092000   4.92e5
 ## # ... with 70 more rows&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Finally, a little picture to describe spending on the active roster.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fplot &amp;lt;- ggplot(EPL.Result, aes(Base.Num,Team))
@@ -472,111 +577,96 @@ gpl&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Processing them is a bit more difficult. What does the basic table look like?&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Base.Contracts[[1]] %&amp;gt;% html_nodes(&amp;quot;table&amp;quot;) %&amp;gt;% html_table(header=TRUE, fill=TRUE)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [[1]]
-##                  Player (34) Pos. Age
+##                  Player (29) Pos. Age
 ## 1         DefoeJermain Defoe    F  35
-## 2       BegovicAsmir Begovic   GK  30
-## 3            KingJoshua King    F  26
-## 4              AkeNathan Ake    D  23
-## 5        SurmanAndrew Surman    M  31
-## 6           ArterHarry Arter    M  28
-## 7             CookSteve Cook    D  27
-## 8              IbeJordon Ibe    M  22
-## 9         GoslingDan Gosling    M  28
-## 10           SmithAdam Smith    D  27
-## 11          AfobeBenik Afobe    F  25
+## 2       BegovicAsmir Begovic   GK  31
+## 3        WilsonCallum Wilson    F  26
+## 4            KingJoshua King    F  26
+## 5              AkeNathan Ake    D  23
+## 6        SurmanAndrew Surman    M  32
+## 7           ArterHarry Arter    M  28
+## 8             CookSteve Cook    D  27
+## 9              IbeJordon Ibe    M  22
+## 10        GoslingDan Gosling    M  28
+## 11           SmithAdam Smith    D  27
 ## 12            CookLewis Cook    M  21
 ## 13      FrancisSimon Francis    D  33
-## 14       WilsonCallum Wilson    F  26
-## 15      GrabbanLewis Grabban    F  30
-## 16         FraserRyan Fraser    M  24
-## 17    DanielsCharlie Daniels    D  31
-## 18           SmithBrad Smith    D  24
-## 19    GradelMax-Alain Gradel    F  30
-## 20         MingsTyrone Mings    D  25
-## 21     FedericiAdam Federici   GK  33
-## 22          BorucArtur Boruc   GK  38
-## 23        MoussetLys Mousset    F  22
-## 24             PughMarc Pugh    M  31
-## 25    HyndmanEmerson Hyndman    M  22
-## 26      WigginsRhoys Wiggins    D  30
-## 27     MahoneyConnor Mahoney    F  21
-## 28 StanislasJunior Stanislas    M  28
-## 29         AllsopRyan Allsop   GK  25
-## 30    RamsdaleAaron Ramsdale   GK  19
-## 31      CargillBaily Cargill    D  22
-## 32       ButcherMatt Butcher    M  20
-## 33      SurridgeSam Surridge    F  20
-## 34    WhitfieldBen Whitfield    M  22
+## 14         FraserRyan Fraser    M  24
+## 15    DanielsCharlie Daniels    D  32
+## 16           SmithBrad Smith    D  24
+## 17         MingsTyrone Mings    D  25
+## 18        MoussetLys Mousset    F  22
+## 19             PughMarc Pugh    M  31
+## 20    HyndmanEmerson Hyndman    M  22
+## 21     MahoneyConnor Mahoney    F  21
+## 22 StanislasJunior Stanislas    M  28
+## 23          BorucArtur Boruc   GK  38
+## 24    RamsdaleAaron Ramsdale   GK  20
+## 25       SimpsonJack Simpson    D  21
+## 26         TaylorKyle Taylor    M  19
+## 27        BrooksDavid Brooks    M  21
+## 28      LermaJefferson Lerma    M  23
+## 29            RicoDiego Rico    D  25
 ##                                                             Contract Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
 ## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
-## 3  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
-## 4  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
-## 5    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
-## 6    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 3  12480000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£12,480,000
+## 4  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
+## 5  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
+## 6    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
 ## 7    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
-## 8    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
-## 9    7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
+## 8    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 9    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
 ## 10   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
-## 11   6318000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,318,000
+## 11   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
 ## 12   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
 ## 13   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 14   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 15   6032000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,032,000
-## 16   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
-## 17   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
-## 18   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
-## 19   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
-## 20   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
-## 21   4680000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,680,000
-## 22   4160000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 23   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 24   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
-## 25   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
-## 26   2496000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
-## 27   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
-## 28   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
-## 29      884000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£884,000
-## 30      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
-## 31      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
-## 32        93600\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£93,600
-## 33        46800\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£46,800
-## 34                  0\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 14   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 15   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
+## 16   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 17   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
+## 18   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 19   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
+## 20   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
+## 21   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
+## 22   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
+## 23   2080000\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,080,000
+## 24      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
+## 25                  0\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 26                  0\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 27                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 28                  0\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 29                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
 ##    Avg. Salary Transfer Fee Expires
 ## 1   £5,380,000            -    2020
 ## 2   £3,640,000   £9,780,000    2021
-## 3   £2,340,000            -    2021
-## 4   £2,080,000  £19,380,000    2022
-## 5   £1,820,000     £536,000    2019
-## 6   £2,080,000            -    2021
-## 7   £2,080,000     £150,000    2021
-## 8   £1,976,000  £15,000,000    2020
-## 9   £1,820,000            -    2021
+## 3   £3,120,000   £3,000,000    2022
+## 4   £2,340,000            -    2021
+## 5   £2,080,000  £19,380,000    2022
+## 6   £1,820,000     £536,000    2020
+## 7   £2,080,000            -    2021
+## 8   £2,080,000     £150,000    2021
+## 9   £1,976,000  £15,000,000    2020
 ## 10  £1,820,000            -    2021
-## 11  £1,263,600  £11,310,000    2020
+## 11  £1,820,000            -    2021
 ## 12  £1,560,000   £5,950,000    2020
 ## 13  £1,560,000            -    2019
-## 14  £1,560,000   £3,000,000    2020
-## 15  £1,508,000   £8,210,000    2019
-## 16  £1,404,000     £400,000    2020
-## 17  £1,820,000     £191,000    2020
-## 18  £1,300,000   £3,060,000    2020
-## 19  £1,196,000   £7,000,000    2020
-## 20  £1,196,000   £9,610,000    2021
-## 21  £1,560,000            -    2019
-## 22  £2,080,000  £10,000,000    2018
-## 23  £1,040,000   £5,530,000    2020
-## 24  £1,300,000     £100,000    2018
-## 25    £780,000            -    2020
-## 26    £832,000     £221,000    2018
-## 27    £624,000            -    2021
-## 28    £780,000            -    2020
-## 29    £442,000            -    2018
-## 30    £156,000     £799,000    2021
-## 31    £156,000            -    2018
-## 32     £31,200            -    2018
-## 33     £23,400            -    2018
-## 34           -            -    2018&lt;/code&gt;&lt;/pre&gt;
+## 14  £1,404,000     £400,000    2020
+## 15  £1,820,000     £191,000    2020
+## 16  £1,300,000   £3,060,000    2020
+## 17  £1,196,000   £9,610,000    2021
+## 18  £1,040,000   £5,530,000    2020
+## 19  £1,300,000     £100,000    2019
+## 20    £780,000            -    2020
+## 21    £624,000            -    2021
+## 22    £780,000            -    2020
+## 23  £2,080,000  £10,000,000    2019
+## 24    £156,000     £799,000    2021
+## 25           -            -    2020
+## 26           -            -    2019
+## 27           -  £10,125,000    2022
+## 28           -  £25,125,000    2023
+## 29           -  £10,750,000    2022&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The names and the contract year and terms are going to require parsing. I have chosen the first html that corresponds to Bournemouth; other teams are worse because loan players are in a second table. That impacts the wage bill, perhaps, depending on the arrangement in the loan, but the contract details from the player do not have that team as signatory. This has to be fixed. That is easy enough to fix, there are two embedded tables and I can select the first one. When it comes to the names, there is no easy separation for the first column; I will grab them from nodes in the html.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.creator &amp;lt;- function(data) { 
   data %&amp;gt;% html_nodes(&amp;quot;table&amp;quot;) %&amp;gt;% html_table(header=TRUE, fill=TRUE) -&amp;gt; ret.tab
@@ -599,179 +689,154 @@ names(EPL.Contracts) &amp;lt;- EPL.names$short.names
 EPL.Contracts[[1]]&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##                       Player Position Age
 ## 1         DefoeJermain Defoe        F  35
-## 2       BegovicAsmir Begovic       GK  30
-## 3            KingJoshua King        F  26
-## 4              AkeNathan Ake        D  23
-## 5        SurmanAndrew Surman        M  31
-## 6           ArterHarry Arter        M  28
-## 7             CookSteve Cook        D  27
-## 8              IbeJordon Ibe        M  22
-## 9         GoslingDan Gosling        M  28
-## 10           SmithAdam Smith        D  27
-## 11          AfobeBenik Afobe        F  25
+## 2       BegovicAsmir Begovic       GK  31
+## 3        WilsonCallum Wilson        F  26
+## 4            KingJoshua King        F  26
+## 5              AkeNathan Ake        D  23
+## 6        SurmanAndrew Surman        M  32
+## 7           ArterHarry Arter        M  28
+## 8             CookSteve Cook        D  27
+## 9              IbeJordon Ibe        M  22
+## 10        GoslingDan Gosling        M  28
+## 11           SmithAdam Smith        D  27
 ## 12            CookLewis Cook        M  21
 ## 13      FrancisSimon Francis        D  33
-## 14       WilsonCallum Wilson        F  26
-## 15      GrabbanLewis Grabban        F  30
-## 16         FraserRyan Fraser        M  24
-## 17    DanielsCharlie Daniels        D  31
-## 18           SmithBrad Smith        D  24
-## 19    GradelMax-Alain Gradel        F  30
-## 20         MingsTyrone Mings        D  25
-## 21     FedericiAdam Federici       GK  33
-## 22          BorucArtur Boruc       GK  38
-## 23        MoussetLys Mousset        F  22
-## 24             PughMarc Pugh        M  31
-## 25    HyndmanEmerson Hyndman        M  22
-## 26      WigginsRhoys Wiggins        D  30
-## 27     MahoneyConnor Mahoney        F  21
-## 28 StanislasJunior Stanislas        M  28
-## 29         AllsopRyan Allsop       GK  25
-## 30    RamsdaleAaron Ramsdale       GK  19
-## 31      CargillBaily Cargill        D  22
-## 32       ButcherMatt Butcher        M  20
-## 33      SurridgeSam Surridge        F  20
-## 34    WhitfieldBen Whitfield        M  22
+## 14         FraserRyan Fraser        M  24
+## 15    DanielsCharlie Daniels        D  32
+## 16           SmithBrad Smith        D  24
+## 17         MingsTyrone Mings        D  25
+## 18        MoussetLys Mousset        F  22
+## 19             PughMarc Pugh        M  31
+## 20    HyndmanEmerson Hyndman        M  22
+## 21     MahoneyConnor Mahoney        F  21
+## 22 StanislasJunior Stanislas        M  28
+## 23          BorucArtur Boruc       GK  38
+## 24    RamsdaleAaron Ramsdale       GK  20
+## 25       SimpsonJack Simpson        D  21
+## 26         TaylorKyle Taylor        M  19
+## 27        BrooksDavid Brooks        M  21
+## 28      LermaJefferson Lerma        M  23
+## 29            RicoDiego Rico        D  25
 ##                                                             Contract.Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
 ## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
-## 3  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
-## 4  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
-## 5    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
-## 6    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 3  12480000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£12,480,000
+## 4  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
+## 5  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
+## 6    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
 ## 7    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
-## 8    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
-## 9    7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
+## 8    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 9    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
 ## 10   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
-## 11   6318000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,318,000
+## 11   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
 ## 12   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
 ## 13   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 14   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 15   6032000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,032,000
-## 16   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
-## 17   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
-## 18   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
-## 19   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
-## 20   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
-## 21   4680000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,680,000
-## 22   4160000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 23   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 24   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
-## 25   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
-## 26   2496000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
-## 27   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
-## 28   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
-## 29      884000\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£884,000
-## 30      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
-## 31      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
-## 32        93600\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£93,600
-## 33        46800\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t£46,800
-## 34                  0\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 14   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 15   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
+## 16   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 17   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
+## 18   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 19   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
+## 20   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
+## 21   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
+## 22   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
+## 23   2080000\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,080,000
+## 24      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
+## 25                  0\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 26                  0\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 27                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 28                  0\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 29                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
 ##    Avg..Salary Transfer.Fee Expires    value years   value.pds
 ## 1   £5,380,000            -    2020 16140000  3 yr £16,140,000
 ## 2   £3,640,000   £9,780,000    2021 14560000  4 yr £14,560,000
-## 3   £2,340,000            -    2021 11700000  5 yr £11,700,000
-## 4   £2,080,000  £19,380,000    2022 10400000  5 yr £10,400,000
-## 5   £1,820,000     £536,000    2019  9100000  5 yr  £9,100,000
-## 6   £2,080,000            -    2021  8320000  4 yr  £8,320,000
-## 7   £2,080,000     £150,000    2021  8320000  4 yr  £8,320,000
-## 8   £1,976,000  £15,000,000    2020  7904000  4 yr  £7,904,000
-## 9   £1,820,000            -    2021  7280000  4 yr  £7,280,000
+## 3   £3,120,000   £3,000,000    2022 12480000  4 yr £12,480,000
+## 4   £2,340,000            -    2021 11700000  5 yr £11,700,000
+## 5   £2,080,000  £19,380,000    2022 10400000  5 yr £10,400,000
+## 6   £1,820,000     £536,000    2020  9100000  5 yr  £9,100,000
+## 7   £2,080,000            -    2021  8320000  4 yr  £8,320,000
+## 8   £2,080,000     £150,000    2021  8320000  4 yr  £8,320,000
+## 9   £1,976,000  £15,000,000    2020  7904000  4 yr  £7,904,000
 ## 10  £1,820,000            -    2021  7280000  4 yr  £7,280,000
-## 11  £1,263,600  £11,310,000    2020  6318000  5 yr  £6,318,000
+## 11  £1,820,000            -    2021  7280000  4 yr  £7,280,000
 ## 12  £1,560,000   £5,950,000    2020  6240000  4 yr  £6,240,000
 ## 13  £1,560,000            -    2019  6240000  4 yr  £6,240,000
-## 14  £1,560,000   £3,000,000    2020  6240000  4 yr  £6,240,000
-## 15  £1,508,000   £8,210,000    2019  6032000  4 yr  £6,032,000
-## 16  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000
-## 17  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000
-## 18  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000
-## 19  £1,196,000   £7,000,000    2020  4784000  4 yr  £4,784,000
-## 20  £1,196,000   £9,610,000    2021  4784000  4 yr  £4,784,000
-## 21  £1,560,000            -    2019  4680000  3 yr  £4,680,000
-## 22  £2,080,000  £10,000,000    2018  4160000  2 yr  £4,160,000
-## 23  £1,040,000   £5,530,000    2020  4160000  4 yr  £4,160,000
-## 24  £1,300,000     £100,000    2018  3900000  3 yr  £3,900,000
-## 25    £780,000            -    2020  3120000  4 yr  £3,120,000
-## 26    £832,000     £221,000    2018  2496000  3 yr  £2,496,000
-## 27    £624,000            -    2021  2496000  4 yr  £2,496,000
-## 28    £780,000            -    2020  2340000  3 yr  £2,340,000
-## 29    £442,000            -    2018   884000  2 yr    £884,000
-## 30    £156,000     £799,000    2021   780000  5 yr    £780,000
-## 31    £156,000            -    2018   468000  3 yr    £468,000
-## 32     £31,200            -    2018    93600  3 yr     £93,600
-## 33     £23,400            -    2018    46800  2 yr     £46,800
-## 34           -            -    2018        0  1 yr            
-##        Player.Names                                  Player.links
-## 1     Jermain Defoe http://www.spotrac.com/redirect/player/23836/
-## 2     Asmir Begovic http://www.spotrac.com/redirect/player/22625/
-## 3       Joshua King http://www.spotrac.com/redirect/player/22685/
-## 4        Nathan Ake http://www.spotrac.com/redirect/player/15521/
-## 5     Andrew Surman http://www.spotrac.com/redirect/player/22692/
-## 6       Harry Arter http://www.spotrac.com/redirect/player/22674/
-## 7        Steve Cook http://www.spotrac.com/redirect/player/22677/
-## 8        Jordon Ibe http://www.spotrac.com/redirect/player/22684/
-## 9       Dan Gosling http://www.spotrac.com/redirect/player/22682/
-## 10       Adam Smith http://www.spotrac.com/redirect/player/22689/
-## 11      Benik Afobe http://www.spotrac.com/redirect/player/22673/
-## 12       Lewis Cook http://www.spotrac.com/redirect/player/22676/
-## 13    Simon Francis http://www.spotrac.com/redirect/player/22679/
-## 14    Callum Wilson http://www.spotrac.com/redirect/player/22694/
-## 15    Lewis Grabban http://www.spotrac.com/redirect/player/24011/
-## 16      Ryan Fraser http://www.spotrac.com/redirect/player/22680/
-## 17  Charlie Daniels http://www.spotrac.com/redirect/player/22678/
-## 18       Brad Smith http://www.spotrac.com/redirect/player/22690/
-## 19 Max-Alain Gradel http://www.spotrac.com/redirect/player/22683/
-## 20     Tyrone Mings http://www.spotrac.com/redirect/player/22686/
-## 21    Adam Federici http://www.spotrac.com/redirect/player/22663/
-## 22      Artur Boruc http://www.spotrac.com/redirect/player/22660/
-## 23      Lys Mousset http://www.spotrac.com/redirect/player/22687/
-## 24        Marc Pugh http://www.spotrac.com/redirect/player/22688/
-## 25  Emerson Hyndman http://www.spotrac.com/redirect/player/23139/
-## 26    Rhoys Wiggins http://www.spotrac.com/redirect/player/23138/
-## 27   Connor Mahoney http://www.spotrac.com/redirect/player/24030/
-## 28 Junior Stanislas http://www.spotrac.com/redirect/player/22691/
-## 29      Ryan Allsop http://www.spotrac.com/redirect/player/22662/
-## 30   Aaron Ramsdale http://www.spotrac.com/redirect/player/22661/
-## 31    Baily Cargill http://www.spotrac.com/redirect/player/22675/
-## 32     Matt Butcher http://www.spotrac.com/redirect/player/23140/
-## 33     Sam Surridge http://www.spotrac.com/redirect/player/22693/
-## 34    Ben Whitfield http://www.spotrac.com/redirect/player/24356/
+## 14  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000
+## 15  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000
+## 16  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000
+## 17  £1,196,000   £9,610,000    2021  4784000  4 yr  £4,784,000
+## 18  £1,040,000   £5,530,000    2020  4160000  4 yr  £4,160,000
+## 19  £1,300,000     £100,000    2019  3900000  3 yr  £3,900,000
+## 20    £780,000            -    2020  3120000  4 yr  £3,120,000
+## 21    £624,000            -    2021  2496000  4 yr  £2,496,000
+## 22    £780,000            -    2020  2340000  3 yr  £2,340,000
+## 23  £2,080,000  £10,000,000    2019  2080000  1 yr  £2,080,000
+## 24    £156,000     £799,000    2021   780000  5 yr    £780,000
+## 25           -            -    2020        0  3 yr            
+## 26           -            -    2019        0  2 yr            
+## 27           -  £10,125,000    2022        0  4 yr            
+## 28           -  £25,125,000    2023        0  5 yr            
+## 29           -  £10,750,000    2022        0  4 yr            
+##        Player.Names                                   Player.links
+## 1     Jermain Defoe https://www.spotrac.com/redirect/player/23836/
+## 2     Asmir Begovic https://www.spotrac.com/redirect/player/22625/
+## 3     Callum Wilson https://www.spotrac.com/redirect/player/22694/
+## 4       Joshua King https://www.spotrac.com/redirect/player/22685/
+## 5        Nathan Ake https://www.spotrac.com/redirect/player/15521/
+## 6     Andrew Surman https://www.spotrac.com/redirect/player/22692/
+## 7       Harry Arter https://www.spotrac.com/redirect/player/22674/
+## 8        Steve Cook https://www.spotrac.com/redirect/player/22677/
+## 9        Jordon Ibe https://www.spotrac.com/redirect/player/22684/
+## 10      Dan Gosling https://www.spotrac.com/redirect/player/22682/
+## 11       Adam Smith https://www.spotrac.com/redirect/player/22689/
+## 12       Lewis Cook https://www.spotrac.com/redirect/player/22676/
+## 13    Simon Francis https://www.spotrac.com/redirect/player/22679/
+## 14      Ryan Fraser https://www.spotrac.com/redirect/player/22680/
+## 15  Charlie Daniels https://www.spotrac.com/redirect/player/22678/
+## 16       Brad Smith https://www.spotrac.com/redirect/player/22690/
+## 17     Tyrone Mings https://www.spotrac.com/redirect/player/22686/
+## 18      Lys Mousset https://www.spotrac.com/redirect/player/22687/
+## 19        Marc Pugh https://www.spotrac.com/redirect/player/22688/
+## 20  Emerson Hyndman https://www.spotrac.com/redirect/player/23139/
+## 21   Connor Mahoney https://www.spotrac.com/redirect/player/24030/
+## 22 Junior Stanislas https://www.spotrac.com/redirect/player/22691/
+## 23      Artur Boruc https://www.spotrac.com/redirect/player/22660/
+## 24   Aaron Ramsdale https://www.spotrac.com/redirect/player/22661/
+## 25     Jack Simpson https://www.spotrac.com/redirect/player/24102/
+## 26      Kyle Taylor https://www.spotrac.com/redirect/player/27876/
+## 27     David Brooks https://www.spotrac.com/redirect/player/27877/
+## 28  Jefferson Lerma https://www.spotrac.com/redirect/player/27878/
+## 29       Diego Rico https://www.spotrac.com/redirect/player/27879/
 ##    Last.Name
 ## 1      Defoe
 ## 2    Begovic
-## 3       King
-## 4        Ake
-## 5     Surman
-## 6      Arter
-## 7       Cook
-## 8        Ibe
-## 9    Gosling
-## 10     Smith
-## 11     Afobe
+## 3     Wilson
+## 4       King
+## 5        Ake
+## 6     Surman
+## 7      Arter
+## 8       Cook
+## 9        Ibe
+## 10   Gosling
+## 11     Smith
 ## 12      Cook
 ## 13   Francis
-## 14    Wilson
-## 15   Grabban
-## 16    Fraser
-## 17   Daniels
-## 18     Smith
-## 19    Gradel
-## 20     Mings
-## 21  Federici
-## 22     Boruc
-## 23   Mousset
-## 24      Pugh
-## 25   Hyndman
-## 26   Wiggins
-## 27   Mahoney
-## 28 Stanislas
-## 29    Allsop
-## 30  Ramsdale
-## 31   Cargill
-## 32   Butcher
-## 33  Surridge
-## 34 Whitfield&lt;/code&gt;&lt;/pre&gt;
+## 14    Fraser
+## 15   Daniels
+## 16     Smith
+## 17     Mings
+## 18   Mousset
+## 19      Pugh
+## 20   Hyndman
+## 21   Mahoney
+## 22 Stanislas
+## 23     Boruc
+## 24  Ramsdale
+## 25   Simpson
+## 26    Taylor
+## 27    Brooks
+## 28     Lerma
+## 29      Rico&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The data now have some junk alongside workable versions of the variables of interest. It is worth noting that the header of the contracts data allows us to verify the size of the table as we picked it up [though I do rename them to allow the rbind to work]. This also suggests a strategy for picking up the rownames that is different than the above method that uses the dimension of the html table. Perhaps I should just gsub the header to recover the integer number of players. To tidy the data, they need to be stacked. A simple do.call and row bind will probably work.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Team.Base &amp;lt;- sapply(EPL.Contracts, dim)[1,]
 Team &amp;lt;- rep(as.character(names(Team.Base)),Team.Base)
@@ -811,38 +876,38 @@ base_url &amp;lt;- &amp;quot;http://www.spotrac.com/nfl/&amp;quot;
 read.base &amp;lt;- read_html(base_url)
 team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;)
 team.URL&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;http://www.spotrac.com/nfl/arizona-cardinals/cap/&amp;quot;   
-##  [2] &amp;quot;http://www.spotrac.com/nfl/atlanta-falcons/cap/&amp;quot;     
-##  [3] &amp;quot;http://www.spotrac.com/nfl/baltimore-ravens/cap/&amp;quot;    
-##  [4] &amp;quot;http://www.spotrac.com/nfl/buffalo-bills/cap/&amp;quot;       
-##  [5] &amp;quot;http://www.spotrac.com/nfl/carolina-panthers/cap/&amp;quot;   
-##  [6] &amp;quot;http://www.spotrac.com/nfl/chicago-bears/cap/&amp;quot;       
-##  [7] &amp;quot;http://www.spotrac.com/nfl/cincinnati-bengals/cap/&amp;quot;  
-##  [8] &amp;quot;http://www.spotrac.com/nfl/cleveland-browns/cap/&amp;quot;    
-##  [9] &amp;quot;http://www.spotrac.com/nfl/dallas-cowboys/cap/&amp;quot;      
-## [10] &amp;quot;http://www.spotrac.com/nfl/denver-broncos/cap/&amp;quot;      
-## [11] &amp;quot;http://www.spotrac.com/nfl/detroit-lions/cap/&amp;quot;       
-## [12] &amp;quot;http://www.spotrac.com/nfl/green-bay-packers/cap/&amp;quot;   
-## [13] &amp;quot;http://www.spotrac.com/nfl/houston-texans/cap/&amp;quot;      
-## [14] &amp;quot;http://www.spotrac.com/nfl/indianapolis-colts/cap/&amp;quot;  
-## [15] &amp;quot;http://www.spotrac.com/nfl/jacksonville-jaguars/cap/&amp;quot;
-## [16] &amp;quot;http://www.spotrac.com/nfl/kansas-city-chiefs/cap/&amp;quot;  
-## [17] &amp;quot;http://www.spotrac.com/nfl/los-angeles-chargers/cap/&amp;quot;
-## [18] &amp;quot;http://www.spotrac.com/nfl/los-angeles-rams/cap/&amp;quot;    
-## [19] &amp;quot;http://www.spotrac.com/nfl/miami-dolphins/cap/&amp;quot;      
-## [20] &amp;quot;http://www.spotrac.com/nfl/minnesota-vikings/cap/&amp;quot;   
-## [21] &amp;quot;http://www.spotrac.com/nfl/new-england-patriots/cap/&amp;quot;
-## [22] &amp;quot;http://www.spotrac.com/nfl/new-orleans-saints/cap/&amp;quot;  
-## [23] &amp;quot;http://www.spotrac.com/nfl/new-york-giants/cap/&amp;quot;     
-## [24] &amp;quot;http://www.spotrac.com/nfl/new-york-jets/cap/&amp;quot;       
-## [25] &amp;quot;http://www.spotrac.com/nfl/oakland-raiders/cap/&amp;quot;     
-## [26] &amp;quot;http://www.spotrac.com/nfl/philadelphia-eagles/cap/&amp;quot; 
-## [27] &amp;quot;http://www.spotrac.com/nfl/pittsburgh-steelers/cap/&amp;quot; 
-## [28] &amp;quot;http://www.spotrac.com/nfl/san-francisco-49ers/cap/&amp;quot; 
-## [29] &amp;quot;http://www.spotrac.com/nfl/seattle-seahawks/cap/&amp;quot;    
-## [30] &amp;quot;http://www.spotrac.com/nfl/tampa-bay-buccaneers/cap/&amp;quot;
-## [31] &amp;quot;http://www.spotrac.com/nfl/tennessee-titans/cap/&amp;quot;    
-## [32] &amp;quot;http://www.spotrac.com/nfl/washington-redskins/cap/&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;https://www.spotrac.com/nfl/arizona-cardinals/cap/&amp;quot;   
+##  [2] &amp;quot;https://www.spotrac.com/nfl/atlanta-falcons/cap/&amp;quot;     
+##  [3] &amp;quot;https://www.spotrac.com/nfl/baltimore-ravens/cap/&amp;quot;    
+##  [4] &amp;quot;https://www.spotrac.com/nfl/buffalo-bills/cap/&amp;quot;       
+##  [5] &amp;quot;https://www.spotrac.com/nfl/carolina-panthers/cap/&amp;quot;   
+##  [6] &amp;quot;https://www.spotrac.com/nfl/chicago-bears/cap/&amp;quot;       
+##  [7] &amp;quot;https://www.spotrac.com/nfl/cincinnati-bengals/cap/&amp;quot;  
+##  [8] &amp;quot;https://www.spotrac.com/nfl/cleveland-browns/cap/&amp;quot;    
+##  [9] &amp;quot;https://www.spotrac.com/nfl/dallas-cowboys/cap/&amp;quot;      
+## [10] &amp;quot;https://www.spotrac.com/nfl/denver-broncos/cap/&amp;quot;      
+## [11] &amp;quot;https://www.spotrac.com/nfl/detroit-lions/cap/&amp;quot;       
+## [12] &amp;quot;https://www.spotrac.com/nfl/green-bay-packers/cap/&amp;quot;   
+## [13] &amp;quot;https://www.spotrac.com/nfl/houston-texans/cap/&amp;quot;      
+## [14] &amp;quot;https://www.spotrac.com/nfl/indianapolis-colts/cap/&amp;quot;  
+## [15] &amp;quot;https://www.spotrac.com/nfl/jacksonville-jaguars/cap/&amp;quot;
+## [16] &amp;quot;https://www.spotrac.com/nfl/kansas-city-chiefs/cap/&amp;quot;  
+## [17] &amp;quot;https://www.spotrac.com/nfl/los-angeles-chargers/cap/&amp;quot;
+## [18] &amp;quot;https://www.spotrac.com/nfl/los-angeles-rams/cap/&amp;quot;    
+## [19] &amp;quot;https://www.spotrac.com/nfl/miami-dolphins/cap/&amp;quot;      
+## [20] &amp;quot;https://www.spotrac.com/nfl/minnesota-vikings/cap/&amp;quot;   
+## [21] &amp;quot;https://www.spotrac.com/nfl/new-england-patriots/cap/&amp;quot;
+## [22] &amp;quot;https://www.spotrac.com/nfl/new-orleans-saints/cap/&amp;quot;  
+## [23] &amp;quot;https://www.spotrac.com/nfl/new-york-giants/cap/&amp;quot;     
+## [24] &amp;quot;https://www.spotrac.com/nfl/new-york-jets/cap/&amp;quot;       
+## [25] &amp;quot;https://www.spotrac.com/nfl/oakland-raiders/cap/&amp;quot;     
+## [26] &amp;quot;https://www.spotrac.com/nfl/philadelphia-eagles/cap/&amp;quot; 
+## [27] &amp;quot;https://www.spotrac.com/nfl/pittsburgh-steelers/cap/&amp;quot; 
+## [28] &amp;quot;https://www.spotrac.com/nfl/san-francisco-49ers/cap/&amp;quot; 
+## [29] &amp;quot;https://www.spotrac.com/nfl/seattle-seahawks/cap/&amp;quot;    
+## [30] &amp;quot;https://www.spotrac.com/nfl/tampa-bay-buccaneers/cap/&amp;quot;
+## [31] &amp;quot;https://www.spotrac.com/nfl/tennessee-titans/cap/&amp;quot;    
+## [32] &amp;quot;https://www.spotrac.com/nfl/washington-redskins/cap/&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Clean up the URLs to get the team names by themselves.
 team.names &amp;lt;- gsub(&amp;quot;/cap/&amp;quot;,&amp;quot;&amp;quot;, gsub(base_url, &amp;quot;&amp;quot;, team.URL))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;With 32 team links to scrape, I can now scrape them.&lt;/p&gt;
@@ -1021,7 +1086,7 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 ##  n obs: 2239 
 ##  n variables: 14 
 ## 
-## Variable type: factor 
+## ── Variable type:factor ──────────────────────────────────────────────────────────────────────────────────────────────────
 ##   variable missing complete    n n_unique
 ##    Cap.Hit       0     2239 2239     1043
 ##  Last.Name       0     2239 2239     1489
@@ -1035,7 +1100,7 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 ##    WR: 289, CB: 242, DE: 179, OLB: 171   FALSE
 ##     New: 86, Ind: 78, New: 78, Cle: 77   FALSE
 ## 
-## Variable type: numeric 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
 ##       variable missing complete    n       mean         sd p0       p25
 ##    Base.Salary       0     2239 2239 1702378.82 2559999.2   0 555000   
 ##        Cap.Pct       0     2239 2239       1.36       2.05  0      0.31
@@ -1060,16 +1125,16 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## # A tibble: 32 x 2
 ##    Team               Total.Base.Salary
 ##    &amp;lt;fct&amp;gt;                          &amp;lt;dbl&amp;gt;
-##  1 Arizona Cardinals         105629569.
-##  2 Atlanta Falcons           132367353.
-##  3 Baltimore Ravens          111906351.
-##  4 Buffalo Bills              94577460.
-##  5 Carolina Panthers         110158355.
-##  6 Chicago Bears              85128180.
-##  7 Cincinnati Bengals        134855807.
-##  8 Cleveland Browns          122139767.
-##  9 Dallas Cowboys            128347113.
-## 10 Denver Broncos            140672444.
+##  1 Arizona Cardinals          105629569
+##  2 Atlanta Falcons            132367353
+##  3 Baltimore Ravens           111906351
+##  4 Buffalo Bills               94577460
+##  5 Carolina Panthers          110158355
+##  6 Chicago Bears               85128180
+##  7 Cincinnati Bengals         134855807
+##  8 Cleveland Browns           122139767
+##  9 Dallas Cowboys             128347113
+## 10 Denver Broncos             140672444
 ## # ... with 22 more rows&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;NFL.Salary.Data %&amp;gt;% group_by(Position) %&amp;gt;% skim(Base.Salary)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Skim summary statistics
@@ -1077,7 +1142,7 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 ##  n variables: 14 
 ##  group variables: Position 
 ## 
-## Variable type: numeric 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
 ##  Position    variable missing complete   n       mean         sd     p0
 ##         C Base.Salary       0       62  62 1964378.97 2173761.05      0
 ##        CB Base.Salary       0      242 242 1594781.37 2433196.22      0
@@ -1177,7 +1242,6 @@ library(tidyverse)
 library(glue)
 library(ggrepel)
 library(viridis)
-
 tidy_data &amp;lt;-  read_excel(paste0(here(),&amp;quot;/data/tuition/us_avg_tuition.xlsx&amp;quot;)) %&amp;gt;%
   gather(year, avg_tuition, -State) %&amp;gt;%
   rename(state = State)
@@ -1432,13 +1496,13 @@ XTSUM(nlswork, varname=hours, unit=idcode)&lt;/code&gt;&lt;/pre&gt;
 ## # A tibble: 1 x 5
 ##   ovr.mean ovr.sd ovr.min ovr.max N.overall
 ##      &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;
-## 1     36.6   9.87      1.    168.    28467.
+## 1     36.6   9.87       1     168     28467
 ## 
 ## $bres
 ## # A tibble: 1 x 5
 ##   between.sd between.min between.max t.bar Groups
 ##        &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;  &amp;lt;int&amp;gt;
-## 1       7.85          1.        83.5  6.04   4711
+## 1       7.85           1        83.5  6.04   4711
 ## 
 ## $wres
 ## # A tibble: 1 x 3
@@ -2038,13 +2102,13 @@ XTSUM(nlswork, varname=hours, unit=idcode)&lt;/code&gt;&lt;/pre&gt;
 ## # A tibble: 1 x 4
 ##   ovr.mean ovr.sd ovr.min ovr.max
 ##      &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;
-## 1     36.6   9.87      1.    168.
+## 1     36.6   9.87       1     168
 ## 
 ## $bres
 ## # A tibble: 1 x 4
 ##   between.sd between.min between.max Groups
 ##        &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;  &amp;lt;int&amp;gt;
-## 1       7.85          1.        83.5   4711
+## 1       7.85           1        83.5   4711
 ## 
 ## $wres
 ## # A tibble: 1 x 3
@@ -2423,15 +2487,6 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
       <guid>https://www.data.viajes/project/bond-ratings/</guid>
       <description>&lt;p&gt;There will be content.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Generalized Ordered Regression Models</title>
-      <link>https://www.data.viajes/project/gen-ord-logit/</link>
-      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.data.viajes/project/gen-ord-logit/</guid>
-      <description></description>
     </item>
     
   </channel>
