@@ -11,25 +11,12 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Teaching</title>
+      <title>Data Analysis, Modelling, and Decision-Making</title>
       <link>https://www.data.viajes/courses/5103dadm/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://www.data.viajes/courses/5103dadm/</guid>
-      <description>&lt;p&gt;In the Atkinson Graduate School of Management at Willamette University:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;GSM 5103: Data Analysis, Modelling, and Decision-Making&lt;/li&gt;
-&lt;li&gt;GSMPR 622: Data Analysis, Modelling, and Decision-Making&lt;/li&gt;
-&lt;li&gt;GSM 6270: Negotiation, Bargaining, and the Economics of Strategy&lt;/li&gt;
-&lt;li&gt;GSM 6271: Evidence-Based Management&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In the Essex Summer School in Social Science Data Analysis:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;3C: Pooled Cross-Sectional Time Series Analysis&lt;/li&gt;
-&lt;/ul&gt;
+      <description>&lt;p&gt;Some data goes here.&lt;/p&gt;
 </description>
     </item>
     

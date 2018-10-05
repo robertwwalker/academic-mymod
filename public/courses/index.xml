@@ -13,14 +13,21 @@
     
     
     <item>
-      <title>Teaching</title>
+      <title>Data Analysis, Modelling, and Decision-Making</title>
       <link>https://www.data.viajes/courses/5103dadm/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://www.data.viajes/courses/5103dadm/</guid>
-      <description>In the Atkinson Graduate School of Management at Willamette University:
- GSM 5103: Data Analysis, Modelling, and Decision-Making GSMPR 622: Data Analysis, Modelling, and Decision-Making GSM 6270: Negotiation, Bargaining, and the Economics of Strategy GSM 6271: Evidence-Based Management  In the Essex Summer School in Social Science Data Analysis:
- 3C: Pooled Cross-Sectional Time Series Analysis  </description>
+      <description>Some data goes here.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.data.viajes/courses/5103dadm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.data.viajes/courses/5103dadm/</guid>
+      <description>code{white-space: pre;} pre:not([class]) { background-color: white; }  if (window.hljs) { hljs.configure({languages: []}); hljs.initHighlightingOnLoad(); if (document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) { window.setTimeout(function() { hljs.initHighlighting(); }, 0); } }  h1 { font-size: 34px; } h1.title { font-size: 38px; } h2 { font-size: 30px; } h3 { font-size: 24px; } h4 { font-size: 18px; } h5 { font-size: 16px; } h6 { font-size: 12px; } .</description>
     </item>
     
   </channel>
