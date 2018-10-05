@@ -22,19 +22,31 @@ First, let's import the data; it is a single Excel spreadsheet.  The page notes 
 
 ```{r LoadData}
 library(readxl)
+library(tidyverse)
 url <- "https://github.com/rfordatascience/tidytuesday/raw/master/data/week6_coffee_chains.xlsx"
-destfile <- "Coffee_chains.xlsx"
+destfile <- "week6_coffee_chains.xlsx"
 curl::curl_download(url, destfile)
-Coffee.chains <- read_excel(destfile)
+Starbucks <- read_excel(destfile, sheet = "starbucks")
+Dunkin.Donuts <- read_excel(destfile, sheet = "dunkin")
+Tim.Hortons <- read_excel(destfile, sheet = "timhorton")
+# A great function appears below that I grabbed from Stack Overflow a while back.....
+read_excel_allsheets <- function(filename, tibble = TRUE) {
+    sheets <- readxl::excel_sheets(filename)
+    x <- lapply(sheets, function(X) readxl::read_excel(filename, sheet = X))
+    if(!tibble) x <- lapply(x, as.data.frame)
+    names(x) <- sheets
+    x
+}
+coffee.xl <- read_excel_allsheets("week6_coffee_chains.xlsx")
 ```
 
 What do the data look like?
 
 ```{r}
 library(skimr)
-library(tidyverse)
-skim(Coffee.chains)
-table(Coffee.chains$Brand)
+skim(Starbucks)
+skim(Dunkin.Donuts)
+skim(Tim.Hortons)
 ```
 
 A basic plot of the global Starbucks data.
@@ -43,7 +55,37 @@ A basic plot of the global Starbucks data.
 library(ggmap)
 mapWorld <- borders("world", colour="gray50", fill="gray50") # create a layer of borders
 mp <- ggplot() +   mapWorld
-mp <- mp + geom_point(aes(x=Coffee.chains$Longitude, y=Coffee.chains$Latitude) ,color="dark green", size=0.5) + xlab("") + ylab("")
+mp <- mp + geom_point(aes(x=Starbucks$Longitude, y=Starbucks$Latitude) ,color="dark green", size=0.5) + xlab("") + ylab("")
+mp <- mp + geom_point(aes(x=Dunkin.Donuts$loc_LONG_centroid, y=Dunkin.Donuts$loc_LAT_centroid) ,color="orange", size=0.5) + xlab("") + ylab("")
 mp
+```
+
+## Starbucks and Dunkin
+
+```{r}
+coffee.xl$timhorton <- coffee.xl$timhorton %>% mutate(full.address=paste(address,city,state,toupper(country),sep=", "))
+Tim.H <- coffee.xl$timhorton %>% filter(country=="us") %>% mutate_geocode(full.address)
+THUS <- Tim.H %>% select(country,full.address,lon,lat)
+names(THUS) <- c("Country","Address","Longitude","Latitude")
+THUS$chain <- "Tim Horton's"
+DDUS <- coffee.xl$dunkin %>% select(e_country, e_address, loc_LONG_centroid,loc_LAT_centroid)
+names(DDUS) <- c("Country","Address","Longitude","Latitude")
+DDUS$chain <- "Dunkin"
+SBUX <- coffee.xl$starbucks %>% filter(Country=="us") %>% select(Country,`Street Address`,Longitude,Latitude)
+names(SBUX) <- c("Country","Address","Longitude","Latitude")
+US.Map.Coffee <- bind_rows(DDUS,SBUX,THUS)
+USmap <-get_map(location='united states', zoom=4, maptype = "terrain", source='google',color='color')
+mp <- ggmap(USmap)
+mp <- mp + geom_point(aes(x=Starbucks$Longitude, y=Starbucks$Latitude) ,color="dark green", size=0.5) + xlab("") + ylab("")
+mp <- mp + geom_point(aes(x=Dunkin.Donuts$loc_LONG_centroid, y=Dunkin.Donuts$loc_LAT_centroid) ,color="orange", size=0.5) + xlab("") + ylab("")
+mp
+```
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(geofacet)
+library(ggbeeswarm)
+library(ggrepel)
 ```
 
