@@ -1,7 +1,6 @@
 ---
 title: "Practice Midterm - 2018"
 author: "Robert W. Walker"
-date: "10/1/2018"
 output: 
   html_document: 
     keep_md: yes

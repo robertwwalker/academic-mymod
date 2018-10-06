@@ -17,7 +17,7 @@
       
     
   
-  <meta name="description" content="A Practice Midterm Answer the following questions in as much detail as possible in the time permitted. In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered. Answer the questions to the best of your ability and be systematic in solving the problems. This will always take you far. A Workbook called NaturalGas2018.">
+  <meta name="description" content="A Practice Midterm Answer the following questions in as much detail as possible in the time permitted. In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered. Answer the questions to the best of your ability and be systematic in solving the problems. This will always take you far. A Workbook called NaturalGas2018.xls contains the necessary data.">
 
   
   <link rel="alternate" hreflang="en-us" href="https://www.data.viajes/courses/practicemidterm/">
@@ -81,7 +81,7 @@
   <meta property="og:site_name" content="Robert W. Walker">
   <meta property="og:url" content="https://www.data.viajes/courses/practicemidterm/">
   <meta property="og:title" content="Practice Midterm - 2018 | Robert W. Walker">
-  <meta property="og:description" content="A Practice Midterm Answer the following questions in as much detail as possible in the time permitted. In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered. Answer the questions to the best of your ability and be systematic in solving the problems. This will always take you far. A Workbook called NaturalGas2018.">
+  <meta property="og:description" content="A Practice Midterm Answer the following questions in as much detail as possible in the time permitted. In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered. Answer the questions to the best of your ability and be systematic in solving the problems. This will always take you far. A Workbook called NaturalGas2018.xls contains the necessary data.">
   <meta property="og:locale" content="en-us">
   
   
@@ -344,113 +344,72 @@
 
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<h1 id="a-practice-midterm">A Practice Midterm</h1>
-
-<p>Answer the following questions in as much detail as possible in the time permitted.  In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered.  Answer the questions to the best of your ability and be systematic in solving the problems.  This will always take you far.  A Workbook called <em>NaturalGas2018.xls</em> contains the necessary data.</p>
-
-<ol>
+      <div id="a-practice-midterm" class="section level1">
+<h1>A Practice Midterm</h1>
+<p>Answer the following questions in as much detail as possible in the time permitted. In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered. Answer the questions to the best of your ability and be systematic in solving the problems. This will always take you far. A Workbook called <em>NaturalGas2018.xls</em> contains the necessary data.</p>
+<ol style="list-style-type: decimal">
 <li>What is the probability that a log-normal random variable [in R, lnorm is the noun] whose logarithm has mean equal to 0 and standard deviation equal to 1, takes values less than 1?</li>
 </ol>
-
-<pre><code class="language-r">plnorm(1)
-</code></pre>
-
-<pre><code>## [1] 0.5
-</code></pre>
-
-<ol>
+<pre class="r"><code>plnorm(1)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<ol start="2" style="list-style-type: decimal">
 <li>What is the value of a log-normal random variable [in R, lnorm is the noun] whose logarithm has mean equal to 0 and standard deviation equal to 1, such that 0.95 of the probability is below said value?</li>
 </ol>
-
-<pre><code class="language-r">qlnorm(0.95)
-</code></pre>
-
-<pre><code>## [1] 5.180252
-</code></pre>
-
-<ol>
-<li>Find the plus/minus z such that the area in red is exactly equal to 0.6827 as shown below.  <em>There is $1-0.6827=0.3173$ outside of the noted  interval which corresponds to $\frac{0.3173}{2}$ in each tail.</em></li>
+<pre class="r"><code>qlnorm(0.95)</code></pre>
+<pre><code>## [1] 5.180252</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Find the plus/minus z such that the area in red is exactly equal to 0.6827 as shown below. <em>There is <span class="math inline">\(1-0.6827=0.3173\)</span> outside of the noted interval which corresponds to <span class="math inline">\(\frac{0.3173}{2}\)</span> in each tail.</em></li>
 </ol>
-
-<p><img src="PracticeMidterm_files/figure-html/shno1-1.png" alt="" /><!-- --></p>
-
-<p><em>Between -1 and 1.  The empirical rule.</em></p>
-
-<h2 id="the-case">The Case</h2>
-
-<p><strong>A chemical manufacturer will build a new epoxy plant in one of two locations &ndash; one adjacent to an extant facility in Tianjin, China and one near the company&rsquo;s headquarters in the United States near Henry Hub in Louisiana.  The plant is a first-of-its-kind entirely automated plant that hosts only a tiny number of supervisors and labor costs across the two locations do not differ.  The only input that might reasonably differ in cost is energy.  Where to locate the factory and potential differences in the cost of energy will play a crucial role in our decision.</strong></p>
-
-<h2 id="an-energy-cost-comparison">An Energy Cost Comparison</h2>
-
-<p>An intern has collected two random samples of energy prices from local newspapers for comparison.  Over the last six months, the intern has a random sample of size 25 from Tianjin and a random sample of size 36 from Henry Hub reported in <em>Newspapers</em> &ndash; a sheet in the Excel Workbook on WISE referenced above.  You are to undertake an initial summary of these data.  You should note that both prices are reported in United States dollars per Million BTU (million British thermal units).  The dates that the prices (spot) were recorded is listed in the adjacent column for each series.  The worksheet contains the data in both a stacked and an unstacked format.</p>
-
-<ol>
-<li>Provide a single plot combining the two samples of data. Which of the two series is more symmetric? What information in the plot led you to this choice?  <em>Henry Hub is far more symmetric.</em>  It is even more useful to plot the z-scores to match up the scales.  The process requires a few steps.  First, I standardize each variable.  Then I stack them to render them on a single picture.</li>
+<p><img src="/courses/PracticeMidterm_files/figure-html/shno1-1.png" width="672" /></p>
+<p><em>Between -1 and 1. The empirical rule.</em></p>
+<div id="the-case" class="section level2">
+<h2>The Case</h2>
+<p><strong>A chemical manufacturer will build a new epoxy plant in one of two locations – one adjacent to an extant facility in Tianjin, China and one near the company’s headquarters in the United States near Henry Hub in Louisiana. The plant is a first-of-its-kind entirely automated plant that hosts only a tiny number of supervisors and labor costs across the two locations do not differ. The only input that might reasonably differ in cost is energy. Where to locate the factory and potential differences in the cost of energy will play a crucial role in our decision.</strong></p>
+</div>
+<div id="an-energy-cost-comparison" class="section level2">
+<h2>An Energy Cost Comparison</h2>
+<p>An intern has collected two random samples of energy prices from local newspapers for comparison. Over the last six months, the intern has a random sample of size 25 from Tianjin and a random sample of size 36 from Henry Hub reported in <em>Newspapers</em> – a sheet in the Excel Workbook on WISE referenced above. You are to undertake an initial summary of these data. You should note that both prices are reported in United States dollars per Million BTU (million British thermal units). The dates that the prices (spot) were recorded is listed in the adjacent column for each series. The worksheet contains the data in both a stacked and an unstacked format.</p>
+<ol style="list-style-type: decimal">
+<li>Provide a single plot combining the two samples of data. Which of the two series is more symmetric? What information in the plot led you to this choice? <em>Henry Hub is far more symmetric.</em> It is even more useful to plot the z-scores to match up the scales. The process requires a few steps. First, I standardize each variable. Then I stack them to render them on a single picture.</li>
 </ol>
-
-<p>A combined boxplot tells the story fairly clearly.  Once the data are stacked, plotting by groups becomes an option.  Here, it is clear tht Henry Hub is symmetric while Tianjin is not.</p>
-
-<pre><code class="language-r">boxplot(Price~Location, data=Newspapers)
-</code></pre>
-
-<p><img src="PracticeMidterm_files/figure-html/BP-1.png" alt="" /><!-- --></p>
-
-<ol>
+<p>A combined boxplot tells the story fairly clearly. Once the data are stacked, plotting by groups becomes an option. Here, it is clear tht Henry Hub is symmetric while Tianjin is not.</p>
+<pre class="r"><code>boxplot(Price~Location, data=Newspapers)</code></pre>
+<p><img src="/courses/PracticeMidterm_files/figure-html/BP-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
 <li>Provide an appropriate numerical summary of each set of data given your plots.</li>
 </ol>
-
-<pre><code class="language-r">library(tidyverse)
+<pre class="r"><code>library(tidyverse)
 library(skimr)
-Newspapers %&gt;% group_by(Location) %&gt;% skim(Price)
-</code></pre>
-
+Newspapers %&gt;% group_by(Location) %&gt;% skim(Price)</code></pre>
 <pre><code>## Skim summary statistics
 ##  n obs: 61 
 ##  n variables: 7 
 ##  group variables: Location 
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
 ##  Location variable missing complete  n mean    sd   p0  p25  p50  p75 p100
 ##  HenryHub    Price       0       36 36 3.8  0.14  3.52 3.69 3.79 3.9  4.07
 ##   Tianjin    Price       0       25 25 3.99 0.051 3.88 3.98 4    4.04 4.05
 ##      hist
 ##  ▃▃▇▅▆▇▁▃
-##  ▂▂▁▁▁▆▃▇
-</code></pre>
-
-<ol>
+##  ▂▂▁▁▁▆▃▇</code></pre>
+<ol start="3" style="list-style-type: decimal">
 <li>What is the sample mean and sample standard deviation of natural gas prices in Tianjin?</li>
 </ol>
-
-<pre><code class="language-r"># Mean
-mean(Newspapers$TianjinPrice, na.rm=TRUE)
-</code></pre>
-
-<pre><code>## [1] 3.9944
-</code></pre>
-
-<pre><code class="language-r">meanTJ &lt;- mean(Newspapers$TianjinPrice, na.rm=TRUE)
+<pre class="r"><code># Mean
+mean(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 3.9944</code></pre>
+<pre class="r"><code>meanTJ &lt;- mean(Newspapers$TianjinPrice, na.rm=TRUE)
 # Std. Dev.
-sd(Newspapers$TianjinPrice, na.rm=TRUE)
-</code></pre>
-
-<pre><code>## [1] 0.05066886
-</code></pre>
-
-<pre><code class="language-r">sdTJ &lt;- sd(Newspapers$TianjinPrice, na.rm=TRUE)
-</code></pre>
-
-<ol>
+sd(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 0.05066886</code></pre>
+<pre class="r"><code>sdTJ &lt;- sd(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
+<ol start="4" style="list-style-type: decimal">
 <li>What is a 95% (central) confidence interval for the average price in Tianjin given this precise sample? Provide both boundaries.</li>
 </ol>
-
-<pre><code class="language-r">t.test(Newspapers$TianjinPrice, alternative='two.sided', mu=0.0, conf.level=.95)
-</code></pre>
-
+<pre class="r"><code>t.test(Newspapers$TianjinPrice, alternative=&#39;two.sided&#39;, mu=0.0, conf.level=.95)</code></pre>
 <pre><code>## 
-## 	One Sample t-test
+##  One Sample t-test
 ## 
 ## data:  Newspapers$TianjinPrice
 ## t = 394.17, df = 24, p-value &lt; 2.2e-16
@@ -459,34 +418,20 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)
 ##  3.973485 4.015315
 ## sample estimates:
 ## mean of x 
-##    3.9944
-</code></pre>
-
-<ol>
+##    3.9944</code></pre>
+<ol start="5" style="list-style-type: decimal">
 <li>Assume that the underlying population is normal with the population mean and population standard deviation exactly equal to the sample mean and standard deviation that you have estimated from the sample from Tianjin. What is the probability of a daily price of $4.00 or higher at Tianjin?</li>
 </ol>
-
-<pre><code class="language-r">pnorm(4, mean=3.9944, sd=0.05, lower.tail=FALSE)
-</code></pre>
-
-<pre><code>## [1] 0.4554117
-</code></pre>
-
-<pre><code class="language-r">pnorm(4, mean=meanTJ, sd=sdTJ, lower.tail=FALSE)
-</code></pre>
-
-<pre><code>## [1] 0.4559979
-</code></pre>
-
-<ol>
+<pre class="r"><code>pnorm(4, mean=3.9944, sd=0.05, lower.tail=FALSE)</code></pre>
+<pre><code>## [1] 0.4554117</code></pre>
+<pre class="r"><code>pnorm(4, mean=meanTJ, sd=sdTJ, lower.tail=FALSE)</code></pre>
+<pre><code>## [1] 0.4559979</code></pre>
+<ol start="6" style="list-style-type: decimal">
 <li>Is a mean price of $4.00 or lower given the Henry Hub data possible with 95% confidence?</li>
 </ol>
-
-<pre><code class="language-r">t.test(Newspapers$TianjinPrice, alternative='greater', mu=4, conf.level=.95)
-</code></pre>
-
+<pre class="r"><code>t.test(Newspapers$TianjinPrice, alternative=&#39;greater&#39;, mu=4, conf.level=.95)</code></pre>
 <pre><code>## 
-## 	One Sample t-test
+##  One Sample t-test
 ## 
 ## data:  Newspapers$TianjinPrice
 ## t = -0.55261, df = 24, p-value = 0.7072
@@ -495,22 +440,15 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)
 ##  3.977062      Inf
 ## sample estimates:
 ## mean of x 
-##    3.9944
-</code></pre>
-
-<p>The probability is the p-value above.  Or it is 0.7071795.</p>
-
-<ol>
+##    3.9944</code></pre>
+<p>The probability is the p-value above. Or it is 0.7071795.</p>
+<ol start="7" style="list-style-type: decimal">
 <li>What is a 95% confidence interval of the difference in average prices. This calculation requires an assumption about the variances/standard deviations of the two samples that you have. What have you assumed? Why? Is there any information in the plot that you provided that might inform this decision?</li>
 </ol>
-
-<p><em>The samples have very different standard deviations.  Henry Hub&rsquo;s data entirely spans Tianjin&rsquo;s data; the ratio of the standard deviations is over 2 to 1.  I will assume that they are unequal.</em>  I cannot know that this is right, but intuition suggests it.  I show what happens if we assume them the same below that.</p>
-
-<pre><code class="language-r">t.test(Price~Location, alternative='two.sided', conf.level=.95, var.equal=FALSE, data=Newspapers)
-</code></pre>
-
+<p><em>The samples have very different standard deviations. Henry Hub’s data entirely spans Tianjin’s data; the ratio of the standard deviations is over 2 to 1. I will assume that they are unequal.</em> I cannot know that this is right, but intuition suggests it. I show what happens if we assume them the same below that.</p>
+<pre class="r"><code>t.test(Price~Location, alternative=&#39;two.sided&#39;, conf.level=.95, var.equal=FALSE, data=Newspapers)</code></pre>
 <pre><code>## 
-## 	Welch Two Sample t-test
+##  Welch Two Sample t-test
 ## 
 ## data:  Price by Location
 ## t = -7.8139, df = 47.036, p-value = 4.811e-10
@@ -519,14 +457,10 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)
 ##  -0.2496880 -0.1474454
 ## sample estimates:
 ## mean in group HenryHub  mean in group Tianjin 
-##               3.795833               3.994400
-</code></pre>
-
-<pre><code class="language-r">t.test(Price~Location, alternative='two.sided', conf.level=.95, var.equal=TRUE, data=Newspapers)
-</code></pre>
-
+##               3.795833               3.994400</code></pre>
+<pre class="r"><code>t.test(Price~Location, alternative=&#39;two.sided&#39;, conf.level=.95, var.equal=TRUE, data=Newspapers)</code></pre>
 <pre><code>## 
-## 	Two Sample t-test
+##  Two Sample t-test
 ## 
 ## data:  Price by Location
 ## t = -6.7835, df = 59, p-value = 6.285e-09
@@ -535,74 +469,40 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)
 ##  -0.2571402 -0.1399931
 ## sample estimates:
 ## mean in group HenryHub  mean in group Tianjin 
-##               3.795833               3.994400
-</code></pre>
-
-<p><strong>Henry Hub is cheaper.  With 95% confidence, the average price in Henry Hub is $0.25 to $0.15 lower.</strong>  This difference in prices suggests the factory should be build at Henry Hub.  If we assume equal variances, the range is now $0.26 to $0.14 cheaper in Henry Hub.  The decision does not depend on the assumption.</p>
-
-<h2 id="profit-forecasting-by-location">Profit Forecasting by Location</h2>
-
-<p>The division that is principally entrusted with forecasting and the supply chain has calculated a series of profit forecasts in dollars for the first 52 weeks after completion of the factory in Tianjin and the factory in Henry Hub.  Because the production process is one-of-a-kind, it is known that the first 52 weeks will involve planned calibration of the factory; this is accounted for in the weekly forecasts and is the same pattern across both locations.  These forecasts appear in worksheet <em>Forecast</em> of the workbook on WISE.</p>
-
-<ol>
+##               3.795833               3.994400</code></pre>
+<p><strong>Henry Hub is cheaper. With 95% confidence, the average price in Henry Hub is $0.25 to $0.15 lower.</strong> This difference in prices suggests the factory should be build at Henry Hub. If we assume equal variances, the range is now $0.26 to $0.14 cheaper in Henry Hub. The decision does not depend on the assumption.</p>
+</div>
+<div id="profit-forecasting-by-location" class="section level2">
+<h2>Profit Forecasting by Location</h2>
+<p>The division that is principally entrusted with forecasting and the supply chain has calculated a series of profit forecasts in dollars for the first 52 weeks after completion of the factory in Tianjin and the factory in Henry Hub. Because the production process is one-of-a-kind, it is known that the first 52 weeks will involve planned calibration of the factory; this is accounted for in the weekly forecasts and is the same pattern across both locations. These forecasts appear in worksheet <em>Forecast</em> of the workbook on WISE.</p>
+<ol style="list-style-type: decimal">
 <li>Graphically and numerically summarize profits by location.</li>
 </ol>
-
-<pre><code class="language-r">names(Forecast)
-</code></pre>
-
+<pre class="r"><code>names(Forecast)</code></pre>
 <pre><code>## [1] &quot;Period&quot;           &quot;TianjinForecast&quot;  &quot;HenryHubForecast&quot;
-## [4] &quot;Forecast&quot;         &quot;Location&quot;
-</code></pre>
-
-<pre><code class="language-r">summary(Forecast$TianjinForecast)
-</code></pre>
-
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-## 1525784 2336259 3713691 3860590 5197883 6761850      52
-</code></pre>
-
-<pre><code class="language-r">sd(Forecast$TianjinForecast, na.rm=TRUE)
-</code></pre>
-
-<pre><code>## [1] 1561618
-</code></pre>
-
-<pre><code class="language-r">summary(Forecast$HenryHubForecast)
-</code></pre>
-
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-## 1712033 2726456 4101824 4204475 5520862 7166874      52
-</code></pre>
-
-<pre><code class="language-r">sd(Forecast$HenryHubForecast, na.rm=TRUE)
-</code></pre>
-
-<pre><code>## [1] 1590365
-</code></pre>
-
-<pre><code class="language-r">boxplot(Forecast~Location, data=Forecast)
-</code></pre>
-
-<p><img src="PracticeMidterm_files/figure-html/unnamed-chunk-10-1.png" alt="" /><!-- --></p>
-
-<p>This hides the pattern in the data.  Better shown like this:</p>
-
-<pre><code class="language-r">plot(Forecast$Period, Forecast$HenryHubForecast, type=&quot;l&quot;)
-lines(Forecast$Period, Forecast$TianjinForecast, col=&quot;red&quot;)
-</code></pre>
-
-<p><img src="PracticeMidterm_files/figure-html/unnamed-chunk-11-1.png" alt="" /><!-- --></p>
-
-<ol>
+## [4] &quot;Forecast&quot;         &quot;Location&quot;</code></pre>
+<pre class="r"><code>summary(Forecast$TianjinForecast)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+## 1525784 2336259 3713691 3860590 5197883 6761850      52</code></pre>
+<pre class="r"><code>sd(Forecast$TianjinForecast, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 1561618</code></pre>
+<pre class="r"><code>summary(Forecast$HenryHubForecast)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+## 1712033 2726456 4101824 4204475 5520862 7166874      52</code></pre>
+<pre class="r"><code>sd(Forecast$HenryHubForecast, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 1590365</code></pre>
+<pre class="r"><code>boxplot(Forecast~Location, data=Forecast)</code></pre>
+<p><img src="/courses/PracticeMidterm_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>This hides the pattern in the data. Better shown like this:</p>
+<pre class="r"><code>plot(Forecast$Period, Forecast$HenryHubForecast, type=&quot;l&quot;)
+lines(Forecast$Period, Forecast$TianjinForecast, col=&quot;red&quot;)</code></pre>
+<p><img src="/courses/PracticeMidterm_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
 <li>Provide an appropriate 95% confidence interval for average profits per week over the 52 week period in Tianjin, China.</li>
 </ol>
-
-<pre><code class="language-r">t.test(Forecast$TianjinForecast, alternative='two.sided', mu=0.0, conf.level=.95)
-</code></pre>
-
+<pre class="r"><code>t.test(Forecast$TianjinForecast, alternative=&#39;two.sided&#39;, mu=0.0, conf.level=.95)</code></pre>
 <pre><code>## 
-## 	One Sample t-test
+##  One Sample t-test
 ## 
 ## data:  Forecast$TianjinForecast
 ## t = 17.827, df = 51, p-value &lt; 2.2e-16
@@ -611,18 +511,13 @@ lines(Forecast$Period, Forecast$TianjinForecast, col=&quot;red&quot;)
 ##  3425833 4295348
 ## sample estimates:
 ## mean of x 
-##   3860590
-</code></pre>
-
-<ol>
+##   3860590</code></pre>
+<ol start="3" style="list-style-type: decimal">
 <li>Provide an appropriate 95% confidence interval for average profits per week over the 52 week period in Henry Hub, Louisiana.</li>
 </ol>
-
-<pre><code class="language-r">t.test(Forecast$HenryHubForecast, alternative='two.sided', mu=0.0, conf.level=.95)
-</code></pre>
-
+<pre class="r"><code>t.test(Forecast$HenryHubForecast, alternative=&#39;two.sided&#39;, mu=0.0, conf.level=.95)</code></pre>
 <pre><code>## 
-## 	One Sample t-test
+##  One Sample t-test
 ## 
 ## data:  Forecast$HenryHubForecast
 ## t = 19.064, df = 51, p-value &lt; 2.2e-16
@@ -631,19 +526,14 @@ lines(Forecast$Period, Forecast$TianjinForecast, col=&quot;red&quot;)
 ##  3761714 4647235
 ## sample estimates:
 ## mean of x 
-##   4204475
-</code></pre>
-
-<ol>
+##   4204475</code></pre>
+<ol start="4" style="list-style-type: decimal">
 <li>Construct a 95% confidence interval for the average difference between profits in Tianjin and Henry Hub.</li>
 </ol>
-
-<pre><code class="language-r">t.test(Forecast$HenryHubForecast, Forecast$TianjinForecast, 
-  alternative='two.sided', conf.level=.95, paired=TRUE)
-</code></pre>
-
+<pre class="r"><code>t.test(Forecast$HenryHubForecast, Forecast$TianjinForecast, 
+  alternative=&#39;two.sided&#39;, conf.level=.95, paired=TRUE)</code></pre>
 <pre><code>## 
-## 	Paired t-test
+##  Paired t-test
 ## 
 ## data:  Forecast$HenryHubForecast and Forecast$TianjinForecast
 ## t = 24.823, df = 51, p-value &lt; 2.2e-16
@@ -652,15 +542,11 @@ lines(Forecast$Period, Forecast$TianjinForecast, col=&quot;red&quot;)
 ##  316072.2 371696.7
 ## sample estimates:
 ## mean of the differences 
-##                343884.4
-</code></pre>
-
-<pre><code class="language-r">Forecast$ForecastDiff &lt;- with(Forecast, HenryHubForecast- TianjinForecast)
-t.test(Forecast$ForecastDiff, alternative='two.sided', mu=0.0, conf.level=.95)
-</code></pre>
-
+##                343884.4</code></pre>
+<pre class="r"><code>Forecast$ForecastDiff &lt;- with(Forecast, HenryHubForecast- TianjinForecast)
+t.test(Forecast$ForecastDiff, alternative=&#39;two.sided&#39;, mu=0.0, conf.level=.95)</code></pre>
 <pre><code>## 
-## 	One Sample t-test
+##  One Sample t-test
 ## 
 ## data:  Forecast$ForecastDiff
 ## t = 24.823, df = 51, p-value &lt; 2.2e-16
@@ -669,75 +555,45 @@ t.test(Forecast$ForecastDiff, alternative='two.sided', mu=0.0, conf.level=.95)
 ##  316072.2 371696.7
 ## sample estimates:
 ## mean of x 
-##  343884.4
-</code></pre>
-
+##  343884.4</code></pre>
 <p>It can also be done by hand.</p>
-
-<pre><code class="language-r">mean(Forecast$ForecastDiff, na.rm=TRUE)+qt(c(0.025,0.975), df=51)*sd(Forecast$ForecastDiff, na.rm=TRUE)/sqrt(52)
-</code></pre>
-
-<pre><code>## [1] 316072.2 371696.7
-</code></pre>
-
-<ol>
-<li>Is either of the two locations forecast to have higher profits with at least 95% confidence?  Which one?  What is the probability of no difference?</li>
+<pre class="r"><code>mean(Forecast$ForecastDiff, na.rm=TRUE)+qt(c(0.025,0.975), df=51)*sd(Forecast$ForecastDiff, na.rm=TRUE)/sqrt(52)</code></pre>
+<pre><code>## [1] 316072.2 371696.7</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Is either of the two locations forecast to have higher profits with at least 95% confidence? Which one? What is the probability of no difference?</li>
 </ol>
-
-<p><em>Henry Hub has higher profits.  With 95% confidence, these profits are 316072 to 371696 higher.</em>  The probability of no difference [the p-value] is zero.</p>
-
-<ol>
+<p><em>Henry Hub has higher profits. With 95% confidence, these profits are 316072 to 371696 higher.</em> The probability of no difference [the p-value] is zero.</p>
+<ol start="6" style="list-style-type: decimal">
 <li>If the building cost were $12 million more for the more profitable location, provide a 95% confidence interval for average recovery time of cost difference expressed in weeks.</li>
 </ol>
-
-<p><em>The previous is measured in dollars per week.  If I divide $12,000,000 by the profit difference in dollars per week; the resulting metric is weeks.  Here is where R&rsquo;s calculator is handy.</em></p>
-
-<pre><code class="language-r">12000000/(mean(Forecast$ForecastDiff, na.rm=TRUE)+qt(c(0.025,0.975), df=51)*sd(Forecast$ForecastDiff, na.rm=TRUE)/sqrt(52))
-</code></pre>
-
-<pre><code>## [1] 37.96601 32.28439
-</code></pre>
-
+<p><em>The previous is measured in dollars per week. If I divide $12,000,000 by the profit difference in dollars per week; the resulting metric is weeks. Here is where R’s calculator is handy.</em></p>
+<pre class="r"><code>12000000/(mean(Forecast$ForecastDiff, na.rm=TRUE)+qt(c(0.025,0.975), df=51)*sd(Forecast$ForecastDiff, na.rm=TRUE)/sqrt(52))</code></pre>
+<pre><code>## [1] 37.96601 32.28439</code></pre>
 <p>The above result is in weeks; it will take 32 to 38 weeks.</p>
-
-<h2 id="expert-assessment-of-location">Expert Assessment of Location</h2>
-
-<p>As management closes on a decision, word has leaked about the factory and the location decision.  Boomblerg Television and BCNC have reported on the plans and industry experts now well understand the decision facing management.  The Sall Tweet Kernel conducted a survey of independent samples of industry experts regarding the decision and their responses are recorded as worksheet <em>Experts</em> in the workbook on WISE.  A Build represents a belief that the facility should be built in the given location (Tianjin/Henry Hub) while a No represents an opinion that the facility should not be built in the given location.  With reference to these data, you are to answer the following questions.</p>
-
-<ol>
+</div>
+<div id="expert-assessment-of-location" class="section level2">
+<h2>Expert Assessment of Location</h2>
+<p>As management closes on a decision, word has leaked about the factory and the location decision. Boomblerg Television and BCNC have reported on the plans and industry experts now well understand the decision facing management. The Sall Tweet Kernel conducted a survey of independent samples of industry experts regarding the decision and their responses are recorded as worksheet <em>Experts</em> in the workbook on WISE. A Build represents a belief that the facility should be built in the given location (Tianjin/Henry Hub) while a No represents an opinion that the facility should not be built in the given location. With reference to these data, you are to answer the following questions.</p>
+<ol style="list-style-type: decimal">
 <li>Tablulate opinions by location. What is the proportion of analysts favoring each location?</li>
 </ol>
-
-<pre><code class="language-r">table(Experts$Location,Experts$Build)
-</code></pre>
-
+<pre class="r"><code>table(Experts$Location,Experts$Build)</code></pre>
 <pre><code>##           
 ##            Build No
 ##   HenryHub    66 15
-##   Tianjin     31 33
-</code></pre>
-
-<pre><code class="language-r">prop.table(table(Experts$Location,Experts$Build), 1)
-</code></pre>
-
+##   Tianjin     31 33</code></pre>
+<pre class="r"><code>prop.table(table(Experts$Location,Experts$Build), 1)</code></pre>
 <pre><code>##           
 ##                Build        No
 ##   HenryHub 0.8148148 0.1851852
-##   Tianjin  0.4843750 0.5156250
-</code></pre>
-
-<pre><code class="language-r">T1 &lt;- table(Experts$Location,Experts$Build)
-</code></pre>
-
-<ol>
+##   Tianjin  0.4843750 0.5156250</code></pre>
+<pre class="r"><code>T1 &lt;- table(Experts$Location,Experts$Build)</code></pre>
+<ol start="2" style="list-style-type: decimal">
 <li>The true proportion of analysts believing that the facility should be built in Henry Hub, Louisiana is 0.5 with 95% confidence. True or False, when compared to the alternative that it is less than 0.5.</li>
 </ol>
-
-<pre><code class="language-r">binom.test(66, 66+15, alternative=&quot;less&quot;)
-</code></pre>
-
+<pre class="r"><code>binom.test(66, 66+15, alternative=&quot;less&quot;)</code></pre>
 <pre><code>## 
-## 	Exact binomial test
+##  Exact binomial test
 ## 
 ## data:  66 and 66 + 15
 ## number of successes = 66, number of trials = 81, p-value = 1
@@ -746,18 +602,12 @@ t.test(Forecast$ForecastDiff, alternative='two.sided', mu=0.0, conf.level=.95)
 ##  0.0000000 0.8822426
 ## sample estimates:
 ## probability of success 
-##              0.8148148
-</code></pre>
-
+##              0.8148148</code></pre>
 <p><em>It clearly is not less than 0.5; it is much higher.</em></p>
-
-<p>We could also ask for the exact 95% lower bound given the data.  That would be:</p>
-
-<pre><code class="language-r">binom.test(66, 66+15, alternative=&quot;greater&quot;)
-</code></pre>
-
+<p>We could also ask for the exact 95% lower bound given the data. That would be:</p>
+<pre class="r"><code>binom.test(66, 66+15, alternative=&quot;greater&quot;)</code></pre>
 <pre><code>## 
-## 	Exact binomial test
+##  Exact binomial test
 ## 
 ## data:  66 and 66 + 15
 ## number of successes = 66, number of trials = 81, p-value =
@@ -767,21 +617,15 @@ t.test(Forecast$ForecastDiff, alternative='two.sided', mu=0.0, conf.level=.95)
 ##  0.7292665 1.0000000
 ## sample estimates:
 ## probability of success 
-##              0.8148148
-</code></pre>
-
+##              0.8148148</code></pre>
 <p>With 95% confidence, the probability of yes for Henry Hub is at least 0.73.</p>
-
-<ol>
+<ol start="3" style="list-style-type: decimal">
 <li>Could we say, with 95% confidence, that there is a difference (as opposed to no difference) between the proportion of analysts suggesting a factory in Tianjin, China and in Henry Hub, Louisiana? If so, provide the boundaries of the 95% confidence interval and which alternative is preferred.</li>
 </ol>
-
-<pre><code class="language-r">prop.test(T1, alternative='two.sided', conf.level=.95, correct=FALSE)
-</code></pre>
-
+<pre class="r"><code>prop.test(T1, alternative=&#39;two.sided&#39;, conf.level=.95, correct=FALSE)</code></pre>
 <pre><code>## 
-## 	2-sample test for equality of proportions without continuity
-## 	correction
+##  2-sample test for equality of proportions without continuity
+##  correction
 ## 
 ## data:  T1
 ## X-squared = 17.628, df = 1, p-value = 2.686e-05
@@ -790,32 +634,20 @@ t.test(Forecast$ForecastDiff, alternative='two.sided', mu=0.0, conf.level=.95)
 ##  0.1816207 0.4792590
 ## sample estimates:
 ##    prop 1    prop 2 
-## 0.8148148 0.4843750
-</code></pre>
-
+## 0.8148148 0.4843750</code></pre>
 <p><em>The probability of build is between 0.18 and 0.48 higher for Henry Hub with 95% confidence.</em></p>
-
-<ol>
+<ol start="4" style="list-style-type: decimal">
 <li>How large a sample would be required, with 95% confidence, to estimate the true proportion to within ? 0.15 assuming, for planning purposes, that the true proportion is 0.5?</li>
 </ol>
-
-<pre><code class="language-r">qnorm(0.025)^2*0.5^2/0.15^2
-</code></pre>
-
-<pre><code>## [1] 42.68288
-</code></pre>
-
-<p><em>Only 43 people are needed.  We should have plenty.</em></p>
-
-<ol>
+<pre class="r"><code>qnorm(0.025)^2*0.5^2/0.15^2</code></pre>
+<pre><code>## [1] 42.68288</code></pre>
+<p><em>Only 43 people are needed. We should have plenty.</em></p>
+<ol start="5" style="list-style-type: decimal">
 <li>The survey was, in both cases, sent to samples of size 100. As is clear, not everyone that was sent the survey actually responded. Assume that responding to the survey or not is a binomial random variable with a constant probability of responding equal to 0.73. Assuming this to be true, what is the probability of having received the number of completed responses for Tianjin or fewer? What is the probability of having received the number of completed responses (or greater) for Henry Hub? What might these two bits of information, taken together, mean about the likelihood of a constant probability of response?</li>
 </ol>
-
-<pre><code class="language-r">binom.test(81,100, alt=&quot;greater&quot;)
-</code></pre>
-
+<pre class="r"><code>binom.test(81,100, alt=&quot;greater&quot;)</code></pre>
 <pre><code>## 
-## 	Exact binomial test
+##  Exact binomial test
 ## 
 ## data:  81 and 100
 ## number of successes = 81, number of trials = 100, p-value =
@@ -825,14 +657,10 @@ t.test(Forecast$ForecastDiff, alternative='two.sided', mu=0.0, conf.level=.95)
 ##  0.7337953 1.0000000
 ## sample estimates:
 ## probability of success 
-##                   0.81
-</code></pre>
-
-<pre><code class="language-r">binom.test(64,100, alt=&quot;less&quot;)
-</code></pre>
-
+##                   0.81</code></pre>
+<pre class="r"><code>binom.test(64,100, alt=&quot;less&quot;)</code></pre>
 <pre><code>## 
-## 	Exact binomial test
+##  Exact binomial test
 ## 
 ## data:  64 and 100
 ## number of successes = 64, number of trials = 100, p-value = 0.9982
@@ -841,42 +669,30 @@ t.test(Forecast$ForecastDiff, alternative='two.sided', mu=0.0, conf.level=.95)
 ##  0.0000000 0.7199635
 ## sample estimates:
 ## probability of success 
-##                   0.64
-</code></pre>
-
+##                   0.64</code></pre>
 <p>The probability of responding for Henry Hub is at least 0.734 with 95% confidence; the probability of responding for Tianjib is at most 0.72 with 95% confidence.</p>
-
-<h2 id="weather-concerns">Weather Concerns</h2>
-
-<p>Both locations [Tianjin and Henry Hub] are adjacent to large bodies of water.  <strong>If the probability of more than 3 hurricanes in a year exceeds 0.05 in either location, this is a game changing fact.  Management is unwilling to build in a location with such a high probability of a disatrous loss of investment and possible collateral damage.</strong></p>
-
-<ol>
-<li>If the arrival rate of hurricanes at Henry Hub is 1 per year (as it is known to be), what is the probability of more than 3 hurricanes in a given year at Henry Hub?<br /></li>
+</div>
+<div id="weather-concerns" class="section level2">
+<h2>Weather Concerns</h2>
+<p>Both locations [Tianjin and Henry Hub] are adjacent to large bodies of water. <strong>If the probability of more than 3 hurricanes in a year exceeds 0.05 in either location, this is a game changing fact. Management is unwilling to build in a location with such a high probability of a disatrous loss of investment and possible collateral damage.</strong></p>
+<ol style="list-style-type: decimal">
+<li>If the arrival rate of hurricanes at Henry Hub is 1 per year (as it is known to be), what is the probability of more than 3 hurricanes in a given year at Henry Hub?</li>
 </ol>
-
-<pre><code class="language-r">ppois(3, 1, lower.tail=FALSE)
-</code></pre>
-
-<pre><code>## [1] 0.01898816
-</code></pre>
-
-<ol>
+<pre class="r"><code>ppois(3, 1, lower.tail=FALSE)</code></pre>
+<pre><code>## [1] 0.01898816</code></pre>
+<ol start="2" style="list-style-type: decimal">
 <li>If the arrival rate of hurricanes at Tianjin is 0.6 (as it is known to be), then what is the probability of more than 3 hurricanes in a given year at Tianjin?</li>
 </ol>
-
-<pre><code class="language-r">ppois(3, 0.6, lower.tail=FALSE)
-</code></pre>
-
-<pre><code>## [1] 0.003358069
-</code></pre>
-
+<pre class="r"><code>ppois(3, 0.6, lower.tail=FALSE)</code></pre>
+<pre><code>## [1] 0.003358069</code></pre>
 <p><em>Both are less than 0.05 so no problems.</em></p>
-
-<h2 id="final-problem">Final Problem</h2>
-
-<p>Defend a decision to build the factory in one of the two locations and relate each previous section and your analysis of the relevant data to your chosen alternative.  If necessary, weigh the value of conflicting evidence in light of the source.  You are only to faithfully report the results of your analysis and are to bring no external considerations to bear beyond the information in the data and the issues raised in this investigation.</p>
-
-<p><em>Henry Hub</em>  Every bit of data supports that decision except the fact that hurricanes are more likely.  But not that much so.  The payback period is less than a year and that difference should yield benefits through the life of the project.  Natural gas is cheaper and the experts think it is better idea.</p>
+</div>
+<div id="final-problem" class="section level2">
+<h2>Final Problem</h2>
+<p>Defend a decision to build the factory in one of the two locations and relate each previous section and your analysis of the relevant data to your chosen alternative. If necessary, weigh the value of conflicting evidence in light of the source. You are only to faithfully report the results of your analysis and are to bring no external considerations to bear beyond the information in the data and the issues raised in this investigation.</p>
+<p><em>Henry Hub</em> Every bit of data supports that decision except the fact that hurricanes are more likely. But not that much so. The payback period is less than a year and that difference should yield benefits through the life of the project. Natural gas is cheaper and the experts think it is better idea.</p>
+</div>
+</div>
 
     </div>
 
