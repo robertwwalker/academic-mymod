@@ -3,6 +3,7 @@ title: "Practice Midterm - 2018"
 author: "Robert W. Walker"
 output: 
   html_document: 
+    self_contained: true
     keep_md: yes
 ---
 
