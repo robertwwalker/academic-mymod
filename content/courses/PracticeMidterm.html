@@ -13,12 +13,12 @@ output:
 <h1>A Practice Midterm</h1>
 <p>Answer the following questions in as much detail as possible in the time permitted. In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered. Answer the questions to the best of your ability and be systematic in solving the problems. This will always take you far. A Workbook called <em>NaturalGas2018.xls</em> contains the necessary data.</p>
 <ol style="list-style-type: decimal">
-<li>What is the probability that a log-normal random variable [in R, lnorm is the noun] whose logarithm has mean equal to 0 and standard deviation equal to 1, takes values less than 1?</li>
+<li>What is the probability that a log-normal random variable [in R, lnorm is the noun] whose logarithm has mean equal to 0 and standard deviation equal to 1, takes values less than 1? <em>The probability is one-half. The reason? If the logarithm has mean 0, then it is just <span class="math inline">\(e^{Normal(0,1)}\)</span>. Because <span class="math inline">\(e^{0}\)</span> is 1 and half of the probability in a normal is below 0, it must be one half.</em></li>
 </ol>
 <pre class="r"><code>plnorm(1)</code></pre>
 <pre><code>## [1] 0.5</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>What is the value of a log-normal random variable [in R, lnorm is the noun] whose logarithm has mean equal to 0 and standard deviation equal to 1, such that 0.95 of the probability is below said value?</li>
+<li>What is the value of a log-normal random variable [in R, lnorm is the noun] whose logarithm has mean equal to 0 and standard deviation equal to 1, such that 0.95 of the probability is below said value? <em>The value should be <span class="math inline">\(e^{qnorm(0.95)}\)</span> which is 5.18.</em></li>
 </ol>
 <pre class="r"><code>qlnorm(0.95)</code></pre>
 <pre><code>## [1] 5.180252</code></pre>
