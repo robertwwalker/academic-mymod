@@ -24,7 +24,7 @@
 &lt;li&gt;&lt;a href=&#34;https://www.rstudio.com&#34; target=&#34;_blank&#34;&gt;RStudio&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://cran.r-project.org&#34; target=&#34;_blank&#34;&gt;R&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://rpubs.com/rwalkerWU/&#34; target=&#34;_blank&#34;&gt;RPubs&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.data.viajes/courses/practicemidterm/&#34; target=&#34;_blank&#34;&gt;Practice Midterm Solution&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.data.viajes/courses/5103/practicemidterm/&#34; target=&#34;_blank&#34;&gt;Practice Midterm Solution&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
@@ -574,7 +574,7 @@ gpl&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Base.Contracts[[1]] %&amp;gt;% html_nodes(&amp;quot;table&amp;quot;) %&amp;gt;% html_table(header=TRUE, fill=TRUE)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [[1]]
 ##                  Player (29) Pos. Age
-## 1         DefoeJermain Defoe    F  35
+## 1         DefoeJermain Defoe    F  36
 ## 2       BegovicAsmir Begovic   GK  31
 ## 3        WilsonCallum Wilson    F  26
 ## 4            KingJoshua King    F  26
@@ -684,7 +684,7 @@ EPL.Contracts &amp;lt;- lapply(Base.Contracts, data.creator)
 names(EPL.Contracts) &amp;lt;- EPL.names$short.names
 EPL.Contracts[[1]]&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##                       Player Position Age
-## 1         DefoeJermain Defoe        F  35
+## 1         DefoeJermain Defoe        F  36
 ## 2       BegovicAsmir Begovic       GK  31
 ## 3        WilsonCallum Wilson        F  26
 ## 4            KingJoshua King        F  26
