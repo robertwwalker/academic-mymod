@@ -11,6 +11,52 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>tidyTuesday meets the Economics of Majors</title>
+      <link>https://www.data.viajes/post/tidytuesday-meets-the-economics-of-majors/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.data.viajes/post/tidytuesday-meets-the-economics-of-majors/</guid>
+      <description>&lt;p&gt;This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is &lt;a href=&#34;https://github.com/fivethirtyeight/data/tree/master/college-majors&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+options(scipen=6)
+library(extrafont)
+font_import()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Major.Employment &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A scatterplot of the unemployment rate by majors is the first goal with a color scheme that reflects the proportion of females in the industry.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my.plot &amp;lt;- Major.Employment %&amp;gt;% ggplot(aes(Unemployment_rate,Median, label=str_to_title(Major), color=ShareWomen)) +
+  geom_point() +
+  geom_text(check_overlap = T, vjust=-0.5, nudge_y=0.1, size=2.5) +
+  theme_minimal() +
+  scale_color_gradient(name=&amp;quot;Share of Women&amp;quot;, low=&amp;quot;#de2d26&amp;quot;, high = &amp;quot;#e9a3c9&amp;quot;) + 
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(labels = scales::percent) + 
+  xlab(&amp;quot;Unemployment Rate&amp;quot;) +
+  ylab(&amp;quot;Median Income&amp;quot;) +
+  ggtitle(&amp;quot;Median Income and Unemployment&amp;quot;) +
+  theme(text=element_text(family = &amp;quot;Roboto Light&amp;quot;, size=8), title = element_text(size=12)) 
+my.plot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Major.Employment &amp;lt;- Major.Employment %&amp;gt;% mutate(ShareCol= College_jobs / Total)
+my.plot &amp;lt;- Major.Employment %&amp;gt;% ggplot(aes(Unemployment_rate,ShareCol, label=str_to_title(Major), color=ShareWomen)) +
+  geom_point(alpha=0.1) +
+  geom_text(check_overlap = T, size=1.5) +
+  theme_minimal() +
+  scale_color_gradient(name=&amp;quot;Share of Women&amp;quot;, low=&amp;quot;#de2d26&amp;quot;, high = &amp;quot;#e9a3c9&amp;quot;) + 
+#  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(labels = scales::percent) + 
+  xlab(&amp;quot;Unemployment Rate&amp;quot;) +
+  ylab(&amp;quot;College Pct.&amp;quot;) +
+  ggtitle(&amp;quot;College Pct. Jobs and Unemployment&amp;quot;)
+my.plot&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_point).&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_text).&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Data Analysis, Modelling, and Decision-Making</title>
       <link>https://www.data.viajes/courses/5103dadm/</link>
       <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
@@ -2473,16 +2519,6 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
       
       <guid>https://www.data.viajes/publication/gen-ord-regression/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Bond Ratings</title>
-      <link>https://www.data.viajes/project/bond-ratings/</link>
-      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.data.viajes/project/bond-ratings/</guid>
-      <description>&lt;p&gt;There will be content.&lt;/p&gt;
-</description>
     </item>
     
   </channel>

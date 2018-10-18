@@ -1,0 +1,51 @@
+---
+title: tidyTuesday meets the Economics of Majors
+author: RWW
+date: '2018-10-17'
+slug: tidytuesday-meets-the-economics-of-majors
+categories: []
+tags: [tidyTuesday]
+header:
+  caption: ''
+  image: ''
+---
+
+
+
+<p>This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is <a href="https://github.com/fivethirtyeight/data/tree/master/college-majors">here</a>.</p>
+<pre class="r"><code>library(tidyverse)
+options(scipen=6)
+library(extrafont)
+font_import()</code></pre>
+<pre><code>## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]</code></pre>
+<pre class="r"><code>Major.Employment &lt;- read.csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&quot;)</code></pre>
+<p>A scatterplot of the unemployment rate by majors is the first goal with a color scheme that reflects the proportion of females in the industry.</p>
+<pre class="r"><code>my.plot &lt;- Major.Employment %&gt;% ggplot(aes(Unemployment_rate,Median, label=str_to_title(Major), color=ShareWomen)) +
+  geom_point() +
+  geom_text(check_overlap = T, vjust=-0.5, nudge_y=0.1, size=2.5) +
+  theme_minimal() +
+  scale_color_gradient(name=&quot;Share of Women&quot;, low=&quot;#de2d26&quot;, high = &quot;#e9a3c9&quot;) + 
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(labels = scales::percent) + 
+  xlab(&quot;Unemployment Rate&quot;) +
+  ylab(&quot;Median Income&quot;) +
+  ggtitle(&quot;Median Income and Unemployment&quot;) +
+  theme(text=element_text(family = &quot;Roboto Light&quot;, size=8), title = element_text(size=12)) 
+my.plot</code></pre>
+<p><img src="/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>Major.Employment &lt;- Major.Employment %&gt;% mutate(ShareCol= College_jobs / Total)
+my.plot &lt;- Major.Employment %&gt;% ggplot(aes(Unemployment_rate,ShareCol, label=str_to_title(Major), color=ShareWomen)) +
+  geom_point(alpha=0.1) +
+  geom_text(check_overlap = T, size=1.5) +
+  theme_minimal() +
+  scale_color_gradient(name=&quot;Share of Women&quot;, low=&quot;#de2d26&quot;, high = &quot;#e9a3c9&quot;) + 
+#  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(labels = scales::percent) + 
+  xlab(&quot;Unemployment Rate&quot;) +
+  ylab(&quot;College Pct.&quot;) +
+  ggtitle(&quot;College Pct. Jobs and Unemployment&quot;)
+my.plot</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_text).</code></pre>
+<p><img src="/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>

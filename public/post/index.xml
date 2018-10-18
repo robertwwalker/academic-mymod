@@ -13,6 +13,16 @@
     
     
     <item>
+      <title>tidyTuesday meets the Economics of Majors</title>
+      <link>https://www.data.viajes/post/tidytuesday-meets-the-economics-of-majors/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.data.viajes/post/tidytuesday-meets-the-economics-of-majors/</guid>
+      <description>This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is here.
+library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&amp;quot;) A scatterplot of the unemployment rate by majors is the first goal with a color scheme that reflects the proportion of females in the industry.</description>
+    </item>
+    
+    <item>
       <title>tidyTuesday: coffee chains</title>
       <link>https://www.data.viajes/post/tidytuesday-coffee-chains/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>

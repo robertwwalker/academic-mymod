@@ -93,7 +93,7 @@ A combined boxplot tells the story fairly clearly.  Once the data are stacked, p
 boxplot(Price~Location, data=Newspapers)
 ```
 
-2.	Provide an appropriate numerical summary of each set of data given your plots.
+2.	Provide an appropriate numerical summary of each set of data given your plots.  *Summarising symmetric data with means and standard deviations is appropriate.  Tianjin will require a five number summary.*
 
 ```{r, message=FALSE}
 library(tidyverse)
