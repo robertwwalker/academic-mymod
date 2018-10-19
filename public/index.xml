@@ -23,7 +23,66 @@ library(extrafont)
 font_import()&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
 ## Continue? [y/n]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Major.Employment &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Major.Employment &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&amp;quot;)
+library(skimr)
+skim(Major.Employment)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Skim summary statistics
+##  n obs: 173 
+##  n variables: 21 
+## 
+## ── Variable type:factor ──────────────────────────────────────────────────────────────────────────────────────────────────
+##        variable missing complete   n n_unique
+##           Major       0      173 173      173
+##  Major_category       0      173 173       16
+##                          top_counts ordered
+##      ACC: 1, ACT: 1, ADV: 1, AER: 1   FALSE
+##  Eng: 29, Edu: 16, Hum: 15, Bio: 14   FALSE
+## 
+## ── Variable type:integer ─────────────────────────────────────────────────────────────────────────────────────────────────
+##              variable missing complete   n     mean       sd    p0
+##          College_jobs       0      173 173 12322.64 21299.87     0
+##              Employed       0      173 173 31192.76 50675        0
+##             Full_time       0      173 173 26029.31 42869.66   111
+##  Full_time_year_round       0      173 173 19694.43 33160.94   111
+##         Low_wage_jobs       0      173 173  3859.02  6945        0
+##            Major_code       0      173 173  3879.82  1687.75  1100
+##                Median       0      173 173 40151.45 11470.18 22000
+##                   Men       1      172 173 16723.41 28122.43   119
+##      Non_college_jobs       0      173 173 13284.5  23789.66     0
+##                 P25th       0      173 173 29501.45  9166.01 18500
+##                 P75th       0      173 173 51494.22 14906.28 22000
+##             Part_time       0      173 173  8832.4  14648.18     0
+##                  Rank       0      173 173    87       50.08     1
+##           Sample_size       0      173 173   356.08   618.36     2
+##                 Total       1      172 173 39370.08 63483.49   124
+##            Unemployed       0      173 173  2416.33  4112.8      0
+##                 Women       1      172 173 22646.67 41057.33     0
+##       p25     p50      p75   p100     hist
+##   1675     4390   14444    151643 ▇▂▁▁▁▁▁▁
+##   3608    11797   31433    307933 ▇▁▁▁▁▁▁▁
+##   3154    10048   25147    251540 ▇▁▁▁▁▁▁▁
+##   2453     7413   16891    199897 ▇▁▁▁▁▁▁▁
+##    340     1231    3466     48207 ▇▁▁▁▁▁▁▁
+##   2403     3608    5503      6403 ▂▇▂▃▂▂▅▆
+##  33000    36000   45000    110000 ▅▇▃▂▁▁▁▁
+##   2177.5   5434   14631    173809 ▇▁▁▁▁▁▁▁
+##   1591     4595   11783    148395 ▇▁▁▁▁▁▁▁
+##  24000    27000   33000     95000 ▇▅▂▁▁▁▁▁
+##  42000    47000   60000    125000 ▁▇▅▂▁▁▁▁
+##   1030     3299    9948    115172 ▇▁▁▁▁▁▁▁
+##     44       87     130       173 ▇▇▇▇▇▇▇▇
+##     39      130     338      4212 ▇▁▁▁▁▁▁▁
+##   4549.75 15104   38909.75 393735 ▇▁▁▁▁▁▁▁
+##    304      893    2393     28169 ▇▁▁▁▁▁▁▁
+##   1778.25  8386.5 22553.75 307087 ▇▁▁▁▁▁▁▁
+## 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
+##           variable missing complete   n  mean   sd p0  p25   p50   p75
+##         ShareWomen       1      172 173 0.52  0.23  0 0.34 0.53  0.7  
+##  Unemployment_rate       0      173 173 0.068 0.03  0 0.05 0.068 0.088
+##  p100     hist
+##  0.97 ▂▅▆▆▇▇▆▃
+##  0.18 ▂▃▇▇▅▁▁▁&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;A scatterplot of the unemployment rate by majors is the first goal with a color scheme that reflects the proportion of females in the industry.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my.plot &amp;lt;- Major.Employment %&amp;gt;% ggplot(aes(Unemployment_rate,Median, label=str_to_title(Major), color=ShareWomen)) +
   geom_point() +
@@ -53,6 +112,26 @@ my.plot&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_point).&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_text).&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;An Esquisse starter. Unemployment rate is x. Median wage is y. Major categories are colors and size is a function of Total&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = Major.Employment) +
+aes(x = Unemployment_rate, y = Median, color = Major_category, size = Total) +
+geom_point() +
+theme_minimal()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_point).&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Major.Employment %&amp;gt;% drop_na() %&amp;gt;% ggplot() +
+  aes(x = Unemployment_rate, y = Median, color = ShareWomen, label=str_to_title(Major)) +
+#  geom_point() +
+  geom_text(check_overlap = T, size=2) +
+  theme_minimal() +
+  scale_color_gradient(name=&amp;quot;Share of Women&amp;quot;, low=&amp;quot;#cda7ca&amp;quot;, high = &amp;quot;#3d323c&amp;quot;) + 
+  scale_x_continuous(labels = scales::percent) + 
+  scale_y_continuous(labels = scales::comma) +
+  xlab(&amp;quot;Unemployment Rate&amp;quot;) +
+  ylab(&amp;quot;Median Wage&amp;quot;) +
+  ggtitle(&amp;quot;Wages and Unemployment with Women in the Profession&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Alas.&lt;/p&gt;
 </description>
     </item>
     

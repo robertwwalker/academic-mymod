@@ -18,6 +18,8 @@ options(scipen=6)
 library(extrafont)
 font_import()
 Major.Employment <- read.csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv")
+library(skimr)
+skim(Major.Employment)
 ```
 
 A scatterplot of the unemployment rate by majors is the first goal with a color scheme that reflects the proportion of females in the industry.
@@ -52,3 +54,28 @@ my.plot <- Major.Employment %>% ggplot(aes(Unemployment_rate,ShareCol, label=str
 my.plot
 ```
 
+An Esquisse starter.  Unemployment rate is x.  Median wage is y.  Major categories are colors and size is a function of Total 
+
+```{r}
+ggplot(data = Major.Employment) +
+aes(x = Unemployment_rate, y = Median, color = Major_category, size = Total) +
+geom_point() +
+theme_minimal()
+```
+
+
+```{r}
+Major.Employment %>% drop_na() %>% ggplot() +
+  aes(x = Unemployment_rate, y = Median, color = ShareWomen, label=str_to_title(Major)) +
+#  geom_point() +
+  geom_text(check_overlap = T, size=2) +
+  theme_minimal() +
+  scale_color_gradient(name="Share of Women", low="#cda7ca", high = "#3d323c") + 
+  scale_x_continuous(labels = scales::percent) + 
+  scale_y_continuous(labels = scales::comma) +
+  xlab("Unemployment Rate") +
+  ylab("Median Wage") +
+  ggtitle("Wages and Unemployment with Women in the Profession")
+```
+
+Alas.
