@@ -21,10 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Mining Twitter Data
 
-Is rather easy.  You have to arrange a developer account with Twitter and set up an app.  After that, Twitter gives you access to a consumer key and secret and an access token and access secret.  Those can be embedded in OAuth to automate searches and the retrieval of data.  My tool of choice for this is *rtweet*  The first section involves setting up a token.
-
-
-For this one, we need `rtweet` because the tweet text is getting cut.
+Is rather easy.  You have to arrange a developer account with Twitter and set up an app.  After that, Twitter gives you access to a consumer key and secret and an access token and access secret.  My tool of choice for this is *rtweet* because it automagically processes tweet elements and makes them easy to slice and dice.  I also played with `twitteR` but it was harder to work with for what I wanted.  The first section involves setting up a token for `*rtweet*.
 
 ```{r userFAKE, echo=TRUE, eval=FALSE}
 # Change the next four lines based on your own consumer_key, consume_secret, access_token, and access_secret. 
@@ -36,11 +33,11 @@ token <- create_token(
   access_secret <- "AS")
 ```
 
-Now I want to collect some tweets from a particular user's timeline and look into them.
+Now I want to collect some tweets from a particular user's timeline and look into them.  For this example, I will use `@realDonaldTrump`.
 
 ## Who does Trump tweet about?
 
-A cool post on sentiment analysis can be found [here](http://dataaspirant.com/2018/03/22/twitter-sentiment-analysis-using-r/).  The first step is to grab his timeline.  `rtweet` makes this quite easy.  I will grab it and then save it in the code below so that I do not spam the API.
+A cool post on sentiment analysis can be found [here](http://dataaspirant.com/2018/03/22/twitter-sentiment-analysis-using-r/).  The first step is to grab his timeline.  `rtweet` makes this quite easy.  I will grab it and then save it in the code below so that I do not spam the API.  I will get at the time series characteristics of his tweets and the sentiment stuff in a further analysis.  For now, let me just show some wordclouds.
 
 ```{r, eval=FALSE}
 tml.djt <- get_timeline("realDonaldTrump", n = 3200)
@@ -68,15 +65,16 @@ With just his tweets, a few things can be easily accomplished.  Who does he ment
 library(wordcloud)
 MNTDJT <- DJTDF %>% filter(!is.na(mentions_screen_name)) %>% select(mentions_screen_name)
 Ments <- as.character(unlist(MNTDJT))
-wordcloud(Ments)
+TMents <- data.frame(table(Ments))
+pal <- brewer.pal(8,"Spectral")
+wordcloud(TMents$Ments,TMents$Freq, colors=pal)
 ```
 
-That's interesting.  But that is twitter accounts.  That is far less interesting that his actual text.  
+That's interesting.  But that is twitter accounts.  That is far less interesting that his actual text.  I want to look at words and bigrams for this segment.
 
 ## What does Trump tweet about?
 
-Some more stuff from [stack overflow](https://stackoverflow.com/questions/31348453/how-do-i-clean-twitter-data-in-r).  There is quite a bit of code in here.  I simply wrote a function that takes an input character string and cleans it up.  Uncomment the various components and pipe them.
-
+Some more stuff from [stack overflow](https://stackoverflow.com/questions/31348453/how-do-i-clean-twitter-data-in-r).  There is quite a bit of code in here.  I simply wrote a function that takes an input character string and cleans it up.  Uncomment the various components and pipe them.  The sequencing is important and I found this to get everything that I wanted.
 
 ```{r, warning=FALSE}
 library(RColorBrewer)
@@ -104,7 +102,6 @@ TTW <- table(Trumps.Words)
 TTW <- TTW[order(TTW, decreasing = T)]
 TTW <- data.frame(TTW)
 names(TTW) <- c("word","freq")
-pal <- brewer.pal(9,"RdBu")
 wordcloud(TTW$word, TTW$freq, colors=pal, random.order=F, max.words=200)
 ```
 
@@ -112,7 +109,7 @@ Well, that is kinda cool.  Now, I want to do a bit more with it using more compl
 
 ## The Wonders of tidytext
 
-The *tidytext* [section on n-grams](https://www.tidytextmining.com/ngrams.html) is great.  I will start with a tweet identifier -- something I should have deployed long ago -- before parsing these.
+The *tidytext* [section on n-grams](https://www.tidytextmining.com/ngrams.html) is great.  I will start with a tweet identifier -- something I should have deployed long ago -- before parsing these; I will not need this now but it will be encessary when the sentiment stuff comes around.
 
 ```{r}
 library(tidyr)
@@ -154,7 +151,7 @@ library(wordcloud2)
 wordcloud2(my.df, color="random-light", backgroundColor = "black", size = 0.5)
 ```
 
-I think that works quite nicely.  The use of jpg for shapes has not worked for me.  Nor have letterCloud.
+I think that works quite nicely.  The use of jpg for shapes has not worked for me.  Nor have letterCloud.  I found some code on github that will supposedly solve this but it does not seem to work either.
 
 ```{r, eval=FALSE, echo=TRUE}
 library(htmlwidgets)
