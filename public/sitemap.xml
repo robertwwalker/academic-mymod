@@ -387,8 +387,8 @@
     
     <url>
     
-      <loc>https://www.data.viajes/tags/maps/</loc>
-      <lastmod>2018-02-25T00:00:00+00:00</lastmod>
+      <loc>https://www.data.viajes/categories/maps/</loc>
+      <lastmod>2018-05-09T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -397,8 +397,8 @@
     
     <url>
     
-      <loc>https://www.data.viajes/categories/maps/</loc>
-      <lastmod>2018-05-09T00:00:00+00:00</lastmod>
+      <loc>https://www.data.viajes/tags/maps/</loc>
+      <lastmod>2018-02-25T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -493,16 +493,6 @@
     
     <url>
     
-      <loc>https://www.data.viajes/tags/python/</loc>
-      <lastmod>2018-04-04T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>https://www.data.viajes/categories/python/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -513,8 +503,8 @@
     
     <url>
     
-      <loc>https://www.data.viajes/tags/r/</loc>
-      <lastmod>2018-05-09T00:00:00+00:00</lastmod>
+      <loc>https://www.data.viajes/tags/python/</loc>
+      <lastmod>2018-04-04T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -524,6 +514,16 @@
     <url>
     
       <loc>https://www.data.viajes/categories/r/</loc>
+      <lastmod>2018-05-09T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://www.data.viajes/tags/r/</loc>
       <lastmod>2018-05-09T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -543,7 +543,7 @@
     
     <url>
     
-      <loc>https://www.data.viajes/tags/reticulate/</loc>
+      <loc>https://www.data.viajes/categories/reticulate/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -553,7 +553,7 @@
     
     <url>
     
-      <loc>https://www.data.viajes/categories/reticulate/</loc>
+      <loc>https://www.data.viajes/tags/reticulate/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -593,16 +593,6 @@
     
     <url>
     
-      <loc>https://www.data.viajes/tags/tidytext/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>https://www.data.viajes/categories/tidytext/</loc>
       <lastmod>2018-12-18T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -613,7 +603,7 @@
     
     <url>
     
-      <loc>https://www.data.viajes/tags/tidyverse/</loc>
+      <loc>https://www.data.viajes/tags/tidytext/</loc>
       <lastmod>2018-12-18T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -624,6 +614,16 @@
     <url>
     
       <loc>https://www.data.viajes/categories/tidyverse/</loc>
+      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://www.data.viajes/tags/tidyverse/</loc>
       <lastmod>2018-12-18T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>

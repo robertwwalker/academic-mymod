@@ -21,17 +21,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Mining Twitter Data
 
-Is rather easy.  You have to arrange a developer account with Twitter and set up an app.  After that, Twitter gives you access to a consumer key and secret and an access token and access secret.  Those can be embedded in OAuth to automate searches and the retrieval of data.  My tool of choice for thisis *rtweet*  The first section involves setting up a token.
+Is rather easy.  You have to arrange a developer account with Twitter and set up an app.  After that, Twitter gives you access to a consumer key and secret and an access token and access secret.  Those can be embedded in OAuth to automate searches and the retrieval of data.  My tool of choice for this is *rtweet*  The first section involves setting up a token.
 
-```{r user, echo=FALSE, eval=TRUE}
-library(rtweet)
-token <- create_token(
-  app = "MyFaveTwitterScrapeR",
-consumer_key = "IRtRL9jMcTlk670OKmIaE9GVr",
-consumer_secret = "vUx4T2awIeZPodsWfnhS5NqLiInwJwEJp9wdnXqkmkCo6867JL",
-access_token = "920708757302022145-ZDySUNq4OiH1yeO2BFbPKqTjDEN6aJA",
-access_secret = "TTxTwuObxfmOxjNWqslJ4HE3I2ws3ey0XP5uplJHBlSzt")
-```
 
 For this one, we need `rtweet` because the tweet text is getting cut.
 
@@ -154,7 +145,7 @@ wordcloud2(my.df, color="random-light", backgroundColor = "black")
 After seeing a few competing renditions, I prefer `wordcloud2`.  One thing to be careful about is scaling.  In this case, the most frequent bigram is missing because the ratio makes it too large to fit.  With size smaller, it can be made to show.
 
 ```{r Fig1}
-wordcloud2(my.df, color="random-light", backgroundColor = "black", gridSize = 1, fontFamily = "sans", size = 0.7)
+wordcloud2(my.df, color="random-light", backgroundColor = "black", size = 0.7)
 ```
 
 I think that works quite nicely.
