@@ -19,7 +19,7 @@
   
   <meta name="description" content="tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
 Here is this week’s tidyTuesday.
-library(here) library(readxl) library(skimr) library(tidyverse) library(rlang) global_mortality &lt;- read_excel(paste0(here(),&quot;/data/global_mortality.xlsx&quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.">
+library(here) library(readxl) library(skimr) library(tidyverse) library(rlang) global_mortality &lt;- read_excel(paste0(here(),&quot;/data/global_mortality.xlsx&quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ──────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.">
 
   
   <link rel="alternate" hreflang="en-us" href="https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/">
@@ -85,7 +85,7 @@ library(here) library(readxl) library(skimr) library(tidyverse) library(rlang) g
   <meta property="og:title" content="Global mortality tidyTuesday | Robert W. Walker">
   <meta property="og:description" content="tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
 Here is this week’s tidyTuesday.
-library(here) library(readxl) library(skimr) library(tidyverse) library(rlang) global_mortality &lt;- read_excel(paste0(here(),&quot;/data/global_mortality.xlsx&quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.">
+library(here) library(readxl) library(skimr) library(tidyverse) library(rlang) global_mortality &lt;- read_excel(paste0(here(),&quot;/data/global_mortality.xlsx&quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ──────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2018-04-18T00:00:00&#43;00:00">
@@ -379,12 +379,12 @@ skim(global_mortality)</code></pre>
 ##  n obs: 6156 
 ##  n variables: 35 
 ## 
-## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:character ────────────────────────────────────────────────────────────────────────────────────────────
 ##      variable missing complete    n min max empty n_unique
 ##       country       0     6156 6156   4  32     0      228
 ##  country_code     864     5292 6156   3   8     0      196
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────
 ##                                  variable missing complete    n     mean
 ##                     Alcohol disorders (%)       0     6156 6156    0.32 
 ##                               Cancers (%)       0     6156 6156   14.39 

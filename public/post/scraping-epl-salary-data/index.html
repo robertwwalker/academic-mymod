@@ -500,25 +500,25 @@ EPL.Result %&gt;% group_by(Position) %&gt;% summarise(Mean.Base.Salary=mean(Base
 <pre><code>## # A tibble: 4 x 3
 ##   Position Mean.Base.Salary     sdBS
 ##   &lt;fct&gt;               &lt;dbl&gt;    &lt;dbl&gt;
-## 1 D                2645330. 1616542.
-## 2 F                3576724. 3150683.
-## 3 GK               2693167. 2446144.
-## 4 M                3212368. 2938723.</code></pre>
+## 1 D                2678118. 1573524.
+## 2 F                3808467. 3225632.
+## 3 GK               2625278. 2442130.
+## 4 M                3368859. 3077304.</code></pre>
 <pre class="r"><code>EPL.Result %&gt;% group_by(Position,Team) %&gt;% summarise(Mean.Base.Salary=mean(Base.Num, na.rm=TRUE),sdBS=sd(Base.Num, na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 80 x 4
 ## # Groups:   Position [?]
-##    Position Team                                  Mean.Base.Salary    sdBS
-##    &lt;fct&gt;    &lt;fct&gt;                                            &lt;dbl&gt;   &lt;dbl&gt;
-##  1 D        Https:www.spotrac.comeplAFC Bournemo…         1759333.  3.38e5
-##  2 D        Https:www.spotrac.comeplarsenal               3933800   1.58e6
-##  3 D        Https:www.spotrac.comeplbrighton Hov…         1369333.  3.82e5
-##  4 D        Https:www.spotrac.comeplburnley               1255429.  2.62e5
-##  5 D        Https:www.spotrac.comeplcardiff City           728000   4.53e5
-##  6 D        Https:www.spotrac.comeplchelsea               4882222.  1.22e6
-##  7 D        Https:www.spotrac.comeplcrystal Pala…         2801500   1.18e6
-##  8 D        Https:www.spotrac.comepleverton               2086500   1.08e6
-##  9 D        Https:www.spotrac.comeplfulham                1040000   3.68e5
-## 10 D        Https:www.spotrac.comeplhuddersfield…         1092000   4.92e5
+##    Position Team                                   Mean.Base.Salary    sdBS
+##    &lt;fct&gt;    &lt;fct&gt;                                             &lt;dbl&gt;   &lt;dbl&gt;
+##  1 D        Https:www.spotrac.comeplAFC Bournemou…         1759333.  3.38e5
+##  2 D        Https:www.spotrac.comeplarsenal                3855800   1.56e6
+##  3 D        Https:www.spotrac.comeplbrighton Hove…         1369333.  3.82e5
+##  4 D        Https:www.spotrac.comeplburnley                1255429.  2.62e5
+##  5 D        Https:www.spotrac.comeplcardiff City            728000   4.53e5
+##  6 D        Https:www.spotrac.comeplchelsea                4593333.  8.72e5
+##  7 D        Https:www.spotrac.comeplcrystal Palace         2801500   1.18e6
+##  8 D        Https:www.spotrac.comepleverton                2124571.  1.16e6
+##  9 D        Https:www.spotrac.comeplfulham                 1040000   3.68e5
+## 10 D        Https:www.spotrac.comeplhuddersfield …         1092000   4.92e5
 ## # ... with 70 more rows</code></pre>
 <p>Finally, a little picture to describe spending on the active roster.</p>
 <pre class="r"><code>fplot &lt;- ggplot(EPL.Result, aes(Base.Num,Team))
@@ -544,7 +544,7 @@ gpl</code></pre>
 ## 6        SurmanAndrew Surman    M  32
 ## 7           ArterHarry Arter    M  28
 ## 8             CookSteve Cook    D  27
-## 9              IbeJordon Ibe    M  22
+## 9              IbeJordon Ibe    M  23
 ## 10        GoslingDan Gosling    M  28
 ## 11           SmithAdam Smith    D  27
 ## 12            CookLewis Cook    M  21
@@ -557,13 +557,13 @@ gpl</code></pre>
 ## 19             PughMarc Pugh    M  31
 ## 20    HyndmanEmerson Hyndman    M  22
 ## 21     MahoneyConnor Mahoney    F  21
-## 22 StanislasJunior Stanislas    M  28
+## 22 StanislasJunior Stanislas    M  29
 ## 23          BorucArtur Boruc   GK  38
 ## 24    RamsdaleAaron Ramsdale   GK  20
 ## 25       SimpsonJack Simpson    D  21
 ## 26         TaylorKyle Taylor    M  19
 ## 27        BrooksDavid Brooks    M  21
-## 28      LermaJefferson Lerma    M  23
+## 28      LermaJefferson Lerma    M  24
 ## 29            RicoDiego Rico    D  25
 ##                                                             Contract Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
@@ -654,7 +654,7 @@ EPL.Contracts[[1]]</code></pre>
 ## 6        SurmanAndrew Surman        M  32
 ## 7           ArterHarry Arter        M  28
 ## 8             CookSteve Cook        D  27
-## 9              IbeJordon Ibe        M  22
+## 9              IbeJordon Ibe        M  23
 ## 10        GoslingDan Gosling        M  28
 ## 11           SmithAdam Smith        D  27
 ## 12            CookLewis Cook        M  21
@@ -667,13 +667,13 @@ EPL.Contracts[[1]]</code></pre>
 ## 19             PughMarc Pugh        M  31
 ## 20    HyndmanEmerson Hyndman        M  22
 ## 21     MahoneyConnor Mahoney        F  21
-## 22 StanislasJunior Stanislas        M  28
+## 22 StanislasJunior Stanislas        M  29
 ## 23          BorucArtur Boruc       GK  38
 ## 24    RamsdaleAaron Ramsdale       GK  20
 ## 25       SimpsonJack Simpson        D  21
 ## 26         TaylorKyle Taylor        M  19
 ## 27        BrooksDavid Brooks        M  21
-## 28      LermaJefferson Lerma        M  23
+## 28      LermaJefferson Lerma        M  24
 ## 29            RicoDiego Rico        D  25
 ##                                                             Contract.Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
@@ -844,9 +844,9 @@ cplot</code></pre>
         
         <li><a href="/post/tidytext-is-neat/">tidytext is neat! White House Communications</a></li>
         
-        <li><a href="/post/correlation-function/">Correlation Function</a></li>
-        
         <li><a href="/post/black-boxes-a-gender-gap-example/">Black Boxes: A Gender Gap Example</a></li>
+        
+        <li><a href="/post/correlation-function/">Correlation Function</a></li>
         
         <li><a href="/post/scraping-the-nfl-salary-cap-data-with-python-and-r/">Scraping the NFL Salary Cap Data with Python and R</a></li>
         
