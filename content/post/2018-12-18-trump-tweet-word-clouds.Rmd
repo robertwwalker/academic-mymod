@@ -138,6 +138,11 @@ bigrams_united <- bigrams_filtered %>%
 my.df <- data.frame(table(bigrams_united))
 my.df <- my.df[order(my.df$Freq, decreasing=TRUE),]
 my.df <- my.df[c(1:500),]
+```
+
+With that, we have the data for the bigram cloud.
+
+```{r, eval=FALSE, echo=FALSE}
 library(wordcloud2)
 wordcloud2(my.df, color="random-light", backgroundColor = "black")
 ```
@@ -145,12 +150,13 @@ wordcloud2(my.df, color="random-light", backgroundColor = "black")
 After seeing a few competing renditions, I prefer `wordcloud2`.  One thing to be careful about is scaling.  In this case, the most frequent bigram is missing because the ratio makes it too large to fit.  With size smaller, it can be made to show.
 
 ```{r}
+library(wordcloud2)
 wordcloud2(my.df, color="random-light", backgroundColor = "black", size = 0.7)
 ```
 
-I think that works quite nicely.
+I think that works quite nicely.  The use of jpg for shapes has not worked for me.
 
-```{r Fig2}
+```{r}
 wordcloud2(my.df, figPath = "tweeter.jpg", size = 0.5, color = "pink")
 ```
 
