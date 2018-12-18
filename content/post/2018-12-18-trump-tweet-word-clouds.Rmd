@@ -151,12 +151,20 @@ After seeing a few competing renditions, I prefer `wordcloud2`.  One thing to be
 
 ```{r}
 library(wordcloud2)
-wordcloud2(my.df, color="random-light", backgroundColor = "black", size = 0.7)
+wordcloud2(my.df, color="random-light", backgroundColor = "black", size = 0.5)
 ```
 
-I think that works quite nicely.  The use of jpg for shapes has not worked for me.
+I think that works quite nicely.  The use of jpg for shapes has not worked for me.  Nor have letterCloud.
 
-```{r}
-wordcloud2(my.df, figPath = "tweeter.jpg", size = 0.5, color = "pink")
+```{r, eval=FALSE, echo=TRUE}
+library(htmlwidgets)
+library(webshot)
+Ments.Tab <- data.frame(table(Ments))
+Ments.Tab <- Ments.Tab[order(Ments.Tab$Freq, decreasing=TRUE),]
+#webshot::install_phantomjs()
+my.df.short <- my.df[c(1:40),]
+hw1 <- letterCloud(Ments.Tab, "@", size=4, color='random-light')
+saveWidget(hw1,"1.html",selfcontained = F)
+webshot::webshot("1.html","1.png",vwidth = 700, vheight = 500, delay =10)
 ```
-
+![](1.png)
