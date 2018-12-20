@@ -1,0 +1,122 @@
+---
+title: Trump's Tweets, Part II
+author: RWW
+date: '2018-12-19'
+slug: trump-s-tweets-part-ii
+categories:
+  - R
+  - twitter
+  - tidytext
+tags:
+  - R
+  - R Markdown
+  - tidytext
+  - twitter sentiment
+header:
+  caption: ''
+  image: ''
+---
+
+# Trump's Tone
+
+A cool post on sentiment analysis can be found [here](http://dataaspirant.com/2018/03/22/twitter-sentiment-analysis-using-r/).  The first step is to grab his timeline.  `rtweet` makes this quite easy.  I will grab it and then save it in the code below so that I do not spam the API.  I will get at the time series characteristics of his tweets and the sentiment stuff in a further analysis.  For now, let me just show some wordclouds.
+
+I start by loading the tmls object that I created [in the previous post](https://www.data.viajes/post/trump-tweet-word-clouds/.  What does it look like?
+
+```{r, message=FALSE}
+library(tidyverse)
+library(tidytext)
+library("SnowballC")
+library("tm")
+library("twitteR")
+library("syuzhet")
+library(rtweet)
+load("../../data/TMLS.RData")
+names(tml.djt)
+ts_plot(tml.djt, "days") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(
+    x = NULL, y = NULL,
+    title = "Frequency of @realDonaldTrump tweets and retweeets",
+    subtitle = "Twitter status (tweet) counts aggregated using days",
+    caption = "\nSource: Data collected from Twitter's REST API via rtweet"
+  )
+```
+
+I want to first get rid of retweets to render President Trump in his own voice.
+
+```{r}
+DJTDF <- tml.djt %>% filter(is_retweet==FALSE)
+ts_plot(DJTDF, "days") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(
+    x = NULL, y = NULL,
+    title = "Frequency of @realDonaldTrump tweets [retweeets removed]",
+    subtitle = "Twitter status (tweet) counts aggregated using days",
+    caption = "\nSource: Data collected from Twitter's REST API via rtweet"
+  )
+```
+
+Some more stuff from [stack overflow](https://stackoverflow.com/questions/31348453/how-do-i-clean-twitter-data-in-r).  There is quite a bit of code in here.  I simply wrote a function that takes an input character string and cleans it up.  Uncomment the various components and pipe them.  The sequencing is important and I found this to get everything that I wanted.
+
+```{r, warning=FALSE}
+library(RColorBrewer)
+TDF <- DJTDF %>% select(text)
+library(tidyr)
+CT <- TDF %>% mutate(tweetno= row_number())
+# TDF contains the text of tweets amd the id
+library(stringr)
+tweet_cleaner <- function(text) {
+  temp1 <- str_replace_all(text, "&amp", "") %>% 
+    str_replace_all(., "https.*","") %>%
+#    str_replace_all(., "http.*", "") %>%
+    str_replace_all(.,"@[a-z,A-Z]*","")
+#    str_replace_all(., "[[:punct:]]", "")  
+#    str_replace_all(., "[[:digit:]]", "") %>%
+#    str_replace_all(., "[ \t]{2,}", "") %>%
+#    str_replace_all(., "^\\s+|\\s+$", "")  %>%
+#    str_replace_all(., " "," ") %>%
+#    str_replace_all(.,"RT @[a-z,A-Z]*: ","") %>% 
+#    str_replace_all(.,"#[a-z,A-Z]*","")
+  return(temp1)
+}
+clean_tweets <- data.frame(text=sapply(1:dim(TDF)[[1]], function(x) {tweet_cleaner(TDF[x,"text"])}))
+clean_tweets$text <- as.character(clean_tweets$text)
+Trumps.Sent.Words <- clean_tweets %>% unnest_tokens(., word, text) %>% anti_join(stop_words, "word")
+
+# word.df <- as.vector(TDF)
+# emotion.df <- get_nrc_sentiment(word.df)
+SNTR1 <- apply(TDF, 1, function(x) {get_nrc_sentiment(x)})
+Sent.Res <- bind_rows(SNTR1)
+Sent.Res
+```
+
+# A Single Number Sentiment
+
+```{r}
+SNTRB <- apply(TDF, 1, function(x) {get_sentiment(x, method="bing")})
+DJTDF$Bing <- SNTRB
+DJTDF <- DJTDF %>% mutate(RN=row_number())
+DJTDF <- DJTDF
+DJTDF <- DJTDF[order(DJTDF$RN, decreasing = T),]
+library(tibbletime)
+DJTDF_tbl_time_d <- DJTDF %>%
+     as_tbl_time(index = created_at) 
+My.Res <- DJTDF_tbl_time_d %>%
+    collapse_by("daily") %>%
+    dplyr::group_by(created_at) %>%
+    dplyr::summarise_if(is.numeric, mean) %>% select(created_at,Bing)
+SBP <- My.Res %>% filter(Bing>0)
+SBN <- My.Res %>% filter(Bing<0)
+plot(My.Res, type="l", xlab="2018", ylab="Avg. Bing Sentiment", main="Trump's Bing Daily Mood")
+points(SBP, col="green")
+points(SBN, col="red")
+text(My.Res[316,], "GHW Bush Passes", cex=0.6)
+text(My.Res[66,], "March for Our Life", cex=0.6)
+table(sign(My.Res$Bing))
+```
+That's pretty interesting.
+
+

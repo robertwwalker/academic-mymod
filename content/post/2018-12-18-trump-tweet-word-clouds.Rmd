@@ -49,6 +49,7 @@ I start by loading the tmls object that I created above.  What does it look like
 ```{r, message=FALSE}
 library(tidyverse)
 library(tidytext)
+library(rtweet)
 load("../../data/TMLS.RData")
 names(tml.djt)
 ```
@@ -135,6 +136,7 @@ bigrams_united <- bigrams_filtered %>%
 my.df <- data.frame(table(bigrams_united))
 my.df <- my.df[order(my.df$Freq, decreasing=TRUE),]
 my.df <- my.df[c(1:500),]
+head(my.df)
 ```
 
 With that, we have the data for the bigram cloud.
@@ -147,11 +149,11 @@ wordcloud2(my.df, color="random-light", backgroundColor = "black")
 After seeing a few competing renditions, I prefer `wordcloud2`.  One thing to be careful about is scaling.  In this case, the most frequent bigram is missing because the ratio makes it too large to fit.  With size smaller, it can be made to show.
 
 ```{r}
-library(wordcloud2)
+library(wordcloud2)  
 wordcloud2(my.df, color="random-light", backgroundColor = "black", size = 0.5)
 ```
 
-I think that works quite nicely.  The use of jpg for shapes has not worked for me.  Nor have letterCloud.  I found some code on github that will supposedly solve this but it does not seem to work either.
+I think that works quite nicely.  The use of jpg for shapes has not worked for me.  Nor has letterCloud.  I found some code on github that will supposedly solve this but it does not seem to work either.  It is supposed to render as an htmlwidget but something about that seems not to work properly.
 
 ```{r, eval=FALSE, echo=TRUE}
 library(htmlwidgets)

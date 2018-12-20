@@ -13,6 +13,15 @@
     
     
     <item>
+      <title>Trump&#39;s Tweets, Part II</title>
+      <link>https://www.data.viajes/post/trump-s-tweets-part-ii/</link>
+      <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.data.viajes/post/trump-s-tweets-part-ii/</guid>
+      <description>Trump’s Tone A cool post on sentiment analysis can be found here. The first step is to grab his timeline. rtweet makes this quite easy. I will grab it and then save it in the code below so that I do not spam the API. I will get at the time series characteristics of his tweets and the sentiment stuff in a further analysis. For now, let me just show some wordclouds.</description>
+    </item>
+    
+    <item>
       <title>Trump Tweet Word Clouds</title>
       <link>https://www.data.viajes/post/trump-tweet-word-clouds/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
@@ -28,7 +37,7 @@
       
       <guid>https://www.data.viajes/post/tidytuesday-meets-the-economics-of-majors/</guid>
       <description>This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is here.
-library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&amp;quot;) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ─────────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ────────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.</description>
+library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&amp;quot;) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.</description>
     </item>
     
     <item>
@@ -39,7 +48,7 @@ library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importi
       <guid>https://www.data.viajes/post/tidytuesday-coffee-chains/</guid>
       <description>The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(tidyverse) ## ── Attaching packages ────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.</description>
+library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.</description>
     </item>
     
     <item>
@@ -50,7 +59,7 @@ library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(ti
       <guid>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</guid>
       <description>tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
 Here is this week’s tidyTuesday.
-library(here) library(readxl) library(skimr) library(tidyverse) library(rlang) global_mortality &amp;lt;- read_excel(paste0(here(),&amp;quot;/data/global_mortality.xlsx&amp;quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ──────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.</description>
+library(here) library(readxl) library(skimr) library(tidyverse) library(rlang) global_mortality &amp;lt;- read_excel(paste0(here(),&amp;quot;/data/global_mortality.xlsx&amp;quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.</description>
     </item>
     
     <item>
