@@ -294,7 +294,7 @@ library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuz
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    6 min read
+    7 min read
   </span>
   
 
@@ -477,8 +477,8 @@ tweet_cleaner &lt;- function(text) {
 clean_tweets &lt;- data.frame(text=sapply(1:dim(TDF)[[1]], function(x) {tweet_cleaner(TDF[x,&quot;text&quot;])}))
 clean_tweets$text &lt;- as.character(clean_tweets$text)
 clean_tweets$created_at &lt;- DJTDF$created_at
+clean_tweets$RN &lt;- DJTDF$RN
 Trumps.Sent.Words &lt;- clean_tweets %&gt;% unnest_tokens(., word, text) %&gt;% anti_join(stop_words, &quot;word&quot;)
-
 # word.df &lt;- as.vector(TDF)
 # emotion.df &lt;- get_nrc_sentiment(word.df)
 SNTR1 &lt;- apply(TDF, 1, function(x) {get_nrc_sentiment(x)})
@@ -660,6 +660,38 @@ djt_bigrams %&gt;%
          !str_detect(word2, &quot;\\d&quot;)) %&gt;%
   visualize_bigrams()</code></pre>
 <p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>#collapsed &lt;- CT %&gt;% unnest_tokens(., word, text) %&gt;% anti_join(stop_words, &quot;word&quot;) %&gt;% mutate(word = str_replace(word, &quot;&#39;&quot;, &quot;&quot;)) %&gt;%
+#  group_by(tweetno) %&gt;%
+#  summarize(text = paste(word, collapse = &quot; &quot;))
+
+# create an empty file of &quot;stopwords&quot;
+#file.create(empty_file &lt;- tempfile())
+#docs &lt;- mallet.import(CT$tweetno, CT$text, empty_file)
+
+#mallet_model &lt;- MalletLDA(num.topics = 4)
+#mallet_model$loadDocuments(docs)
+#mallet_model$train(100)
+clean_tweets$RN &lt;- DJTDF$RN
+tidy.tweets.RN &lt;- clean_tweets %&gt;% select(RN, text) %&gt;% unnest_tokens(word, text) %&gt;%
+  anti_join(stop_words) %&gt;%
+  count(RN, word, sort = TRUE) %&gt;%
+  ungroup()</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<pre class="r"><code>tweets_dtm &lt;- tidy.tweets.RN %&gt;%
+  cast_dtm(RN, word, n)
+library(topicmodels)
+tweets_lda &lt;- LDA(tweets_dtm, k = 4, control = list(seed = 1234))
+tweet_topics &lt;- tidy(tweets_lda, , matrix=&quot;beta&quot;)
+top_terms &lt;- tweet_topics %&gt;% group_by(topic) %&gt;% top_n(10, beta) %&gt;%
+    ungroup() %&gt;%
+    arrange(topic, -beta)
+top_terms %&gt;%
+    mutate(term = reorder(term, beta)) %&gt;%
+    ggplot(aes(term, beta, fill = factor(topic))) +
+    geom_col(show.legend = FALSE) +
+    facet_wrap(~ topic, scales = &quot;free&quot;) +
+    coord_flip()</code></pre>
+<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 </div>
 
@@ -696,9 +728,9 @@ djt_bigrams %&gt;%
         
         <li><a href="/post/trump-tweet-word-clouds/">Trump Tweet Word Clouds</a></li>
         
-        <li><a href="/post/correlation-function/">Correlation Function</a></li>
-        
         <li><a href="/post/black-boxes-a-gender-gap-example/">Black Boxes: A Gender Gap Example</a></li>
+        
+        <li><a href="/post/correlation-function/">Correlation Function</a></li>
         
       </ul>
     </div>

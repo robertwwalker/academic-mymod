@@ -124,8 +124,8 @@ tweet_cleaner &amp;lt;- function(text) {
 clean_tweets &amp;lt;- data.frame(text=sapply(1:dim(TDF)[[1]], function(x) {tweet_cleaner(TDF[x,&amp;quot;text&amp;quot;])}))
 clean_tweets$text &amp;lt;- as.character(clean_tweets$text)
 clean_tweets$created_at &amp;lt;- DJTDF$created_at
+clean_tweets$RN &amp;lt;- DJTDF$RN
 Trumps.Sent.Words &amp;lt;- clean_tweets %&amp;gt;% unnest_tokens(., word, text) %&amp;gt;% anti_join(stop_words, &amp;quot;word&amp;quot;)
-
 # word.df &amp;lt;- as.vector(TDF)
 # emotion.df &amp;lt;- get_nrc_sentiment(word.df)
 SNTR1 &amp;lt;- apply(TDF, 1, function(x) {get_nrc_sentiment(x)})
@@ -307,6 +307,38 @@ djt_bigrams %&amp;gt;%
          !str_detect(word2, &amp;quot;\\d&amp;quot;)) %&amp;gt;%
   visualize_bigrams()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#collapsed &amp;lt;- CT %&amp;gt;% unnest_tokens(., word, text) %&amp;gt;% anti_join(stop_words, &amp;quot;word&amp;quot;) %&amp;gt;% mutate(word = str_replace(word, &amp;quot;&amp;#39;&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
+#  group_by(tweetno) %&amp;gt;%
+#  summarize(text = paste(word, collapse = &amp;quot; &amp;quot;))
+
+# create an empty file of &amp;quot;stopwords&amp;quot;
+#file.create(empty_file &amp;lt;- tempfile())
+#docs &amp;lt;- mallet.import(CT$tweetno, CT$text, empty_file)
+
+#mallet_model &amp;lt;- MalletLDA(num.topics = 4)
+#mallet_model$loadDocuments(docs)
+#mallet_model$train(100)
+clean_tweets$RN &amp;lt;- DJTDF$RN
+tidy.tweets.RN &amp;lt;- clean_tweets %&amp;gt;% select(RN, text) %&amp;gt;% unnest_tokens(word, text) %&amp;gt;%
+  anti_join(stop_words) %&amp;gt;%
+  count(RN, word, sort = TRUE) %&amp;gt;%
+  ungroup()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Joining, by = &amp;quot;word&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets_dtm &amp;lt;- tidy.tweets.RN %&amp;gt;%
+  cast_dtm(RN, word, n)
+library(topicmodels)
+tweets_lda &amp;lt;- LDA(tweets_dtm, k = 4, control = list(seed = 1234))
+tweet_topics &amp;lt;- tidy(tweets_lda, , matrix=&amp;quot;beta&amp;quot;)
+top_terms &amp;lt;- tweet_topics %&amp;gt;% group_by(topic) %&amp;gt;% top_n(10, beta) %&amp;gt;%
+    ungroup() %&amp;gt;%
+    arrange(topic, -beta)
+top_terms %&amp;gt;%
+    mutate(term = reorder(term, beta)) %&amp;gt;%
+    ggplot(aes(term, beta, fill = factor(topic))) +
+    geom_col(show.legend = FALSE) +
+    facet_wrap(~ topic, scales = &amp;quot;free&amp;quot;) +
+    coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>

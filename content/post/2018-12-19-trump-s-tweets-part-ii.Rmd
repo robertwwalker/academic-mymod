@@ -90,8 +90,8 @@ tweet_cleaner <- function(text) {
 clean_tweets <- data.frame(text=sapply(1:dim(TDF)[[1]], function(x) {tweet_cleaner(TDF[x,"text"])}))
 clean_tweets$text <- as.character(clean_tweets$text)
 clean_tweets$created_at <- DJTDF$created_at
+clean_tweets$RN <- DJTDF$RN
 Trumps.Sent.Words <- clean_tweets %>% unnest_tokens(., word, text) %>% anti_join(stop_words, "word")
-
 # word.df <- as.vector(TDF)
 # emotion.df <- get_nrc_sentiment(word.df)
 SNTR1 <- apply(TDF, 1, function(x) {get_nrc_sentiment(x)})
@@ -228,5 +228,40 @@ djt_bigrams %>%
          !str_detect(word1, "\\d"),
          !str_detect(word2, "\\d")) %>%
   visualize_bigrams()
+```
+
+
+```{r}
+#collapsed <- CT %>% unnest_tokens(., word, text) %>% anti_join(stop_words, "word") %>% mutate(word = str_replace(word, "'", "")) %>%
+#  group_by(tweetno) %>%
+#  summarize(text = paste(word, collapse = " "))
+
+# create an empty file of "stopwords"
+#file.create(empty_file <- tempfile())
+#docs <- mallet.import(CT$tweetno, CT$text, empty_file)
+
+#mallet_model <- MalletLDA(num.topics = 4)
+#mallet_model$loadDocuments(docs)
+#mallet_model$train(100)
+clean_tweets$RN <- DJTDF$RN
+tidy.tweets.RN <- clean_tweets %>% select(RN, text) %>% unnest_tokens(word, text) %>%
+  anti_join(stop_words) %>%
+  count(RN, word, sort = TRUE) %>%
+  ungroup()
+
+tweets_dtm <- tidy.tweets.RN %>%
+  cast_dtm(RN, word, n)
+library(topicmodels)
+tweets_lda <- LDA(tweets_dtm, k = 4, control = list(seed = 1234))
+tweet_topics <- tidy(tweets_lda, , matrix="beta")
+top_terms <- tweet_topics %>% group_by(topic) %>% top_n(10, beta) %>%
+    ungroup() %>%
+    arrange(topic, -beta)
+top_terms %>%
+    mutate(term = reorder(term, beta)) %>%
+    ggplot(aes(term, beta, fill = factor(topic))) +
+    geom_col(show.legend = FALSE) +
+    facet_wrap(~ topic, scales = "free") +
+    coord_flip()
 ```
 
