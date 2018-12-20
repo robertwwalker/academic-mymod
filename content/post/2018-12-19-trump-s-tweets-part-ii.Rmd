@@ -19,17 +19,20 @@ header:
 
 # Trump's Tone
 
-A cool post on sentiment analysis can be found [here](http://dataaspirant.com/2018/03/22/twitter-sentiment-analysis-using-r/).  The first step is to grab his timeline.  `rtweet` makes this quite easy.  I will grab it and then save it in the code below so that I do not spam the API.  I will get at the time series characteristics of his tweets and the sentiment stuff in a further analysis.  For now, let me just show some wordclouds.
+A cool post on sentiment analysis can be found [here](http://dataaspirant.com/2018/03/22/twitter-sentiment-analysis-using-r/).  I will now get at the time series characteristics of his tweets and the sentiment stuff.
 
-I start by loading the tmls object that I created [in the previous post](https://www.data.viajes/post/trump-tweet-word-clouds/.  What does it look like?
+I start by loading the tmls object that I created [in the previous post](https://www.data.viajes/post/trump-tweet-word-clouds/).  
+
+## Trump's Overall Tweeting
+
+What does it look like?
 
 ```{r, message=FALSE}
 library(tidyverse)
 library(tidytext)
-library("SnowballC")
-library("tm")
-library("twitteR")
-library("syuzhet")
+library(SnowballC)
+library(tm)
+library(syuzhet)
 library(rtweet)
 load("../../data/TMLS.RData")
 names(tml.djt)
@@ -43,6 +46,8 @@ ts_plot(tml.djt, "days") +
     caption = "\nSource: Data collected from Twitter's REST API via rtweet"
   )
 ```
+
+## Trump's Tweets by Day
 
 I want to first get rid of retweets to render President Trump in his own voice.
 
@@ -84,13 +89,14 @@ tweet_cleaner <- function(text) {
 }
 clean_tweets <- data.frame(text=sapply(1:dim(TDF)[[1]], function(x) {tweet_cleaner(TDF[x,"text"])}))
 clean_tweets$text <- as.character(clean_tweets$text)
+clean_tweets$created_at <- DJTDF$created_at
 Trumps.Sent.Words <- clean_tweets %>% unnest_tokens(., word, text) %>% anti_join(stop_words, "word")
 
 # word.df <- as.vector(TDF)
 # emotion.df <- get_nrc_sentiment(word.df)
 SNTR1 <- apply(TDF, 1, function(x) {get_nrc_sentiment(x)})
 Sent.Res <- bind_rows(SNTR1)
-Sent.Res
+head(Sent.Res)
 ```
 
 # A Single Number Sentiment
@@ -117,6 +123,110 @@ text(My.Res[316,], "GHW Bush Passes", cex=0.6)
 text(My.Res[66,], "March for Our Life", cex=0.6)
 table(sign(My.Res$Bing))
 ```
-That's pretty interesting.
+That's pretty interesting.  There are considerably more positive days than negative ones.  The timing of the maximum and minimum are fairly clear in time.
 
+```{r}
+library(tidytext)
+tidy.tweets <- DJTDF %>% select(created_at, text) %>% unnest_tokens(word, text)
+afinn <- tidy.tweets %>% 
+  inner_join(get_sentiments("afinn")) %>% 
+  group_by(created_at) %>% 
+  summarise(sentiment = sum(score)) %>% 
+  mutate(method = "AFINN")
+bing_and_nrc <- bind_rows(tidy.tweets %>% 
+                            inner_join(get_sentiments("bing")) %>%
+                            mutate(method = "Bing"),
+                          tidy.tweets %>% 
+                            inner_join(get_sentiments("nrc") %>% 
+                                         filter(sentiment %in% c("positive", 
+                                                                 "negative"))) %>%
+                            mutate(method = "NRC")) %>%
+  count(method, created_at, sentiment) %>%
+  spread(sentiment, n, fill = 0) %>%
+  mutate(sentiment = positive - negative) %>% select(created_at, sentiment, method)
+Sents.Me <- bind_rows(afinn,bing_and_nrc)
+SME_tbl_time_d <- Sents.Me  %>% as_tbl_time(index = created_at) 
+My.Res <- SME_tbl_time_d %>% group_by(method) %>%
+    collapse_by("daily") %>%
+    dplyr::group_by(created_at, method) %>%
+    dplyr::summarise_if(is.numeric, mean) %>% ungroup()
+ggplot(data = My.Res) +
+  aes(x = created_at, y = sentiment, color = method) +
+  geom_line() +
+  theme_minimal()
+```
+
+## Averaging three types of scaled sentiments
+
+```{r}
+MRS <- My.Res %>% group_by(method) %>% mutate(SS=scale(sentiment))
+MRS2 <- MRS %>%  collapse_by("daily") %>% select(created_at, SS) %>%
+    dplyr::group_by(created_at) %>%
+    dplyr::summarise_if(is.numeric, mean) 
+ggplot(data = MRS2) +
+  aes(x = created_at, y = SS) +
+  geom_line(color = '#781c6d') +
+  labs(title = 'Sentiment: Averaged',
+    x = 'Date',
+    y = 'Mean Scaled Sentiment') +
+  theme_minimal()
+```
+
+## Common Words
+
+The `comparson_cloud()` features in `wordcloud` allow a split of the most common words in the positive and negative sentiment dictionaries.
+
+```{r}
+library(wordcloud)
+library(reshape2)
+tidy.tweets %>%
+  inner_join(get_sentiments("bing")) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  acast(word ~ sentiment, value.var = "n", fill = 0) %>%
+  comparison.cloud(colors = c("red","green"),
+                   max.words = 100)
+```
+
+## Networks
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(tidytext)
+library(ggplot2)
+library(igraph)
+library(ggraph)
+
+count_bigrams <- function(dataset) {
+  dataset %>%
+    unnest_tokens(bigram, text, token = "ngrams", n = 2) %>%
+    separate(bigram, c("word1", "word2"), sep = " ") %>%
+    filter(!word1 %in% stop_words$word,
+           !word2 %in% stop_words$word) %>%
+    count(word1, word2, sort = TRUE)
+}
+
+visualize_bigrams <- function(bigrams) {
+  set.seed(2016)
+  a <- grid::arrow(type = "closed", length = unit(.15, "inches"))
+  bigrams %>%
+    graph_from_data_frame() %>%
+    ggraph(layout = "fr") +
+    geom_edge_link(aes(edge_alpha = n), show.legend = FALSE, arrow = a) +
+    geom_node_point(color = "lightblue", size = 5) +
+    geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
+    theme_void()
+}
+library(stringr)
+
+djt_bigrams <- clean_tweets %>% select(created_at, text) %>% 
+  count_bigrams()
+
+# filter out rare combinations, as well as digits
+djt_bigrams %>%
+  filter(n > 20,
+         !str_detect(word1, "\\d"),
+         !str_detect(word2, "\\d")) %>%
+  visualize_bigrams()
+```
 
