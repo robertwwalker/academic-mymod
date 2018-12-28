@@ -275,7 +275,7 @@
     <div class="article-style">
       
       This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is here.
-library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &lt;- read.csv(&quot;<a href="https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&quot;" target="_blank">https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&quot;</a>) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.
+library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &lt;- read.csv(&quot;<a href="https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&quot;" target="_blank">https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&quot;</a>) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.
       
     </div>
   </div>
@@ -286,7 +286,7 @@ library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importi
       
       The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.
+library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.
       
     </div>
   </div>
@@ -297,7 +297,7 @@ library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(ti
       
       tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
 Here is this week’s tidyTuesday.
-library(here) library(readxl) library(skimr) library(tidyverse) library(rlang) global_mortality &lt;- read_excel(paste0(here(),&quot;/data/global_mortality.xlsx&quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.
+library(here) library(readxl) library(skimr) library(tidyverse) library(rlang) global_mortality &lt;- read_excel(paste0(here(),&quot;/data/global_mortality.xlsx&quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.
       
     </div>
   </div>

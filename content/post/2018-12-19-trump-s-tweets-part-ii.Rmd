@@ -232,17 +232,6 @@ djt_bigrams %>%
 
 
 ```{r}
-#collapsed <- CT %>% unnest_tokens(., word, text) %>% anti_join(stop_words, "word") %>% mutate(word = str_replace(word, "'", "")) %>%
-#  group_by(tweetno) %>%
-#  summarize(text = paste(word, collapse = " "))
-
-# create an empty file of "stopwords"
-#file.create(empty_file <- tempfile())
-#docs <- mallet.import(CT$tweetno, CT$text, empty_file)
-
-#mallet_model <- MalletLDA(num.topics = 4)
-#mallet_model$loadDocuments(docs)
-#mallet_model$train(100)
 clean_tweets$RN <- DJTDF$RN
 tidy.tweets.RN <- clean_tweets %>% select(RN, text) %>% unnest_tokens(word, text) %>%
   anti_join(stop_words) %>%
@@ -252,7 +241,7 @@ tidy.tweets.RN <- clean_tweets %>% select(RN, text) %>% unnest_tokens(word, text
 tweets_dtm <- tidy.tweets.RN %>%
   cast_dtm(RN, word, n)
 library(topicmodels)
-tweets_lda <- LDA(tweets_dtm, k = 4, control = list(seed = 1234))
+tweets_lda <- LDA(tweets_dtm, k = 7, control = list(seed = 12345))
 tweet_topics <- tidy(tweets_lda, , matrix="beta")
 top_terms <- tweet_topics %>% group_by(topic) %>% top_n(10, beta) %>%
     ungroup() %>%
@@ -264,4 +253,40 @@ top_terms %>%
     facet_wrap(~ topic, scales = "free") +
     coord_flip()
 ```
+
+```{r}
+tweet_topicM <- tidy(tweets_lda, , matrix="gamma")
+top_tweets <- tweet_topicM %>% group_by(topic) %>% top_n(10, gamma) %>%
+    ungroup() %>%
+    arrange(topic, -gamma)
+top_tweets
+Tweet.Res <- cbind(TDF[as.numeric(top_tweets$document),],top_tweets)
+```
+
+Mallet is finicky.  Below is some playing with it but the stop words are messy.
+
+```{r, eval=FALSE, echo=TRUE}
+library(qdap)
+clean_tweets$text <- clean_tweets %>% select(text) %>% rm_stopwords(., tm::stopwords("english"), separate = FALSE, unlist=FALSE)
+library(mallet)
+clean_tweets$RN <- as.character(clean_tweets$RN)
+clean_tweets <- clean_tweets
+# create an empty file of "stopwords"
+# file.create(empty_file <- tempfile())
+# mystopwords <- as.character(stop_words[,1])
+stopwords_en <-  stop_words()
+#system.file("stoplists/en.txt", package = "mallet")
+docs <- mallet.import(clean_tweets$RN, clean_tweets$text, stoplist=stopwords_en)
+mallet_model <- MalletLDA(num.topics = 6)
+mallet_model$loadDocuments(docs)
+mallet_model$train(250)
+mallet_model$maximize(100)
+topic.words <- mallet.topic.words(mallet_model, smoothed=TRUE, normalized=TRUE)
+names(topic.words)
+mallet.top.words(mallet_model, word.weights = topic.words[4,], num.top.words = 5)
+```
+
+## Sentiments and Tidy Calendars
+
+Now I want to play with the time series properties of the tweet sentiments.  Days of the week and times of day aggregated over different periods can say something...  Perhaps?
 

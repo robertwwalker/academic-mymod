@@ -141,15 +141,18 @@ head(my.df)
 
 With that, we have the data for the bigram cloud.
 
-```{r, eval=FALSE, echo=FALSE}
+```{r}
 library(wordcloud2)
+png("here1.png")
 wordcloud2(my.df, color="random-light", backgroundColor = "black")
+dev.off()
 ```
+
+![Picture](here1.png)
 
 After seeing a few competing renditions, I prefer `wordcloud2`.  One thing to be careful about is scaling.  In this case, the most frequent bigram is missing because the ratio makes it too large to fit.  With size smaller, it can be made to show.
 
 ```{r}
-library(wordcloud2)  
 wordcloud2(my.df, color="random-light", backgroundColor = "black", size = 0.5)
 ```
 

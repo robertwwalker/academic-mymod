@@ -19,7 +19,7 @@
   
   <meta name="description" content="The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.">
+library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.">
 
   
   <link rel="alternate" hreflang="en-us" href="https://www.data.viajes/post/tidytuesday-coffee-chains/">
@@ -85,7 +85,7 @@ library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(ti
   <meta property="og:title" content="tidyTuesday: coffee chains | Robert W. Walker">
   <meta property="og:description" content="The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.">
+library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2018-05-09T00:00:00&#43;00:00">
@@ -375,12 +375,12 @@ library(here) ## here() starts at /home/rob/R/MyNLWeb library(readxl) library(ti
 <pre><code>## here() starts at /home/rob/R/MyNLWeb</code></pre>
 <pre class="r"><code>library(readxl)
 library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ───────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
 ## ✔ tibble  1.4.2     ✔ dplyr   0.7.8
 ## ✔ tidyr   0.8.2     ✔ stringr 1.3.1
 ## ✔ readr   1.3.0     ✔ forcats 0.3.0</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(janitor)
@@ -406,7 +406,7 @@ skim(Starbucks)</code></pre>
 ##  n obs: 25600 
 ##  n variables: 13 
 ## 
-## ── Variable type:character ───────────────────────────────────────────────────────
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────
 ##        variable missing complete     n min max empty n_unique
 ##           Brand       0    25600 25600   7  21     0        4
 ##            City      14    25586 25600   2  29     0     5470
@@ -420,7 +420,7 @@ skim(Starbucks)</code></pre>
 ##  Street Address       2    25598 25600   1 234     0    25353
 ##        Timezone       0    25600 25600  18  30     0      101
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
 ##   variable missing complete     n   mean    sd      p0     p25    p50
 ##   Latitude       1    25599 25600  34.79 13.34  -46.41   31.24  36.75
 ##  Longitude       1    25599 25600 -27.87 96.84 -159.46 -104.66 -79.35
@@ -432,7 +432,7 @@ skim(Starbucks)</code></pre>
 ##  n obs: 4898 
 ##  n variables: 22 
 ## 
-## ── Variable type:character ───────────────────────────────────────────────────────
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────
 ##    variable missing complete    n min max empty n_unique
 ##    biz_info    4091      807 4898  14  18     0      709
 ##    biz_name       0     4898 4898   8  38     0       33
@@ -448,7 +448,7 @@ skim(Starbucks)</code></pre>
 ##      loc_TZ       0     4898 4898   3   5     0        5
 ##     web_url       0     4898 4898  20 175     0       22
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
 ##           variable missing complete    n     mean       sd      p0
 ##           e_postal       0     4898 4898 21528.34 20311.57 1001   
 ##                 id       0     4898 4898  2459.46  1420.28    1   
@@ -474,7 +474,7 @@ skim(Starbucks)</code></pre>
 ##  n obs: 4955 
 ##  n variables: 6 
 ## 
-## ── Variable type:character ───────────────────────────────────────────────────────
+## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────
 ##     variable missing complete    n min max empty n_unique
 ##      address       0     4955 4955   6  51     0     4803
 ##         city       0     4955 4955   3  38     0     1206

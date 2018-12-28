@@ -294,7 +294,7 @@ library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuz
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    7 min read
+    8 min read
   </span>
   
 
@@ -660,18 +660,7 @@ djt_bigrams %&gt;%
          !str_detect(word2, &quot;\\d&quot;)) %&gt;%
   visualize_bigrams()</code></pre>
 <p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<pre class="r"><code>#collapsed &lt;- CT %&gt;% unnest_tokens(., word, text) %&gt;% anti_join(stop_words, &quot;word&quot;) %&gt;% mutate(word = str_replace(word, &quot;&#39;&quot;, &quot;&quot;)) %&gt;%
-#  group_by(tweetno) %&gt;%
-#  summarize(text = paste(word, collapse = &quot; &quot;))
-
-# create an empty file of &quot;stopwords&quot;
-#file.create(empty_file &lt;- tempfile())
-#docs &lt;- mallet.import(CT$tweetno, CT$text, empty_file)
-
-#mallet_model &lt;- MalletLDA(num.topics = 4)
-#mallet_model$loadDocuments(docs)
-#mallet_model$train(100)
-clean_tweets$RN &lt;- DJTDF$RN
+<pre class="r"><code>clean_tweets$RN &lt;- DJTDF$RN
 tidy.tweets.RN &lt;- clean_tweets %&gt;% select(RN, text) %&gt;% unnest_tokens(word, text) %&gt;%
   anti_join(stop_words) %&gt;%
   count(RN, word, sort = TRUE) %&gt;%
@@ -680,7 +669,7 @@ tidy.tweets.RN &lt;- clean_tweets %&gt;% select(RN, text) %&gt;% unnest_tokens(w
 <pre class="r"><code>tweets_dtm &lt;- tidy.tweets.RN %&gt;%
   cast_dtm(RN, word, n)
 library(topicmodels)
-tweets_lda &lt;- LDA(tweets_dtm, k = 4, control = list(seed = 1234))
+tweets_lda &lt;- LDA(tweets_dtm, k = 7, control = list(seed = 12345))
 tweet_topics &lt;- tidy(tweets_lda, , matrix=&quot;beta&quot;)
 top_terms &lt;- tweet_topics %&gt;% group_by(topic) %&gt;% top_n(10, beta) %&gt;%
     ungroup() %&gt;%
@@ -692,6 +681,49 @@ top_terms %&gt;%
     facet_wrap(~ topic, scales = &quot;free&quot;) +
     coord_flip()</code></pre>
 <p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>tweet_topicM &lt;- tidy(tweets_lda, , matrix=&quot;gamma&quot;)
+top_tweets &lt;- tweet_topicM %&gt;% group_by(topic) %&gt;% top_n(10, gamma) %&gt;%
+    ungroup() %&gt;%
+    arrange(topic, -gamma)
+top_tweets</code></pre>
+<pre><code>## # A tibble: 70 x 3
+##    document topic gamma
+##    &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;
+##  1 1888         1 0.172
+##  2 555          1 0.171
+##  3 252          1 0.170
+##  4 234          1 0.167
+##  5 1830         1 0.166
+##  6 1340         1 0.166
+##  7 2525         1 0.166
+##  8 434          1 0.163
+##  9 1101         1 0.162
+## 10 399          1 0.162
+## # ... with 60 more rows</code></pre>
+<pre class="r"><code>Tweet.Res &lt;- cbind(TDF[as.numeric(top_tweets$document),],top_tweets)</code></pre>
+<p>Mallet is finicky. Below is some playing with it but the stop words are messy.</p>
+<pre class="r"><code>library(qdap)
+clean_tweets$text &lt;- clean_tweets %&gt;% select(text) %&gt;% rm_stopwords(., tm::stopwords(&quot;english&quot;), separate = FALSE, unlist=FALSE)
+library(mallet)
+clean_tweets$RN &lt;- as.character(clean_tweets$RN)
+clean_tweets &lt;- clean_tweets
+# create an empty file of &quot;stopwords&quot;
+# file.create(empty_file &lt;- tempfile())
+# mystopwords &lt;- as.character(stop_words[,1])
+stopwords_en &lt;-  stop_words()
+#system.file(&quot;stoplists/en.txt&quot;, package = &quot;mallet&quot;)
+docs &lt;- mallet.import(clean_tweets$RN, clean_tweets$text, stoplist=stopwords_en)
+mallet_model &lt;- MalletLDA(num.topics = 6)
+mallet_model$loadDocuments(docs)
+mallet_model$train(250)
+mallet_model$maximize(100)
+topic.words &lt;- mallet.topic.words(mallet_model, smoothed=TRUE, normalized=TRUE)
+names(topic.words)
+mallet.top.words(mallet_model, word.weights = topic.words[4,], num.top.words = 5)</code></pre>
+</div>
+<div id="sentiments-and-tidy-calendars" class="section level2">
+<h2>Sentiments and Tidy Calendars</h2>
+<p>Now I want to play with the time series properties of the tweet sentiments. Days of the week and times of day aggregated over different periods can say something… Perhaps?</p>
 </div>
 </div>
 
@@ -728,9 +760,9 @@ top_terms %&gt;%
         
         <li><a href="/post/trump-tweet-word-clouds/">Trump Tweet Word Clouds</a></li>
         
-        <li><a href="/post/black-boxes-a-gender-gap-example/">Black Boxes: A Gender Gap Example</a></li>
-        
         <li><a href="/post/correlation-function/">Correlation Function</a></li>
+        
+        <li><a href="/post/black-boxes-a-gender-gap-example/">Black Boxes: A Gender Gap Example</a></li>
         
       </ul>
     </div>

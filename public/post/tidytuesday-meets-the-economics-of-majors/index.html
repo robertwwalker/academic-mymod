@@ -18,7 +18,7 @@
     
   
   <meta name="description" content="This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is here.
-library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &lt;- read.csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&quot;) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.">
+library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &lt;- read.csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&quot;) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.">
 
   
   <link rel="alternate" hreflang="en-us" href="https://www.data.viajes/post/tidytuesday-meets-the-economics-of-majors/">
@@ -83,7 +83,7 @@ library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importi
   <meta property="og:url" content="https://www.data.viajes/post/tidytuesday-meets-the-economics-of-majors/">
   <meta property="og:title" content="tidyTuesday meets the Economics of Majors | Robert W. Walker">
   <meta property="og:description" content="This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is here.
-library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &lt;- read.csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&quot;) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.">
+library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &lt;- read.csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&quot;) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2018-10-17T00:00:00&#43;00:00">
@@ -364,7 +364,7 @@ skim(Major.Employment)</code></pre>
 ##  n obs: 173 
 ##  n variables: 21 
 ## 
-## ── Variable type:factor ──────────────────────────────────────────────────────────
+## ── Variable type:factor ──────────────────────────────────────────────────────────────────────────────────────────
 ##        variable missing complete   n n_unique
 ##           Major       0      173 173      173
 ##  Major_category       0      173 173       16
@@ -372,7 +372,7 @@ skim(Major.Employment)</code></pre>
 ##      ACC: 1, ACT: 1, ADV: 1, AER: 1   FALSE
 ##  Eng: 29, Edu: 16, Hum: 15, Bio: 14   FALSE
 ## 
-## ── Variable type:integer ─────────────────────────────────────────────────────────
+## ── Variable type:integer ─────────────────────────────────────────────────────────────────────────────────────────
 ##              variable missing complete   n     mean       sd    p0
 ##          College_jobs       0      173 173 12322.64 21299.87     0
 ##              Employed       0      173 173 31192.76 50675        0
@@ -410,7 +410,7 @@ skim(Major.Employment)</code></pre>
 ##    304      893    2393     28169 ▇▁▁▁▁▁▁▁
 ##   1778.25  8386.5 22553.75 307087 ▇▁▁▁▁▁▁▁
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
 ##           variable missing complete   n  mean   sd p0  p25   p50   p75
 ##         ShareWomen       1      172 173 0.52  0.23  0 0.34 0.53  0.7  
 ##  Unemployment_rate       0      173 173 0.068 0.03  0 0.05 0.068 0.088
