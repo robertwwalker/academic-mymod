@@ -349,7 +349,7 @@ top_tweets</code></pre>
 ##  8 434          1 0.163
 ##  9 1101         1 0.162
 ## 10 399          1 0.162
-## # ... with 60 more rows</code></pre>
+## # … with 60 more rows</code></pre>
 <pre class="r"><code>Tweet.Res &lt;- cbind(TDF[as.numeric(top_tweets$document),],top_tweets)</code></pre>
 <p>Mallet is finicky. Below is some playing with it but the stop words are messy.</p>
 <pre class="r"><code>library(qdap)
