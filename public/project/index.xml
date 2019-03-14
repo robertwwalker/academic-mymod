@@ -2,40 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Projects on Robert W. Walker</title>
-    <link>https://www.data.viajes/project/</link>
+    <link>https://www.rww.science/project/</link>
     <description>Recent content in Projects on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Wed, 27 Apr 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.data.viajes/project/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.rww.science/project/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Bond Ratings</title>
-      <link>https://www.data.viajes/project/bond-ratings/</link>
+      <link>https://www.rww.science/project/bond-ratings/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/project/bond-ratings/</guid>
+      <guid>https://www.rww.science/project/bond-ratings/</guid>
       <description>There will be content.</description>
     </item>
     
     <item>
       <title>Generalized Ordered Regression Models</title>
-      <link>https://www.data.viajes/project/gen-ord-logit/</link>
+      <link>https://www.rww.science/project/gen-ord-logit/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/project/gen-ord-logit/</guid>
+      <guid>https://www.rww.science/project/gen-ord-logit/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Oregon Property Taxes</title>
-      <link>https://www.data.viajes/project/prop-tax/</link>
+      <link>https://www.rww.science/project/prop-tax/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/project/prop-tax/</guid>
+      <guid>https://www.rww.science/project/prop-tax/</guid>
       <description>Fred Thompson, Kawika Pierson, and I have written a few papers on the odd property tax limitations in Oregon. Basically, there is a cap on the rate of growth and no reset at sale provision so assessment quality suffers tremendously.</description>
     </item>
     

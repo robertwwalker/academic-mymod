@@ -127,7 +127,6 @@ tweet_cleaner &lt;- function(text) {
 clean_tweets &lt;- data.frame(text=sapply(1:dim(TDF)[[1]], function(x) {tweet_cleaner(TDF[x,&quot;text&quot;])}))
 clean_tweets$text &lt;- as.character(clean_tweets$text)
 clean_tweets$created_at &lt;- DJTDF$created_at
-clean_tweets$RN &lt;- DJTDF$RN
 Trumps.Sent.Words &lt;- clean_tweets %&gt;% unnest_tokens(., word, text) %&gt;% anti_join(stop_words, &quot;word&quot;)
 # word.df &lt;- as.vector(TDF)
 # emotion.df &lt;- get_nrc_sentiment(word.df)

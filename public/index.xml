@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Robert W. Walker on Robert W. Walker</title>
-    <link>https://www.data.viajes/</link>
+    <link>https://www.rww.science/</link>
     <description>Recent content in Robert W. Walker on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,10 +12,10 @@
     
     <item>
       <title>Trump&#39;s Tweets, Part II</title>
-      <link>https://www.data.viajes/post/trump-s-tweets-part-ii/</link>
+      <link>https://www.rww.science/post/trump-s-tweets-part-ii/</link>
       <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/trump-s-tweets-part-ii/</guid>
+      <guid>https://www.rww.science/post/trump-s-tweets-part-ii/</guid>
       <description>&lt;div id=&#34;trumps-tone&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Trump’s Tone&lt;/h1&gt;
 &lt;p&gt;A cool post on sentiment analysis can be found &lt;a href=&#34;http://dataaspirant.com/2018/03/22/twitter-sentiment-analysis-using-r/&#34;&gt;here&lt;/a&gt;. I will now get at the time series characteristics of his tweets and the sentiment stuff.&lt;/p&gt;
@@ -84,7 +84,7 @@ names(tml.djt)&lt;/code&gt;&lt;/pre&gt;
     subtitle = &amp;quot;Twitter status (tweet) counts aggregated using days&amp;quot;,
     caption = &amp;quot;\nSource: Data collected from Twitter&amp;#39;s REST API via rtweet&amp;quot;
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;trumps-tweets-by-day&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Trump’s Tweets by Day&lt;/h2&gt;
@@ -99,7 +99,7 @@ ts_plot(DJTDF, &amp;quot;days&amp;quot;) +
     subtitle = &amp;quot;Twitter status (tweet) counts aggregated using days&amp;quot;,
     caption = &amp;quot;\nSource: Data collected from Twitter&amp;#39;s REST API via rtweet&amp;quot;
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Some more stuff from &lt;a href=&#34;https://stackoverflow.com/questions/31348453/how-do-i-clean-twitter-data-in-r&#34;&gt;stack overflow&lt;/a&gt;. There is quite a bit of code in here. I simply wrote a function that takes an input character string and cleans it up. Uncomment the various components and pipe them. The sequencing is important and I found this to get everything that I wanted.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(RColorBrewer)
 TDF &amp;lt;- DJTDF %&amp;gt;% select(text)
@@ -124,7 +124,6 @@ tweet_cleaner &amp;lt;- function(text) {
 clean_tweets &amp;lt;- data.frame(text=sapply(1:dim(TDF)[[1]], function(x) {tweet_cleaner(TDF[x,&amp;quot;text&amp;quot;])}))
 clean_tweets$text &amp;lt;- as.character(clean_tweets$text)
 clean_tweets$created_at &amp;lt;- DJTDF$created_at
-clean_tweets$RN &amp;lt;- DJTDF$RN
 Trumps.Sent.Words &amp;lt;- clean_tweets %&amp;gt;% unnest_tokens(., word, text) %&amp;gt;% anti_join(stop_words, &amp;quot;word&amp;quot;)
 # word.df &amp;lt;- as.vector(TDF)
 # emotion.df &amp;lt;- get_nrc_sentiment(word.df)
@@ -173,7 +172,7 @@ points(SBP, col=&amp;quot;green&amp;quot;)
 points(SBN, col=&amp;quot;red&amp;quot;)
 text(My.Res[316,], &amp;quot;GHW Bush Passes&amp;quot;, cex=0.6)
 text(My.Res[66,], &amp;quot;March for Our Life&amp;quot;, cex=0.6)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table(sign(My.Res$Bing))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ##  -1   0   1 
@@ -210,7 +209,7 @@ ggplot(data = My.Res) +
   aes(x = created_at, y = sentiment, color = method) +
   geom_line() +
   theme_minimal()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;div id=&#34;averaging-three-types-of-scaled-sentiments&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Averaging three types of scaled sentiments&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;MRS &amp;lt;- My.Res %&amp;gt;% group_by(method) %&amp;gt;% mutate(SS=scale(sentiment))
@@ -225,7 +224,7 @@ MRS2 &amp;lt;- MRS %&amp;gt;%  collapse_by(&amp;quot;daily&amp;quot;) %&amp;gt;%
     x = &amp;#39;Date&amp;#39;,
     y = &amp;#39;Mean Scaled Sentiment&amp;#39;) +
   theme_minimal()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;common-words&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Common Words&lt;/h2&gt;
@@ -244,7 +243,7 @@ library(reshape2)&lt;/code&gt;&lt;/pre&gt;
   comparison.cloud(colors = c(&amp;quot;red&amp;quot;,&amp;quot;green&amp;quot;),
                    max.words = 100)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Joining, by = &amp;quot;word&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;networks&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Networks&lt;/h2&gt;
@@ -306,7 +305,7 @@ djt_bigrams %&amp;gt;%
          !str_detect(word1, &amp;quot;\\d&amp;quot;),
          !str_detect(word2, &amp;quot;\\d&amp;quot;)) %&amp;gt;%
   visualize_bigrams()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;clean_tweets$RN &amp;lt;- DJTDF$RN
 tidy.tweets.RN &amp;lt;- clean_tweets %&amp;gt;% select(RN, text) %&amp;gt;% unnest_tokens(word, text) %&amp;gt;%
   anti_join(stop_words) %&amp;gt;%
@@ -327,7 +326,7 @@ top_terms %&amp;gt;%
     geom_col(show.legend = FALSE) +
     facet_wrap(~ topic, scales = &amp;quot;free&amp;quot;) +
     coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweet_topicM &amp;lt;- tidy(tweets_lda, , matrix=&amp;quot;gamma&amp;quot;)
 top_tweets &amp;lt;- tweet_topicM %&amp;gt;% group_by(topic) %&amp;gt;% top_n(10, gamma) %&amp;gt;%
     ungroup() %&amp;gt;%
@@ -346,7 +345,7 @@ top_tweets&lt;/code&gt;&lt;/pre&gt;
 ##  8 434          1 0.163
 ##  9 1101         1 0.162
 ## 10 399          1 0.162
-## # ... with 60 more rows&lt;/code&gt;&lt;/pre&gt;
+## # … with 60 more rows&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Tweet.Res &amp;lt;- cbind(TDF[as.numeric(top_tweets$document),],top_tweets)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Mallet is finicky. Below is some playing with it but the stop words are messy.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(qdap)
@@ -378,15 +377,15 @@ mallet.top.words(mallet_model, word.weights = topic.words[4,], num.top.words = 5
     
     <item>
       <title>Trump Tweet Word Clouds</title>
-      <link>https://www.data.viajes/post/trump-tweet-word-clouds/</link>
+      <link>https://www.rww.science/post/trump-tweet-word-clouds/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/trump-tweet-word-clouds/</guid>
-      <description>&lt;script src=&#34;https://www.data.viajes/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
-&lt;link href=&#34;https://www.data.viajes/rmarkdown-libs/wordcloud2/wordcloud.css&#34; rel=&#34;stylesheet&#34; /&gt;
-&lt;script src=&#34;https://www.data.viajes/rmarkdown-libs/wordcloud2/wordcloud2-all.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;https://www.data.viajes/rmarkdown-libs/wordcloud2/hover.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;https://www.data.viajes/rmarkdown-libs/wordcloud2-binding/wordcloud2.js&#34;&gt;&lt;/script&gt;
+      <guid>https://www.rww.science/post/trump-tweet-word-clouds/</guid>
+      <description>&lt;script src=&#34;https://www.rww.science/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://www.rww.science/rmarkdown-libs/wordcloud2/wordcloud.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;https://www.rww.science/rmarkdown-libs/wordcloud2/wordcloud2-all.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://www.rww.science/rmarkdown-libs/wordcloud2/hover.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://www.rww.science/rmarkdown-libs/wordcloud2-binding/wordcloud2.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;div id=&#34;mining-twitter-data&#34; class=&#34;section level1&#34;&gt;
@@ -465,7 +464,7 @@ Ments &amp;lt;- as.character(unlist(MNTDJT))
 TMents &amp;lt;- data.frame(table(Ments))
 pal &amp;lt;- brewer.pal(8,&amp;quot;Spectral&amp;quot;)
 wordcloud(TMents$Ments,TMents$Freq, colors=pal)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-18-trump-tweet-word-clouds_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-12-18-trump-tweet-word-clouds_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;That’s interesting. But that is twitter accounts. That is far less interesting that his actual text. I want to look at words and bigrams for this segment.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;what-does-trump-tweet-about&#34; class=&#34;section level2&#34;&gt;
@@ -497,7 +496,7 @@ TTW &amp;lt;- TTW[order(TTW, decreasing = T)]
 TTW &amp;lt;- data.frame(TTW)
 names(TTW) &amp;lt;- c(&amp;quot;word&amp;quot;,&amp;quot;freq&amp;quot;)
 wordcloud(TTW$word, TTW$freq, colors=pal, random.order=F, max.words=200)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-12-18-trump-tweet-word-clouds_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-12-18-trump-tweet-word-clouds_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Well, that is kinda cool. Now, I want to do a bit more with it using more complicated word combinations.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-wonders-of-tidytext&#34; class=&#34;section level2&#34;&gt;
@@ -532,7 +531,7 @@ bigram_counts&lt;/code&gt;&lt;/pre&gt;
 ##  8 crooked hillary        43
 ##  9 supreme court          39
 ## 10 border  security       38
-## # ... with 10,504 more rows&lt;/code&gt;&lt;/pre&gt;
+## # … with 10,504 more rows&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bigrams_united &amp;lt;- bigrams_filtered %&amp;gt;%
   unite(bigram, word1, word2, sep = &amp;quot; &amp;quot;)
 
@@ -576,10 +575,10 @@ webshot::webshot(&amp;quot;1.html&amp;quot;,&amp;quot;1.png&amp;quot;,vwidth = 7
     
     <item>
       <title>tidyTuesday meets the Economics of Majors</title>
-      <link>https://www.data.viajes/post/tidytuesday-meets-the-economics-of-majors/</link>
+      <link>https://www.rww.science/post/tidytuesday-meets-the-economics-of-majors/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/tidytuesday-meets-the-economics-of-majors/</guid>
+      <guid>https://www.rww.science/post/tidytuesday-meets-the-economics-of-majors/</guid>
       <description>&lt;p&gt;This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is &lt;a href=&#34;https://github.com/fivethirtyeight/data/tree/master/college-majors&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
 options(scipen=6)
@@ -587,14 +586,14 @@ library(extrafont)
 font_import()&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
 ## Continue? [y/n]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Major.Employment &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018-10-16/recent-grads.csv&amp;quot;)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Major.Employment &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv&amp;quot;)
 library(skimr)
 skim(Major.Employment)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Skim summary statistics
 ##  n obs: 173 
 ##  n variables: 21 
 ## 
-## ── Variable type:factor ──────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:factor ──────────────────────────────────────────────────────────────
 ##        variable missing complete   n n_unique
 ##           Major       0      173 173      173
 ##  Major_category       0      173 173       16
@@ -602,7 +601,7 @@ skim(Major.Employment)&lt;/code&gt;&lt;/pre&gt;
 ##      ACC: 1, ACT: 1, ADV: 1, AER: 1   FALSE
 ##  Eng: 29, Edu: 16, Hum: 15, Bio: 14   FALSE
 ## 
-## ── Variable type:integer ─────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:integer ─────────────────────────────────────────────────────────────
 ##              variable missing complete   n     mean       sd    p0
 ##          College_jobs       0      173 173 12322.64 21299.87     0
 ##              Employed       0      173 173 31192.76 50675        0
@@ -640,7 +639,7 @@ skim(Major.Employment)&lt;/code&gt;&lt;/pre&gt;
 ##    304      893    2393     28169 ▇▁▁▁▁▁▁▁
 ##   1778.25  8386.5 22553.75 307087 ▇▁▁▁▁▁▁▁
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────
 ##           variable missing complete   n  mean   sd p0  p25   p50   p75
 ##         ShareWomen       1      172 173 0.52  0.23  0 0.34 0.53  0.7  
 ##  Unemployment_rate       0      173 173 0.068 0.03  0 0.05 0.068 0.088
@@ -660,7 +659,7 @@ skim(Major.Employment)&lt;/code&gt;&lt;/pre&gt;
   ggtitle(&amp;quot;Median Income and Unemployment&amp;quot;) +
   theme(text=element_text(family = &amp;quot;Roboto Light&amp;quot;, size=8), title = element_text(size=12)) 
 my.plot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Major.Employment &amp;lt;- Major.Employment %&amp;gt;% mutate(ShareCol= College_jobs / Total)
 my.plot &amp;lt;- Major.Employment %&amp;gt;% ggplot(aes(Unemployment_rate,ShareCol, label=str_to_title(Major), color=ShareWomen)) +
   geom_point(alpha=0.1) +
@@ -675,14 +674,14 @@ my.plot &amp;lt;- Major.Employment %&amp;gt;% ggplot(aes(Unemployment_rate,Share
 my.plot&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_point).&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_text).&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;An Esquisse starter. Unemployment rate is x. Median wage is y. Major categories are colors and size is a function of Total&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = Major.Employment) +
 aes(x = Unemployment_rate, y = Median, color = Major_category, size = Total) +
 geom_point() +
 theme_minimal()&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_point).&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Major.Employment %&amp;gt;% drop_na() %&amp;gt;% ggplot() +
   aes(x = Unemployment_rate, y = Median, color = ShareWomen, label=str_to_title(Major)) +
 #  geom_point() +
@@ -694,17 +693,17 @@ theme_minimal()&lt;/code&gt;&lt;/pre&gt;
   xlab(&amp;quot;Unemployment Rate&amp;quot;) +
   ylab(&amp;quot;Median Wage&amp;quot;) +
   ggtitle(&amp;quot;Wages and Unemployment with Women in the Profession&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-10-17-tidytuesday-meets-the-economics-of-majors_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Alas.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Data Analysis, Modelling, and Decision-Making</title>
-      <link>https://www.data.viajes/courses/5103dadm/</link>
+      <link>https://www.rww.science/courses/5103dadm/</link>
       <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/courses/5103dadm/</guid>
+      <guid>https://www.rww.science/courses/5103dadm/</guid>
       <description>&lt;p&gt;The course website for the &lt;a href=&#34;https://wise.willamette.edu/portal/site/GSM-5103-01-18_FA&#34; target=&#34;_blank&#34;&gt;Fall of 2018&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -719,11 +718,20 @@ theme_minimal()&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
+      <title>The Career Advancement of Military Veterans in Recent Cohorts of the U.S. Executive Branch</title>
+      <link>https://www.rww.science/publication/ppm-tj-rww/</link>
+      <pubDate>Tue, 05 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.rww.science/publication/ppm-tj-rww/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>tidyTuesday: coffee chains</title>
-      <link>https://www.data.viajes/post/tidytuesday-coffee-chains/</link>
+      <link>https://www.rww.science/post/tidytuesday-coffee-chains/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/tidytuesday-coffee-chains/</guid>
+      <guid>https://www.rww.science/post/tidytuesday-coffee-chains/</guid>
       <description>&lt;div id=&#34;the-tidytuesday-for-this-week-is-coffee-chain-locations&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The tidyTuesday for this week is coffee chain locations&lt;/h1&gt;
 &lt;p&gt;For this week: 1. The basic link to the &lt;a href=&#34;https://github.com/rfordatascience/tidytuesday&#34;&gt;&lt;code&gt;#tidyTuesday&lt;/code&gt;&lt;/a&gt; shows &lt;a href=&#34;http://flowingdata.com/2014/03/18/coffee-place-geography/&#34;&gt;an original article&lt;/a&gt; for Week 6.&lt;/p&gt;
@@ -732,12 +740,12 @@ theme_minimal()&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## here() starts at /home/rob/R/MyNLWeb&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(readxl)
 library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## ── Attaching packages ───────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
-## ✔ tibble  1.4.2     ✔ dplyr   0.7.8
-## ✔ tidyr   0.8.2     ✔ stringr 1.3.1
-## ✔ readr   1.3.0     ✔ forcats 0.3.0&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## ── Conflicts ──────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+&lt;pre&gt;&lt;code&gt;## ── Attaching packages ───────────────────────────────────────────── tidyverse 1.2.1 ──&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ✔ ggplot2 3.1.0       ✔ purrr   0.3.1  
+## ✔ tibble  2.0.1       ✔ dplyr   0.8.0.1
+## ✔ tidyr   0.8.3       ✔ stringr 1.4.0  
+## ✔ readr   1.3.1       ✔ forcats 0.4.0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## ── Conflicts ──────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(janitor)
@@ -757,13 +765,18 @@ read_excel_allsheets &amp;lt;- function(filename, tibble = TRUE) {
 }
 coffee.xl &amp;lt;- read_excel_allsheets(paste0(here(),&amp;quot;/data/week6_coffee_chains.xlsx&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;What do the data look like?&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(skimr)
-skim(Starbucks)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(skimr)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;skimr&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:stats&amp;#39;:
+## 
+##     filter&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;skim(Starbucks)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Skim summary statistics
 ##  n obs: 25600 
 ##  n variables: 13 
 ## 
-## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:character ───────────────────────────────────────────────────────────
 ##        variable missing complete     n min max empty n_unique
 ##           Brand       0    25600 25600   7  21     0        4
 ##            City      14    25586 25600   2  29     0     5470
@@ -777,7 +790,7 @@ skim(Starbucks)&lt;/code&gt;&lt;/pre&gt;
 ##  Street Address       2    25598 25600   1 234     0    25353
 ##        Timezone       0    25600 25600  18  30     0      101
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────
 ##   variable missing complete     n   mean    sd      p0     p25    p50
 ##   Latitude       1    25599 25600  34.79 13.34  -46.41   31.24  36.75
 ##  Longitude       1    25599 25600 -27.87 96.84 -159.46 -104.66 -79.35
@@ -789,7 +802,7 @@ skim(Starbucks)&lt;/code&gt;&lt;/pre&gt;
 ##  n obs: 4898 
 ##  n variables: 22 
 ## 
-## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:character ───────────────────────────────────────────────────────────
 ##    variable missing complete    n min max empty n_unique
 ##    biz_info    4091      807 4898  14  18     0      709
 ##    biz_name       0     4898 4898   8  38     0       33
@@ -805,7 +818,7 @@ skim(Starbucks)&lt;/code&gt;&lt;/pre&gt;
 ##      loc_TZ       0     4898 4898   3   5     0        5
 ##     web_url       0     4898 4898  20 175     0       22
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────
 ##           variable missing complete    n     mean       sd      p0
 ##           e_postal       0     4898 4898 21528.34 20311.57 1001   
 ##                 id       0     4898 4898  2459.46  1420.28    1   
@@ -831,7 +844,7 @@ skim(Starbucks)&lt;/code&gt;&lt;/pre&gt;
 ##  n obs: 4955 
 ##  n variables: 6 
 ## 
-## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:character ───────────────────────────────────────────────────────────
 ##     variable missing complete    n min max empty n_unique
 ##      address       0     4955 4955   6  51     0     4803
 ##         city       0     4955 4955   3  38     0     1206
@@ -841,8 +854,8 @@ skim(Starbucks)&lt;/code&gt;&lt;/pre&gt;
 ##   store_name       0     4955 4955   2  63     0     3167&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;A basic plot of the global Starbucks data.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggmap)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Google Maps API Terms of Service: http://developers.google.com/maps/terms.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Please cite ggmap if you use it: see citation(&amp;quot;ggmap&amp;quot;) for details.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Google&amp;#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Please cite ggmap if you use it! See citation(&amp;quot;ggmap&amp;quot;) for details.&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mapWorld &amp;lt;- borders(&amp;quot;world&amp;quot;, colour=&amp;quot;gray50&amp;quot;, fill=&amp;quot;gray50&amp;quot;) # create a layer of borders&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ## Attaching package: &amp;#39;maps&amp;#39;&lt;/code&gt;&lt;/pre&gt;
@@ -854,7 +867,7 @@ mp &amp;lt;- mp + geom_point(aes(x=Starbucks$Longitude, y=Starbucks$Latitude) ,c
 mp &amp;lt;- mp + geom_point(aes(x=Dunkin.Donuts$loc_LONG_centroid, y=Dunkin.Donuts$loc_LAT_centroid) ,color=&amp;quot;orange&amp;quot;, size=0.5) + xlab(&amp;quot;&amp;quot;) + ylab(&amp;quot;&amp;quot;)
 mp&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_point).&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-05-09-tidytuesday-coffee-chains_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-05-09-tidytuesday-coffee-chains_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;div id=&#34;starbucks-and-dunkin&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Starbucks and Dunkin&lt;/h2&gt;
 &lt;p&gt;Google Maps interface changed and I have not updated this part. Shame.&lt;/p&gt;
@@ -865,10 +878,10 @@ mp&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Global mortality tidyTuesday</title>
-      <link>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</link>
+      <link>https://www.rww.science/post/tidytuesday-takes-on-global-mortality/</link>
       <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/tidytuesday-takes-on-global-mortality/</guid>
+      <guid>https://www.rww.science/post/tidytuesday-takes-on-global-mortality/</guid>
       <description>&lt;div id=&#34;tidytuesday-on-global-mortality&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;tidyTuesday on Global Mortality&lt;/h1&gt;
 &lt;p&gt;The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in &lt;a href=&#34;https://ourworldindata.org/what-does-the-world-die-from&#34;&gt;the original&lt;/a&gt;. For whatever reason, I cannot open this data remotely.&lt;/p&gt;
@@ -884,12 +897,12 @@ skim(global_mortality)&lt;/code&gt;&lt;/pre&gt;
 ##  n obs: 6156 
 ##  n variables: 35 
 ## 
-## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:character ───────────────────────────────────────────────────────────
 ##      variable missing complete    n min max empty n_unique
 ##       country       0     6156 6156   4  32     0      228
 ##  country_code     864     5292 6156   3   8     0      196
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────
 ##                                  variable missing complete    n     mean
 ##                     Alcohol disorders (%)       0     6156 6156    0.32 
 ##                               Cancers (%)       0     6156 6156   14.39 
@@ -966,7 +979,7 @@ pp.df &amp;lt;- pp.df %&amp;gt;% arrange(Total.Deaths)
 pp.df$name &amp;lt;- factor(pp.df$name, levels = pp.df$name)
 cplot &amp;lt;- ggplot(pp.df, aes(name,Total.Deaths)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + scale_fill_gradientn(colours = terrain.colors(10)) + ggtitle(&amp;quot;The Causes of Global Mortailty (2016)&amp;quot;)
 cplot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/COrig-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/COrig-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;With a reenactment of the base target plots, I can turn to new visuals. I wanted to be able to develop a comparison of the various classified causes of death and to try out my nifty function for summarizing panel data. So here goes.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;xtsum &amp;lt;- function(formula, data) {
   pform &amp;lt;- terms(formula, data=data)
@@ -1068,27 +1081,27 @@ mydf &amp;lt;- mydf %&amp;gt;% arrange(value)
 mydf$name &amp;lt;- factor(mydf$name, levels = mydf$name)
 mydf &amp;lt;- mydf %&amp;gt;% mutate(Emph=as.numeric(value&amp;gt;0.5))
 mydf %&amp;gt;% ggplot(aes(name,value, fill=Emph)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + ylab(&amp;quot;Within Percent of Total Variation&amp;quot;) + xlab(&amp;quot;Cause of Mortality&amp;quot;) + ggtitle(&amp;quot;Within-country variation in the Causes of Death&amp;quot;) + guides(fill=&amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Mean.Homicide &amp;lt;- global_mortality %&amp;gt;% group_by(countryF) %&amp;gt;% summarise(mymean=mean(Homicide, na.rm=TRUE))
 Mean.Homicide %&amp;gt;% ungroup() %&amp;gt;% arrange(mymean) -&amp;gt; mydf
 mydf$countryF &amp;lt;- factor(mydf$countryF, levels = mydf$countryF)
 mydf %&amp;gt;% ungroup() %&amp;gt;% top_n(30, mymean) %&amp;gt;% arrange(mymean) %&amp;gt;% mutate(Emph=c(rep(1,10),rep(2,10),rep(3,10))) -&amp;gt; mydf
 mydf %&amp;gt;% ggplot(aes(countryF,mymean, fill=Emph)) + geom_bar(stat=&amp;quot;identity&amp;quot;) + coord_flip() + ylab(&amp;quot;Homicides&amp;quot;) + ggtitle(&amp;quot;Top 30 Countries/Places in Homicide&amp;quot;) + xlab(&amp;quot;&amp;quot;) + guides(fill=&amp;quot;none&amp;quot;) -&amp;gt; Homicideplot
 Homicideplot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/MHG30-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/MHG30-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;global_mortality %&amp;gt;% filter(year==2016) %&amp;gt;% ggplot(aes(`Drug disorders`,`Alcohol disorders`)) + geom_point() + ggtitle(&amp;quot;Drugs and Alcohol in 2016&amp;quot;) -&amp;gt; scatterDA
 scatterDA&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/DandA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/DandA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>Scraping EPL Salary Data</title>
-      <link>https://www.data.viajes/post/scraping-epl-salary-data/</link>
+      <link>https://www.rww.science/post/scraping-epl-salary-data/</link>
       <pubDate>Sun, 08 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/scraping-epl-salary-data/</guid>
+      <guid>https://www.rww.science/post/scraping-epl-salary-data/</guid>
       <description>&lt;div id=&#34;epl-scraping&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;EPL Scraping&lt;/h1&gt;
 &lt;p&gt;In a previous &lt;a href=&#34;https://www.data.viajes/post/scraping-the-nfl-salary-cap-data-with-python-and-r/&#34;&gt;post&lt;/a&gt;, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.&lt;/p&gt;
@@ -1225,33 +1238,33 @@ EPL.Result$Base.Salary &amp;lt;- str_replace(EPL.Result$Base.Salary, &amp;quot;-
 EPL.Result$Base.Num &amp;lt;- as.numeric(EPL.Result$Base.Salary)
 EPL.Result %&amp;gt;% group_by(Position) %&amp;gt;% summarise(Mean.Base.Salary=mean(Base.Num, na.rm=TRUE),sdBS=sd(Base.Num, na.rm = TRUE))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## # A tibble: 4 x 3
-##   Position Mean.Base.Salary     sdBS
-##   &amp;lt;fct&amp;gt;               &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
-## 1 D                2678118. 1573524.
-## 2 F                3808467. 3225632.
-## 3 GK               2625278. 2442130.
-## 4 M                3368859. 3077304.&lt;/code&gt;&lt;/pre&gt;
+##   Position Mean.Base.Salary  sdBS
+##   &amp;lt;fct&amp;gt;               &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+## 1 D                    26.1  3.65
+## 2 F                    25.0  3.19
+## 3 GK                   28.9  4.59
+## 4 M                    24.9  5.05&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;EPL.Result %&amp;gt;% group_by(Position,Team) %&amp;gt;% summarise(Mean.Base.Salary=mean(Base.Num, na.rm=TRUE),sdBS=sd(Base.Num, na.rm = TRUE))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## # A tibble: 80 x 4
-## # Groups:   Position [?]
-##    Position Team                                   Mean.Base.Salary    sdBS
-##    &amp;lt;fct&amp;gt;    &amp;lt;fct&amp;gt;                                             &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;
-##  1 D        Https:www.spotrac.comeplAFC Bournemou…         1759333.  3.38e5
-##  2 D        Https:www.spotrac.comeplarsenal                3855800   1.56e6
-##  3 D        Https:www.spotrac.comeplbrighton Hove…         1369333.  3.82e5
-##  4 D        Https:www.spotrac.comeplburnley                1255429.  2.62e5
-##  5 D        Https:www.spotrac.comeplcardiff City            728000   4.53e5
-##  6 D        Https:www.spotrac.comeplchelsea                4593333.  8.72e5
-##  7 D        Https:www.spotrac.comeplcrystal Palace         2801500   1.18e6
-##  8 D        Https:www.spotrac.comepleverton                2124571.  1.16e6
-##  9 D        Https:www.spotrac.comeplfulham                 1040000   3.68e5
-## 10 D        Https:www.spotrac.comeplhuddersfield …         1092000   4.92e5
-## # ... with 70 more rows&lt;/code&gt;&lt;/pre&gt;
+## # Groups:   Position [4]
+##    Position Team                                     Mean.Base.Salary  sdBS
+##    &amp;lt;fct&amp;gt;    &amp;lt;fct&amp;gt;                                               &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+##  1 D        Https:www.spotrac.comeplAFC Bournemouth              25.6  4.28
+##  2 D        Https:www.spotrac.comeplarsenal                      26.5  4.77
+##  3 D        Https:www.spotrac.comeplbrighton Hove A…             27    1.63
+##  4 D        Https:www.spotrac.comeplburnley                      27.6  3.07
+##  5 D        Https:www.spotrac.comeplcardiff City                 28.1  2.98
+##  6 D        Https:www.spotrac.comeplchelsea                      26.3  3.46
+##  7 D        Https:www.spotrac.comeplcrystal Palace               26.2  3.36
+##  8 D        Https:www.spotrac.comepleverton                      25.9  5.28
+##  9 D        Https:www.spotrac.comeplfulham                       26.6  2.92
+## 10 D        Https:www.spotrac.comeplhuddersfield To…             25.1  2.10
+## # … with 70 more rows&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Finally, a little picture to describe spending on the active roster.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fplot &amp;lt;- ggplot(EPL.Result, aes(Base.Num,Team))
 gpl &amp;lt;- fplot + geom_jitter(height=0.25, width=0) + facet_wrap(~Position) + labs(x=&amp;quot;Base Salary&amp;quot;)
 gpl&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-08-scraping-epl-salary-data_files/figure-html/Picture-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-08-scraping-epl-salary-data_files/figure-html/Picture-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;contracts&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Contracts&lt;/h2&gt;
@@ -1262,96 +1275,101 @@ gpl&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Processing them is a bit more difficult. What does the basic table look like?&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Base.Contracts[[1]] %&amp;gt;% html_nodes(&amp;quot;table&amp;quot;) %&amp;gt;% html_table(header=TRUE, fill=TRUE)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [[1]]
-##                  Player (29) Pos. Age
+##                  Player (28) Pos. Age
 ## 1         DefoeJermain Defoe    F  36
 ## 2       BegovicAsmir Begovic   GK  31
-## 3        WilsonCallum Wilson    F  26
-## 4            KingJoshua King    F  26
-## 5              AkeNathan Ake    D  23
-## 6        SurmanAndrew Surman    M  32
-## 7           ArterHarry Arter    M  28
-## 8             CookSteve Cook    D  27
-## 9              IbeJordon Ibe    M  23
-## 10        GoslingDan Gosling    M  28
-## 11           SmithAdam Smith    D  27
-## 12            CookLewis Cook    M  21
-## 13      FrancisSimon Francis    D  33
-## 14         FraserRyan Fraser    M  24
-## 15    DanielsCharlie Daniels    D  32
-## 16           SmithBrad Smith    D  24
-## 17         MingsTyrone Mings    D  25
-## 18        MoussetLys Mousset    F  22
-## 19             PughMarc Pugh    M  31
-## 20    HyndmanEmerson Hyndman    M  22
-## 21     MahoneyConnor Mahoney    F  21
-## 22 StanislasJunior Stanislas    M  29
-## 23          BorucArtur Boruc   GK  38
-## 24    RamsdaleAaron Ramsdale   GK  20
-## 25       SimpsonJack Simpson    D  21
-## 26         TaylorKyle Taylor    M  19
-## 27        BrooksDavid Brooks    M  21
-## 28      LermaJefferson Lerma    M  24
-## 29            RicoDiego Rico    D  25
+## 3       LermaJefferson Lerma    M  24
+## 4            KingJoshua King    F  27
+## 5              AkeNathan Ake    D  24
+## 6             CookSteve Cook    D  27
+## 7        SurmanAndrew Surman    M  32
+## 8           ArterHarry Arter    M  29
+## 9        WilsonCallum Wilson    F  27
+## 10             IbeJordon Ibe    F  23
+## 11        GoslingDan Gosling    M  29
+## 12           SmithAdam Smith    D  27
+## 13            CookLewis Cook    M  22
+## 14      FrancisSimon Francis    D  34
+## 15         FraserRyan Fraser    F  25
+## 16    DanielsCharlie Daniels    D  32
+## 17 StanislasJunior Stanislas    F  29
+## 18           SmithBrad Smith    D  24
+## 19        MoussetLys Mousset    F  23
+## 20        BrooksDavid Brooks    M  21
+## 21            RicoDiego Rico    D  26
+## 22             PughMarc Pugh    M  31
+## 23    HyndmanEmerson Hyndman    M  22
+## 24         MingsTyrone Mings    D  26
+## 25          BorucArtur Boruc   GK  39
+## 26    RamsdaleAaron Ramsdale   GK  20
+## 27       SimpsonJack Simpson    D  22
+## 28        MephamChris Mepham    D  21
 ##                                                             Contract Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
 ## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
-## 3  12480000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£12,480,000
+## 3  13000000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£13,000,000
 ## 4  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
 ## 5  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
-## 6    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
-## 7    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 6    9360000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,360,000
+## 7    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
 ## 8    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
-## 9    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
-## 10   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
+## 9    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 10   7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
 ## 11   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
-## 12   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
+## 12   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
 ## 13   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 14   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
-## 15   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
-## 16   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
-## 17   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
-## 18   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 19   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
-## 20   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
-## 21   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
-## 22   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
-## 23   2080000\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,080,000
-## 24      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
-## 25                  0\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t-
-## 26                  0\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t-
-## 27                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
-## 28                  0\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t-
-## 29                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 14   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
+## 15   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 16   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
+## 17   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
+## 18   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 19   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 20   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 21   4004000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,004,000
+## 22   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
+## 23   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
+## 24   2860000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,860,000
+## 25   2080000\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,080,000
+## 26      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
+## 27      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
+## 28                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
 ##    Avg. Salary Transfer Fee Expires
 ## 1   £5,380,000            -    2020
 ## 2   £3,640,000   £9,780,000    2021
-## 3   £3,120,000   £3,000,000    2022
+## 3   £2,600,000  £25,125,000    2023
 ## 4   £2,340,000            -    2021
 ## 5   £2,080,000  £19,380,000    2022
-## 6   £1,820,000     £536,000    2020
-## 7   £2,080,000            -    2021
-## 8   £2,080,000     £150,000    2021
-## 9   £1,976,000  £15,000,000    2020
-## 10  £1,820,000            -    2021
+## 6   £2,340,000     £150,000    2021
+## 7   £1,820,000     £536,000    2020
+## 8   £2,080,000            -    2021
+## 9   £2,080,000   £3,000,000    2022
+## 10  £1,976,000  £15,000,000    2020
 ## 11  £1,820,000            -    2021
-## 12  £1,560,000   £5,950,000    2020
-## 13  £1,560,000            -    2019
-## 14  £1,404,000     £400,000    2020
-## 15  £1,820,000     £191,000    2020
-## 16  £1,300,000   £3,060,000    2020
-## 17  £1,196,000   £9,610,000    2021
-## 18  £1,040,000   £5,530,000    2020
-## 19  £1,300,000     £100,000    2019
-## 20    £780,000            -    2020
-## 21    £624,000            -    2021
-## 22    £780,000            -    2020
-## 23  £2,080,000  £10,000,000    2019
-## 24    £156,000     £799,000    2021
-## 25           -            -    2020
-## 26           -            -    2019
-## 27           -  £10,125,000    2022
-## 28           -  £25,125,000    2023
-## 29           -  £10,750,000    2022&lt;/code&gt;&lt;/pre&gt;
+## 12  £1,820,000            -    2021
+## 13  £1,560,000   £5,950,000    2020
+## 14  £1,560,000            -    2019
+## 15  £1,404,000     £400,000    2020
+## 16  £1,820,000     £191,000    2020
+## 17  £1,820,000            -    2021
+## 18  £1,300,000   £3,060,000    2020
+## 19  £1,040,000   £5,530,000    2020
+## 20  £1,040,000  £10,125,000    2022
+## 21  £1,001,000  £10,750,000    2022
+## 22  £1,300,000     £100,000    2019
+## 23    £780,000            -    2020
+## 24    £715,000   £9,610,000    2022
+## 25  £2,080,000  £10,000,000    2019
+## 26    £156,000     £799,000    2021
+## 27    £156,000            -    2020
+## 28           -  £11,900,000       -
+## 
+## [[2]]
+##       Player (28) Pos. Age                         Contract Terms
+## 1 Nathaniel Clyne    D  26 1 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,640,000
+## 2 Dominic Solanke    F  20 1 yr\n\t\t\t\t\t\t\t\t\t\t\t£1,300,000
+##   Avg. Salary Transfer Fee Expires
+## 1           -            -       -
+## 2           -            -       -&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The names and the contract year and terms are going to require parsing. I have chosen the first html that corresponds to Bournemouth; other teams are worse because loan players are in a second table. That impacts the wage bill, perhaps, depending on the arrangement in the loan, but the contract details from the player do not have that team as signatory. This has to be fixed. That is easy enough to fix, there are two embedded tables and I can select the first one. When it comes to the names, there is no easy separation for the first column; I will grab them from nodes in the html.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.creator &amp;lt;- function(data) { 
   data %&amp;gt;% html_nodes(&amp;quot;table&amp;quot;) %&amp;gt;% html_table(header=TRUE, fill=TRUE) -&amp;gt; ret.tab
@@ -1375,153 +1393,148 @@ EPL.Contracts[[1]]&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##                       Player Position Age
 ## 1         DefoeJermain Defoe        F  36
 ## 2       BegovicAsmir Begovic       GK  31
-## 3        WilsonCallum Wilson        F  26
-## 4            KingJoshua King        F  26
-## 5              AkeNathan Ake        D  23
-## 6        SurmanAndrew Surman        M  32
-## 7           ArterHarry Arter        M  28
-## 8             CookSteve Cook        D  27
-## 9              IbeJordon Ibe        M  23
-## 10        GoslingDan Gosling        M  28
-## 11           SmithAdam Smith        D  27
-## 12            CookLewis Cook        M  21
-## 13      FrancisSimon Francis        D  33
-## 14         FraserRyan Fraser        M  24
-## 15    DanielsCharlie Daniels        D  32
-## 16           SmithBrad Smith        D  24
-## 17         MingsTyrone Mings        D  25
-## 18        MoussetLys Mousset        F  22
-## 19             PughMarc Pugh        M  31
-## 20    HyndmanEmerson Hyndman        M  22
-## 21     MahoneyConnor Mahoney        F  21
-## 22 StanislasJunior Stanislas        M  29
-## 23          BorucArtur Boruc       GK  38
-## 24    RamsdaleAaron Ramsdale       GK  20
-## 25       SimpsonJack Simpson        D  21
-## 26         TaylorKyle Taylor        M  19
-## 27        BrooksDavid Brooks        M  21
-## 28      LermaJefferson Lerma        M  24
-## 29            RicoDiego Rico        D  25
+## 3       LermaJefferson Lerma        M  24
+## 4            KingJoshua King        F  27
+## 5              AkeNathan Ake        D  24
+## 6             CookSteve Cook        D  27
+## 7        SurmanAndrew Surman        M  32
+## 8           ArterHarry Arter        M  29
+## 9        WilsonCallum Wilson        F  27
+## 10             IbeJordon Ibe        F  23
+## 11        GoslingDan Gosling        M  29
+## 12           SmithAdam Smith        D  27
+## 13            CookLewis Cook        M  22
+## 14      FrancisSimon Francis        D  34
+## 15         FraserRyan Fraser        F  25
+## 16    DanielsCharlie Daniels        D  32
+## 17 StanislasJunior Stanislas        F  29
+## 18           SmithBrad Smith        D  24
+## 19        MoussetLys Mousset        F  23
+## 20        BrooksDavid Brooks        M  21
+## 21            RicoDiego Rico        D  26
+## 22             PughMarc Pugh        M  31
+## 23    HyndmanEmerson Hyndman        M  22
+## 24         MingsTyrone Mings        D  26
+## 25          BorucArtur Boruc       GK  39
+## 26    RamsdaleAaron Ramsdale       GK  20
+## 27       SimpsonJack Simpson        D  22
+## 28        MephamChris Mepham        D  21
 ##                                                             Contract.Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
 ## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
-## 3  12480000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£12,480,000
+## 3  13000000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£13,000,000
 ## 4  11700000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£11,700,000
 ## 5  10400000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£10,400,000
-## 6    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
-## 7    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 6    9360000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,360,000
+## 7    9100000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£9,100,000
 ## 8    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
-## 9    7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
-## 10   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
+## 9    8320000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£8,320,000
+## 10   7904000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,904,000
 ## 11   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
-## 12   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
+## 12   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
 ## 13   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 14   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
-## 15   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
-## 16   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
-## 17   4784000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,784,000
-## 18   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 19   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
-## 20   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
-## 21   2496000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,496,000
-## 22   2340000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,340,000
-## 23   2080000\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,080,000
-## 24      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
-## 25                  0\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t-
-## 26                  0\n\t\t\t\t\t\t\t\t\t\t\t2 yr\n\t\t\t\t\t\t\t\t\t\t\t-
-## 27                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
-## 28                  0\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t-
-## 29                  0\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t-
+## 14   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
+## 15   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 16   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
+## 17   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
+## 18   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 19   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 20   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
+## 21   4004000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,004,000
+## 22   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
+## 23   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
+## 24   2860000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,860,000
+## 25   2080000\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,080,000
+## 26      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
+## 27      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
+## 28                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
 ##    Avg..Salary Transfer.Fee Expires    value years   value.pds
 ## 1   £5,380,000            -    2020 16140000  3 yr £16,140,000
 ## 2   £3,640,000   £9,780,000    2021 14560000  4 yr £14,560,000
-## 3   £3,120,000   £3,000,000    2022 12480000  4 yr £12,480,000
+## 3   £2,600,000  £25,125,000    2023 13000000  5 yr £13,000,000
 ## 4   £2,340,000            -    2021 11700000  5 yr £11,700,000
 ## 5   £2,080,000  £19,380,000    2022 10400000  5 yr £10,400,000
-## 6   £1,820,000     £536,000    2020  9100000  5 yr  £9,100,000
-## 7   £2,080,000            -    2021  8320000  4 yr  £8,320,000
-## 8   £2,080,000     £150,000    2021  8320000  4 yr  £8,320,000
-## 9   £1,976,000  £15,000,000    2020  7904000  4 yr  £7,904,000
-## 10  £1,820,000            -    2021  7280000  4 yr  £7,280,000
+## 6   £2,340,000     £150,000    2021  9360000  4 yr  £9,360,000
+## 7   £1,820,000     £536,000    2020  9100000  5 yr  £9,100,000
+## 8   £2,080,000            -    2021  8320000  4 yr  £8,320,000
+## 9   £2,080,000   £3,000,000    2022  8320000  4 yr  £8,320,000
+## 10  £1,976,000  £15,000,000    2020  7904000  4 yr  £7,904,000
 ## 11  £1,820,000            -    2021  7280000  4 yr  £7,280,000
-## 12  £1,560,000   £5,950,000    2020  6240000  4 yr  £6,240,000
-## 13  £1,560,000            -    2019  6240000  4 yr  £6,240,000
-## 14  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000
-## 15  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000
-## 16  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000
-## 17  £1,196,000   £9,610,000    2021  4784000  4 yr  £4,784,000
-## 18  £1,040,000   £5,530,000    2020  4160000  4 yr  £4,160,000
-## 19  £1,300,000     £100,000    2019  3900000  3 yr  £3,900,000
-## 20    £780,000            -    2020  3120000  4 yr  £3,120,000
-## 21    £624,000            -    2021  2496000  4 yr  £2,496,000
-## 22    £780,000            -    2020  2340000  3 yr  £2,340,000
-## 23  £2,080,000  £10,000,000    2019  2080000  1 yr  £2,080,000
-## 24    £156,000     £799,000    2021   780000  5 yr    £780,000
-## 25           -            -    2020        0  3 yr            
-## 26           -            -    2019        0  2 yr            
-## 27           -  £10,125,000    2022        0  4 yr            
-## 28           -  £25,125,000    2023        0  5 yr            
-## 29           -  £10,750,000    2022        0  4 yr            
+## 12  £1,820,000            -    2021  7280000  4 yr  £7,280,000
+## 13  £1,560,000   £5,950,000    2020  6240000  4 yr  £6,240,000
+## 14  £1,560,000            -    2019  6240000  4 yr  £6,240,000
+## 15  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000
+## 16  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000
+## 17  £1,820,000            -    2021  5460000  3 yr  £5,460,000
+## 18  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000
+## 19  £1,040,000   £5,530,000    2020  4160000  4 yr  £4,160,000
+## 20  £1,040,000  £10,125,000    2022  4160000  4 yr  £4,160,000
+## 21  £1,001,000  £10,750,000    2022  4004000  4 yr  £4,004,000
+## 22  £1,300,000     £100,000    2019  3900000  3 yr  £3,900,000
+## 23    £780,000            -    2020  3120000  4 yr  £3,120,000
+## 24    £715,000   £9,610,000    2022  2860000  4 yr  £2,860,000
+## 25  £2,080,000  £10,000,000    2019  2080000  1 yr  £2,080,000
+## 26    £156,000     £799,000    2021   780000  5 yr    £780,000
+## 27    £156,000            -    2020   468000  3 yr    £468,000
+## 28           -  £11,900,000       -        0                  
 ##        Player.Names                                   Player.links
 ## 1     Jermain Defoe https://www.spotrac.com/redirect/player/23836/
 ## 2     Asmir Begovic https://www.spotrac.com/redirect/player/22625/
-## 3     Callum Wilson https://www.spotrac.com/redirect/player/22694/
+## 3   Jefferson Lerma https://www.spotrac.com/redirect/player/27878/
 ## 4       Joshua King https://www.spotrac.com/redirect/player/22685/
 ## 5        Nathan Ake https://www.spotrac.com/redirect/player/15521/
-## 6     Andrew Surman https://www.spotrac.com/redirect/player/22692/
-## 7       Harry Arter https://www.spotrac.com/redirect/player/22674/
-## 8        Steve Cook https://www.spotrac.com/redirect/player/22677/
-## 9        Jordon Ibe https://www.spotrac.com/redirect/player/22684/
-## 10      Dan Gosling https://www.spotrac.com/redirect/player/22682/
-## 11       Adam Smith https://www.spotrac.com/redirect/player/22689/
-## 12       Lewis Cook https://www.spotrac.com/redirect/player/22676/
-## 13    Simon Francis https://www.spotrac.com/redirect/player/22679/
-## 14      Ryan Fraser https://www.spotrac.com/redirect/player/22680/
-## 15  Charlie Daniels https://www.spotrac.com/redirect/player/22678/
-## 16       Brad Smith https://www.spotrac.com/redirect/player/22690/
-## 17     Tyrone Mings https://www.spotrac.com/redirect/player/22686/
-## 18      Lys Mousset https://www.spotrac.com/redirect/player/22687/
-## 19        Marc Pugh https://www.spotrac.com/redirect/player/22688/
-## 20  Emerson Hyndman https://www.spotrac.com/redirect/player/23139/
-## 21   Connor Mahoney https://www.spotrac.com/redirect/player/24030/
-## 22 Junior Stanislas https://www.spotrac.com/redirect/player/22691/
-## 23      Artur Boruc https://www.spotrac.com/redirect/player/22660/
-## 24   Aaron Ramsdale https://www.spotrac.com/redirect/player/22661/
-## 25     Jack Simpson https://www.spotrac.com/redirect/player/24102/
-## 26      Kyle Taylor https://www.spotrac.com/redirect/player/27876/
-## 27     David Brooks https://www.spotrac.com/redirect/player/27877/
-## 28  Jefferson Lerma https://www.spotrac.com/redirect/player/27878/
-## 29       Diego Rico https://www.spotrac.com/redirect/player/27879/
+## 6        Steve Cook https://www.spotrac.com/redirect/player/22677/
+## 7     Andrew Surman https://www.spotrac.com/redirect/player/22692/
+## 8       Harry Arter https://www.spotrac.com/redirect/player/22674/
+## 9     Callum Wilson https://www.spotrac.com/redirect/player/22694/
+## 10       Jordon Ibe https://www.spotrac.com/redirect/player/22684/
+## 11      Dan Gosling https://www.spotrac.com/redirect/player/22682/
+## 12       Adam Smith https://www.spotrac.com/redirect/player/22689/
+## 13       Lewis Cook https://www.spotrac.com/redirect/player/22676/
+## 14    Simon Francis https://www.spotrac.com/redirect/player/22679/
+## 15      Ryan Fraser https://www.spotrac.com/redirect/player/22680/
+## 16  Charlie Daniels https://www.spotrac.com/redirect/player/22678/
+## 17 Junior Stanislas https://www.spotrac.com/redirect/player/22691/
+## 18       Brad Smith https://www.spotrac.com/redirect/player/22690/
+## 19      Lys Mousset https://www.spotrac.com/redirect/player/22687/
+## 20     David Brooks https://www.spotrac.com/redirect/player/27877/
+## 21       Diego Rico https://www.spotrac.com/redirect/player/27879/
+## 22        Marc Pugh https://www.spotrac.com/redirect/player/22688/
+## 23  Emerson Hyndman https://www.spotrac.com/redirect/player/23139/
+## 24     Tyrone Mings https://www.spotrac.com/redirect/player/22686/
+## 25      Artur Boruc https://www.spotrac.com/redirect/player/22660/
+## 26   Aaron Ramsdale https://www.spotrac.com/redirect/player/22661/
+## 27     Jack Simpson https://www.spotrac.com/redirect/player/24102/
+## 28     Chris Mepham https://www.spotrac.com/redirect/player/28460/
 ##    Last.Name
 ## 1      Defoe
 ## 2    Begovic
-## 3     Wilson
+## 3      Lerma
 ## 4       King
 ## 5        Ake
-## 6     Surman
-## 7      Arter
-## 8       Cook
-## 9        Ibe
-## 10   Gosling
-## 11     Smith
-## 12      Cook
-## 13   Francis
-## 14    Fraser
-## 15   Daniels
-## 16     Smith
-## 17     Mings
-## 18   Mousset
-## 19      Pugh
-## 20   Hyndman
-## 21   Mahoney
-## 22 Stanislas
-## 23     Boruc
-## 24  Ramsdale
-## 25   Simpson
-## 26    Taylor
-## 27    Brooks
-## 28     Lerma
-## 29      Rico&lt;/code&gt;&lt;/pre&gt;
+## 6       Cook
+## 7     Surman
+## 8      Arter
+## 9     Wilson
+## 10       Ibe
+## 11   Gosling
+## 12     Smith
+## 13      Cook
+## 14   Francis
+## 15    Fraser
+## 16   Daniels
+## 17 Stanislas
+## 18     Smith
+## 19   Mousset
+## 20    Brooks
+## 21      Rico
+## 22      Pugh
+## 23   Hyndman
+## 24     Mings
+## 25     Boruc
+## 26  Ramsdale
+## 27   Simpson
+## 28    Mepham&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The data now have some junk alongside workable versions of the variables of interest. It is worth noting that the header of the contracts data allows us to verify the size of the table as we picked it up [though I do rename them to allow the rbind to work]. This also suggests a strategy for picking up the rownames that is different than the above method that uses the dimension of the html table. Perhaps I should just gsub the header to recover the integer number of players. To tidy the data, they need to be stacked. A simple do.call and row bind will probably work.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Team.Base &amp;lt;- sapply(EPL.Contracts, dim)[1,]
 Team &amp;lt;- rep(as.character(names(Team.Base)),Team.Base)
@@ -1534,13 +1547,13 @@ pp &amp;lt;- Team.mean %&amp;gt;% arrange(Team.Mean)
 pp$Team &amp;lt;- factor(pp$Team, levels = pp$Team)
 pp %&amp;gt;% ggplot(aes(Team.Mean,Team, size=Team.SD)) + geom_point() + labs(x=&amp;quot;Avg. Contract (1000s)&amp;quot;) -&amp;gt; cplot
 cplot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;EPL.Contracts.df %&amp;gt;% group_by(Team) %&amp;gt;% summarise(Age.Mean=mean(Age, na.rm=TRUE), Age.SD=sd(Age, na.rm=TRUE)) -&amp;gt; Team.mean
 Team.mean %&amp;gt;% ungroup() %&amp;gt;% arrange(., Age.Mean) -&amp;gt; pp
 pp$Team &amp;lt;- factor(pp$Team, levels = pp$Team)
 pp %&amp;gt;% ggplot(aes(Age.Mean,Team,size=Age.SD)) + geom_point() + labs(x=&amp;quot;Age&amp;quot;) -&amp;gt; cplot
 cplot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-08-scraping-epl-salary-data_files/figure-html/EPLT2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
@@ -1548,10 +1561,10 @@ cplot&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Scraping the NFL Salary Cap Data with Python and R</title>
-      <link>https://www.data.viajes/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
+      <link>https://www.rww.science/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
+      <guid>https://www.rww.science/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
       <description>&lt;div id=&#34;the-nfl-data&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The NFL Data&lt;/h1&gt;
 &lt;p&gt;[SporTrac](&lt;a href=&#34;http://www.sportrac.com&#34; class=&#34;uri&#34;&gt;http://www.sportrac.com&lt;/a&gt;] has a wonderful array of financial data on sports. A student going to work for the Seattle Seahawks wanted the NFL salary cap data and I also found data on the English Premier League there. Now I have a source to scrape the data from.&lt;/p&gt;
@@ -1604,71 +1617,95 @@ import bs4
 import re
 import urllib2
 #import requests
+
 from urllib import urlopen
 from bs4 import BeautifulSoup
 base_url = &amp;quot;http://www.spotrac.com/nfl/&amp;quot;
+
 def get_page(url):
     page = urlopen(base_url)
     soup = BeautifulSoup(page, &amp;#39;lxml&amp;#39;)
     file = open(&amp;quot;spotrac_urls.txt&amp;quot;, &amp;#39;w&amp;#39;)
     file.write(str(soup))
     file.close()
+
 def get_team_table(url):
     page = urlopen(url)
     soup = BeautifulSoup(page, &amp;#39;lxml&amp;#39;)
+
 get_page(base_url)
+
 with open(&amp;quot;spotrac_urls.txt&amp;quot;, &amp;#39;r&amp;#39;) as file:
     for line in file:
         line = line.strip()
+
 from bs4 import BeautifulSoup
 page = open(&amp;quot;spotrac_urls.txt&amp;quot;, &amp;#39;r&amp;#39;)
 soup = BeautifulSoup(page, &amp;quot;lxml&amp;quot;)
 div = soup.find(&amp;quot;div&amp;quot;,&amp;quot;subnav-posts&amp;quot;)
+
 links = div.find_all(&amp;#39;a&amp;#39;)
 for link in links:
     print(link.get(&amp;#39;href&amp;#39;))
+
 len(links)
+
 def get_team_table(url):
     page = urlopen(url)
     soup = BeautifulSoup(page, &amp;#39;lxml&amp;#39;)
     data_rows = [row for row in soup.find(&amp;quot;table&amp;quot;, &amp;quot;datatable&amp;quot;).find_all(&amp;quot;tr&amp;quot;)]
     return data_rows
+
 # create an empty list
 team_data = []
+
 for link in links:
     team_data.append(get_team_table(link.get(&amp;#39;href&amp;#39;)))
+
 len(team_data)
+
 #data_rows = [row for row in soup.find(&amp;quot;td&amp;quot;, &amp;quot;center&amp;quot;).find_all(&amp;quot;tr&amp;quot;)]
 table_data = []
+
 #soup = BeautifulSoup(team_data[0], &amp;#39;lxml&amp;#39;)
+
 #This needs to be a nested for loop because inner items of the list are BeautifulSoup Elements
 for row in team_data:
     for element in row:
         #print(type(element))
         if soup.find_all(&amp;quot;td&amp;quot;, attrs={&amp;quot;class&amp;quot;:&amp;quot; right xs-hide &amp;quot;}) is not None:
             table_data.append(element.get_text())
+
 player_data = []
 for row in table_data:
     player_data.append(row.split(&amp;quot;\n&amp;quot;))
     #print(player_data)
+
 len(player_data)
+
 import pandas as pd
 df = pd.DataFrame(player_data)
 df = df.drop(14, 1)
 df = df.drop(0, 1)
 df = df.drop(1, 1)
+
+
 df = df.drop(df.index[[0]])
 df.set_index(1, inplace=True)
 print(df.shape)
 df.head()
+
 players = []
 for row in team_data[0]:
     if row.get_text(&amp;quot;tr&amp;quot;) is not None:
         players.append(row) 
+
 column_headers = [col.get_text() for col in players[0].find_all(&amp;quot;th&amp;quot;) if col.get_text()]
 len(column_headers)
+
 df.columns = column_headers
 df.head()
+
 #The header repeated itself in the data.  This didn&amp;#39;t reveal itself until the data type conversion step below
 #but this fixes all occurrences of it.
 rows_to_be_dropped = df.loc[df[&amp;#39;Cap Hit&amp;#39;] == &amp;#39;Cap %&amp;#39;].index
@@ -1677,8 +1714,10 @@ totlen = len(df)
 df2a = df.drop(rows_to_be_kept)
 df = df.drop(rows_to_be_dropped)
 df2 = pd.Series(data=rows_to_be_dropped)
+
 #Apply a regex to convert the &amp;#39;Cap Hit&amp;#39; column from a string to a float.  
 # df[&amp;#39;Cap Hit&amp;#39;] =(df[&amp;#39;Cap Hit&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace( &amp;#39;[(]&amp;#39;,&amp;#39;-&amp;#39;,   regex=True ).astype(float))
+
 # My fix
 df[&amp;#39;Cap.Hit&amp;#39;] = (df[&amp;#39;Cap Hit&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;\s\s.*&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
 df[&amp;#39;Base.Salary&amp;#39;] = (df[&amp;#39;Base Salary&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
@@ -1689,6 +1728,7 @@ df[&amp;#39;Workout.Bonus&amp;#39;] = (df[&amp;#39;Workout Bonus&amp;#39;].repla
 df[&amp;#39;Restruc.Bonus&amp;#39;] = (df[&amp;#39;Restruc. Bonus&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
 df[&amp;#39;Misc&amp;#39;] = (df[&amp;#39;Misc.&amp;#39;].replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
 df[&amp;#39;Dead.Cap&amp;#39;] = (df[&amp;#39;Dead Cap&amp;#39;].replace(&amp;#39;\(&amp;#39;,&amp;quot;&amp;quot;,regex=True).replace(&amp;#39;\)&amp;#39;,&amp;quot;&amp;quot;,regex=True).replace(&amp;#39;[\$,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).replace(&amp;#39;[-,)]&amp;#39;, &amp;quot;&amp;quot;, regex=True).astype(float))
+
 #Sanity check to make sure it worked.
 df[&amp;#39;Cap Hit&amp;#39;].sum()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;There are a few wonderful things about Beautiful Soup. But it is still faster and easier for me to do things in R. Here is some R code for the same task. The R table is a messy data structure but is easier to get.&lt;/p&gt;
@@ -1771,7 +1811,7 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 ##  n obs: 2239 
 ##  n variables: 14 
 ## 
-## ── Variable type:factor ──────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:factor ──────────────────────────────────────────────────────────────
 ##   variable missing complete    n n_unique
 ##    Cap.Hit       0     2239 2239     1043
 ##  Last.Name       0     2239 2239     1489
@@ -1785,7 +1825,7 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 ##    WR: 289, CB: 242, DE: 179, OLB: 171   FALSE
 ##     New: 86, Ind: 78, New: 78, Cle: 77   FALSE
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────
 ##       variable missing complete    n       mean         sd p0       p25
 ##    Base.Salary       0     2239 2239 1702378.82 2559999.2   0 555000   
 ##        Cap.Pct       0     2239 2239       1.36       2.05  0      0.31
@@ -1820,14 +1860,14 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 ##  8 Cleveland Browns           122139767
 ##  9 Dallas Cowboys             128347113
 ## 10 Denver Broncos             140672444
-## # ... with 22 more rows&lt;/code&gt;&lt;/pre&gt;
+## # … with 22 more rows&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;NFL.Salary.Data %&amp;gt;% group_by(Position) %&amp;gt;% skim(Base.Salary)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Skim summary statistics
 ##  n obs: 2239 
 ##  n variables: 14 
 ##  group variables: Position 
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────
 ##  Position    variable missing complete   n       mean         sd     p0
 ##         C Base.Salary       0       62  62 1964378.97 2173761.05      0
 ##        CB Base.Salary       0      242 242 1594781.37 2433196.22      0
@@ -1876,9 +1916,9 @@ skim(NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
 ##  555000     630000   1200000 15982000 ▇▁▁▁▁▁▁▁&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now I have my salary data.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gplots::plotmeans(Base.Salary~Position, data=NFL.Salary.Data, n.label=FALSE, cex=0.6)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;boxplot(Base.Salary~Position, data=NFL.Salary.Data)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;combining-and-categorizing-data&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Combining and Categorizing Data&lt;/h2&gt;
@@ -1916,10 +1956,10 @@ NFL.Salary.Data$SubTeam[NFL.Salary.Data$Pos.Char %in% Safeties] &amp;lt;- &amp;q
     
     <item>
       <title>tidyTuesday - Tuition</title>
-      <link>https://www.data.viajes/post/tidytuesday-tuition/</link>
+      <link>https://www.rww.science/post/tidytuesday-tuition/</link>
       <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/tidytuesday-tuition/</guid>
+      <guid>https://www.rww.science/post/tidytuesday-tuition/</guid>
       <description>&lt;p&gt;I found a great example on tidyTuesday that I wanted to work on. &lt;code&gt;@JakeKaupp&lt;/code&gt; tweeted his &lt;code&gt;#tidyTuesday&lt;/code&gt;: a very cool slope plot of tuition changes averaged by state over the last decade. It is a very informative graphic. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on &lt;a href=&#34;https://github.com/jkaupp&#34;&gt;Jake Kaupp’s GitHub&lt;/a&gt;. The specific file is &lt;a href=&#34;https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R&#34;&gt;here&lt;/a&gt;. I did not add much. All I wanted was some idea of how the growth rates correspond over the period. I added a cumulative growth rate and encoded the color scheme with it enabling me to play with &lt;em&gt;viridis&lt;/em&gt;. The &lt;em&gt;col_tab&lt;/em&gt; is my creation. I also moved around the labels so that everyone gets a color coded label and we can see who is where, more or less. Enjoy!&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(here)
 library(readxl)
@@ -1961,7 +2001,7 @@ plot &amp;lt;- plot_data %&amp;gt;%
   theme_minimal(base_family = &amp;quot;Oswald-Light&amp;quot;) +
   theme(panel.grid.minor = element_blank())
 print(plot)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-03-tidytuesday-tuition_files/figure-html/BorrowedCode-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-03-tidytuesday-tuition_files/figure-html/BorrowedCode-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Now I will modify the original that is kept intact above.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nat_avg &amp;lt;- tidy_data %&amp;gt;%
   filter(year %in% c(&amp;quot;2005-06&amp;quot;, &amp;quot;2015-16&amp;quot;)) %&amp;gt;%
@@ -2002,16 +2042,16 @@ my.plot &amp;lt;- plot_data %&amp;gt;%
   theme(panel.grid.minor = element_blank())
 ggsave(my.plot, filename = glue(&amp;#39;tidyweek-{Sys.Date()}.png&amp;#39;), height = 8, width = 8, dpi = 300)
 print(my.plot)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-04-03-tidytuesday-tuition_files/figure-html/ModPlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-04-03-tidytuesday-tuition_files/figure-html/ModPlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Pew Data on Bond Ratings and Rainy Day Funds</title>
-      <link>https://www.data.viajes/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
+      <link>https://www.rww.science/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
+      <guid>https://www.rww.science/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
       <description>&lt;div id=&#34;pew-on-rainy-day-funds-and-credit-quality&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Pew on Rainy Day Funds and Credit Quality&lt;/h1&gt;
 &lt;p&gt;The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund. A poorly deployed savings device for cash flow management over the not-so-short term also seems unlikely to bolster market confidence in the repayment abilities of an issuer. If this very simple perspective that seems plausible is true, then a simple replication should be easy. And it is. Pew gladly shared the data and code. If one has access to Stata, the study is easy to replicate.&lt;/p&gt;
@@ -2029,51 +2069,51 @@ Pew.Data &amp;lt;- read_dta(&amp;quot;~/Desktop/Pew/modeledforprediction.dta&amp
 glimpse(Pew.Data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Observations: 966
 ## Variables: 45
-## $ fyear            &amp;lt;dbl&amp;gt; 1994, 1995, 1996, 1997, 1998, 1999, 2000, 200...
-## $ statefips        &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
-## $ state            &amp;lt;chr&amp;gt; &amp;quot;Alabama&amp;quot;, &amp;quot;Alabama&amp;quot;, &amp;quot;Alabama&amp;quot;, &amp;quot;Alabama&amp;quot;, &amp;quot;...
-## $ bbalance         &amp;lt;dbl&amp;gt; 0.00000, 0.00000, 0.00000, 0.00000, 0.00000, ...
-## $ withdraw         &amp;lt;dbl&amp;gt; 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.000...
-## $ deposit          &amp;lt;dbl&amp;gt; 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.0...
-## $ interest         &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
-## $ ebalance         &amp;lt;dbl&amp;gt; 0.00000, 0.00000, 0.00000, 0.00000, 0.00000, ...
-## $ fund             &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
-## $ spo              &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0,...
-## $ moodyo           &amp;lt;dbl&amp;gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, 0,...
-## $ fitcho           &amp;lt;dbl&amp;gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...
-## $ spnum            &amp;lt;dbl&amp;gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, ...
-## $ moodynum         &amp;lt;dbl&amp;gt; 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, ...
-## $ fitchnum         &amp;lt;dbl&amp;gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, ...
-## $ surplus          &amp;lt;dbl&amp;gt; -3, -73, 4, -35, 27, 21, 30, -34, -47, -177, ...
-## $ gfebal           &amp;lt;dbl&amp;gt; 128, 54, 58, 23, 51, 72, 101, 67, 19, 113, 34...
-## $ longdebt         &amp;lt;dbl&amp;gt; 0.10800536, 0.09275389, 0.08864151, 0.0814541...
-## $ shortdebt        &amp;lt;dbl&amp;gt; 2.790155e-05, 8.648518e-05, 7.688679e-06, 4.9...
-## $ totaldebt        &amp;lt;dbl&amp;gt; 0.10803326, 0.09284038, 0.08864920, 0.0814590...
-## $ population       &amp;lt;dbl&amp;gt; 8.346216, 8.357078, 8.365626, 8.373577, 8.382...
-## $ pop65            &amp;lt;dbl&amp;gt; 548.045, 554.718, 561.331, 567.094, 571.722, ...
-## $ gfe              &amp;lt;dbl&amp;gt; 3860, 4151, 4240, 4475, 4688, 4919, 5215, 521...
-## $ gfr              &amp;lt;dbl&amp;gt; 3857, 4078, 4244, 4440, 4715, 4940, 5245, 517...
-## $ spi              &amp;lt;dbl&amp;gt; 79368.02, 84194.33, 88048.51, 92206.95, 98699...
-## $ rdfbal           &amp;lt;dbl&amp;gt; 0.0000000, 0.0000000, 0.0000000, 0.0000000, 0...
-## $ rdfdep           &amp;lt;dbl&amp;gt; 0.00000, 0.00000, 0.00000, 0.00000, 0.00000, ...
-## $ rdfwit           &amp;lt;dbl&amp;gt; 0.000000, 0.000000, 0.000000, 0.000000, 0.000...
-## $ gfebalgfe        &amp;lt;dbl&amp;gt; 3.3160622, 1.3008914, 1.3679246, 0.5139665, 1...
-## $ spratingshift    &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
-## $ spupgrade        &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
-## $ spdowngrade      &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
-## $ moodyratingshift &amp;lt;dbl&amp;gt; NA, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0...
-## $ moodyupgrade     &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,...
-## $ moodydowngrade   &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
-## $ fitchratingshift &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
-## $ fitchupgrade     &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
-## $ fitchdowngrade   &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
-## $ rdfnet           &amp;lt;dbl&amp;gt; 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.000...
-## $ rdfnetgfe        &amp;lt;dbl&amp;gt; 0.000000, 0.000000, 0.000000, 0.000000, 0.000...
-## $ revenuebw        &amp;lt;dbl&amp;gt; 4.613832, 15.427544, -32.826214, -55.708824, ...
-## $ revenuebwtrend   &amp;lt;dbl&amp;gt; 3852.386, 4062.573, 4276.826, 4495.709, 4709....
-## $ trendstanding    &amp;lt;dbl&amp;gt; 1, 1, -1, -1, 1, 1, 1, 1, -1, -1, -1, -1, 1, ...
-## $ valenceusage     &amp;lt;dbl&amp;gt; 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.000...
-## $ valenceusagegfe  &amp;lt;dbl&amp;gt; 0.000000, 0.000000, 0.000000, 0.000000, 0.000...&lt;/code&gt;&lt;/pre&gt;
+## $ fyear            &amp;lt;dbl&amp;gt; 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,…
+## $ statefips        &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ state            &amp;lt;chr&amp;gt; &amp;quot;Alabama&amp;quot;, &amp;quot;Alabama&amp;quot;, &amp;quot;Alabama&amp;quot;, &amp;quot;Alabama&amp;quot;, &amp;quot;Al…
+## $ bbalance         &amp;lt;dbl&amp;gt; 0.00000, 0.00000, 0.00000, 0.00000, 0.00000, 0.…
+## $ withdraw         &amp;lt;dbl&amp;gt; 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,…
+## $ deposit          &amp;lt;dbl&amp;gt; 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000…
+## $ interest         &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ ebalance         &amp;lt;dbl&amp;gt; 0.00000, 0.00000, 0.00000, 0.00000, 0.00000, 0.…
+## $ fund             &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ spo              &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0…
+## $ moodyo           &amp;lt;dbl&amp;gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, 0, 0…
+## $ fitcho           &amp;lt;dbl&amp;gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ spnum            &amp;lt;dbl&amp;gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ moodynum         &amp;lt;dbl&amp;gt; 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6,…
+## $ fitchnum         &amp;lt;dbl&amp;gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ surplus          &amp;lt;dbl&amp;gt; -3, -73, 4, -35, 27, 21, 30, -34, -47, -177, 15…
+## $ gfebal           &amp;lt;dbl&amp;gt; 128, 54, 58, 23, 51, 72, 101, 67, 19, 113, 347,…
+## $ longdebt         &amp;lt;dbl&amp;gt; 0.10800536, 0.09275389, 0.08864151, 0.08145412,…
+## $ shortdebt        &amp;lt;dbl&amp;gt; 2.790155e-05, 8.648518e-05, 7.688679e-06, 4.916…
+## $ totaldebt        &amp;lt;dbl&amp;gt; 0.10803326, 0.09284038, 0.08864920, 0.08145904,…
+## $ population       &amp;lt;dbl&amp;gt; 8.346216, 8.357078, 8.365626, 8.373577, 8.38204…
+## $ pop65            &amp;lt;dbl&amp;gt; 548.045, 554.718, 561.331, 567.094, 571.722, 57…
+## $ gfe              &amp;lt;dbl&amp;gt; 3860, 4151, 4240, 4475, 4688, 4919, 5215, 5213,…
+## $ gfr              &amp;lt;dbl&amp;gt; 3857, 4078, 4244, 4440, 4715, 4940, 5245, 5179,…
+## $ spi              &amp;lt;dbl&amp;gt; 79368.02, 84194.33, 88048.51, 92206.95, 98699.3…
+## $ rdfbal           &amp;lt;dbl&amp;gt; 0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0…
+## $ rdfdep           &amp;lt;dbl&amp;gt; 0.00000, 0.00000, 0.00000, 0.00000, 0.00000, 0.…
+## $ rdfwit           &amp;lt;dbl&amp;gt; 0.000000, 0.000000, 0.000000, 0.000000, 0.00000…
+## $ gfebalgfe        &amp;lt;dbl&amp;gt; 3.3160622, 1.3008914, 1.3679246, 0.5139665, 1.0…
+## $ spratingshift    &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ spupgrade        &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ spdowngrade      &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ moodyratingshift &amp;lt;dbl&amp;gt; NA, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, …
+## $ moodyupgrade     &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0…
+## $ moodydowngrade   &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ fitchratingshift &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ fitchupgrade     &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ fitchdowngrade   &amp;lt;dbl&amp;gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ rdfnet           &amp;lt;dbl&amp;gt; 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,…
+## $ rdfnetgfe        &amp;lt;dbl&amp;gt; 0.000000, 0.000000, 0.000000, 0.000000, 0.00000…
+## $ revenuebw        &amp;lt;dbl&amp;gt; 4.613832, 15.427544, -32.826214, -55.708824, 5.…
+## $ revenuebwtrend   &amp;lt;dbl&amp;gt; 3852.386, 4062.573, 4276.826, 4495.709, 4709.53…
+## $ trendstanding    &amp;lt;dbl&amp;gt; 1, 1, -1, -1, 1, 1, 1, 1, -1, -1, -1, -1, 1, 1,…
+## $ valenceusage     &amp;lt;dbl&amp;gt; 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,…
+## $ valenceusagegfe  &amp;lt;dbl&amp;gt; 0.000000, 0.000000, 0.000000, 0.000000, 0.00000…&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table(Pew.Data$state)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ##        Alabama         Alaska        Arizona       Arkansas     California 
@@ -2127,7 +2167,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-second-group&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;The Second Group&lt;/h3&gt;
@@ -2140,7 +2180,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5b-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5b-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-third-group&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;The Third Group&lt;/h3&gt;
@@ -2153,7 +2193,7 @@ stored &amp;lt;- state.SE %&amp;gt;% group_by(state) %&amp;gt;% filter(state%in%
 #    geom_point(shape=21, size=3, fill=&amp;quot;white&amp;quot;) +
     ylim(-4,4) + facet_wrap(~state)
 stored&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5c-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-03-07-pew-data-on-bond-ratings-and-rainy-day-funds_files/figure-html/Plot5c-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-panel-data-properties&#34; class=&#34;section level2&#34;&gt;
@@ -2201,10 +2241,10 @@ XTSUM(nlswork, varname=hours, unit=idcode)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Mapping with the Government Finance Database</title>
-      <link>https://www.data.viajes/post/mapping-with-the-government-finance-database/</link>
+      <link>https://www.rww.science/post/mapping-with-the-government-finance-database/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/mapping-with-the-government-finance-database/</guid>
+      <guid>https://www.rww.science/post/mapping-with-the-government-finance-database/</guid>
       <description>&lt;div id=&#34;the-government-finance-database&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The Government Finance Database&lt;/h1&gt;
 &lt;p&gt;Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the &lt;a href=&#34;http://willamette.edu/mba/research_impact/public_datasets/index.html&#34;&gt;Government Finance data&lt;/a&gt; available from the Census. They published an article in &lt;a href=&#34;http://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0130119&amp;amp;type=printable&#34;&gt;PLoS One&lt;/a&gt; with the rationale; I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states. It seems that &lt;code&gt;read.csv&lt;/code&gt; works better than &lt;code&gt;read_csv&lt;/code&gt; for this task.&lt;/p&gt;
@@ -2302,7 +2342,7 @@ my.GFD.2015&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;state_choropleth(my.GFD.2015, title=&amp;quot;Total Taxes per capita&amp;quot;, num_colors=1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning in self$bind(): The following regions were missing and are being
 ## set to NA: district of columbia&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/MapTheData-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/MapTheData-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;That’s far too easy. Total taxes, which I have not bothered to look up, appear to contain some unexpected details. What else can be done with it? The final code chunk does it all. To calculate a new map, just change the name of the thing per capitized. What data are available? See below….&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;names(State.Data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##   [1] &amp;quot;SurveyYr&amp;quot;                     &amp;quot;Year4&amp;quot;                       
@@ -2613,7 +2653,7 @@ my.GFD.2015&lt;/code&gt;&lt;/pre&gt;
 state_choropleth(my.GFD.2015, title=&amp;quot;Total Revenues per capita&amp;quot;, num_colors=1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning in self$bind(): The following regions were missing and are being
 ## set to NA: district of columbia&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;putting-them-together-counties&#34; class=&#34;section level1&#34;&gt;
@@ -2625,23 +2665,23 @@ my.County.GFD.2015 &amp;lt;- County.Data.2 %&amp;gt;%
   filter(Year4==2012) %&amp;gt;% mutate(value = General_Revenue / Population) %&amp;gt;%
   select(region, value)
 county_choropleth(my.County.GFD.2015, title=&amp;quot;General Revenue per capita&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/County1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/County1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The zoom feature is pretty cool: there are two defined forms for the county and states. The naming conventions follow the &lt;code&gt;county.regions&lt;/code&gt; format and are lower case. Let me grab &lt;em&gt;oregon&lt;/em&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my.County.GFD.2015 &amp;lt;- County.Data.2 %&amp;gt;% 
   filter(Year4==2012) %&amp;gt;% mutate(value = General_Revenue / Population) %&amp;gt;%
   select(region, value)
 county_choropleth(my.County.GFD.2015, title=&amp;quot;General Revenue per capita&amp;quot;, state_zoom=&amp;quot;oregon&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/CountyMZ-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/CountyMZ-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>Longitudinal Panel Data R Packages</title>
-      <link>https://www.data.viajes/post/panel-data-r-packages/</link>
+      <link>https://www.rww.science/post/panel-data-r-packages/</link>
       <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/panel-data-r-packages/</guid>
+      <guid>https://www.rww.science/post/panel-data-r-packages/</guid>
       <description>&lt;div id=&#34;longitudinal-and-panel-data-analysis-in-r&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Longitudinal and Panel Data Analysis in R&lt;/h1&gt;
 &lt;p&gt;Goal: A CRAN task view for panel/longitudinal data analysis in R.&lt;/p&gt;
@@ -2840,10 +2880,10 @@ XTSUM(nlswork, varname=hours, unit=idcode)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Black Boxes: A Gender Gap Example</title>
-      <link>https://www.data.viajes/post/black-boxes-a-gender-gap-example/</link>
+      <link>https://www.rww.science/post/black-boxes-a-gender-gap-example/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/black-boxes-a-gender-gap-example/</guid>
+      <guid>https://www.rww.science/post/black-boxes-a-gender-gap-example/</guid>
       <description>&lt;div id=&#34;variance-in-the-outcome-the-black-box&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Variance in the Outcome: The Black Box&lt;/h2&gt;
 &lt;p&gt;Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained. Let’s take an example.&lt;/p&gt;
@@ -2878,14 +2918,14 @@ abline(h=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;)
 arrows(x0=c(1:32), x1=c(1:32), y1=OregonSalaries$Salary,y0=mean(OregonSalaries$Salary), col=&amp;quot;blue&amp;quot;, code=3, length=0.05)
 text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(ORSalScale[c(1:16)])), cex=0.7, col=&amp;quot;blue&amp;quot;)
 text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col=&amp;quot;blue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/PlotG-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;invoking-the-function&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Invoking the Function&lt;/h2&gt;
 &lt;p&gt;To represent the black box,let me draw it. The length of each side will be the square root of the black box; our total sum of squares is just under 900 million squared dollars so each side will be approximately 30000. The box appears below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~1, data=OregonSalaries)
 black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBBase-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBBase-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;a-regression-model&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;A Regression Model&lt;/h2&gt;
@@ -2908,11 +2948,11 @@ text(x=seq(1,16), y=rep(c(47000,48000,49000,50000),4), labels = paste(ceiling(OR
 text(x=c(17:32), y=rep(c(30000,31000,32000,33000),4), labels = paste(ceiling(ORSalScale[c(17:32)])), cex=0.7, col=&amp;quot;blue&amp;quot;)
 text(x=seq(1,16), y=rep(c(42000,43000,44000,45000),4), labels = paste(ceiling(resids[c(1:16)])), cex=0.7, col=&amp;quot;black&amp;quot;)
 text(x=c(17:32), y=rep(c(36000,37000,38000,39000),4), labels = paste(ceiling(resids[c(17:32)])), cex=0.7, col=&amp;quot;red&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BasePlot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The details of the regression estimates and the analysis of variance – the sums of squares – completes the rendering.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mod1 &amp;lt;- lm(Salary~Gender, data=OregonSalaries)
 black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-02-22-black-boxes-a-gender-gap-example_files/figure-html/BBReg-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(mod1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ## Call:
@@ -2947,10 +2987,10 @@ black.box.maker(mod1)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Correlation Function</title>
-      <link>https://www.data.viajes/post/correlation-function/</link>
+      <link>https://www.rww.science/post/correlation-function/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.data.viajes/post/correlation-function/</guid>
+      <guid>https://www.rww.science/post/correlation-function/</guid>
       <description>&lt;div id=&#34;correlations-and-the-impact-on-sums-and-differences&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Correlations and the Impact on Sums and Differences&lt;/h1&gt;
 &lt;p&gt;I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.&lt;/p&gt;
@@ -2972,175 +3012,13 @@ plot(x=df$X1, y=df$X2, xlab=&amp;quot;x1&amp;quot;, ylab=&amp;quot;x2&amp;quot;,
   else { cat(&amp;quot;Correlation must be between -1 and 1&amp;quot;) }
 }
 plot.cor(cor=0.8)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-correlation-function_files/figure-html/CorF-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-02-22-correlation-function_files/figure-html/CorF-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The correlation above is 0.8&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;correlation-is--0.8&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Correlation is -0.8&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot.cor(cor=-0.8)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-22-correlation-function_files/figure-html/CorF2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>tidytext is neat! White House Communications</title>
-      <link>https://www.data.viajes/post/tidytext-is-neat/</link>
-      <pubDate>Wed, 21 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.data.viajes/post/tidytext-is-neat/</guid>
-      <description>&lt;div id=&#34;presidential-press&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Presidential Press&lt;/h1&gt;
-&lt;p&gt;The language of presidential communications is interesting and I know very little about &lt;em&gt;text as data&lt;/em&gt;. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.whitehouse.gov/news/&#34;&gt;White House News&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;The site is split in four parts: all news, articles, presidential actions, and briefings and statements. The first one is a catch all and the second is news links. I will take the last two to process. To create a proper workflow, I will separate the investigation into two types of communications: briefing statements and presidential actions. For each, I will have to build a table of links and then I can extract the actual text.&lt;/p&gt;
-&lt;div id=&#34;processing-the-communications-links&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Processing the Communications: Links&lt;/h2&gt;
-&lt;p&gt;First, let me take on briefing statements. I will build a database of URLs to then process as text. This works for the design of the White House website currently; the only relevant hard-coding is the number of browsable pages. I captured this manually.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest)
-n.BSt &amp;lt;- 208
-BSt.seq &amp;lt;- as.list(seq(1,n.BSt))
-BSt.fun &amp;lt;- function(val) {
-my.URL &amp;lt;- paste(&amp;quot;https://www.whitehouse.gov/briefings-statements/page/&amp;quot;,val,&amp;quot;/&amp;quot;,sep=&amp;quot;&amp;quot;)
-temp.l1 &amp;lt;- read_html(my.URL)
-my.links &amp;lt;- html_nodes(temp.l1, &amp;#39;h2&amp;#39;) %&amp;gt;% html_nodes(&amp;quot;a&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;)
-my.links2 &amp;lt;-html_nodes(temp.l1, &amp;#39;h2&amp;#39;) %&amp;gt;% html_text(&amp;quot;a&amp;quot;) 
-data.frame(link=my.links,title=my.links2)
-}
-n.PAct &amp;lt;- 46
-PAct.seq &amp;lt;- as.list(seq(1,n.PAct))
-PAct.fun &amp;lt;- function(val) {
-my.URL &amp;lt;- paste(&amp;quot;https://www.whitehouse.gov/presidential-actions/page/&amp;quot;,val,&amp;quot;/&amp;quot;,sep=&amp;quot;&amp;quot;)
-temp.l1 &amp;lt;- read_html(my.URL)
-my.links &amp;lt;- html_nodes(temp.l1, &amp;#39;h2&amp;#39;) %&amp;gt;% html_nodes(&amp;quot;a&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;)
-my.links2 &amp;lt;-html_nodes(temp.l1, &amp;#39;h2&amp;#39;) %&amp;gt;% html_nodes(&amp;quot;a&amp;quot;) %&amp;gt;% html_text(&amp;quot;a&amp;quot;) 
-data.frame(link=my.links,title=my.links2)
-}
-BriefState.linkset &amp;lt;- do.call(&amp;quot;rbind&amp;quot;,rapply(BSt.seq, BSt.fun, how=&amp;quot;list&amp;quot;))
-PresAct.linkset &amp;lt;- do.call(&amp;quot;rbind&amp;quot;,rapply(PAct.seq,PAct.fun, how=&amp;quot;list&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;I now have all the links. I cannot do much with that.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;text-extraction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Text Extraction&lt;/h2&gt;
-&lt;p&gt;I will first write a simple function to download a URL and extract the text that I want.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rlist)
-library(stringr)
-PPR.Filter &amp;lt;- function(file) {
-temp.res &amp;lt;- str_replace_all(html_text(html_nodes(file, xpath=&amp;#39;(//*[contains(concat( &amp;quot; &amp;quot;, @class, &amp;quot; &amp;quot; ), concat( &amp;quot; &amp;quot;, &amp;quot;editor&amp;quot;, &amp;quot; &amp;quot; ))])//*[not(ancestor::aside or name()=&amp;quot;aside&amp;quot;)]/text()&amp;#39;)), &amp;quot;[\t\n]&amp;quot; , &amp;quot;&amp;quot;)
-temp.res
-}
-web.fetch &amp;lt;- function(URL) {
-temp.web &amp;lt;- read_html(URL)
-}
-PPR.Filter.Wrap &amp;lt;- function(URL) {
-  temp.res &amp;lt;- PPR.Filter(web.fetch(URL))
-  temp.res &amp;lt;- list.clean(temp.res, function(x) nchar(x) == 0, TRUE)
-  temp.res 
-}
-#Res1 &amp;lt;- PPR.Filter.Wrap(&amp;quot;https://www.whitehouse.gov/briefings-statements/president-donald-j-trumps-first-year-of-foreign-policy-accomplishments/&amp;quot;)
-#Res2 &amp;lt;- PPR.Filter.Wrap(&amp;quot;https://www.whitehouse.gov/briefings-statements/press-briefing-press-secretary-sarah-sanders-121917/&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;scraping-presidential-actions&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Scraping Presidential Actions&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Pres.Acts &amp;lt;- lapply(as.character(PresAct.linkset$link), PPR.Filter.Wrap)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;scraping-the-briefings-and-statements&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Scraping the Briefings and Statements&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Statements.Briefings &amp;lt;- lapply(as.character(BriefState.linkset$link), PPR.Filter.Wrap)
-save(Pres.Acts,PresAct.linkset,Statements.Briefings,BriefState.linkset, file=&amp;quot;data/PresText.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;tidying-the-text&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Tidying the Text&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;load(&amp;quot;~/R/MyNLWeb/data/PresText.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The hard work is in cleaning up the text. When the document was compiled, there were 2074 statements and briefings and there were 457 Presidential actions with each as a list in the bigger list. I will unlist each individual document and transform it to character. For housekeeping, I will also tally the docs and the line/paragraph numbers; this fails for a misalignment in one of the two examples.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(dplyr)
-library(magrittr)
-library(tidytext)
-text_df &amp;lt;- data_frame(text=as.character(unlist(Pres.Acts))) # Create characters
-k &amp;lt;- NULL
-for (i in 1:length(Pres.Acts)) {
-  k &amp;lt;- c(k,length(Pres.Acts[[i]]))
-}
-mydoc &amp;lt;- data.frame(rep(c(seq(1,length(Pres.Acts))),k))
-myline &amp;lt;- data.frame(unlist(as.vector(sapply(k, function(x) {cbind(seq(1,x))}))))
-ind.df &amp;lt;- data.frame(doc=mydoc,line=myline)
-myPA.df &amp;lt;- data.frame(doc=mydoc,line=myline,text=text_df) # A full dataset
-names(myPA.df) &amp;lt;- c(&amp;quot;doc&amp;quot;,&amp;quot;line&amp;quot;,&amp;quot;text&amp;quot;)
-tidy.PA &amp;lt;-myPA.df %&amp;gt;%
-# group_by(doc) %&amp;gt;%
- unnest_tokens(word, text)
-text_df &amp;lt;- data_frame(text=as.character(unlist(Statements.Briefings)))
-k &amp;lt;- NULL
-for (i in 1:length(Statements.Briefings)) {
-  k &amp;lt;- c(k,length(Statements.Briefings[[i]]))
-}
-mydoc &amp;lt;- rep(c(seq(1,length(Statements.Briefings))),k)
-# myline &amp;lt;- unlist(as.vector(sapply(k, function(x) {cbind(seq(1,x))})))
-# ind.df &amp;lt;- data.frame(doc=mydoc,line=myline)
-mySB.df &amp;lt;- data.frame(doc=mydoc,text=text_df)
-names(mySB.df) &amp;lt;- c(&amp;quot;doc&amp;quot;,&amp;quot;text&amp;quot;)
-tidy.SB &amp;lt;-mySB.df %&amp;gt;%
-# group_by(doc) %&amp;gt;%
- unnest_tokens(word, text)
-data(stop_words)
-# Remove stop words
-tidy.SB &amp;lt;- tidy.SB %&amp;gt;%
-  anti_join(stop_words)
-tidy.PA &amp;lt;- tidy.PA %&amp;gt;%
-  anti_join(stop_words)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;what-does-the-president-talk-about&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;what does the President talk about?&lt;/h1&gt;
-&lt;p&gt;Word frequencies can be tabulated for each set of data. I will plot the barplots.&lt;/p&gt;
-&lt;div id=&#34;statements-and-briefings&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Statements and Briefings&lt;/h2&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
-tidy.SB %&amp;gt;%
-  count(word, sort = TRUE) %&amp;gt;%
-  filter(n &amp;gt; 5000) %&amp;gt;%
-  mutate(word = reorder(word, n)) %&amp;gt;%
-  ggplot(aes(word, n)) +
-  geom_col() +
-  xlab(NULL) +
-  coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-21-tidytext-is-neat_files/figure-html/SBplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;presidential-actions&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Presidential Actions&lt;/h2&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
-tidy.PA %&amp;gt;%
-  count(word, sort = TRUE) %&amp;gt;%
-  filter(n &amp;gt; 500) %&amp;gt;%
-  mutate(word = reorder(word, n)) %&amp;gt;%
-  ggplot(aes(word, n)) +
-  geom_col() +
-  xlab(NULL) +
-  coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-21-tidytext-is-neat_files/figure-html/PAplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;word-clouds&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Word Clouds&lt;/h2&gt;
-&lt;div id=&#34;presidential-actions-1&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Presidential Actions&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(wordcloud)
-set.seed(1234)
-wc &amp;lt;- tidy.PA %&amp;gt;% count(word, sort = TRUE)
-wordcloud(wc$word,  wc$n, min.freq = 1,
-          max.words=200, random.order=FALSE, rot.per=0.35, 
-          colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-21-tidytext-is-neat_files/figure-html/WCPA-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;statements-and-briefings-1&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Statements and Briefings&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1234)
-wc &amp;lt;- tidy.SB %&amp;gt;% count(word, sort = TRUE)
-wordcloud(wc$word,  wc$n, min.freq = 1,
-          max.words=200, random.order=FALSE, rot.per=0.35, 
-          colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.data.viajes/post/2018-02-21-tidytext-is-neat_files/figure-html/WCSB-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.rww.science/post/2018-02-22-correlation-function_files/figure-html/CorF2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

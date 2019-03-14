@@ -69,71 +69,95 @@ import bs4
 import re
 import urllib2
 #import requests
+
 from urllib import urlopen
 from bs4 import BeautifulSoup
 base_url = &quot;http://www.spotrac.com/nfl/&quot;
+
 def get_page(url):
     page = urlopen(base_url)
     soup = BeautifulSoup(page, &#39;lxml&#39;)
     file = open(&quot;spotrac_urls.txt&quot;, &#39;w&#39;)
     file.write(str(soup))
     file.close()
+
 def get_team_table(url):
     page = urlopen(url)
     soup = BeautifulSoup(page, &#39;lxml&#39;)
+
 get_page(base_url)
+
 with open(&quot;spotrac_urls.txt&quot;, &#39;r&#39;) as file:
     for line in file:
         line = line.strip()
+
 from bs4 import BeautifulSoup
 page = open(&quot;spotrac_urls.txt&quot;, &#39;r&#39;)
 soup = BeautifulSoup(page, &quot;lxml&quot;)
 div = soup.find(&quot;div&quot;,&quot;subnav-posts&quot;)
+
 links = div.find_all(&#39;a&#39;)
 for link in links:
     print(link.get(&#39;href&#39;))
+
 len(links)
+
 def get_team_table(url):
     page = urlopen(url)
     soup = BeautifulSoup(page, &#39;lxml&#39;)
     data_rows = [row for row in soup.find(&quot;table&quot;, &quot;datatable&quot;).find_all(&quot;tr&quot;)]
     return data_rows
+
 # create an empty list
 team_data = []
+
 for link in links:
     team_data.append(get_team_table(link.get(&#39;href&#39;)))
+
 len(team_data)
+
 #data_rows = [row for row in soup.find(&quot;td&quot;, &quot;center&quot;).find_all(&quot;tr&quot;)]
 table_data = []
+
 #soup = BeautifulSoup(team_data[0], &#39;lxml&#39;)
+
 #This needs to be a nested for loop because inner items of the list are BeautifulSoup Elements
 for row in team_data:
     for element in row:
         #print(type(element))
         if soup.find_all(&quot;td&quot;, attrs={&quot;class&quot;:&quot; right xs-hide &quot;}) is not None:
             table_data.append(element.get_text())
+
 player_data = []
 for row in table_data:
     player_data.append(row.split(&quot;\n&quot;))
     #print(player_data)
+
 len(player_data)
+
 import pandas as pd
 df = pd.DataFrame(player_data)
 df = df.drop(14, 1)
 df = df.drop(0, 1)
 df = df.drop(1, 1)
+
+
 df = df.drop(df.index[[0]])
 df.set_index(1, inplace=True)
 print(df.shape)
 df.head()
+
 players = []
 for row in team_data[0]:
     if row.get_text(&quot;tr&quot;) is not None:
         players.append(row) 
+
 column_headers = [col.get_text() for col in players[0].find_all(&quot;th&quot;) if col.get_text()]
 len(column_headers)
+
 df.columns = column_headers
 df.head()
+
 #The header repeated itself in the data.  This didn&#39;t reveal itself until the data type conversion step below
 #but this fixes all occurrences of it.
 rows_to_be_dropped = df.loc[df[&#39;Cap Hit&#39;] == &#39;Cap %&#39;].index
@@ -142,8 +166,10 @@ totlen = len(df)
 df2a = df.drop(rows_to_be_kept)
 df = df.drop(rows_to_be_dropped)
 df2 = pd.Series(data=rows_to_be_dropped)
+
 #Apply a regex to convert the &#39;Cap Hit&#39; column from a string to a float.  
 # df[&#39;Cap Hit&#39;] =(df[&#39;Cap Hit&#39;].replace(&#39;[\$,)]&#39;, &quot;&quot;, regex=True).replace( &#39;[(]&#39;,&#39;-&#39;,   regex=True ).astype(float))
+
 # My fix
 df[&#39;Cap.Hit&#39;] = (df[&#39;Cap Hit&#39;].replace(&#39;[\$,)]&#39;, &quot;&quot;, regex=True).replace(&#39;[-,)]&#39;, &quot;&quot;, regex=True).replace(&#39;\s\s.*&#39;, &quot;&quot;, regex=True).astype(float))
 df[&#39;Base.Salary&#39;] = (df[&#39;Base Salary&#39;].replace(&#39;[\$,)]&#39;, &quot;&quot;, regex=True).replace(&#39;[-,)]&#39;, &quot;&quot;, regex=True).astype(float))
@@ -154,6 +180,7 @@ df[&#39;Workout.Bonus&#39;] = (df[&#39;Workout Bonus&#39;].replace(&#39;[\$,)]&#
 df[&#39;Restruc.Bonus&#39;] = (df[&#39;Restruc. Bonus&#39;].replace(&#39;[\$,)]&#39;, &quot;&quot;, regex=True).replace(&#39;[-,)]&#39;, &quot;&quot;, regex=True).astype(float))
 df[&#39;Misc&#39;] = (df[&#39;Misc.&#39;].replace(&#39;[\$,)]&#39;, &quot;&quot;, regex=True).replace(&#39;[-,)]&#39;, &quot;&quot;, regex=True).astype(float))
 df[&#39;Dead.Cap&#39;] = (df[&#39;Dead Cap&#39;].replace(&#39;\(&#39;,&quot;&quot;,regex=True).replace(&#39;\)&#39;,&quot;&quot;,regex=True).replace(&#39;[\$,)]&#39;, &quot;&quot;, regex=True).replace(&#39;[-,)]&#39;, &quot;&quot;, regex=True).astype(float))
+
 #Sanity check to make sure it worked.
 df[&#39;Cap Hit&#39;].sum()</code></pre>
 <p>There are a few wonderful things about Beautiful Soup. But it is still faster and easier for me to do things in R. Here is some R code for the same task. The R table is a messy data structure but is easier to get.</p>
@@ -236,7 +263,7 @@ skim(NFL.Salary.Data)</code></pre>
 ##  n obs: 2239 
 ##  n variables: 14 
 ## 
-## ── Variable type:factor ──────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:factor ──────────────────────────────────────────────────────────────
 ##   variable missing complete    n n_unique
 ##    Cap.Hit       0     2239 2239     1043
 ##  Last.Name       0     2239 2239     1489
@@ -250,7 +277,7 @@ skim(NFL.Salary.Data)</code></pre>
 ##    WR: 289, CB: 242, DE: 179, OLB: 171   FALSE
 ##     New: 86, Ind: 78, New: 78, Cle: 77   FALSE
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────
 ##       variable missing complete    n       mean         sd p0       p25
 ##    Base.Salary       0     2239 2239 1702378.82 2559999.2   0 555000   
 ##        Cap.Pct       0     2239 2239       1.36       2.05  0      0.31
@@ -292,7 +319,7 @@ skim(NFL.Salary.Data)</code></pre>
 ##  n variables: 14 
 ##  group variables: Position 
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────
 ##  Position    variable missing complete   n       mean         sd     p0
 ##         C Base.Salary       0       62  62 1964378.97 2173761.05      0
 ##        CB Base.Salary       0      242 242 1594781.37 2433196.22      0

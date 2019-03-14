@@ -3,7 +3,7 @@ title = "The Career Advancement of Military Veterans in Recent Cohorts of the U.
 date = "2018-06-05"
 
 # Authors. Comma separated list, e.g. `["Bob Smith", "David Jones"]`.
-authors = ["Tim Johnson", Robert W. Walker"]
+authors = ["Robert W. Walker" , "Tim Johnson"]
 
 # Publication type.
 # Legend:
@@ -27,7 +27,7 @@ abstract_short = "From 1992 to 2013, we find roughly equivalent rates of career 
 image_preview = ""
 
 # Is this a selected publication? (true/false)
-selected = true
+selected = false
 
 # Projects (optional).
 #   Associate this publication with one or more of your projects.
