@@ -94,7 +94,8 @@ save(Pres.Acts,PresAct.linkset,Statements.Briefings,BriefState.linkset, file="da
 # Tidying the Text
 
 ```{r DataL}
-load("~/R/MyNLWeb/data/PresText.RData")
+library(here)
+load(paste0(here(),"/data/PresText.RData"))
 ```
 
 

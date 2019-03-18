@@ -76,7 +76,8 @@ save(Pres.Acts,PresAct.linkset,Statements.Briefings,BriefState.linkset, file=&qu
 </div>
 <div id="tidying-the-text" class="section level1">
 <h1>Tidying the Text</h1>
-<pre class="r"><code>load(&quot;~/R/MyNLWeb/data/PresText.RData&quot;)</code></pre>
+<pre class="r"><code>library(here)
+load(paste0(here(),&quot;/data/PresText.RData&quot;))</code></pre>
 <p>The hard work is in cleaning up the text. When the document was compiled, there were 2074 statements and briefings and there were 457 Presidential actions with each as a list in the bigger list. I will unlist each individual document and transform it to character. For housekeeping, I will also tally the docs and the line/paragraph numbers; this fails for a misalignment in one of the two examples.</p>
 <pre class="r"><code>library(dplyr)
 library(magrittr)

@@ -30,7 +30,8 @@ The variation in the data may leave a good bit to be desired.  Let's have a look
 ```{r RBRData}
 library(haven)
 library(dplyr)
-Pew.Data <- read_dta("~/Desktop/Pew/modeledforprediction.dta")
+library(here)
+Pew.Data <- read_dta(paste0(here(),"/data/Pew/modeledforprediction.dta"))
 glimpse(Pew.Data)
 table(Pew.Data$state)
 ```
@@ -50,7 +51,7 @@ Scaled.BR <- MCMCordfactanal(~spnum+fitchnum+moodynum, data=Pew.Data, factors=1,
 
 ```{r DATAL, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
-load("~/Desktop/Pew/Scaled-BR-Pew.RData")
+load(paste0(here(),"/data/Pew/Scaled-BR-Pew.RData"))
 BR.Data <- t(Scaled.BR[,c(26:991)])
 BR.Parms <- Scaled.BR[,c(1:25)]
 state.ratings <- data.frame(state=Pew.Data$state, statefips=Pew.Data$statefips, year=Pew.Data$fyear, BR.Data)

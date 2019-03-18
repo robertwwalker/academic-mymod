@@ -42,7 +42,8 @@ names(county.regions)
 ```
 
 ```{r LData, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
-load("~/GFDatabaseStates.RData")
+library(here)
+load(paste0(here(),"/data/GFDatabaseStates.RData"))
 # load("~/GFDatabaseCounty.RData")
 ```
 
@@ -93,20 +94,20 @@ state_choropleth(my.GFD.2015, title="Total Revenues per capita", num_colors=1)
 This part is slightly harder.  It would appear as though the Government Finance Data doesn't have a combined FIPS code; this is the region in map.  But, the data contain the state and county fips codes and we can recreate them with the state code times 1000 plus the county.  After that, plot the General Revenue.
 
 ```{r County1, message=FALSE,warning=FALSE}
-County.Data.2 <- read.csv("~/Downloads/TheGovernmentFinanceDatabase_CountyData/CountyData.csv")
-County.Data.2 <- County.Data.2 %>% mutate(region = FIPS_Code_State* 1000 + FIPS_County)
-my.County.GFD.2015 <- County.Data.2 %>% 
-  filter(Year4==2012) %>% mutate(value = General_Revenue / Population) %>%
-  select(region, value)
+#County.Data.2 <- read.csv(paste0(here(),"/data/CountyData.csv")
+#County.Data.2 <- County.Data.2 %>% mutate(region = FIPS_Code_State* 1000 + FIPS_County)
+#my.County.GFD.2015 <- County.Data.2 %>% 
+#  filter(Year4==2012) %>% mutate(value = General_Revenue / Population) %>%
+#  select(region, value)
 county_choropleth(my.County.GFD.2015, title="General Revenue per capita")
 ```
 
 The zoom feature is pretty cool: there are two defined forms for the county and states.  The naming conventions follow the `county.regions` format and are lower case.  Let me grab *oregon*.
 
 ```{r CountyMZ, message=FALSE,warning=FALSE}
-my.County.GFD.2015 <- County.Data.2 %>% 
-  filter(Year4==2012) %>% mutate(value = General_Revenue / Population) %>%
-  select(region, value)
+#my.County.GFD.2015 <- County.Data.2 %>% 
+#  filter(Year4==2012) %>% mutate(value = General_Revenue / Population) %>%
+#  select(region, value)
 county_choropleth(my.County.GFD.2015, title="General Revenue per capita", state_zoom="oregon")
 ```
 

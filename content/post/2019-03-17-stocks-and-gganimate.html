@@ -1,0 +1,94 @@
+---
+title: Stocks and gganimate
+author: RWW
+date: '2019-03-17'
+slug: stocks-and-gganimate
+categories:
+  - R
+  - tidyverse
+tags:
+  - plot
+header:
+  caption: ''
+  image: ''
+  preview: yes
+---
+
+
+
+<div id="tidyquant" class="section level2">
+<h2>tidyquant</h2>
+<p>Automates a lot of equity research and calculation using <em>tidy</em> concepts. Here, I will first use it to get the components of the S and P 500 and pick out those with weights over 1.25 percent. In the next step, I download the data and finally calculate daily returns and a cumulative wealth index.</p>
+<pre class="r"><code>library(tidyquant)
+tq_index(&quot;SP500&quot;) %&gt;% filter(weight &gt; 0.0125) %&gt;% select(symbol,company) -&gt; Tickers
+Tickers &lt;- Tickers %&gt;% filter(symbol!=&quot;BRK.B&quot;) %&gt;% filter(symbol!=&quot;GOOGL&quot;)
+Eq.P &lt;- Tickers %&gt;%  tq_get(., from=&quot;2018/01/01&quot;, to=&quot;2019/03/14&quot;) 
+Returns &lt;- Eq.P %&gt;% group_by(symbol) %&gt;% tq_transmute(., adjusted, periodReturn, period=&quot;daily&quot;)
+C.Returns &lt;- Eq.P %&gt;% 
+  group_by(symbol) %&gt;% 
+  tq_transmute(., adjusted, periodReturn, period=&quot;daily&quot;, type = &quot;log&quot;, col_rename = &quot;returns&quot;) %&gt;% 
+  mutate(wealth.index = 100 * cumprod(1 + returns))
+library(skimr)
+Returns %&gt;% skim()</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 2400 
+##  n variables: 3 
+##  group variables: symbol 
+## 
+## ── Variable type:Date ───────────────────────────────────────────────────────────────────────────────────────────────
+##  symbol variable missing complete   n        min        max     median
+##    AAPL     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
+##    AMZN     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
+##      FB     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
+##    GOOG     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
+##     JNJ     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
+##     JPM     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
+##    MSFT     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
+##     XOM     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
+##  n_unique
+##       300
+##       300
+##       300
+##       300
+##       300
+##       300
+##       300
+##       300
+## 
+## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────
+##  symbol      variable missing complete   n        mean    sd     p0
+##    AAPL daily.returns       0      300 300     0.00042 0.019 -0.1  
+##    AMZN daily.returns       0      300 300     0.0014  0.022 -0.078
+##      FB daily.returns       0      300 300     0.00014 0.024 -0.19 
+##    GOOG daily.returns       0      300 300     0.00053 0.017 -0.051
+##     JNJ daily.returns       0      300 300 2e-04       0.013 -0.1  
+##     JPM daily.returns       0      300 300 8e-05       0.013 -0.048
+##    MSFT daily.returns       0      300 300     0.0012  0.017 -0.054
+##     XOM daily.returns       0      300 300     8.9e-05 0.013 -0.057
+##      p25      p50    p75  p100     hist
+##  -0.0082  0.00089 0.0094 0.07  ▁▁▁▂▇▅▁▁
+##  -0.008   0.0018  0.013  0.094 ▁▁▂▇▅▁▁▁
+##  -0.0098  0.00071 0.012  0.11  ▁▁▁▁▅▇▁▁
+##  -0.0083  0.00073 0.011  0.065 ▁▂▃▇▅▁▁▁
+##  -0.005   0.0011  0.0073 0.035 ▁▁▁▁▁▇▇▁
+##  -0.0069 -9.6e-05 0.0074 0.041 ▁▁▂▆▇▃▁▁
+##  -0.0072  0.0021  0.011  0.076 ▁▁▃▇▃▁▁▁
+##  -0.0078  0.00071 0.0085 0.048 ▁▁▁▅▇▃▁▁</code></pre>
+</div>
+<div id="animating-a-plot" class="section level2">
+<h2>Animating a plot</h2>
+<p>The goal of this was to play with <code>gganimate</code>. I will take the big components and go through and plot them. It is a big animation because it involves over a year of data. The basic idea for the graphic was borrowed from a gganimate <a href="https://github.com/thomasp85/gganimate/wiki/Temperature-time-series">sample</a>.</p>
+<pre class="r"><code>library(gganimate)
+library(ggrepel)
+p &lt;- ggplot(C.Returns, aes(date, wealth.index, group = symbol, colour=symbol)) + 
+  geom_point(size = 2) + 
+  geom_line() + 
+  geom_segment(aes(xend = as.Date(&quot;2019-03-15&quot;), yend = wealth.index), linetype = 2) + 
+    geom_text_repel(aes(y = wealth.index, x = as.Date(&quot;2019-03-15&quot;), label = symbol), hjust = 1, nudge_x = 8) +
+  transition_reveal(date) + 
+  coord_cartesian(clip = &#39;off&#39;) + 
+  labs(title = &#39;Cumulative Wealth Index for S&amp;P Top 10&#39;, subtitle=&quot;Begins January 1, 2018: Base 100&quot;, y = &#39;Cumulative Change&#39;, x = &#39;Date&#39;) +
+  theme_minimal() + theme(legend.position = &quot;none&quot;)
+animate(p, nframes=300)</code></pre>
+<p><img src="/post/2019-03-17-stocks-and-gganimate_files/figure-html/AnimPlot-1.gif" /><!-- --></p>
+</div>
