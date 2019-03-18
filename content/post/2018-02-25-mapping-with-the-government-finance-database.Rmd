@@ -43,8 +43,8 @@ names(county.regions)
 
 ```{r LData, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 library(here)
-load(paste0(here(),"/data/GFDatabaseStates.RData"))
-# load("~/GFDatabaseCounty.RData")
+State.Data <- readRDS(paste0(here(),"/data/StateGFD.rds"))
+my.County.GFD.2015 <- readRDS(paste0(here(),"/data/CountyGFD.rds"))
 ```
 
 # Putting them together: States

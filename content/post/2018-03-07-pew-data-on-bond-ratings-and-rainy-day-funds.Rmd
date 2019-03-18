@@ -52,8 +52,6 @@ Scaled.BR <- MCMCordfactanal(~spnum+fitchnum+moodynum, data=Pew.Data, factors=1,
 ```{r DATAL, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
 load(paste0(here(),"/data/Pew/Scaled-BR-Pew.RData"))
-BR.Data <- t(Scaled.BR[,c(26:991)])
-BR.Parms <- Scaled.BR[,c(1:25)]
 state.ratings <- data.frame(state=Pew.Data$state, statefips=Pew.Data$statefips, year=Pew.Data$fyear, BR.Data)
 state.ratings.long <- tidyr::gather(state.ratings, sampleno, value, -statefips, -year, -state)
 state.SE <- state.ratings.long %>% group_by(state,year) %>% summarise(Credit.Quality=mean(value), t1=quantile(value, probs=0.025), t2=quantile(value, probs=0.975))
