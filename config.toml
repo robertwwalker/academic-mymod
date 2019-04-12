@@ -56,11 +56,11 @@ defaultContentLanguageInSubdir = false
   # Organizations/Affiliations.
   #   Separate multiple entries with a comma, using the form: `[ {name="Org1", url=""}, {name="Org2", url=""} ]`.
   organizations = [{name="Atkinson Graduate School of Management", url = "http://agsm.willamette.edu"}, { name = "Willamette University", url = "http:www.willamette.edu/" }, { name = "Essex Summer School in Social Science Data Analysis", url = "http://essexsummerschool.com/"} ]
-  gravatar = false  # Get your avatar from Gravatar.com? (true/false)
+  gravatar =  false #<img src="https://www.gravatar.com/avatar/{{ md5 "rwalker@willamette.edu" }}?s=100&d=identicon">  # Get your avatar from Gravatar.com? (true/false)
   avatar = "portrait.jpg"  # Specify an avatar image (in `static/img/` folder) or delete value to disable avatar.
   email = "rwalker@willamette.edu"
   address = "900 State St, Salem, Oregon 97301 USA"
-  office_hours = "Wednesdays 13:00 to 15:00" 
+  office_hours = "Thursdays 13:00 to 15:00" 
   calendar = { name = "Calendar", url = "http://rww.youcanbook.me" }
   phone = "503 370 6456"
   skype = "rwalkerWU"
