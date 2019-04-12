@@ -44,14 +44,14 @@ ChargeOff %&gt;% select(title)</code></pre>
 ##    title                                                                   
 ##    &lt;chr&gt;                                                                   
 ##  1 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
-##  2 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
+##  2 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, Single…
 ##  3 Charge-Off Rate on Loans Secured by Real Estate, All Commercial Banks   
-##  4 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, Single…
+##  4 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
 ##  5 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
 ##  6 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
 ##  7 Charge-Off Rate on Loans Secured by Real Estate, All Commercial Banks   
-##  8 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, All Co…
-##  9 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
+##  8 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, Banks …
+##  9 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, All Co…
 ## 10 Charge-Off Rate on Loans Secured by Real Estate, Top 100 Banks Ranked b…
 ## # … with 14 more rows</code></pre>
 <p>Wow, there is a rich array of data from that query. An even cooler feature is the ability to retrieve multiple at once in combination with the <code>map_dfr</code> command from the <code>purrr</code> library to make it tidy; that will go through the search results and stack the data that is returned [bind it together by rows]. These map commands are the tidy version of apply. In this case, binding the columns will likely fail because the times series are unlikely to be of the same length and that would create ragged columns. Better tidy from the start here.</p>
@@ -101,9 +101,12 @@ SubPrime.OR %&gt;% ggplot(aes(x=date, y=value, colour=series_id)) +
 <p><img src="/post/2019-04-11-fredr-is-very-neat_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Now I have something to work with. Just to show what <code>gganimate</code> can do; I will animate that.</p>
 <pre class="r"><code>library(gganimate)
+library(ggrepel)
 library(tidyr)
 SubPrime.OR %&gt;% ggplot(aes(x=date, y=value, colour=series_id)) +
   geom_line() + 
+  geom_point(aes(group=series_id)) +
+#  geom_label_repel(aes(y = value, x = date, label = Name), hjust = 1, nudge_x = 400) +
   theme(legend.position=&quot;none&quot;) + 
   labs(title=&#39;The Subprime Credit Rate Across Oregon Counties: {frame_along}&#39;, y =&quot;Subprime Rate&quot;) +
   transition_reveal(date)</code></pre>
@@ -116,16 +119,18 @@ SubPrime.OR %&gt;% ggplot(aes(x=date, y=value, colour=series_id)) +
 ## 
 ##     map</code></pre>
 <pre class="r"><code>OR.df &lt;- subset(states, region == &quot;oregon&quot;)
-OR_base &lt;- ggplot(data = OR.df, mapping = aes(x = long, y = lat, group = group)) + 
-  coord_fixed(1.3) + 
-  geom_polygon(color = &quot;black&quot;, fill = &quot;gray&quot;)
-OR_base + theme_minimal()</code></pre>
+OR_base &lt;- ggplot(data = OR.df, mapping = aes(x = long, y = lat, group = group)) +
+geom_polygon(color = &quot;black&quot;, fill = &quot;gray&quot;)+ theme_minimal() 
+OR_base + geom_point(aes(x=-123.0433, y=44.925167))</code></pre>
 <p><img src="/post/2019-04-11-fredr-is-very-neat_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<pre class="r"><code>counties &lt;- map_data(&quot;county&quot;)
+<pre class="r"><code>library(emoGG)
+counties &lt;- map_data(&quot;county&quot;)
 OR.county &lt;- subset(counties, region == &quot;oregon&quot;)
-OR.Map &lt;- OR_base + theme_minimal()  +
-  geom_polygon(data = OR.county, fill = NA, color = &quot;white&quot;) +
-  geom_polygon(color = &quot;black&quot;, fill = NA)</code></pre>
+OR.Map &lt;- ggplot(data = OR.df, mapping = aes(x = long, y = lat, group = group)) + 
+    geom_polygon(color = &quot;black&quot;, fill = &quot;gray&quot;)+ theme_minimal() 
+OR_emoj &lt;- OR_base +  add_emoji(&quot;1f352&quot;, x=-123.0433, y=44.925167, ysize=0.5)
+OR_emoj</code></pre>
+<p><img src="/post/2019-04-11-fredr-is-very-neat_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>Now to build a first map to make sure that it works.</p>
 <pre class="r"><code>county.fips$fips &lt;- as.character(county.fips$fips)
 SubPrime.M &lt;- left_join(SubPrime.OR, county.fips, by=c(&quot;FIPS&quot;=&quot;fips&quot;))
