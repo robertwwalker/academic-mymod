@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Is an amazing collaboration that produced a comprehensive dataset of world leaders going pretty far back; see Archigos [on the web](http://www.ksgleditsch.com/archigos.html).  For thinking about leadership, it is quite natural.  So what do we know?
 
-```{r ArcLibs}
+```{r ArcLibs, message=FALSE}
 library(lubridate)
 library(tidyverse)
 library(ggthemes)
@@ -121,6 +121,7 @@ animate(panim, nframes=200)
 iisystem <- read.delim(url("http://www.ksgleditsch.com/data/iisystem.dat"), col.names=c("ccode","idacr","CountryName","startD","endD"), stringsAsFactors = FALSE)
 iisystem <- iisystem %>% mutate(startD = str_replace_all(startD, ":", "-"))
 iisystem <- iisystem %>% mutate(endD = str_replace_all(endD, ":", "-"))
+iisystem$CountryName[[108]] <- "Ivory Coast"
 iisystem$startD <- as_date(dmy(iisystem$startD))
 iisystem$endD <- as_date(dmy(iisystem$endD))
 ```
@@ -142,19 +143,56 @@ So that gives me the basic country year dataset that defines the various existen
 ```{r}
 Big.CSTS <- Big.CSTS %>% group_by(year) %>% mutate(Countries = n()) %>% ungroup()
 Working.CSTS <- Big.CSTS %>% filter(is.na(year)==FALSE)
-CountryYear <- Archigos %>% group_by(idacr, endYear) %>% summarise(eventCount = n()) %>% ungroup()
+CountryYear <- Archigos %>% group_by(idacr, endYear) %>% summarise(eventCount = n(), howEnded = last(posttenurefate)) %>% ungroup()
 CountryYear$Mults <- as.numeric(CountryYear$eventCount > 1)
 Keepers <- left_join(Working.CSTS, CountryYear, by=c("idacr"="idacr","year"="endYear"))
 Keepers$Mults[is.na(Keepers$eventCount)==TRUE] <- 0
 Keepers$eventCount[is.na(Keepers$eventCount)==TRUE] <- 0
 Keepers$Event <- as.numeric(Keepers$eventCount > 0)
 #library(DAMisc)
-Shorty2 <- Keepers %>% filter(year>1874 & year < 2015) 
-Shorty2 <- Shorty2%>% group_by(year) %>% summarise(FailRate = mean(Event))
+Keepers <- Keepers %>% filter(year>1874 & year < 2015) 
+Shorty2 <- Keepers %>% group_by(year) %>% summarise(FailRate = mean(Event))
 Shorty2$label <- emoji("pencil2")
-p <- Shorty2 %>% ggplot(., aes(x=year, y=FailRate, label=label, colour='steelblue')) + geom_text(family="EmojiOne", size=10, position=position_nudge(x = 5, y = 0.03), color='steelblue') + geom_line(color='steelblue') + theme_minimal() + labs(x="Year", y="Proportion Leader-Tenures Ending") + ylim(c(0,0.5))
+p <- Shorty2 %>% ggplot(., aes(x=year, y=FailRate, label=label, colour='steelblue')) + geom_text(family="EmojiOne", size=10, position=position_nudge(x = 5, y = 0.03), color='steelblue') + geom_line(color='steelblue') + theme_minimal() + labs(x="Year", y="Proportion of Leaders Ending") + ylim(c(0,0.5))
 panim <- p +  transition_reveal(year)
 animate(panim, nframes=200)
 ```
 
+## Averaging Turnover?
+
+What if we decided to group the countries in the aforementioned data of `Keepers` and, instead, think about the cross-section nature of turnover?
+
+```{r}
+library(ggrepel)
+PlotSet <- Keepers %>% filter(year>1874 & year < 2015) %>% group_by(idacr) %>% summarise(Turnover.Pct = mean(Event)) %>% arrange(desc(Turnover.Pct)) %>% mutate(id=row_number(), facetID = cut_number(Turnover.Pct, n=4)) 
+NameAbb <- iisystem %>% select(idacr, CountryName)
+PlotSet <- PlotSet %>% left_join(NameAbb, by=c("idacr"="idacr"))
+knitr::kable(PlotSet)
+```
+
+Now a picture.
+
+```{r}
+PlotSet %>% ggplot(., aes(x=Turnover.Pct)) + geom_histogram(fill="purple", binwidth=0.05) + ggtitle("Turnover by Country")
+```
+
+Switzerland turnover is 1.
+
+## The Fun Stuff: Durations
+
+David Armstrong has a misc package that I saw to do something that Richard Tucker did for their paper 20! years ago [his with Neal Beck, Jonathan Katz].  `btscs` takes a binary time series and turns it into a set of discrete time durations.  Grouped duration data is their name for it.  There's a rather neat stats feature to the fact that these grouped duration data are exactly the same as a discrete time Cox proportional hazards model.  In a related paper, two of the most clever people that I know -- David Carter and Curt Signorino -- showed that a Taylor-series approximation to the cubic polynomial in that duration approximates just about anything reasonable because it can embed two inflection points for the baseline hazard.  Of course, there are assumptions to the model but let's explore.  First, a static picture.
+
+```{r, message=FALSE}
+library(DAMisc)
+BTSCSdata <- btscs(Keepers, "Event", tvar="year", csunit="ccode", pad.ts = TRUE)
+p <- BTSCSdata %>% filter(!is.na(howEnded)) %>% mutate(howEndedF = factor(howEnded)) %>% ggplot(aes(x=spell)) + geom_density(aes(color=howEndedF)) + scale_color_viridis_d(guide=FALSE)+ theme_minimal() + labs(title="How Long Do Leaders Last Given Fates?", x="Leader Duration in Years") 
+p
+```
+
+Animate it.
+
+```{r}
+panim <- BTSCSdata %>% filter(!is.na(howEnded)) %>% mutate(howEndedF = factor(howEnded)) %>% ggplot(aes(x=spell)) + geom_density(aes(color=howEndedF, fill=howEndedF)) + scale_color_viridis_d(guide=FALSE) + scale_fill_viridis_d(guide=FALSE) + theme_minimal() + labs(title="How Long Do Leaders Last Given Fates?", subtitle = "Ended in: {closest_state}", x="Leader Duration in Years") + transition_states(howEndedF, transition_length = 10, state_length = 40) + enter_fade() + exit_fade()
+animate(panim, nframes=400)
+```
 
