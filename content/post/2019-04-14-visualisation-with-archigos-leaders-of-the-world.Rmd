@@ -89,7 +89,7 @@ ggplot(data = Shorty) +
 ## On Duration
 
 ```{r}
-Archigos %>% mutate(Duration = difftime(enddate, startdate, units="weeks")/52) %>% ggplot(aes(Duration)) + geom_histogram(bins=50, fill = '#9c179e') + theme_economist_white() + labs(x="Frequency", y="Duration of Leader in Weeks [divided by 52]")
+Archigos %>% mutate(Duration = difftime(enddate, startdate, units="weeks")/52) %>% ggplot(aes(Duration)) + geom_histogram(bins=50, fill = '#9c179e') + theme_economist_white() + labs(y="Frequency", x="Tenure of Leader in Weeks [divided by 52]")
 ```
 
 

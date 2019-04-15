@@ -55,12 +55,14 @@ ChargeOff %&gt;% select(title)</code></pre>
 ## 10 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, Single…
 ## # … with 14 more rows</code></pre>
 <p>Wow, there is a rich array of data from that query. An even cooler feature is the ability to retrieve multiple at once in combination with the <code>map_dfr</code> command from the <code>purrr</code> library to make it tidy; that will go through the search results and stack the data that is returned [bind it together by rows]. These map commands are the tidy version of apply. In this case, binding the columns will likely fail because the times series are unlikely to be of the same length and that would create ragged columns. Better tidy from the start here.</p>
-<pre class="r"><code>ChargeOff.Data &lt;- map_dfr(ChargeOff$id, fredr)</code></pre>
-<p>Just to finish one piece, let me show what these data look like for one series.</p>
-<pre class="r"><code>ChargeOff.Data %&gt;% filter(series_id==&quot;CORSREOBS&quot;) %&gt;% 
-  ggplot(data = ., mapping = aes(x = date, y = value)) +
+<pre class="r"><code>library(stringr)
+ChargeOff.Data &lt;- map_dfr(ChargeOff$id, fredr) %&gt;% left_join(ChargeOff, by=c(&quot;series_id&quot; = &quot;id&quot;))</code></pre>
+<p>Just to finish one piece, let me show what these data look like for one series. Splitting the name into two parts gives us the title and subtitle but the split is inconsistent so the solution is not general.</p>
+<pre class="r"><code>ChargeOff.Short &lt;- ChargeOff.Data %&gt;% filter(series_id==&quot;CORSREOBS&quot;) 
+SeriesTitle &lt;- ChargeOff.Short[1,&quot;title&quot;] %&gt;% str_split(., &quot;[,]&quot;) %&gt;% unlist()
+ChargeOff.Short %&gt;% ggplot(data = ., mapping = aes(x = date, y = value)) +
     geom_line() +
-    labs(x = &quot;Observation Date&quot;, y = &quot;Rate&quot;)</code></pre>
+    labs(x = &quot;Date&quot;, y = &quot;Rate&quot;, title=SeriesTitle[[1]], subtitle = SeriesTitle[[2]] )</code></pre>
 <p><img src="/post/2019-04-11-fredr-is-very-neat_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <div id="counties-and-mapping" class="section level2">
 <h2>Counties and Mapping</h2>

@@ -101,7 +101,7 @@ skimr::skim(Shorty)</code></pre>
 </div>
 <div id="on-duration" class="section level2">
 <h2>On Duration</h2>
-<pre class="r"><code>Archigos %&gt;% mutate(Duration = difftime(enddate, startdate, units=&quot;weeks&quot;)/52) %&gt;% ggplot(aes(Duration)) + geom_histogram(bins=50, fill = &#39;#9c179e&#39;) + theme_economist_white() + labs(x=&quot;Frequency&quot;, y=&quot;Duration of Leader in Weeks [divided by 52]&quot;)</code></pre>
+<pre class="r"><code>Archigos %&gt;% mutate(Duration = difftime(enddate, startdate, units=&quot;weeks&quot;)/52) %&gt;% ggplot(aes(Duration)) + geom_histogram(bins=50, fill = &#39;#9c179e&#39;) + theme_economist_white() + labs(y=&quot;Frequency&quot;, x=&quot;Tenure of Leader in Weeks [divided by 52]&quot;)</code></pre>
 <pre><code>## Don&#39;t know how to automatically pick scale for object of type difftime. Defaulting to continuous.</code></pre>
 <p><img src="/post/2019-04-14-visualisation-with-archigos-leaders-of-the-world_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
