@@ -46,16 +46,16 @@ ChargeOff %>% select(title)
 Wow, there is a rich array of data from that query.  An even cooler feature is the ability to retrieve multiple at once in combination with the `map_dfr` command from the `purrr` library to make it tidy; that will go through the search results and stack the data that is returned [bind it together by rows].  These map commands are the tidy version of apply.  In this case, binding the columns will likely fail because the times series are unlikely to be of the same length and that would create ragged columns.  Better tidy from the start here.
 
 ```{r}
-ChargeOff.Data <- map_dfr(ChargeOff$id, fredr)
+ChargeOff.Data <- map_dfr(ChargeOff$id, fredr) %>% left_join(ChargeOff, by=c("series_id" = "id"))
 ```
 
 Just to finish one piece, let me show what these data look like for one series.
 
 ```{r}
-ChargeOff.Data %>% filter(series_id=="CORSREOBS") %>% 
+ChargeOff.Data %>% filter(series_id=="CORSREOBS") %>% mutate(myTitle=first(title)) %>%
   ggplot(data = ., mapping = aes(x = date, y = value)) +
     geom_line() +
-    labs(x = "Observation Date", y = "Rate")
+    labs(x = "Date", y = "Rate", title=myTitle)
 ```
 
 ## Counties and Mapping

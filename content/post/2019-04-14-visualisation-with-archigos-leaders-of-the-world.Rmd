@@ -39,7 +39,17 @@ Archigos <- read_dta(url("http://www.rochester.edu/college/faculty/hgoemans/Arch
 head(Archigos)
 ```
 
-That's a pretty impressive span of leaders.
+That's a pretty impressive span of leaders.  Let me obtain a list of the countries.  This is a link from the Archigos website to the work of Gleditsch and Ward.  The dates that they store are colon rather than dash separated so that needs to be fixed, then I convert the dates to valid date format.  There is also a problem with the text encoding [at least on this Linux workstation] for the Ivory Coast.  I suspect it is an accent mark.
+
+```{r}
+iisystem <- read.delim(url("http://www.ksgleditsch.com/data/iisystem.dat"), col.names=c("ccode","idacr","CountryName","startD","endD"), stringsAsFactors = FALSE)
+iisystem <- iisystem %>% mutate(startD = str_replace_all(startD, ":", "-"))
+iisystem <- iisystem %>% mutate(endD = str_replace_all(endD, ":", "-"))
+iisystem$CountryName[[108]] <- "Ivory Coast"
+iisystem$startD <- as_date(dmy(iisystem$startD))
+iisystem$endD <- as_date(dmy(iisystem$endD))
+```
+
 
 ## On Leaders
 
@@ -56,13 +66,13 @@ Shorty %>% filter(count==1)
 ```
 
 
-The names are not extremely informative but two are post-Soviet republics, Eritrea is very young, and that some are countries that ceased to exist shortly after the start point of the data. What are the other extremum?  What countries have had more than 80 leaders?
+The names are not extremely informative but two are post-Soviet republics, Eritrea is very young, and that some are countries that ceased to exist shortly after the start point of the data. What are the other extremum?  What countries have had more than 50 leaders?
 
 ```{r}
-Shorty %>% filter(count > 80) %>% ggplot(aes(x=idacr, y=count, label=idacr)) + geom_point() + geom_label() + theme_minimal() + ggtitle("Countries with More than 80 Leaders") + labs(x="", y="Number of Leaders") + theme(axis.text.x = element_blank())
+Shorty %>% filter(count > 50) %>%   ggplot(aes(x=idacr, y=count, label=idacr, fill=cut_interval(count, 5))) + geom_label(color="white") + scale_fill_colorblind(guide=FALSE) + theme_minimal() + ggtitle("Countries with More than 50 Leaders") + labs(x="", y="Number of Leaders") + theme(axis.text.x = element_blank())
 ```
 
-France, Greece, Japan, and Switzerland have had a large number of leaders during this period.  What does the data look like?
+France, Greece, Japan, and Switzerland have had a large number of leaders during this period.  All of the top 50 are in Europe or Latin America, save Japan.  What does the overall data look like?
 
 ```{r}
 ggplot(data = Shorty) +
@@ -91,19 +101,39 @@ Archigos %>% mutate(Duration = difftime(enddate, startdate, units="weeks")) %>% 
 
 ## What happens to leaders?
 
+The data includes the post tenure fate of all leaders.  For now, I will take the data and build a bar graph of their fates as they are recorded.
 
 ```{r}
 Archigos %>% ggplot(., aes(posttenurefate)) + geom_bar(fill="purple") + coord_flip() + labs(y="Frequency", x="") + theme(axis.text.y = element_text(color = "purple", size = 8))
 ```
 
 
-## Melting
+## Discrete Annual Data
 
-Now I want to analyse this as discrete data in annual form.  I will use the lovely lubridate to extract the components of the date and then create a pivot table of sorts.
+Now I want to analyse this as discrete data in annual form.  I will use the lovely lubridate to extract the components of the date and then create a pivot table of sorts.  It is important to note that there are a few problems here.  There are some -999 values in the birth year.
 
 ```{r}
 Archigos <- Archigos %>% group_by(idacr) %>% mutate(endYear = year(enddate)) %>% ungroup()
+Archigos <- Archigos %>% mutate(YearBorn = na_if(yrborn, -999))
+Archigos <- Archigos %>% mutate(ExitAge = endYear - YearBorn)
 ```
+
+### How Old are Leaders When They Exit?
+
+The smooth of these values is messy, but I will plot a simple static graph. 
+
+```{r}
+Archigos %>% filter(ExitAge > 12) %>% group_by(ExitAge) %>% summarise(countS=n()) %>% ggplot(., aes(x=ExitAge, y=countS))+ geom_point() + geom_smooth(method = "loess", span=0.25) + labs(title="Age at End of Tenure", x="Age in Years", y="Count") 
+```
+
+Or as a barplot.
+
+```{r}
+Archigos %>% filter(ExitAge > 12) %>% ggplot(., aes(x=ExitAge, fill=cut_number(ExitAge, n=5))) + geom_bar() + scale_fill_viridis_d(guide=FALSE) + labs(title="Age at End of Tenure", x="Age in Years", y="Count") 
+```
+
+
+### Yearly Turnovers
 
 Now I can visualise turnovers on a yearly basis.
 
@@ -115,18 +145,7 @@ panim <- p +  transition_reveal(endYear)
 animate(panim, nframes=200)
 ```
 
-`gganimate` is a very neat tool.  Now on to looking at what is happening at the country year and year level.  In some ways, the previous is deceiving because the number of countries is widely varying over time.  Let's try to fill this in.  First, let me obtain a list of the countries.  This is a link from the Archigos website to the work of Gleditsch and Ward.  The dates that they store are colon rather than dash separated so that needs to be fixed, then I convert the dates to valid date format.
-
-```{r}
-iisystem <- read.delim(url("http://www.ksgleditsch.com/data/iisystem.dat"), col.names=c("ccode","idacr","CountryName","startD","endD"), stringsAsFactors = FALSE)
-iisystem <- iisystem %>% mutate(startD = str_replace_all(startD, ":", "-"))
-iisystem <- iisystem %>% mutate(endD = str_replace_all(endD, ":", "-"))
-iisystem$CountryName[[108]] <- "Ivory Coast"
-iisystem$startD <- as_date(dmy(iisystem$startD))
-iisystem$endD <- as_date(dmy(iisystem$endD))
-```
-
-Now for a fully populated dataset of countries and time periods.  `hYear` will be the hypothetical year so a series from 1816 to 2017 for every possible country.  Then we use the system membership data to pare that down to valid dates by country by keeping the years between start and end.
+`gganimate` is a very neat tool.  Now on to looking at what is happening at the country year and year level.  In some ways, the previous is deceiving because the number of countries is widely varying over time.  Let's try to fill this in.  For a fully populated dataset of countries and time periods.  `hYear` will be the hypothetical year so a series from 1816 to 2017 for every possible country.  Then we use the system membership data to pare that down to valid dates by country by keeping the years between start and end.
 
 ```{r}
 hYear <- seq(1816,2017)
