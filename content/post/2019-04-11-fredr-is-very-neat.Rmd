@@ -105,9 +105,7 @@ library(tidyr)
 SubPrime.OR %>% ggplot(aes(x=date, y=value, colour=series_id)) +
   geom_line() + 
   geom_point(aes(group=series_id)) +
-#  geom_label_repel(aes(y = value, x = date, label = Name), hjust = 1, nudge_x = 400) +
-  theme(legend.position="none") + 
-  labs(title='The Subprime Credit Rate Across Oregon Counties: {frame_along}', y ="Subprime Rate") +
+  geom_text_repel(aes(y = value, x = as.Date("2019-01-01"), label = Name), hjust = 1, nudge_x = 8) + theme(legend.position="none") + labs(title='The Subprime Credit Rate Across Oregon Counties: {frame_along}', y ="Subprime Rate") +
   transition_reveal(date)
 ```
 

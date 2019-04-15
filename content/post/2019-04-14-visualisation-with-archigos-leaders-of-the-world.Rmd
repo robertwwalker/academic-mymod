@@ -1,0 +1,160 @@
+---
+title: 'Visualisation with Archigos: Leaders of the World'
+author: RWW
+date: '2019-04-14'
+slug: visualisation-with-archigos-leaders-of-the-world
+categories:
+  - tidyverse
+  - R
+  - animation
+tags:
+  - gganimate
+  - R
+  - R Markdown
+  - tidyverse
+header:
+  caption: ''
+  image: ''
+  preview: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Archigos
+
+Is an amazing collaboration that produced a comprehensive dataset of world leaders going pretty far back; see Archigos [on the web](http://www.ksgleditsch.com/archigos.html).  For thinking about leadership, it is quite natural.  So what do we know?
+
+```{r ArcLibs}
+library(lubridate)
+library(tidyverse)
+library(ggthemes)
+library(stringr)
+library(gganimate)
+library(emoGG)
+library(emojifont)
+library(haven)
+Archigos <- read_dta(url("http://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta"))
+head(Archigos)
+```
+
+That's a pretty impressive span of leaders.
+
+## On Leaders
+
+The tidyverse will make this workable.  The first step is to visualise some features.  Using the `R` equivalent of a pivot table, let's summarise the frequency of leaders.  Because the leader is the basic unit of analysis, we want to group the data by country and then count the number of leaders for each country.  The resulting dataset should be collapsed to the number of countries.
+
+```{r, message=FALSE}
+Shorty <- Archigos %>% group_by(idacr) %>% summarise(count=n())
+skimr::skim(Shorty)
+```
+Hmm, there are countries that only had one leader.  I wonder who they are.
+
+```{r}
+Shorty %>% filter(count==1)
+```
+
+
+The names are not extremely informative but two are post-Soviet republics, Eritrea is very young, and that some are countries that ceased to exist shortly after the start point of the data. What are the other extremum?  What countries have had more than 80 leaders?
+
+```{r}
+Shorty %>% filter(count > 80) %>% ggplot(aes(x=idacr, y=count, label=idacr)) + geom_point() + geom_label() + theme_minimal() + ggtitle("Countries with More than 80 Leaders") + labs(x="", y="Number of Leaders") + theme(axis.text.x = element_blank())
+```
+
+France, Greece, Japan, and Switzerland have had a large number of leaders during this period.  What does the data look like?
+
+```{r}
+ggplot(data = Shorty) +
+    aes(x = count) +
+    geom_histogram(bins = 100, fill = '#9c179e') +
+    labs(title = 'How Many Leaders since 1875?',
+         x = 'Number of Leaders',
+         y = 'Number of Countries',
+         caption = 'data from Archigos') +
+    theme_economist_white()
+```
+
+
+## On Duration
+
+```{r}
+Archigos %>% mutate(Duration = difftime(enddate, startdate, units="weeks")/52) %>% ggplot(aes(Duration)) + geom_histogram(bins=50, fill = '#9c179e') + theme_economist_white() + labs(x="Frequency", y="Duration of Leader in Weeks [divided by 52]")
+```
+
+
+## Who leads longest?
+
+```{r}
+Archigos %>% mutate(Duration = difftime(enddate, startdate, units="weeks")) %>% select(leader,Duration) %>% arrange(desc(Duration)) %>% mutate(DurationInYears = Duration / 52)
+```
+
+## What happens to leaders?
+
+
+```{r}
+Archigos %>% ggplot(., aes(posttenurefate)) + geom_bar(fill="purple") + coord_flip() + labs(y="Frequency", x="") + theme(axis.text.y = element_text(color = "purple", size = 8))
+```
+
+
+## Melting
+
+Now I want to analyse this as discrete data in annual form.  I will use the lovely lubridate to extract the components of the date and then create a pivot table of sorts.
+
+```{r}
+Archigos <- Archigos %>% group_by(idacr) %>% mutate(endYear = year(enddate)) %>% ungroup()
+```
+
+Now I can visualise turnovers on a yearly basis.
+
+```{r}
+YearlyD <- Archigos %>% group_by(endYear) %>% summarise(Endeds = n()) %>% filter(endYear < 2015)
+YearlyD$label <- emoji("pencil2")
+p <- YearlyD %>% ggplot(., aes(x=endYear, y=Endeds, label=label, colour="steelblue")) + geom_text(family="EmojiOne", size=10, position=position_nudge(x = 5, y = 5), color="steelblue") + geom_line(colour="steelblue") + theme_minimal() + labs(x="Year", y="Number of Leader-Tenures Ending")
+panim <- p +  transition_reveal(endYear)
+animate(panim, nframes=200)
+```
+
+`gganimate` is a very neat tool.  Now on to looking at what is happening at the country year and year level.  In some ways, the previous is deceiving because the number of countries is widely varying over time.  Let's try to fill this in.  First, let me obtain a list of the countries.  This is a link from the Archigos website to the work of Gleditsch and Ward.  The dates that they store are colon rather than dash separated so that needs to be fixed, then I convert the dates to valid date format.
+
+```{r}
+iisystem <- read.delim(url("http://www.ksgleditsch.com/data/iisystem.dat"), col.names=c("ccode","idacr","CountryName","startD","endD"), stringsAsFactors = FALSE)
+iisystem <- iisystem %>% mutate(startD = str_replace_all(startD, ":", "-"))
+iisystem <- iisystem %>% mutate(endD = str_replace_all(endD, ":", "-"))
+iisystem$startD <- as_date(dmy(iisystem$startD))
+iisystem$endD <- as_date(dmy(iisystem$endD))
+```
+
+Now for a fully populated dataset of countries and time periods.  `hYear` will be the hypothetical year so a series from 1816 to 2017 for every possible country.  Then we use the system membership data to pare that down to valid dates by country by keeping the years between start and end.
+
+```{r}
+hYear <- seq(1816,2017)
+CSTS <- expand.grid(iisystem$idacr,hYear, stringsAsFactors = FALSE)
+CSTS <- data.frame(idacr=CSTS$Var1, year=CSTS$Var2)
+iisystem <- iisystem %>% mutate(IISstartYear = year(startD), IISendYear = year(endD))
+Big.CSTS <- left_join(CSTS, iisystem, by="idacr")
+Big.CSTS$year[!(Big.CSTS$year >= Big.CSTS$IISstartYear & Big.CSTS$year <= Big.CSTS$IISendYear)] <- NA
+skimr::skim(Big.CSTS)
+```
+
+So that gives me the basic country year dataset that defines the various existence years from countries.  Neat.  Now I need to collapse a country year version of Archigos and merge it into my country year template for existence.  That is called `Keepers`.  Then I collapse them to years and animate the turnover proportion over time.
+
+```{r}
+Big.CSTS <- Big.CSTS %>% group_by(year) %>% mutate(Countries = n()) %>% ungroup()
+Working.CSTS <- Big.CSTS %>% filter(is.na(year)==FALSE)
+CountryYear <- Archigos %>% group_by(idacr, endYear) %>% summarise(eventCount = n()) %>% ungroup()
+CountryYear$Mults <- as.numeric(CountryYear$eventCount > 1)
+Keepers <- left_join(Working.CSTS, CountryYear, by=c("idacr"="idacr","year"="endYear"))
+Keepers$Mults[is.na(Keepers$eventCount)==TRUE] <- 0
+Keepers$eventCount[is.na(Keepers$eventCount)==TRUE] <- 0
+Keepers$Event <- as.numeric(Keepers$eventCount > 0)
+#library(DAMisc)
+Shorty2 <- Keepers %>% filter(year>1874 & year < 2015) 
+Shorty2 <- Shorty2%>% group_by(year) %>% summarise(FailRate = mean(Event))
+Shorty2$label <- emoji("pencil2")
+p <- Shorty2 %>% ggplot(., aes(x=year, y=FailRate, label=label, colour='steelblue')) + geom_text(family="EmojiOne", size=10, position=position_nudge(x = 5, y = 0.03), color='steelblue') + geom_line(color='steelblue') + theme_minimal() + labs(x="Year", y="Proportion Leader-Tenures Ending") + ylim(c(0,0.5))
+panim <- p +  transition_reveal(year)
+animate(panim, nframes=200)
+```
+
+
