@@ -58,7 +58,7 @@ That is caused by the screen.
 ---
 class:inverse, center, middle, bounceIn, bounceOut
 
-# The canvas
+# The canvas: Every graphic fits here
 
 &lt;img src="index_files/figure-html/unnamed-chunk-1-1.svg" style="display: block; margin: auto;" /&gt;
 
@@ -73,7 +73,9 @@ Size is total tenure.&lt;sup&gt;1&lt;sup&gt;
 
 
 .footnote[
-[1] An install script for all the packages used is in the talk directory as /home/rob/Desktop/RWW8/academic-mymodPackagesUsed.R.  The interested reader can source /home/rob/Desktop/RWW8/academic-mymodXSCSetup.R.
+
+[1] The install script for the packages used is in the talk directory as `source(url("http://rww.science/talk/ggsc/PackagesUsed.R"))`.  The interested reader can issue `source(url("https://rww.science/talk/ggsc/XSCSetup.R"))`.
+
 ]
 
 ---
@@ -177,7 +179,7 @@ Chiozza, Gleditsch, and Goemans have collected and maintained an encyclopedia of
 - Entry and exit including types
 
 --
-- Real date formats 😿
+- Real date formats 😭
 
 ```r
 Archigos &lt;- read_dta(url("http://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta"))
@@ -643,6 +645,43 @@ class: inverse, heartBeat
 
 ![](index_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
 
+---
+class: inverse
+
+# Visualising Flows
+
+Applications to customer and object flows in organizations should be clear.
+
+
+
+
+---
+class: inverse
+
+
+```
+## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
+## params$discern): Some strata appear at multiple axes.
+
+## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
+## params$discern): Some strata appear at multiple axes.
+
+## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
+## params$discern): Some strata appear at multiple axes.
+
+## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
+## params$discern): Some strata appear at multiple axes.
+
+## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
+## params$discern): Some strata appear at multiple axes.
+
+## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
+## params$discern): Some strata appear at multiple axes.
+```
+
+![](index_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+
+
 
 ---
 class: inverse, middle, center
@@ -666,7 +705,7 @@ class:inverse
 
 Let me show the points [jittered].
 
-![](index_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
 
 ---
 # The single quantitative distributions don't work equally well.
@@ -692,7 +731,7 @@ Archigos %&gt;%  ggplot(., aes(entry, tenureY)) +
   geom_col() + labs(y="Tenure (in years)", x="Method of Entry", title="geom_col")
 ```
 
-![](index_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
 
 ---
 class: inverse
@@ -710,7 +749,7 @@ Archigos %&gt;%  ggplot(., aes(entry, tenureY)) +
   geom_dotplot(binwidth=1/20, binaxis = "y", stackdir = "center") + labs(y="Tenure (in years)", x="Entry Method", title="geom_dotplot")
 ```
 
-![](index_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -726,7 +765,7 @@ Archigos %&gt;%  ggplot(., aes(entry, tenureY)) +
   geom_boxplot() + labs(y="Tenure (in years)", x="Entry Method", title="geom_boxplot")
 ```
 
-![](index_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -742,7 +781,7 @@ Archigos %&gt;%  ggplot(., aes(entry, tenureY)) +
   geom_violin() + labs(y="Tenure (in years)", x="Entry Method", title="geom_violin")
 ```
 
-![](index_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
 
 ---
 class: inverse, bounceIn 
@@ -758,7 +797,7 @@ Archigos %&gt;% ggplot(., aes(x=tenureY, y=entry, fill=factor(..quantile..))) +
   stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE, quantiles = 4, quantile_lines = TRUE,  scale = 1) + scale_fill_viridis(discrete = TRUE, name = "Quartiles") + labs(x="Tenure (in years)", y="Entry Method", title="geom_ridges")
 ```
 
-![](index_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
 
 ---
 class: inverse, center, middle
@@ -832,7 +871,7 @@ class: inverse, flash
 It's messy.  In many ways, that's perfect.
 - geom_point() makes it worse, they're stacked
 
-![](index_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
 
 ---
 class: inverse
@@ -851,7 +890,7 @@ Archigos %&gt;% ggplot(aes(x=endYear, y=tenureY)) +
   theme_dark() + labs(x="Year Leader's Spell Ended", y="Tenure of Leader (not cumulative)")
 ```
 
-![](index_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
 
 
 
@@ -883,7 +922,7 @@ Archigos %&gt;% ggplot(aes(x=endYear, y=tenureY)) +
 
 .pull-right[
 
-![](index_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-34-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -919,7 +958,7 @@ Archigos %&gt;%
 
 .pull-right[
 
-![](index_files/figure-html/unnamed-chunk-34-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -951,7 +990,7 @@ geom_jitter(alpha=0.3) +
 
 .pull-right[
 
-![](index_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -981,7 +1020,7 @@ geom_label(alpha=0.2) + theme_economist_white() + theme(legend.text = element_te
 
 .pull-right[
 
-![](index_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-40-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1007,7 +1046,7 @@ Frequency determines the size.
 
 Size is the number of previous times in office.
 
-![](index_files/figure-html/unnamed-chunk-39-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-41-1.png)&lt;!-- --&gt;
 
 ---
 class: inverse
@@ -1025,7 +1064,7 @@ We also succeeded in displaying five distinct bits of data in one flat design.
 ---
 # Adding Further Information Requires Time
 
-A terrible pun.
+A terrible pun.  A map is a geometry.  Color displays subprime population in the polygons.  It changes through time.
 
 ![](img/ORSCMap.gif)
 
@@ -1041,10 +1080,17 @@ class: inverse
 class: inverse
 
 # But Seriously....
+x is the ending year of the leader's spell with tenure mapped to y.  We color entry by the key, fill exit by a key, label by gender, and make it evolve by entry time of the leader.  Six dimensions.
 
-![](index_files/figure-html/unnamed-chunk-40-1.gif)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-42-1.gif)&lt;!-- --&gt;
 
 
+---
+class: inverse
+# The Takeaway
+
+Visualisations are one or two [discrete or quantitative] coordinates.  We map data to aesthetics -- color and fill, transparency, label and text, shape, and size -- to show points, lines [connections], or areas.  
+`ggplot` writes graphics that mirror this exact language: data, aes(), and `geom_`
 
 
 ---

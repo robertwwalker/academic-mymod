@@ -1,10 +1,10 @@
 +++
 date = 2017-01-01T00:00:00  # Schedule page publish date.
 
-title = "Example Talk"
+title = "Archigos meets Grammar of Graphics"
 time_start = 2019-04-20T15:00:00
 time_end = 2019-04-20T16:00:00
-abstract = "Exploring the grammar of graphics using Archigos"
+abstract = "Exploring the grammar of graphics using Archigos, the database of leaders."
 abstract_short = "Leaders with Grammars of Graphics"
 event = "AGSM Welcome"
 event_url = "https://agsm.willamette.edu"
@@ -20,7 +20,7 @@ projects = ["deep-learning"]
 
 # Links (optional).
 url_pdf = ""
-url_slides = "https://rww.science/talk/GGSC/LeadersSampleClass.html"
+url_slides = "https://rww.science/talk/ggsc/"
 url_video = ""
 url_code = ""
 
@@ -38,4 +38,4 @@ caption = "My caption :smile:"
 
 +++
 
-Embed your slides or video here using [shortcodes](rww.science/talk/GSCC/)
+Slides in [xaringan](rww.science/talk/gscc/)
