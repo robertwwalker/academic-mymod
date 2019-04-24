@@ -292,10 +292,11 @@ ggplot(TDF,
 
 ![](alluvial_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
-Now for one better, we can combine variables.  I will use the titanic data and combine Age and Sex into a new variable people.  THey will now flow through Class to Survival starting with four types of people.
+Now for one better, we can combine variables.  I will use the titanic data and combine Age and Sex into a new variable people.  THey will now flow through Class to Survival starting with four types of people.  I recently discovered Beyonce palettes; I will use Beyonce 56 for this alluvial.
 
 
 ```r
+library(beyonce)
 TDF2 <- TDF %>% mutate(People = Sex:Age)
 TDF2 %>% group_by(People,Class,Survived) %>% ungroup()
 ```
@@ -323,8 +324,8 @@ ggplot(TDF2,
   geom_alluvium(aes(fill = Survived), width = 1/24) +
   geom_stratum(width = 1/12, fill = "white", color = "black") +
   geom_label(stat = "stratum", label.strata = TRUE) +
-  scale_x_discrete(limits = c("Class", "People", "Survived")) + # Fix the x axis
-  scale_fill_brewer(type = "qual", palette = "Set1") + # Give it nice colors
+  scale_x_discrete(limits = c("People", "Class", "Survived")) + # Fix the x axis
+  scale_fill_manual(values = beyonce_palette(56)) + # Give it nice colors
   ggtitle("The Fate of Titanic Passengers", subtitle="Class, People") # give it a title 
 ```
 
