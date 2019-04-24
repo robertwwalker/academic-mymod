@@ -103,7 +103,7 @@ TTW <- table(Trumps.Words)
 TTW <- TTW[order(TTW, decreasing = T)]
 TTW <- data.frame(TTW)
 names(TTW) <- c("word","freq")
-wordcloud(TTW$word, TTW$freq, colors=pal, random.order=F, max.words=200)
+wordcloud2(TTW$word, TTW$freq, color="random-light", backgroundColor = "black")
 ```
 
 Well, that is kinda cool.  Now, I want to do a bit more with it using more complicated word combinations.
