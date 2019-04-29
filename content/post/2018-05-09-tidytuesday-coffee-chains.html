@@ -23,6 +23,14 @@ tags:
 <pre><code>## here() starts at /home/rob/Desktop/RWW8/academic-mymod</code></pre>
 <pre class="r"><code>library(readxl)
 library(tidyverse)</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;ggplot2&#39;:
+##   method         from 
+##   [.quosures     rlang
+##   c.quosures     rlang
+##   print.quosures rlang</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;rvest&#39;:
+##   method            from
+##   read_xml.response xml2</code></pre>
 <pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.1.1       ✔ purrr   0.3.2  
 ## ✔ tibble  2.1.1       ✔ dplyr   0.8.0.1
@@ -31,9 +39,17 @@ library(tidyverse)</code></pre>
 <pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(janitor)
-library(geofacet)
-library(ggbeeswarm)
+<pre class="r"><code>library(janitor)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code>library(geofacet)</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;geofacet&#39;:
+##   method from   
+##   +.gg   ggplot2</code></pre>
+<pre class="r"><code>library(ggbeeswarm)
 library(ggrepel)
 Starbucks &lt;- read_excel(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;starbucks&quot;)
 Dunkin.Donuts &lt;- read_excel(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;dunkin&quot;)
@@ -49,6 +65,9 @@ read_excel_allsheets &lt;- function(filename, tibble = TRUE) {
 coffee.xl &lt;- read_excel_allsheets(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;))</code></pre>
 <p>What do the data look like?</p>
 <pre class="r"><code>library(skimr)</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;skimr&#39;:
+##   method      from  
+##   print.spark pillar</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;skimr&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:stats&#39;:

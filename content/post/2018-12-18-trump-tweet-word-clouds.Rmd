@@ -47,6 +47,7 @@ save(tml.djt, file="../data/TMLS.RData")
 I start by loading the tmls object that I created above.  What does it look like?
 
 ```{r, message=FALSE}
+library(wordcloud2)
 library(tidyverse)
 library(tidytext)
 library(rtweet)
@@ -103,7 +104,7 @@ TTW <- table(Trumps.Words)
 TTW <- TTW[order(TTW, decreasing = T)]
 TTW <- data.frame(TTW)
 names(TTW) <- c("word","freq")
-wordcloud2(TTW$word, TTW$freq, color="random-light", backgroundColor = "black")
+wordcloud2(TTW, color="random-light", backgroundColor = "black")
 ```
 
 Well, that is kinda cool.  Now, I want to do a bit more with it using more complicated word combinations.

@@ -16,26 +16,6 @@ The aforementioned plots are methods for visualising the flow of data through a 
 
 ```r
 library(tidyverse)
-```
-
-```
-## ── Attaching packages ─────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
-```
-
-```
-## ✔ ggplot2 3.1.1       ✔ purrr   0.3.2  
-## ✔ tibble  2.1.1       ✔ dplyr   0.8.0.1
-## ✔ tidyr   0.8.3       ✔ stringr 1.4.0  
-## ✔ readr   1.3.1       ✔ forcats 0.4.0
-```
-
-```
-## ── Conflicts ────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(ggalluvial) # if this is not installed, install.packages("ggalluvial")
 data("UCBAdmissions") # This dataset is built in as a set of tables.
 UCBAdmissions  # What does it look like?
@@ -120,7 +100,7 @@ UCBADF  # This is what the data structure needs to look like.
 
 ## An Alluvial
 
-I will load in those data.  This is the tidy version that we worked with at the individual level.  To make this code work, change the below locations to import the same data.
+This is the tidy version that we worked with at the individual level.  To make this code work, change the below locations to import the same data.
 
 
 ```r
@@ -137,6 +117,9 @@ head(DiscriminationUCB)
 ## 5 Male   Yes    A
 ## 6 Male   Yes    A
 ```
+
+To put this data in a table, using the `%>%` pipe operator, we will pass the tidy data, group it by the elements of the alluvial, and then generate the counts.
+
 
 ```r
 DUCBT <- DiscriminationUCB %>% group_by(M.F,Dept,Admit) %>% summarise(count = n()) %>% ungroup()
@@ -161,7 +144,7 @@ DUCBT
 ```
 
 
-The alluvial requires an additional package `ggalluvial`.  We can install it through `install.packages("ggalluvial")`.  What can it do?  It needs data.  The y axis is always the total counts in the cells.  Then we set axes with a number after to show the phases from left to right.  So here, axis1 will be gender and axis two will be Department.  Admitted and non-admitted students will be `flowed` with colors depicting them move through the system.  We want to track them by their admitted status.
+The alluvial requires an additional package `ggalluvial`.  We can install it through `install.packages("ggalluvial")`.  What can it do?  It needs data.  The y axis is always the total counts in the cells.  Then we set axes with a number after to show the phases from left to right.  So here, axis1 will be gender and axis two will be Department.  Admitted and non-admitted students will be `flowed` with colors depicting them move through the system.  We want to track them by their admitted status.  The alluvial itself has y as Frequency and the various axis* as the phases to track.  The outcome of interest enters the fill so that color shows the outcome of interest flowing through the strata.
 
 ## With the system data
 
@@ -179,7 +162,7 @@ ggplot(UCBADF,
   ggtitle("UC Berkeley admissions and rejections, by sex and department") # give it a title
 ```
 
-![](alluvial_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+![](alluvial_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 # A simple one [or as simple as I can]
 
@@ -194,7 +177,7 @@ ggplot(UCBADF,  # plot the data
   geom_label(stat = "stratum", label.strata = TRUE)  # This labels them.
 ```
 
-![](alluvial_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](alluvial_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 Same with our data.
 
@@ -207,6 +190,145 @@ ggplot(DUCBT,
   geom_label(stat = "stratum", label.strata = TRUE) 
 ```
 
-![](alluvial_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](alluvial_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+## The Titanic: Multiple Phases
+
+
+```r
+data("Titanic")
+Titanic
+```
+
+```
+## , , Age = Child, Survived = No
+## 
+##       Sex
+## Class  Male Female
+##   1st     0      0
+##   2nd     0      0
+##   3rd    35     17
+##   Crew    0      0
+## 
+## , , Age = Adult, Survived = No
+## 
+##       Sex
+## Class  Male Female
+##   1st   118      4
+##   2nd   154     13
+##   3rd   387     89
+##   Crew  670      3
+## 
+## , , Age = Child, Survived = Yes
+## 
+##       Sex
+## Class  Male Female
+##   1st     5      1
+##   2nd    11     13
+##   3rd    13     14
+##   Crew    0      0
+## 
+## , , Age = Adult, Survived = Yes
+## 
+##       Sex
+## Class  Male Female
+##   1st    57    140
+##   2nd    14     80
+##   3rd    75     76
+##   Crew  192     20
+```
+
+```r
+TDF <- as.data.frame(Titanic)
+TDF
+```
+
+```
+##    Class    Sex   Age Survived Freq
+## 1    1st   Male Child       No    0
+## 2    2nd   Male Child       No    0
+## 3    3rd   Male Child       No   35
+## 4   Crew   Male Child       No    0
+## 5    1st Female Child       No    0
+## 6    2nd Female Child       No    0
+## 7    3rd Female Child       No   17
+## 8   Crew Female Child       No    0
+## 9    1st   Male Adult       No  118
+## 10   2nd   Male Adult       No  154
+## 11   3rd   Male Adult       No  387
+## 12  Crew   Male Adult       No  670
+## 13   1st Female Adult       No    4
+## 14   2nd Female Adult       No   13
+## 15   3rd Female Adult       No   89
+## 16  Crew Female Adult       No    3
+## 17   1st   Male Child      Yes    5
+## 18   2nd   Male Child      Yes   11
+## 19   3rd   Male Child      Yes   13
+## 20  Crew   Male Child      Yes    0
+## 21   1st Female Child      Yes    1
+## 22   2nd Female Child      Yes   13
+## 23   3rd Female Child      Yes   14
+## 24  Crew Female Child      Yes    0
+## 25   1st   Male Adult      Yes   57
+## 26   2nd   Male Adult      Yes   14
+## 27   3rd   Male Adult      Yes   75
+## 28  Crew   Male Adult      Yes  192
+## 29   1st Female Adult      Yes  140
+## 30   2nd Female Adult      Yes   80
+## 31   3rd Female Adult      Yes   76
+## 32  Crew Female Adult      Yes   20
+```
+
+```r
+ggplot(TDF,
+       aes(y = Freq, axis1 = Class, axis2 = Age, axis3 = Sex, axis4=Survived)) +
+  geom_alluvium(aes(fill = Survived), width = 1/24) +
+  geom_stratum(width = 1/12, fill = "white", color = "black") +
+  geom_label(stat = "stratum", label.strata = TRUE) +
+  scale_x_discrete(limits = c("Class", "Age", "Sex")) + # Fix the x axis
+  scale_fill_brewer(type = "qual", palette = "Set1") + # Give it nice colors
+  ggtitle("The Fate of Titanic Passengers", subtitle="Class, Sex, Age") # give it a title 
+```
+
+![](alluvial_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
+Now for one better, we can combine variables.  I will use the titanic data and combine Age and Sex into a new variable people.  THey will now flow through Class to Survival starting with four types of people.  I recently discovered Beyonce palettes; I will use Beyonce 56 for this alluvial.
+
+
+```r
+library(beyonce)
+TDF2 <- TDF %>% mutate(People = Sex:Age)
+TDF2 %>% group_by(People,Class,Survived) %>% ungroup()
+```
+
+```
+## # A tibble: 32 x 6
+##    Class Sex    Age   Survived  Freq People      
+##    <fct> <fct>  <fct> <fct>    <dbl> <fct>       
+##  1 1st   Male   Child No           0 Male:Child  
+##  2 2nd   Male   Child No           0 Male:Child  
+##  3 3rd   Male   Child No          35 Male:Child  
+##  4 Crew  Male   Child No           0 Male:Child  
+##  5 1st   Female Child No           0 Female:Child
+##  6 2nd   Female Child No           0 Female:Child
+##  7 3rd   Female Child No          17 Female:Child
+##  8 Crew  Female Child No           0 Female:Child
+##  9 1st   Male   Adult No         118 Male:Adult  
+## 10 2nd   Male   Adult No         154 Male:Adult  
+## # … with 22 more rows
+```
+
+```r
+ggplot(TDF2,
+       aes(y = Freq, axis1 = People, axis2 = Class, axis3=Survived)) +
+  geom_alluvium(aes(fill = Survived), width = 1/24) +
+  geom_stratum(width = 1/12, fill = "white", color = "black") +
+  geom_label(stat = "stratum", label.strata = TRUE) +
+  scale_x_discrete(limits = c("People", "Class", "Survived")) + # Fix the x axis
+  scale_fill_manual(values = beyonce_palette(56)) + # Give it nice colors
+  ggtitle("The Fate of Titanic Passengers", subtitle="Class, People") # give it a title 
+```
+
+![](alluvial_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 

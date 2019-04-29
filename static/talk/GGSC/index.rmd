@@ -453,8 +453,7 @@ class: inverse
 
 # Visualising Flows
 
-Applications to customer and object flows in organizations should be clear.
-
+An alluvial shows how individuals pass through shared system points.  For example, leaders enter, exit, and have some post tenure fate.  
 ```{r, fig.width=7, fig.height=5, echo=FALSE}
 library(ggalluvial)
 library(gridExtra)
@@ -483,7 +482,9 @@ myplotM <- allTable %>% filter(gender=="M") %>% ggplot(.,
 ---
 class: inverse
 
-```{r, fig.width=7, fig.height=5, echo=FALSE}
+This needs work but I don't have a firm idea of how to collapse categories to improve readability.
+
+```{r, fig.width=8, fig.height=6, echo=FALSE, warning=FALSE, message=FALSE}
 library(ggalluvial)
 library(gridExtra)
 allTable <- Archigos %>% group_by(gender, entry, exit, posttenurefate) %>% count() %>% ungroup()
