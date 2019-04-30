@@ -84,23 +84,27 @@ readRDS(url(""https://github.com/robertwwalker/academic-mymod/raw/master/data/Ar
 Now I want to accomplish the same thing with a dataset of leaders.  The unit here is the leader year.  Each leader in Archigos will appear at least once.  The method is identical.
 
 ```{r ArchigosManip}
-Archigos <- Archigos %>% group_by(leadid) %>% mutate(startYear = year(startdate), endYear = year(enddate)) %>% ungroup()
+Archigos <- Archigos %>% group_by(obsid) %>% mutate(startYear = year(startdate), endYear = year(enddate)) %>% ungroup()
+Archigos$obsid <- as.character(Archigos$obsid)
 DI <- dim(Archigos)[[1]]
 tseq <-function(x) {
   tempd <- Archigos[x,]
-  data.frame(obsid = tempd$obsid, ccode = tempd$ccode, leader = as.character(tempd$leader), leadid = as.character(tempd$leadid), idacr=as.character(tempd$idacr), year=seq(tempd$startYear, tempd$endYear, by=1), LSY=tempd$startYear, LEY = tempd$endYear)
+  data.frame(obsid = tempd$obsid, leader = as.character(tempd$leader), leadid = as.character(tempd$leadid), idacr=as.character(tempd$idacr), year=seq(tempd$startYear, tempd$endYear, by=1), LSY=tempd$startYear, LEY = tempd$endYear)
 }
 LTS <- lapply(seq(1,DI), function(x) { tseq(x) } )
 LTS.Data <- data.frame(do.call(rbind, LTS))
 LTS.Data$idacr <- as.character(LTS.Data$idacr)
+LTS.Data$obsid <- as.character(LTS.Data$obsid)
+Archigos$obsid <- as.character(Archigos$obsid)
 Full.LTS <- LTS.Data %>% left_join(Archigos, by=c("obsid" = "obsid"))
 # One curiosity; does any leader lead two distinct countries?  Having the ccodes allows me to calculate the standard deviation by leader.
-Full.LTS %>% group_by(leadid.x) %>% summarise(CC.sd = sd(ccode.x)) %>% arrange(desc(CC.sd)) %>% filter(CC.sd > 0)
+Full.LTS %>% group_by(leadid.x) %>% summarise(CC.sd = sd(ccode)) %>% arrange(desc(CC.sd)) %>% filter(CC.sd > 0)
 # If countries are a proper nesting operator, then things can be made much easier.  They 
 Full.LTS %>% filter(leadid.x == "81de4823-1e42-11e4-b4cd-db5882bf8def")
 Full.LTS %>% filter(leadid.x == "821be4de-1e42-11e4-b4cd-db5882bf8def")
 ```
-There are two leaders that led multiple countries.  The rest are nested.
+
+There are two leaders that led multiple countries.  The rest are nested.  One of them makes sense, the other seems to be a bad hash.
 
 Full.LTS is my result.  It has been saved in a subdirectory `Archigos-etc` of my data on GitHub.  It contains some merged back sanity checks also.  You can load it with 
 
