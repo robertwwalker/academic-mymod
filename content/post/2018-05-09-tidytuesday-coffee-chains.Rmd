@@ -27,10 +27,8 @@ library(janitor)
 library(geofacet)
 library(ggbeeswarm)
 library(ggrepel)
-#Starbucks <- read_excel(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx"), sheet = "starbucks")
-#Dunkin.Donuts <- read_excel(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx"), sheet = "dunkin")
-#Tim.Hortons <- read_excel(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx"), sheet = "timhorton")
 # A great function appears below that I grabbed from Stack Overflow a while back.....
+# URL functionality with read_excel is tricky so I turned them in to rds
 read_excel_allsheets <- function(filename, tibble = TRUE) {
     sheets <- readxl::excel_sheets(filename)
     x <- lapply(sheets, function(X) readxl::read_excel(filename, sheet = X))
@@ -38,13 +36,10 @@ read_excel_allsheets <- function(filename, tibble = TRUE) {
     names(x) <- sheets
     x
 }
-# coffee.xl <- read_excel_allsheets(url("data/week6_coffee_chains.xlsx"))
-# Starbucks <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6SB.rds"))
-# Dunkin.Donuts <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6DD.rds"))
-# Tim.Hortons <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6TH.rds"))
-Starbucks <- readRDS("../../data/week6SB.rds")
-Dunkin.Donuts <- readRDS("../../data/week6DD.rds")
-Tim.Hortons <- readRDS("../../data/week6TH.rds")
+coffee.xl <- read_excel_allsheets("../../data/week6_coffee_chains.xlsx")
+Starbucks <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6SB.rds"))
+Dunkin.Donuts <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6DD.rds"))
+Tim.Hortons <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6TH.rds"))
 ```
 
 What do the data look like?

@@ -49,10 +49,8 @@ library(tidyverse)</code></pre>
 ##   +.gg   ggplot2</code></pre>
 <pre class="r"><code>library(ggbeeswarm)
 library(ggrepel)
-#Starbucks &lt;- read_excel(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;starbucks&quot;)
-#Dunkin.Donuts &lt;- read_excel(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;dunkin&quot;)
-#Tim.Hortons &lt;- read_excel(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;timhorton&quot;)
 # A great function appears below that I grabbed from Stack Overflow a while back.....
+# URL functionality with read_excel is tricky so I turned them in to rds
 read_excel_allsheets &lt;- function(filename, tibble = TRUE) {
     sheets &lt;- readxl::excel_sheets(filename)
     x &lt;- lapply(sheets, function(X) readxl::read_excel(filename, sheet = X))
@@ -60,13 +58,10 @@ read_excel_allsheets &lt;- function(filename, tibble = TRUE) {
     names(x) &lt;- sheets
     x
 }
-# coffee.xl &lt;- read_excel_allsheets(url(&quot;data/week6_coffee_chains.xlsx&quot;))
-# Starbucks &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6SB.rds&quot;))
-# Dunkin.Donuts &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6DD.rds&quot;))
-# Tim.Hortons &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6TH.rds&quot;))
-Starbucks &lt;- readRDS(&quot;../../data/week6SB.rds&quot;)
-Dunkin.Donuts &lt;- readRDS(&quot;../../data/week6DD.rds&quot;)
-Tim.Hortons &lt;- readRDS(&quot;../../data/week6TH.rds&quot;)</code></pre>
+coffee.xl &lt;- read_excel_allsheets(&quot;../../data/week6_coffee_chains.xlsx&quot;)
+Starbucks &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6SB.rds&quot;))
+Dunkin.Donuts &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6DD.rds&quot;))
+Tim.Hortons &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6TH.rds&quot;))</code></pre>
 <p>What do the data look like?</p>
 <pre class="r"><code>library(skimr)</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;skimr&#39;:

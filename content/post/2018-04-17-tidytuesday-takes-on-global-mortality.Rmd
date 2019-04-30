@@ -25,8 +25,8 @@ Here is this week's tidyTuesday.
 library(skimr)
 library(tidyverse)
 library(rlang)
-global_mortality <- readRDS("../../data/global_mortality.rds")
-# global_mortality <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds"))
+# global_mortality <- readRDS("../../data/global_mortality.rds")
+global_mortality <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds"))
 skim(global_mortality)
 ```
 

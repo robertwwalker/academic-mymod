@@ -20,13 +20,13 @@ library(tidyverse)
 library(glue)
 library(ggrepel)
 library(viridis)
-#tidy_data <-  readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/tuition/Tuition.rds")) %>%
-#  gather(year, avg_tuition, -State) %>%
-#  rename(state = State)
-
-tidy_data <-  readRDS("../../data/tuition/Tuition.rds") %>%
+tidy_data <-  readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/tuition/Tuition.rds")) %>%
   gather(year, avg_tuition, -State) %>%
   rename(state = State)
+
+# tidy_data <-  readRDS("../../data/tuition/Tuition.rds") %>%
+#  gather(year, avg_tuition, -State) %>%
+#  rename(state = State)
 
 nat_avg <- tidy_data %>%
   filter(year %in% c("2005-06", "2015-16")) %>%
