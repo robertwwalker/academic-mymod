@@ -70,11 +70,11 @@ iisystem &lt;- iisystem %&gt;% mutate(IISstartYear = year(startD), IISendYear = 
 DI &lt;- as.integer(dim(iisystem)[[1]])
 tseq &lt;-function(x) {
 tempd &lt;- iisystem[x,]
-data.frame(ccode = tempd$ccode, Name = as.character(tempd$CountryName), idacr=as.character(tempd$idacr), year=seq(tempd$IISstartYear, tempd$IISendYear, by=1))
+data.frame(ccode = tempd$ccode, CountryName = as.character(tempd$CountryName), idacr=as.character(tempd$idacr), year=seq(tempd$IISstartYear, tempd$IISendYear, by=1), IISstartYear = tempd$IISstartYear, IISendYear = tempd$IISendYear, startD = tempd$startD, endD = tempd$endD) 
 }
 CSTS &lt;- lapply(seq(1,DI), function(x) { tseq(x) } )
 CSTS.Data &lt;- data.frame(do.call(rbind, CSTS))
-CSTS.Data$Name &lt;- as.character(CSTS.Data$Name)
+CSTS.Data$CountryName &lt;- as.character(CSTS.Data$CountryName)
 CSTS.Data$idacr &lt;- as.character(CSTS.Data$idacr)
 # That gets it.  Down to nt=17565.</code></pre>
 <p>CSTS.Data is my result. It has been saved in a subdirectory <code>Archigos-etc</code> of my data on GitHub. You can load it with:</p>
