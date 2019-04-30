@@ -206,7 +206,7 @@ $(document).ready(function () {
 <pre class="r"><code>library(nflscrapR)
 all_2018_games &lt;- scrape_game_ids(2018) # Default is regular season</code></pre>
 <pre class="r"><code>library(nflscrapR)
-all_2018_games &lt;-readRDS(&quot;../../../data/NFLGames2018.rds&quot;)
+all_2018_games &lt;-readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/NFLGames2018.rds&quot;))
 all_2018_games %&gt;%
   pander::pander()</code></pre>
 <table>
@@ -4361,7 +4361,7 @@ all_2018_games %&gt;%
 <pre class="r"><code>full_season_2018 &lt;- scrape_season_play_by_play(2018, &quot;reg&quot;)
 saveRDS(full_season_2018, file=&quot;../../../data/2018NFLSeason.rds&quot;)</code></pre>
 <p>That gets the data though it took over an hour to acquire it all and it threw two error messages. I do not yet know if they are conseequential. My goal here is to use this package and the ability to plot the win probability charts to try to summarise an entire cowboys season.</p>
-<pre class="r"><code>full_season_2018 &lt;- readRDS(&quot;../../../data/2018NFLSeason.rds&quot;) # Downloaded it once.  It sits in rww.science/data</code></pre>
+<pre class="r"><code>full_season_2018 &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/2018NFLSeason.rds&quot;)) # Downloaded it once.  It sits in rww.science/data</code></pre>
 <p>Let me skim the data for an idea of what it looks like. I will also pull in three packages that I am deploying or will.</p>
 <pre class="r"><code>library(skimr)
 library(tidyverse)
@@ -4987,7 +4987,7 @@ Dallas.Table %&gt;% head()</code></pre>
          !is.na(away_wp)) %&gt;% unite(GIDGSR, game_seconds_remaining, game_id, sep=&quot;:&quot;)
 dal_wp &lt;- dal_wp %&gt;% dplyr::select(GIDGSR,
                 home_wp,
-                away_wp) %&gt;%
+                away_wp)  %&gt;%
   gather(team, wpa, -GIDGSR) %&gt;% separate(., GIDGSR, c(&quot;GSR&quot;, &quot;game_id&quot;), sep=&quot;:&quot;) %&gt;% 
   mutate(game_seconds_remaining = as.integer(GSR))
 dal_wp %&gt;% ggplot(aes(x = game_seconds_remaining, y = wpa, color = team)) +
