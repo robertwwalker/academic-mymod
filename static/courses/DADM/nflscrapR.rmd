@@ -32,6 +32,7 @@ all_2018_games <- scrape_game_ids(2018) # Default is regular season
 
 ```{r, warning=FALSE, message=FALSE}
 library(nflscrapR)
+library(RCurl)
 all_2018_games <-readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/NFLGames2018.rds"))
 all_2018_games %>%
   pander::pander()

@@ -206,6 +206,7 @@ $(document).ready(function () {
 <pre class="r"><code>library(nflscrapR)
 all_2018_games &lt;- scrape_game_ids(2018) # Default is regular season</code></pre>
 <pre class="r"><code>library(nflscrapR)
+library(RCurl)
 all_2018_games &lt;-readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/NFLGames2018.rds&quot;))
 all_2018_games %&gt;%
   pander::pander()</code></pre>
