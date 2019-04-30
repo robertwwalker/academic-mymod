@@ -49,12 +49,418 @@ head(Archigos)</code></pre>
 ## #   numexit &lt;dbl&gt;, numexitcode &lt;dbl&gt;, numposttenurefate &lt;dbl&gt;,
 ## #   fties &lt;chr&gt;, ftcur &lt;chr&gt;</code></pre>
 <p>That’s a pretty impressive span of leaders. Let me obtain a list of the countries. This is a link from the Archigos website to the work of Gleditsch and Ward. The dates that they store are colon rather than dash separated so that needs to be fixed, then I convert the dates to valid date format. There is also a problem with the text encoding [at least on this Linux workstation] for the Ivory Coast. I suspect it is an accent mark.</p>
+</div>
+<div id="history-of-countries-gleditsch-and-ward" class="section level2">
+<h2>History of Countries: Gleditsch and Ward</h2>
 <pre class="r"><code>iisystem &lt;- read.delim(url(&quot;http://www.ksgleditsch.com/data/iisystem.dat&quot;), col.names=c(&quot;ccode&quot;,&quot;idacr&quot;,&quot;CountryName&quot;,&quot;startD&quot;,&quot;endD&quot;), stringsAsFactors = FALSE)
 iisystem &lt;- iisystem %&gt;% mutate(startD = str_replace_all(startD, &quot;:&quot;, &quot;-&quot;))
 iisystem &lt;- iisystem %&gt;% mutate(endD = str_replace_all(endD, &quot;:&quot;, &quot;-&quot;))
 iisystem$CountryName[[108]] &lt;- &quot;Ivory Coast&quot;
 iisystem$startD &lt;- as_date(dmy(iisystem$startD))
-iisystem$endD &lt;- as_date(dmy(iisystem$endD))</code></pre>
+iisystem$endD &lt;- as_date(dmy(iisystem$endD))
+iisystem &lt;- iisystem %&gt;% mutate(IISstartYear = year(startD), IISendYear = year(endD))</code></pre>
+</div>
+<div id="some-data-management" class="section level2">
+<h2>Some Data Management</h2>
+<p>There are two datasets that I will want to create to use to analyse this. I am likely to want a dataset of country years and a dataset of leader years. After putting these together, I note that there is actually only one leader that leads two distinct country codes. I am putting this code at the top because others may find it useful.</p>
+<div id="country-years" class="section level3">
+<h3>Country Years</h3>
+<p>I want to create all valid years for each of the countries identified by the Gleditsch and Ward set of countries. This is a bit of a hack using apply and dimensions but it works. Basically, here is the idea. Use <code>lapply</code> over a list that is just a sequence of row length and apply a function. A row number is the input to the function, create a temporary named vector to operate on in tempd and create a <code>data.frame</code> to pass back with the appropriate sequence of years between the start and end years along with some useful identifiers. The result is a list. To collapse the list, <code>do.call</code> and <code>rbind</code> – binding the rows – do the trick. One can left join them (the result and iisystem) back together as a sanity check.</p>
+<pre class="r"><code># Build a grid of countries and years
+DI &lt;- as.integer(dim(iisystem)[[1]])
+tseq &lt;-function(x) {
+tempd &lt;- iisystem[x,]
+data.frame(ccode = tempd$ccode, Name = as.character(tempd$CountryName), idacr=as.character(tempd$idacr), year=seq(tempd$IISstartYear, tempd$IISendYear, by=1))
+}
+CSTS &lt;- lapply(seq(1,DI), function(x) { tseq(x) } )
+CSTS.Data &lt;- data.frame(do.call(rbind, CSTS))
+CSTS.Data$Name &lt;- as.character(CSTS.Data$Name)
+CSTS.Data$idacr &lt;- as.character(CSTS.Data$idacr)
+# That gets it.  Down to nt=17565.</code></pre>
+<p>CSTS.Data is my result. It has been saved in a subdirectory <code>Archigos-etc</code> of my data on GitHub. You can load it with</p>
+<pre><code>readRDS(url(&quot;&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/Archigos-etc/GWCSTS.rds&quot;&quot;))</code></pre>
+<p>Now I want to accomplish the same thing with a dataset of leaders. The unit here is the leader year. Each leader in Archigos will appear at least once. The method is identical.</p>
+<pre class="r"><code>Archigos &lt;- Archigos %&gt;% group_by(leadid) %&gt;% mutate(startYear = year(startdate), endYear = year(enddate)) %&gt;% ungroup()
+DI &lt;- dim(Archigos)[[1]]
+tseq &lt;-function(x) {
+  tempd &lt;- Archigos[x,]
+  data.frame(obsid = tempd$obsid, ccode = tempd$ccode, leader = as.character(tempd$leader), leadid = as.character(tempd$leadid), idacr=as.character(tempd$idacr), year=seq(tempd$startYear, tempd$endYear, by=1), LSY=tempd$startYear, LEY = tempd$endYear)
+}
+LTS &lt;- lapply(seq(1,DI), function(x) { tseq(x) } )
+LTS.Data &lt;- data.frame(do.call(rbind, LTS))
+LTS.Data$idacr &lt;- as.character(LTS.Data$idacr)
+Full.LTS &lt;- LTS.Data %&gt;% left_join(Archigos, by=c(&quot;obsid&quot; = &quot;obsid&quot;))</code></pre>
+<pre><code>## Warning: Column `obsid` joining factor and character vector, coercing into
+## character vector</code></pre>
+<pre><code>## Warning: Column `obsid` has different attributes on LHS and RHS of join</code></pre>
+<pre class="r"><code># One curiosity; does any leader lead two distinct countries?  Having the ccodes allows me to calculate the standard deviation by leader.
+Full.LTS %&gt;% group_by(leadid.x) %&gt;% summarise(CC.sd = sd(ccode.x)) %&gt;% arrange(desc(CC.sd)) %&gt;% filter(CC.sd &gt; 0)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   leadid.x                             CC.sd
+##   &lt;fct&gt;                                &lt;dbl&gt;
+## 1 81de4823-1e42-11e4-b4cd-db5882bf8def  6.93
+## 2 821be4de-1e42-11e4-b4cd-db5882bf8def  2.67</code></pre>
+<pre class="r"><code># If countries are a proper nesting operator, then things can be made much easier.  They 
+Full.LTS %&gt;% filter(leadid.x == &quot;81de4823-1e42-11e4-b4cd-db5882bf8def&quot;)</code></pre>
+<pre><code>##         obsid ccode.x          leader.x
+## 1    CAN-1921      20              King
+## 2    CAN-1921      20              King
+## 3    CAN-1921      20              King
+## 4    CAN-1921      20              King
+## 5    CAN-1921      20              King
+## 6    CAN-1921      20              King
+## 7  CAN-1926-2      20              King
+## 8  CAN-1926-2      20              King
+## 9  CAN-1926-2      20              King
+## 10 CAN-1926-2      20              King
+## 11 CAN-1926-2      20              King
+## 12   CAN-1935      20              King
+## 13   CAN-1935      20              King
+## 14   CAN-1935      20              King
+## 15   CAN-1935      20              King
+## 16   CAN-1935      20              King
+## 17   CAN-1935      20              King
+## 18   CAN-1935      20              King
+## 19   CAN-1935      20              King
+## 20   CAN-1935      20              King
+## 21   CAN-1935      20              King
+## 22   CAN-1935      20              King
+## 23   CAN-1935      20              King
+## 24   CAN-1935      20              King
+## 25   CAN-1935      20              King
+## 26 DOM-1876-4      42 Buenaventura Baez
+## 27 DOM-1876-4      42 Buenaventura Baez
+## 28 DOM-1876-4      42 Buenaventura Baez
+##                                leadid.x idacr.x year  LSY  LEY
+## 1  81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1921 1921 1926
+## 2  81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1922 1921 1926
+## 3  81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1923 1921 1926
+## 4  81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1924 1921 1926
+## 5  81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1925 1921 1926
+## 6  81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1926 1921 1926
+## 7  81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1926 1926 1930
+## 8  81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1927 1926 1930
+## 9  81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1928 1926 1930
+## 10 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1929 1926 1930
+## 11 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1930 1926 1930
+## 12 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1935 1935 1948
+## 13 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1936 1935 1948
+## 14 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1937 1935 1948
+## 15 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1938 1935 1948
+## 16 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1939 1935 1948
+## 17 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1940 1935 1948
+## 18 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1941 1935 1948
+## 19 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1942 1935 1948
+## 20 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1943 1935 1948
+## 21 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1944 1935 1948
+## 22 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1945 1935 1948
+## 23 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1946 1935 1948
+## 24 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1947 1935 1948
+## 25 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN 1948 1935 1948
+## 26 81de4823-1e42-11e4-b4cd-db5882bf8def     DOM 1876 1876 1878
+## 27 81de4823-1e42-11e4-b4cd-db5882bf8def     DOM 1877 1876 1878
+## 28 81de4823-1e42-11e4-b4cd-db5882bf8def     DOM 1878 1876 1878
+##                                leadid.y ccode.y idacr.y          leader.y
+## 1  81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 2  81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 3  81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 4  81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 5  81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 6  81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 7  81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 8  81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 9  81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 10 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 11 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 12 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 13 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 14 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 15 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 16 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 17 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 18 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 19 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 20 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 21 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 22 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 23 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 24 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 25 81de4823-1e42-11e4-b4cd-db5882bf8def      20     CAN              King
+## 26 81de4823-1e42-11e4-b4cd-db5882bf8def      42     DOM Buenaventura Baez
+## 27 81de4823-1e42-11e4-b4cd-db5882bf8def      42     DOM Buenaventura Baez
+## 28 81de4823-1e42-11e4-b4cd-db5882bf8def      42     DOM Buenaventura Baez
+##     startdate    eindate    enddate   eoutdate     entry
+## 1  1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 2  1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 3  1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 4  1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 5  1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 6  1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 7  1926-09-25 1926-09-25 1930-08-07 1930-08-07   Regular
+## 8  1926-09-25 1926-09-25 1930-08-07 1930-08-07   Regular
+## 9  1926-09-25 1926-09-25 1930-08-07 1930-08-07   Regular
+## 10 1926-09-25 1926-09-25 1930-08-07 1930-08-07   Regular
+## 11 1926-09-25 1926-09-25 1930-08-07 1930-08-07   Regular
+## 12 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 13 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 14 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 15 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 16 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 17 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 18 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 19 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 20 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 21 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 22 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 23 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 24 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 25 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 26 1876-12-26 1876-12-26 1878-03-02 1878-03-02 Irregular
+## 27 1876-12-26 1876-12-26 1878-03-02 1878-03-02 Irregular
+## 28 1876-12-26 1876-12-26 1878-03-02 1878-03-02 Irregular
+##                         exit exitcode prevtimesinoffice posttenurefate
+## 1                    Regular  Regular                 0             OK
+## 2                    Regular  Regular                 0             OK
+## 3                    Regular  Regular                 0             OK
+## 4                    Regular  Regular                 0             OK
+## 5                    Regular  Regular                 0             OK
+## 6                    Regular  Regular                 0             OK
+## 7                    Regular  Regular                 1             OK
+## 8                    Regular  Regular                 1             OK
+## 9                    Regular  Regular                 1             OK
+## 10                   Regular  Regular                 1             OK
+## 11                   Regular  Regular                 1             OK
+## 12 Retired Due to Ill Health  Regular                 2             OK
+## 13 Retired Due to Ill Health  Regular                 2             OK
+## 14 Retired Due to Ill Health  Regular                 2             OK
+## 15 Retired Due to Ill Health  Regular                 2             OK
+## 16 Retired Due to Ill Health  Regular                 2             OK
+## 17 Retired Due to Ill Health  Regular                 2             OK
+## 18 Retired Due to Ill Health  Regular                 2             OK
+## 19 Retired Due to Ill Health  Regular                 2             OK
+## 20 Retired Due to Ill Health  Regular                 2             OK
+## 21 Retired Due to Ill Health  Regular                 2             OK
+## 22 Retired Due to Ill Health  Regular                 2             OK
+## 23 Retired Due to Ill Health  Regular                 2             OK
+## 24 Retired Due to Ill Health  Regular                 2             OK
+## 25 Retired Due to Ill Health  Regular                 2             OK
+## 26                 Irregular  Unknown                 4          Exile
+## 27                 Irregular  Unknown                 4          Exile
+## 28                 Irregular  Unknown                 4          Exile
+##    gender yrborn yrdied   borndate ebirthdate  deathdate edeathdate
+## 1       M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 2       M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 3       M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 4       M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 5       M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 6       M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 7       M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 8       M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 9       M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 10      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 11      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 12      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 13      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 14      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 15      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 16      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 17      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 18      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 19      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 20      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 21      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 22      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 23      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 24      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 25      M   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 26      M   1812   1884 1812-07-14 1812-07-14 1884-03-14 1884-03-14
+## 27      M   1812   1884 1812-07-14 1812-07-14 1884-03-14 1884-03-14
+## 28      M   1812   1884 1812-07-14 1812-07-14 1884-03-14 1884-03-14
+##                                                                                                                                                                                                                                                                                                   dbpediauri
+## 1                                                                                                                                                                                                                                                                                                         NA
+## 2                                                                                                                                                                                                                                                                                                         NA
+## 3                                                                                                                                                                                                                                                                                                         NA
+## 4                                                                                                                                                                                                                                                                                                         NA
+## 5                                                                                                                                                                                                                                                                                                         NA
+## 6                                                                                                                                                                                                                                                                                                         NA
+## 7                                                                                                                                                                                                                                                                                                         NA
+## 8                                                                                                                                                                                                                                                                                                         NA
+## 9                                                                                                                                                                                                                                                                                                         NA
+## 10                                                                                                                                                                                                                                                                                                        NA
+## 11                                                                                                                                                                                                                                                                                                        NA
+## 12                                                                                                                                                                                                                                                                                                        NA
+## 13                                                                                                                                                                                                                                                                                                        NA
+## 14                                                                                                                                                                                                                                                                                                        NA
+## 15                                                                                                                                                                                                                                                                                                        NA
+## 16                                                                                                                                                                                                                                                                                                        NA
+## 17                                                                                                                                                                                                                                                                                                        NA
+## 18                                                                                                                                                                                                                                                                                                        NA
+## 19                                                                                                                                                                                                                                                                                                        NA
+## 20                                                                                                                                                                                                                                                                                                        NA
+## 21                                                                                                                                                                                                                                                                                                        NA
+## 22                                                                                                                                                                                                                                                                                                        NA
+## 23                                                                                                                                                                                                                                                                                                        NA
+## 24                                                                                                                                                                                                                                                                                                        NA
+## 25                                                                                                                                                                                                                                                                                                        NA
+## 26 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Buenaventura-5FB-25C3-25A1ez&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=BB0NoTztXPjJv_-VzVIsQU7ReKv8HdKXcPFxUvG2w68&amp;e=
+## 27 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Buenaventura-5FB-25C3-25A1ez&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=BB0NoTztXPjJv_-VzVIsQU7ReKv8HdKXcPFxUvG2w68&amp;e=
+## 28 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Buenaventura-5FB-25C3-25A1ez&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=BB0NoTztXPjJv_-VzVIsQU7ReKv8HdKXcPFxUvG2w68&amp;e=
+##    numentry numexit numexitcode numposttenurefate
+## 1         0     1.0           0                 0
+## 2         0     1.0           0                 0
+## 3         0     1.0           0                 0
+## 4         0     1.0           0                 0
+## 5         0     1.0           0                 0
+## 6         0     1.0           0                 0
+## 7         0     1.0           0                 0
+## 8         0     1.0           0                 0
+## 9         0     1.0           0                 0
+## 10        0     1.0           0                 0
+## 11        0     1.0           0                 0
+## 12        0     2.1           0                 0
+## 13        0     2.1           0                 0
+## 14        0     2.1           0                 0
+## 15        0     2.1           0                 0
+## 16        0     2.1           0                 0
+## 17        0     2.1           0                 0
+## 18        0     2.1           0                 0
+## 19        0     2.1           0                 0
+## 20        0     2.1           0                 0
+## 21        0     2.1           0                 0
+## 22        0     2.1           0                 0
+## 23        0     2.1           0                 0
+## 24        0     2.1           0                 0
+## 25        0     2.1           0                 0
+## 26        1     3.0        -999                 1
+## 27        1     3.0        -999                 1
+## 28        1     3.0        -999                 1
+##                                                        fties ftcur
+## 1  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 2  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 3  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 4  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 5  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 6  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 7  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 8  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 9  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 10 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 11 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 12 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 13 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 14 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 15 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 16 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 17 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 18 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 19 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 20 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 21 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 22 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 23 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 24 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 25 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
+## 26 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     0
+## 27 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     0
+## 28 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     0
+##    startYear endYear
+## 1       1921    1926
+## 2       1921    1926
+## 3       1921    1926
+## 4       1921    1926
+## 5       1921    1926
+## 6       1921    1926
+## 7       1926    1930
+## 8       1926    1930
+## 9       1926    1930
+## 10      1926    1930
+## 11      1926    1930
+## 12      1935    1948
+## 13      1935    1948
+## 14      1935    1948
+## 15      1935    1948
+## 16      1935    1948
+## 17      1935    1948
+## 18      1935    1948
+## 19      1935    1948
+## 20      1935    1948
+## 21      1935    1948
+## 22      1935    1948
+## 23      1935    1948
+## 24      1935    1948
+## 25      1935    1948
+## 26      1876    1878
+## 27      1876    1878
+## 28      1876    1878</code></pre>
+<pre class="r"><code>Full.LTS %&gt;% filter(leadid.x == &quot;821be4de-1e42-11e4-b4cd-db5882bf8def&quot;)</code></pre>
+<pre><code>##      obsid ccode.x  leader.x                             leadid.x idacr.x
+## 1 SER-2006     340 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER
+## 2 SER-2006     340 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER
+## 3 SER-2006     340 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER
+## 4 YUG-2000     345 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG
+## 5 YUG-2000     345 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG
+## 6 YUG-2000     345 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG
+## 7 YUG-2000     345 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG
+##   year  LSY  LEY                             leadid.y ccode.y idacr.y
+## 1 2006 2006 2008 821be4de-1e42-11e4-b4cd-db5882bf8def     340     SER
+## 2 2007 2006 2008 821be4de-1e42-11e4-b4cd-db5882bf8def     340     SER
+## 3 2008 2006 2008 821be4de-1e42-11e4-b4cd-db5882bf8def     340     SER
+## 4 2000 2000 2003 821be4de-1e42-11e4-b4cd-db5882bf8def     345     YUG
+## 5 2001 2000 2003 821be4de-1e42-11e4-b4cd-db5882bf8def     345     YUG
+## 6 2002 2000 2003 821be4de-1e42-11e4-b4cd-db5882bf8def     345     YUG
+## 7 2003 2000 2003 821be4de-1e42-11e4-b4cd-db5882bf8def     345     YUG
+##    leader.y  startdate    eindate    enddate   eoutdate   entry    exit
+## 1 Kostunica 2006-06-04 2006-06-04 2008-07-07 2008-07-07 Regular Regular
+## 2 Kostunica 2006-06-04 2006-06-04 2008-07-07 2008-07-07 Regular Regular
+## 3 Kostunica 2006-06-04 2006-06-04 2008-07-07 2008-07-07 Regular Regular
+## 4 Kostunica 2000-10-08 2000-10-08 2003-03-07 2003-03-07 Regular Regular
+## 5 Kostunica 2000-10-08 2000-10-08 2003-03-07 2003-03-07 Regular Regular
+## 6 Kostunica 2000-10-08 2000-10-08 2003-03-07 2003-03-07 Regular Regular
+## 7 Kostunica 2000-10-08 2000-10-08 2003-03-07 2003-03-07 Regular Regular
+##   exitcode prevtimesinoffice posttenurefate gender yrborn yrdied
+## 1  Regular                 1             OK      M   1944   -777
+## 2  Regular                 1             OK      M   1944   -777
+## 3  Regular                 1             OK      M   1944   -777
+## 4  Regular                 0             OK      M   1944   -777
+## 5  Regular                 0             OK      M   1944   -777
+## 6  Regular                 0             OK      M   1944   -777
+## 7  Regular                 0             OK      M   1944   -777
+##     borndate ebirthdate deathdate edeathdate
+## 1 1944-03-24 1944-03-24        NA       &lt;NA&gt;
+## 2 1944-03-24 1944-03-24        NA       &lt;NA&gt;
+## 3 1944-03-24 1944-03-24        NA       &lt;NA&gt;
+## 4 1944-03-24 1944-03-24        NA       &lt;NA&gt;
+## 5 1944-03-24 1944-03-24        NA       &lt;NA&gt;
+## 6 1944-03-24 1944-03-24        NA       &lt;NA&gt;
+## 7 1944-03-24 1944-03-24        NA       &lt;NA&gt;
+##                                                                                                                                                                                                                                                                                                   dbpediauri
+## 1 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
+## 2 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
+## 3 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
+## 4 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
+## 5 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
+## 6 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
+## 7 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
+##   numentry numexit numexitcode numposttenurefate fties ftcur startYear
+## 1        0       1           0                 0    NA    NA      2006
+## 2        0       1           0                 0    NA    NA      2006
+## 3        0       1           0                 0    NA    NA      2006
+## 4        0       1           0                 0    NA    NA      2000
+## 5        0       1           0                 0    NA    NA      2000
+## 6        0       1           0                 0    NA    NA      2000
+## 7        0       1           0                 0    NA    NA      2000
+##   endYear
+## 1    2008
+## 2    2008
+## 3    2008
+## 4    2003
+## 5    2003
+## 6    2003
+## 7    2003</code></pre>
+<p>There are two leaders that led multiple countries. The rest are nested.</p>
+<p>Full.LTS is my result. It has been saved in a subdirectory <code>Archigos-etc</code> of my data on GitHub. It contains some merged back sanity checks also. You can load it with</p>
+<pre><code>readRDS(url(&quot;&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/Archigos-etc/Archigos-LTS.rds&quot;&quot;))</code></pre>
+</div>
 </div>
 <div id="on-leaders" class="section level2">
 <h2>On Leaders</h2>
@@ -132,8 +538,7 @@ skimr::skim(Shorty)</code></pre>
 <div id="discrete-annual-data" class="section level2">
 <h2>Discrete Annual Data</h2>
 <p>Now I want to analyse this as discrete data in annual form. I will use the lovely lubridate to extract the components of the date and then create a pivot table of sorts. It is important to note that there are a few problems here. There are some -999 values in the birth year.</p>
-<pre class="r"><code>Archigos &lt;- Archigos %&gt;% group_by(idacr) %&gt;% mutate(endYear = year(enddate)) %&gt;% ungroup()
-Archigos &lt;- Archigos %&gt;% mutate(YearBorn = na_if(yrborn, -999))
+<pre class="r"><code>Archigos &lt;- Archigos %&gt;% mutate(YearBorn = na_if(yrborn, -999))
 Archigos &lt;- Archigos %&gt;% mutate(ExitAge = endYear - YearBorn)</code></pre>
 <div id="how-old-are-leaders-when-they-exit" class="section level3">
 <h3>How Old are Leaders When They Exit?</h3>
@@ -146,64 +551,29 @@ Archigos &lt;- Archigos %&gt;% mutate(ExitAge = endYear - YearBorn)</code></pre>
 </div>
 <div id="yearly-turnovers" class="section level3">
 <h3>Yearly Turnovers</h3>
-<p>Now I can visualise turnovers on a yearly basis.</p>
+<p>Now I can visualise turnovers on a yearly basis. NB: THis needs reworking.</p>
 <pre class="r"><code>YearlyD &lt;- Archigos %&gt;% group_by(endYear) %&gt;% summarise(Endeds = n()) %&gt;% filter(endYear &lt; 2015)
 YearlyD$label &lt;- emoji(&quot;pencil2&quot;)
 p &lt;- YearlyD %&gt;% ggplot(., aes(x=endYear, y=Endeds, label=label, colour=&quot;steelblue&quot;)) + geom_text(family=&quot;EmojiOne&quot;, size=10, position=position_nudge(x = 5, y = 5), color=&quot;steelblue&quot;) + geom_line(colour=&quot;steelblue&quot;) + theme_minimal() + labs(x=&quot;Year&quot;, y=&quot;Number of Leader-Tenures Ending&quot;)
 panim &lt;- p +  transition_reveal(endYear)
 animate(panim, nframes=200)</code></pre>
 <p><img src="/post/2019-04-14-visualisation-with-archigos-leaders-of-the-world_files/figure-html/unnamed-chunk-12-1.gif" /><!-- --></p>
-<p><code>gganimate</code> is a very neat tool. Now on to looking at what is happening at the country year and year level. In some ways, the previous is deceiving because the number of countries is widely varying over time. Let’s try to fill this in. For a fully populated dataset of countries and time periods. <code>hYear</code> will be the hypothetical year so a series from 1816 to 2017 for every possible country. Then we use the system membership data to pare that down to valid dates by country by keeping the years between start and end.</p>
-<pre class="r"><code>hYear &lt;- seq(1816,2017)
-CSTS &lt;- expand.grid(iisystem$idacr,hYear, stringsAsFactors = FALSE)
-CSTS &lt;- data.frame(idacr=CSTS$Var1, year=CSTS$Var2)
-iisystem &lt;- iisystem %&gt;% mutate(IISstartYear = year(startD), IISendYear = year(endD))
-Big.CSTS &lt;- left_join(CSTS, iisystem, by=&quot;idacr&quot;)</code></pre>
-<pre><code>## Warning: Column `idacr` joining factor and character vector, coercing into
-## character vector</code></pre>
-<pre class="r"><code>Big.CSTS$year[!(Big.CSTS$year &gt;= Big.CSTS$IISstartYear &amp; Big.CSTS$year &lt;= Big.CSTS$IISendYear)] &lt;- NA
-skimr::skim(Big.CSTS)</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 49086 
-##  n variables: 8 
-## 
-## ── Variable type:character ──────────────────────────────────────────────────────────────────────────────────────────
-##     variable missing complete     n min max empty n_unique
-##  CountryName       0    49086 49086   4  39     0      202
-##        idacr       0    49086 49086   3   3     0      201
-## 
-## ── Variable type:Date ───────────────────────────────────────────────────────────────────────────────────────────────
-##  variable missing complete     n        min        max     median n_unique
-##      endD       0    49086 49086 1830-07-05 2017-12-31 2017-12-31       30
-##    startD       0    49086 49086 1816-01-01 2011-07-09 1946-07-04      153
-## 
-## ── Variable type:integer ────────────────────────────────────────────────────────────────────────────────────────────
-##  variable missing complete     n    mean     sd   p0  p25  p50  p75 p100
-##     ccode       0    49086 49086  461.83 227.82   20  325  439  651  950
-##      year   30065    19021 49086 1940.74  59.39 1816 1891 1960 1992 2017
-##      hist
-##  ▃▂▇▅▅▆▃▁
-##  ▂▃▂▂▃▅▆▇
-## 
-## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────
-##      variable missing complete     n    mean    sd   p0  p25  p50  p75
-##    IISendYear       0    49086 49086 1989.95 53.74 1830 2017 2017 2017
-##  IISstartYear       0    49086 49086 1912.68 67.4  1816 1827 1946 1965
-##  p100     hist
-##  2017 ▁▁▁▁▁▁▁▇
-##  2011 ▇▁▁▁▂▇▃▃</code></pre>
-<p>So that gives me the basic country year dataset that defines the various existence years from countries. Neat. Now I need to collapse a country year version of Archigos and merge it into my country year template for existence. That is called <code>Keepers</code>. Then I collapse them to years and animate the turnover proportion over time.</p>
-<pre class="r"><code>Big.CSTS &lt;- Big.CSTS %&gt;% group_by(year) %&gt;% mutate(Countries = n()) %&gt;% ungroup()
-Working.CSTS &lt;- Big.CSTS %&gt;% filter(is.na(year)==FALSE)
-CountryYear &lt;- Archigos %&gt;% group_by(idacr, endYear) %&gt;% summarise(eventCount = n(), howEnded = last(posttenurefate)) %&gt;% ungroup()
-CountryYear$Mults &lt;- as.numeric(CountryYear$eventCount &gt; 1)
-Keepers &lt;- left_join(Working.CSTS, CountryYear, by=c(&quot;idacr&quot;=&quot;idacr&quot;,&quot;year&quot;=&quot;endYear&quot;))</code></pre>
-<pre><code>## Warning: Column `idacr` has different attributes on LHS and RHS of join</code></pre>
-<pre class="r"><code>Keepers$Mults[is.na(Keepers$eventCount)==TRUE] &lt;- 0
-Keepers$eventCount[is.na(Keepers$eventCount)==TRUE] &lt;- 0
-Keepers$Event &lt;- as.numeric(Keepers$eventCount &gt; 0)
-#library(DAMisc)
-Keepers &lt;- Keepers %&gt;% filter(year&gt;1874 &amp; year &lt; 2015) 
+<p><code>gganimate</code> is a very neat tool. Now on to looking at what is happening at the country year and year level. In some ways, the previous is deceiving because the number of countries is widely varying over time. I build the country year and leader year data in the beginning. I will just recreate the Archigos version with the new variables that we have created in the interim.</p>
+<pre class="r"><code>Archigos &lt;- Archigos %&gt;% mutate(startYear = year(startdate), endYear = year(enddate))
+DI &lt;- dim(Archigos)[[1]]
+tseq &lt;-function(x) {
+  tempd &lt;- Archigos[x,]
+  data.frame(obsid = tempd$obsid, leaderL = as.character(tempd$leader), leadidL = as.character(tempd$leadid), year=seq(tempd$startYear, tempd$endYear, by=1), LSY=tempd$startYear, LEY = tempd$endYear)
+}
+LTS &lt;- lapply(seq(1,DI), function(x) { tseq(x) } )
+LTS.Data &lt;- data.frame(do.call(rbind, LTS))
+LTS.Data$obsid &lt;- as.character(LTS.Data$obsid)
+Archigos$obsid &lt;- as.character(Archigos$obsid)
+Full.LTS &lt;- LTS.Data %&gt;% left_join(Archigos, by=c(&quot;obsid&quot; = &quot;obsid&quot;))
+# One curiosity; does any leader lead two distinct countries?  Having the ccodes allows me to calculate the standard deviation by leader.</code></pre>
+<p>So that gives me the basic country year dataset that defines the various existence years from countries. Neat. Now I need to create the leader year version of Archigos and merge it into my country year template for existence.</p>
+<pre class="r"><code>Full.LTS$Event &lt;- (Full.LTS$year==Full.LTS$endYear)
+Keepers &lt;- Full.LTS %&gt;% filter(year&gt;1874 &amp; year &lt; 2015) 
 Shorty2 &lt;- Keepers %&gt;% group_by(year) %&gt;% summarise(FailRate = mean(Event))
 Shorty2$label &lt;- emoji(&quot;pencil2&quot;)
 p &lt;- Shorty2 %&gt;% ggplot(., aes(x=year, y=FailRate, label=label, colour=&#39;steelblue&#39;)) + geom_text(family=&quot;EmojiOne&quot;, size=10, position=position_nudge(x = 5, y = 0.03), color=&#39;steelblue&#39;) + geom_line(color=&#39;steelblue&#39;) + theme_minimal() + labs(x=&quot;Year&quot;, y=&quot;Proportion of Leaders Ending&quot;) + ylim(c(0,0.5))
@@ -218,8 +588,9 @@ animate(panim, nframes=200)</code></pre>
 <pre class="r"><code>library(ggrepel)
 PlotSet &lt;- Keepers %&gt;% filter(year&gt;1874 &amp; year &lt; 2015) %&gt;% group_by(idacr) %&gt;% summarise(Turnover.Pct = mean(Event)) %&gt;% arrange(desc(Turnover.Pct)) %&gt;% mutate(id=row_number(), facetID = cut_number(Turnover.Pct, n=4)) 
 NameAbb &lt;- iisystem %&gt;% select(idacr, CountryName)
-PlotSet &lt;- PlotSet %&gt;% left_join(NameAbb, by=c(&quot;idacr&quot;=&quot;idacr&quot;))
-knitr::kable(PlotSet)</code></pre>
+PlotSet &lt;- PlotSet %&gt;% left_join(NameAbb, by=c(&quot;idacr&quot;=&quot;idacr&quot;))</code></pre>
+<pre><code>## Warning: Column `idacr` has different attributes on LHS and RHS of join</code></pre>
+<pre class="r"><code>knitr::kable(PlotSet)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -233,1402 +604,1416 @@ knitr::kable(PlotSet)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">SWZ</td>
-<td align="right">1.0000000</td>
+<td align="right">0.9929078</td>
 <td align="right">1</td>
-<td align="left">(0.221,1]</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">Switzerland</td>
 </tr>
 <tr class="even">
 <td align="left">BOS</td>
-<td align="right">0.6521739</td>
+<td align="right">0.4791667</td>
 <td align="right">2</td>
-<td align="left">(0.221,1]</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">Bosnia-Herzegovina</td>
 </tr>
 <tr class="odd">
-<td align="left">ZAN</td>
-<td align="right">0.5000000</td>
-<td align="right">3</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Zanzibar</td>
-</tr>
-<tr class="even">
 <td align="left">FRN</td>
-<td align="right">0.4928571</td>
-<td align="right">4</td>
-<td align="left">(0.221,1]</td>
+<td align="right">0.4588235</td>
+<td align="right">3</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">France</td>
 </tr>
+<tr class="even">
+<td align="left">LAT</td>
+<td align="right">0.4102564</td>
+<td align="right">4</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Latvia</td>
+</tr>
+<tr class="odd">
+<td align="left">LAT</td>
+<td align="right">0.4102564</td>
+<td align="right">4</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Latvia</td>
+</tr>
+<tr class="even">
+<td align="left">ZAN</td>
+<td align="right">0.4000000</td>
+<td align="right">5</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Zanzibar</td>
+</tr>
 <tr class="odd">
 <td align="left">EST</td>
-<td align="right">0.4893617</td>
-<td align="right">5</td>
-<td align="left">(0.221,1]</td>
+<td align="right">0.3947368</td>
+<td align="right">6</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">Estonia</td>
 </tr>
 <tr class="even">
 <td align="left">EST</td>
-<td align="right">0.4893617</td>
-<td align="right">5</td>
-<td align="left">(0.221,1]</td>
+<td align="right">0.3947368</td>
+<td align="right">6</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">Estonia</td>
-</tr>
-<tr class="odd">
-<td align="left">LAT</td>
-<td align="right">0.4893617</td>
-<td align="right">6</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Latvia</td>
-</tr>
-<tr class="even">
-<td align="left">LAT</td>
-<td align="right">0.4893617</td>
-<td align="right">6</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Latvia</td>
 </tr>
 <tr class="odd">
 <td align="left">JPN</td>
-<td align="right">0.4642857</td>
+<td align="right">0.3693694</td>
 <td align="right">7</td>
-<td align="left">(0.221,1]</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">Japan</td>
 </tr>
 <tr class="even">
-<td align="left">CZR</td>
-<td align="right">0.4545455</td>
-<td align="right">8</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Czech Republic</td>
-</tr>
-<tr class="odd">
-<td align="left">ITA</td>
-<td align="right">0.4500000</td>
-<td align="right">9</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Italy/Sardinia</td>
-</tr>
-<tr class="even">
-<td align="left">SOL</td>
-<td align="right">0.3783784</td>
-<td align="right">10</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Solomon Islands</td>
-</tr>
-<tr class="odd">
-<td align="left">SLV</td>
-<td align="right">0.3478261</td>
-<td align="right">11</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Slovenia</td>
-</tr>
-<tr class="even">
-<td align="left">BOL</td>
-<td align="right">0.3428571</td>
-<td align="right">12</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Bolivia</td>
-</tr>
-<tr class="odd">
-<td align="left">ECU</td>
-<td align="right">0.3428571</td>
-<td align="right">13</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Ecuador</td>
-</tr>
-<tr class="even">
-<td align="left">SPN</td>
-<td align="right">0.3285714</td>
-<td align="right">14</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Spain</td>
-</tr>
-<tr class="odd">
-<td align="left">NOR</td>
-<td align="right">0.3272727</td>
-<td align="right">15</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Norway</td>
-</tr>
-<tr class="even">
-<td align="left">ICE</td>
-<td align="right">0.3239437</td>
-<td align="right">16</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Iceland</td>
-</tr>
-<tr class="odd">
-<td align="left">BEL</td>
-<td align="right">0.3214286</td>
-<td align="right">17</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Belgium</td>
-</tr>
-<tr class="even">
-<td align="left">URU</td>
-<td align="right">0.3071429</td>
-<td align="right">18</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Uruguay</td>
-</tr>
-<tr class="odd">
-<td align="left">PAN</td>
-<td align="right">0.3035714</td>
-<td align="right">19</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Panama</td>
-</tr>
-<tr class="even">
 <td align="left">GRC</td>
-<td align="right">0.2928571</td>
-<td align="right">20</td>
-<td align="left">(0.221,1]</td>
+<td align="right">0.3657407</td>
+<td align="right">8</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">Greece</td>
 </tr>
 <tr class="odd">
-<td align="left">COL</td>
-<td align="right">0.2857143</td>
-<td align="right">21</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Colombia</td>
+<td align="left">SPN</td>
+<td align="right">0.3518519</td>
+<td align="right">9</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Spain</td>
 </tr>
 <tr class="even">
-<td align="left">SAL</td>
-<td align="right">0.2857143</td>
-<td align="right">22</td>
-<td align="left">(0.221,1]</td>
-<td align="left">El Salvador</td>
+<td align="left">ITA</td>
+<td align="right">0.3396226</td>
+<td align="right">10</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Italy/Sardinia</td>
 </tr>
 <tr class="odd">
-<td align="left">ARG</td>
-<td align="right">0.2785714</td>
-<td align="right">23</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Argentina</td>
+<td align="left">VIE</td>
+<td align="right">0.3333333</td>
+<td align="right">11</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">PAR</td>
-<td align="right">0.2785714</td>
-<td align="right">24</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Paraguay</td>
-</tr>
-<tr class="odd">
-<td align="left">HON</td>
-<td align="right">0.2714286</td>
-<td align="right">25</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Honduras</td>
-</tr>
-<tr class="even">
-<td align="left">PAK</td>
-<td align="right">0.2647059</td>
-<td align="right">26</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Pakistan</td>
-</tr>
-<tr class="odd">
-<td align="left">SWD</td>
-<td align="right">0.2571429</td>
-<td align="right">27</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Sweden</td>
-</tr>
-<tr class="even">
-<td align="left">BNG</td>
-<td align="right">0.2500000</td>
-<td align="right">28</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Bangladesh</td>
-</tr>
-<tr class="odd">
-<td align="left">COM</td>
-<td align="right">0.2500000</td>
-<td align="right">29</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Comoros</td>
-</tr>
-<tr class="even">
-<td align="left">COS</td>
-<td align="right">0.2500000</td>
-<td align="right">30</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Costa Rica</td>
-</tr>
-<tr class="odd">
-<td align="left">GRG</td>
-<td align="right">0.2500000</td>
-<td align="right">31</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Georgia</td>
-</tr>
-<tr class="even">
-<td align="left">MAC</td>
-<td align="right">0.2500000</td>
-<td align="right">32</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Macedonia (Former Yugoslav Republic of)</td>
-</tr>
-<tr class="odd">
-<td align="left">PER</td>
-<td align="right">0.2500000</td>
-<td align="right">33</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Peru</td>
-</tr>
-<tr class="even">
-<td align="left">PNG</td>
-<td align="right">0.2500000</td>
-<td align="right">34</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Papua New Guinea</td>
-</tr>
-<tr class="odd">
-<td align="left">TRA</td>
-<td align="right">0.2500000</td>
-<td align="right">35</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Transvaal</td>
-</tr>
-<tr class="even">
-<td align="left">AUL</td>
-<td align="right">0.2456140</td>
-<td align="right">36</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Australia</td>
-</tr>
-<tr class="odd">
-<td align="left">ISR</td>
-<td align="right">0.2388060</td>
-<td align="right">37</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Israel</td>
-</tr>
-<tr class="even">
-<td align="left">HAI</td>
-<td align="right">0.2377049</td>
-<td align="right">38</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Haiti</td>
-</tr>
-<tr class="odd">
-<td align="left">HAI</td>
-<td align="right">0.2377049</td>
-<td align="right">38</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Haiti</td>
-</tr>
-<tr class="even">
-<td align="left">AUS</td>
-<td align="right">0.2371134</td>
-<td align="right">39</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Austria</td>
-</tr>
-<tr class="odd">
-<td align="left">DEN</td>
-<td align="right">0.2357143</td>
-<td align="right">40</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Denmark</td>
-</tr>
-<tr class="even">
-<td align="left">NTH</td>
-<td align="right">0.2357143</td>
-<td align="right">41</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Netherlands</td>
-</tr>
-<tr class="odd">
-<td align="left">ETM</td>
-<td align="right">0.2307692</td>
-<td align="right">42</td>
-<td align="left">(0.221,1]</td>
-<td align="left">East Timor</td>
-</tr>
-<tr class="even">
-<td align="left">BRA</td>
-<td align="right">0.2285714</td>
-<td align="right">43</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Brazil</td>
+<td align="left">ECU</td>
+<td align="right">0.3301435</td>
+<td align="right">12</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Ecuador</td>
 </tr>
 <tr class="odd">
 <td align="left">RVN</td>
-<td align="right">0.2272727</td>
-<td align="right">44</td>
-<td align="left">(0.221,1]</td>
+<td align="right">0.3225806</td>
+<td align="right">13</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">Vietnam, Republic of</td>
 </tr>
 <tr class="even">
-<td align="left">SLO</td>
-<td align="right">0.2272727</td>
-<td align="right">45</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Slovakia</td>
+<td align="left">CZR</td>
+<td align="right">0.3125000</td>
+<td align="right">14</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Czech Republic</td>
 </tr>
 <tr class="odd">
-<td align="left">OFS</td>
-<td align="right">0.2222222</td>
-<td align="right">46</td>
-<td align="left">(0.221,1]</td>
-<td align="left">Orange Free State</td>
+<td align="left">BEL</td>
+<td align="right">0.2931937</td>
+<td align="right">15</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Belgium</td>
 </tr>
 <tr class="even">
-<td align="left">CHL</td>
-<td align="right">0.2214286</td>
-<td align="right">47</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Chile</td>
+<td align="left">PAN</td>
+<td align="right">0.2911392</td>
+<td align="right">16</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Panama</td>
 </tr>
 <tr class="odd">
-<td align="left">UKG</td>
-<td align="right">0.2214286</td>
-<td align="right">48</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">United Kingdom</td>
+<td align="left">SOL</td>
+<td align="right">0.2884615</td>
+<td align="right">17</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Solomon Islands</td>
+</tr>
+<tr class="even">
+<td align="left">BOL</td>
+<td align="right">0.2871795</td>
+<td align="right">18</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Bolivia</td>
+</tr>
+<tr class="odd">
+<td align="left">SLV</td>
+<td align="right">0.2857143</td>
+<td align="right">19</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Slovenia</td>
+</tr>
+<tr class="even">
+<td align="left">MAC</td>
+<td align="right">0.2812500</td>
+<td align="right">20</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Macedonia (Former Yugoslav Republic of)</td>
+</tr>
+<tr class="odd">
+<td align="left">NOR</td>
+<td align="right">0.2810458</td>
+<td align="right">21</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Norway</td>
+</tr>
+<tr class="even">
+<td align="left">HAI</td>
+<td align="right">0.2771084</td>
+<td align="right">22</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Haiti</td>
+</tr>
+<tr class="odd">
+<td align="left">HAI</td>
+<td align="right">0.2771084</td>
+<td align="right">22</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Haiti</td>
+</tr>
+<tr class="even">
+<td align="left">PAK</td>
+<td align="right">0.2688172</td>
+<td align="right">23</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Pakistan</td>
+</tr>
+<tr class="odd">
+<td align="left">PAR</td>
+<td align="right">0.2670157</td>
+<td align="right">24</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Paraguay</td>
+</tr>
+<tr class="even">
+<td align="left">DOM</td>
+<td align="right">0.2666667</td>
+<td align="right">25</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Dominican Republic</td>
+</tr>
+<tr class="odd">
+<td align="left">URU</td>
+<td align="right">0.2592593</td>
+<td align="right">26</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Uruguay</td>
+</tr>
+<tr class="even">
+<td align="left">ARG</td>
+<td align="right">0.2553191</td>
+<td align="right">27</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Argentina</td>
+</tr>
+<tr class="odd">
+<td align="left">CHL</td>
+<td align="right">0.2553191</td>
+<td align="right">28</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Chile</td>
+</tr>
+<tr class="even">
+<td align="left">PER</td>
+<td align="right">0.2473118</td>
+<td align="right">29</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Peru</td>
+</tr>
+<tr class="odd">
+<td align="left">COM</td>
+<td align="right">0.2452830</td>
+<td align="right">30</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Comoros</td>
 </tr>
 <tr class="even">
 <td align="left">GNB</td>
-<td align="right">0.2195122</td>
-<td align="right">49</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.2452830</td>
+<td align="right">31</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">Guinea-Bissau</td>
 </tr>
 <tr class="odd">
-<td align="left">DOM</td>
-<td align="right">0.2142857</td>
-<td align="right">50</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Dominican Republic</td>
+<td align="left">ICE</td>
+<td align="right">0.2446809</td>
+<td align="right">32</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Iceland</td>
 </tr>
 <tr class="even">
-<td align="left">VEN</td>
-<td align="right">0.2142857</td>
-<td align="right">51</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Venezuela</td>
+<td align="left">SAL</td>
+<td align="right">0.2432432</td>
+<td align="right">33</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">El Salvador</td>
 </tr>
 <tr class="odd">
-<td align="left">IRE</td>
-<td align="right">0.2127660</td>
-<td align="right">52</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Ireland</td>
+<td align="left">BNG</td>
+<td align="right">0.2413793</td>
+<td align="right">34</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Bangladesh</td>
 </tr>
 <tr class="even">
-<td align="left">BHU</td>
-<td align="right">0.2121212</td>
-<td align="right">53</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Bhutan</td>
+<td align="left">COL</td>
+<td align="right">0.2391304</td>
+<td align="right">35</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Colombia</td>
 </tr>
 <tr class="odd">
-<td align="left">MLD</td>
-<td align="right">0.2083333</td>
-<td align="right">54</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Moldova</td>
+<td align="left">ETM</td>
+<td align="right">0.2352941</td>
+<td align="right">36</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">East Timor</td>
 </tr>
 <tr class="even">
-<td align="left">YPR</td>
-<td align="right">0.2083333</td>
-<td align="right">55</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Yemen, People’s Republic of</td>
+<td align="left">SWD</td>
+<td align="right">0.2349727</td>
+<td align="right">37</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Sweden</td>
 </tr>
 <tr class="odd">
-<td align="left">GUA</td>
-<td align="right">0.2071429</td>
-<td align="right">56</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Guatemala</td>
-</tr>
-<tr class="even">
-<td align="left">NEP</td>
-<td align="right">0.2071429</td>
-<td align="right">57</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Nepal</td>
-</tr>
-<tr class="odd">
-<td align="left">IND</td>
-<td align="right">0.2058824</td>
-<td align="right">58</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">India</td>
-</tr>
-<tr class="even">
-<td align="left">BEN</td>
-<td align="right">0.2000000</td>
-<td align="right">59</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Benin</td>
-</tr>
-<tr class="odd">
-<td align="left">NIG</td>
-<td align="right">0.2000000</td>
-<td align="right">60</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Nigeria</td>
+<td align="left">GRG</td>
+<td align="right">0.2258065</td>
+<td align="right">38</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Georgia</td>
 </tr>
 <tr class="even">
 <td align="left">GMY</td>
-<td align="right">0.1971831</td>
-<td align="right">61</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.2247191</td>
+<td align="right">39</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">Germany (Prussia)</td>
 </tr>
 <tr class="odd">
-<td align="left">NIC</td>
-<td align="right">0.1928571</td>
-<td align="right">62</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Nicaragua</td>
+<td align="left">AUL</td>
+<td align="right">0.2244898</td>
+<td align="right">40</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Australia</td>
+</tr>
+<tr class="even">
+<td align="left">COS</td>
+<td align="right">0.2191011</td>
+<td align="right">41</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Costa Rica</td>
+</tr>
+<tr class="odd">
+<td align="left">HON</td>
+<td align="right">0.2178771</td>
+<td align="right">42</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Honduras</td>
+</tr>
+<tr class="even">
+<td align="left">AUS</td>
+<td align="right">0.2155172</td>
+<td align="right">43</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Austria</td>
+</tr>
+<tr class="odd">
+<td align="left">SLO</td>
+<td align="right">0.2142857</td>
+<td align="right">44</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Slovakia</td>
 </tr>
 <tr class="even">
 <td align="left">THI</td>
-<td align="right">0.1928571</td>
-<td align="right">63</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.2134831</td>
+<td align="right">45</td>
+<td align="left">(0.212,0.993]</td>
 <td align="left">Thailand</td>
 </tr>
 <tr class="odd">
+<td align="left">VEN</td>
+<td align="right">0.2134831</td>
+<td align="right">46</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Venezuela</td>
+</tr>
+<tr class="even">
+<td align="left">ALB</td>
+<td align="right">0.2131148</td>
+<td align="right">47</td>
+<td align="left">(0.212,0.993]</td>
+<td align="left">Albania</td>
+</tr>
+<tr class="odd">
+<td align="left">ISR</td>
+<td align="right">0.2117647</td>
+<td align="right">48</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Israel</td>
+</tr>
+<tr class="even">
+<td align="left">DEN</td>
+<td align="right">0.2114286</td>
+<td align="right">49</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Denmark</td>
+</tr>
+<tr class="odd">
+<td align="left">BRA</td>
+<td align="right">0.2102273</td>
+<td align="right">50</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Brazil</td>
+</tr>
+<tr class="even">
+<td align="left">GUA</td>
+<td align="right">0.2102273</td>
+<td align="right">51</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Guatemala</td>
+</tr>
+<tr class="odd">
+<td align="left">YPR</td>
+<td align="right">0.2068966</td>
+<td align="right">52</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Yemen, People’s Republic of</td>
+</tr>
+<tr class="even">
+<td align="left">OFS</td>
+<td align="right">0.2045455</td>
+<td align="right">53</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Orange Free State</td>
+</tr>
+<tr class="odd">
+<td align="left">TRA</td>
+<td align="right">0.2045455</td>
+<td align="right">54</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Transvaal</td>
+</tr>
+<tr class="even">
+<td align="left">BEN</td>
+<td align="right">0.2028986</td>
+<td align="right">55</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Benin</td>
+</tr>
+<tr class="odd">
 <td align="left">TUR</td>
-<td align="right">0.1928571</td>
-<td align="right">64</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.2011494</td>
+<td align="right">56</td>
+<td align="left">(0.146,0.212]</td>
 <td align="left">Turkey (Ottoman Empire)</td>
 </tr>
 <tr class="even">
-<td align="left">LIT</td>
-<td align="right">0.1914894</td>
-<td align="right">65</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Lithuania</td>
+<td align="left">AZE</td>
+<td align="right">0.2000000</td>
+<td align="right">57</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Azerbaijan</td>
+</tr>
+<tr class="odd">
+<td align="left">IND</td>
+<td align="right">0.2000000</td>
+<td align="right">58</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">India</td>
+</tr>
+<tr class="even">
+<td align="left">LAO</td>
+<td align="right">0.2000000</td>
+<td align="right">59</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Laos</td>
 </tr>
 <tr class="odd">
 <td align="left">LIT</td>
-<td align="right">0.1914894</td>
-<td align="right">65</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.2000000</td>
+<td align="right">60</td>
+<td align="left">(0.146,0.212]</td>
 <td align="left">Lithuania</td>
+</tr>
+<tr class="even">
+<td align="left">LIT</td>
+<td align="right">0.2000000</td>
+<td align="right">60</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Lithuania</td>
+</tr>
+<tr class="odd">
+<td align="left">PNG</td>
+<td align="right">0.2000000</td>
+<td align="right">61</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Papua New Guinea</td>
+</tr>
+<tr class="even">
+<td align="left">NTH</td>
+<td align="right">0.1964286</td>
+<td align="right">62</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Netherlands</td>
+</tr>
+<tr class="odd">
+<td align="left">MLD</td>
+<td align="right">0.1935484</td>
+<td align="right">63</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Moldova</td>
+</tr>
+<tr class="even">
+<td align="left">NIG</td>
+<td align="right">0.1911765</td>
+<td align="right">64</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Nigeria</td>
+</tr>
+<tr class="odd">
+<td align="left">UKG</td>
+<td align="right">0.1907514</td>
+<td align="right">65</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">United Kingdom</td>
+</tr>
+<tr class="even">
+<td align="left">IRE</td>
+<td align="right">0.1880342</td>
+<td align="right">66</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Ireland</td>
+</tr>
+<tr class="odd">
+<td align="left">NIC</td>
+<td align="right">0.1867470</td>
+<td align="right">67</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Nicaragua</td>
+</tr>
+<tr class="even">
+<td align="left">NEP</td>
+<td align="right">0.1860465</td>
+<td align="right">68</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Nepal</td>
+</tr>
+<tr class="odd">
+<td align="left">BUI</td>
+<td align="right">0.1846154</td>
+<td align="right">69</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Burundi</td>
+</tr>
+<tr class="even">
+<td align="left">FJI</td>
+<td align="right">0.1818182</td>
+<td align="right">70</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Fiji</td>
+</tr>
+<tr class="odd">
+<td align="left">SYR</td>
+<td align="right">0.1818182</td>
+<td align="right">71</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Syria</td>
+</tr>
+<tr class="even">
+<td align="left">NEW</td>
+<td align="right">0.1742424</td>
+<td align="right">72</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">New Zealand</td>
+</tr>
+<tr class="odd">
+<td align="left">SIE</td>
+<td align="right">0.1692308</td>
+<td align="right">73</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Sierra Leone</td>
 </tr>
 <tr class="even">
 <td align="left">SUD</td>
-<td align="right">0.1864407</td>
-<td align="right">66</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.1690141</td>
+<td align="right">74</td>
+<td align="left">(0.146,0.212]</td>
 <td align="left">Sudan</td>
 </tr>
 <tr class="odd">
-<td align="left">AFG</td>
-<td align="right">0.1818182</td>
-<td align="right">67</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Afghanistan</td>
+<td align="left">YUG</td>
+<td align="right">0.1683168</td>
+<td align="right">75</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Yugoslavia</td>
 </tr>
 <tr class="even">
-<td align="left">AFG</td>
-<td align="right">0.1818182</td>
-<td align="right">67</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Afghanistan</td>
-</tr>
-<tr class="odd">
-<td align="left">LAO</td>
-<td align="right">0.1803279</td>
-<td align="right">68</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Laos</td>
-</tr>
-<tr class="even">
-<td align="left">SRI</td>
-<td align="right">0.1791045</td>
-<td align="right">69</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Sri Lanka (Ceylon)</td>
+<td align="left">MAA</td>
+<td align="right">0.1666667</td>
+<td align="right">76</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Mauritania</td>
 </tr>
 <tr class="odd">
 <td align="left">SUR</td>
-<td align="right">0.1750000</td>
-<td align="right">70</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.1666667</td>
+<td align="right">77</td>
+<td align="left">(0.146,0.212]</td>
 <td align="left">Surinam</td>
 </tr>
 <tr class="even">
+<td align="left">UKR</td>
+<td align="right">0.1666667</td>
+<td align="right">78</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Ukraine</td>
+</tr>
+<tr class="odd">
+<td align="left">HUN</td>
+<td align="right">0.1652174</td>
+<td align="right">79</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Hungary</td>
+</tr>
+<tr class="even">
+<td align="left">POL</td>
+<td align="right">0.1636364</td>
+<td align="right">80</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Poland</td>
+</tr>
+<tr class="odd">
+<td align="left">LEB</td>
+<td align="right">0.1627907</td>
+<td align="right">81</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Lebanon</td>
+</tr>
+<tr class="even">
+<td align="left">AFG</td>
+<td align="right">0.1626506</td>
+<td align="right">82</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Afghanistan</td>
+</tr>
+<tr class="odd">
+<td align="left">AFG</td>
+<td align="right">0.1626506</td>
+<td align="right">82</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Afghanistan</td>
+</tr>
+<tr class="even">
+<td align="left">ROK</td>
+<td align="right">0.1625000</td>
+<td align="right">83</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Korea, Republic of</td>
+</tr>
+<tr class="odd">
+<td align="left">SRI</td>
+<td align="right">0.1625000</td>
+<td align="right">84</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Sri Lanka (Ceylon)</td>
+</tr>
+<tr class="even">
 <td align="left">SER</td>
-<td align="right">0.1702128</td>
-<td align="right">71</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.1600000</td>
+<td align="right">85</td>
+<td align="left">(0.146,0.212]</td>
 <td align="left">Serbia</td>
 </tr>
 <tr class="odd">
 <td align="left">SER</td>
-<td align="right">0.1702128</td>
-<td align="right">71</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.1600000</td>
+<td align="right">85</td>
+<td align="left">(0.146,0.212]</td>
 <td align="left">Serbia</td>
 </tr>
 <tr class="even">
 <td align="left">JAM</td>
-<td align="right">0.1698113</td>
-<td align="right">72</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.1587302</td>
+<td align="right">86</td>
+<td align="left">(0.146,0.212]</td>
 <td align="left">Jamaica</td>
 </tr>
 <tr class="odd">
-<td align="left">LEB</td>
-<td align="right">0.1690141</td>
-<td align="right">73</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Lebanon</td>
+<td align="left">USA</td>
+<td align="right">0.1566265</td>
+<td align="right">87</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">YUG</td>
-<td align="right">0.1685393</td>
-<td align="right">74</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Yugoslavia</td>
+<td align="left">BFO</td>
+<td align="right">0.1538462</td>
+<td align="right">88</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Burkina Faso (Upper Volta)</td>
 </tr>
 <tr class="odd">
-<td align="left">NEW</td>
-<td align="right">0.1666667</td>
-<td align="right">75</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">New Zealand</td>
-</tr>
-<tr class="even">
-<td align="left">SIE</td>
-<td align="right">0.1666667</td>
-<td align="right">76</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Sierra Leone</td>
-</tr>
-<tr class="odd">
-<td align="left">UKR</td>
-<td align="right">0.1666667</td>
-<td align="right">77</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Ukraine</td>
+<td align="left">IRQ</td>
+<td align="right">0.1530612</td>
+<td align="right">89</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Iraq</td>
 </tr>
 <tr class="even">
 <td align="left">MEX</td>
-<td align="right">0.1642857</td>
-<td align="right">78</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.1524390</td>
+<td align="right">90</td>
+<td align="left">(0.146,0.212]</td>
 <td align="left">Mexico</td>
 </tr>
 <tr class="odd">
-<td align="left">SYR</td>
-<td align="right">0.1594203</td>
-<td align="right">79</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Syria</td>
+<td align="left">BUL</td>
+<td align="right">0.1523179</td>
+<td align="right">91</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Bulgaria</td>
+</tr>
+<tr class="even">
+<td align="left">CAN</td>
+<td align="right">0.1515152</td>
+<td align="right">92</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Canada</td>
+</tr>
+<tr class="odd">
+<td align="left">CZE</td>
+<td align="right">0.1494253</td>
+<td align="right">93</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Czechoslovakia</td>
+</tr>
+<tr class="even">
+<td align="left">GHA</td>
+<td align="right">0.1486486</td>
+<td align="right">94</td>
+<td align="left">(0.146,0.212]</td>
+<td align="left">Ghana</td>
+</tr>
+<tr class="odd">
+<td align="left">MYA</td>
+<td align="right">0.1428571</td>
+<td align="right">95</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Myanmar (Burma)</td>
+</tr>
+<tr class="even">
+<td align="left">MYA</td>
+<td align="right">0.1428571</td>
+<td align="right">95</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Myanmar (Burma)</td>
+</tr>
+<tr class="odd">
+<td align="left">VNM</td>
+<td align="right">0.1428571</td>
+<td align="right">96</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Vietnam (Annam/Cochin China/Tonkin)</td>
 </tr>
 <tr class="even">
 <td align="left">LBR</td>
-<td align="right">0.1571429</td>
-<td align="right">80</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.1419753</td>
+<td align="right">97</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">Liberia</td>
 </tr>
 <tr class="odd">
-<td align="left">ALB</td>
-<td align="right">0.1568627</td>
-<td align="right">81</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Albania</td>
+<td align="left">RUM</td>
+<td align="right">0.1419753</td>
+<td align="right">98</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Rumania</td>
 </tr>
 <tr class="even">
-<td align="left">IRQ</td>
-<td align="right">0.1566265</td>
-<td align="right">82</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Iraq</td>
+<td align="left">CYP</td>
+<td align="right">0.1406250</td>
+<td align="right">99</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Cyprus</td>
 </tr>
 <tr class="odd">
-<td align="left">GHA</td>
-<td align="right">0.1551724</td>
-<td align="right">83</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Ghana</td>
+<td align="left">SAF</td>
+<td align="right">0.1393443</td>
+<td align="right">100</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">South Africa</td>
 </tr>
 <tr class="even">
-<td align="left">BUI</td>
-<td align="right">0.1509434</td>
-<td align="right">84</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Burundi</td>
+<td align="left">CRO</td>
+<td align="right">0.1379310</td>
+<td align="right">101</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Croatia</td>
 </tr>
 <tr class="odd">
-<td align="left">CAN</td>
-<td align="right">0.1500000</td>
-<td align="right">85</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Canada</td>
-</tr>
-<tr class="even">
 <td align="left">CHN</td>
-<td align="right">0.1500000</td>
-<td align="right">86</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.1366460</td>
+<td align="right">102</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">China</td>
 </tr>
+<tr class="even">
+<td align="left">BHU</td>
+<td align="right">0.1359223</td>
+<td align="right">103</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Bhutan</td>
+</tr>
 <tr class="odd">
-<td align="left">ROK</td>
-<td align="right">0.1492537</td>
-<td align="right">87</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Korea, Republic of</td>
+<td align="left">CUB</td>
+<td align="right">0.1338583</td>
+<td align="right">104</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Cuba</td>
 </tr>
 <tr class="even">
-<td align="left">BLZ</td>
-<td align="right">0.1470588</td>
-<td align="right">88</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Belize</td>
+<td align="left">ALG</td>
+<td align="right">0.1311475</td>
+<td align="right">105</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Algeria</td>
 </tr>
 <tr class="odd">
-<td align="left">BFO</td>
-<td align="right">0.1454545</td>
-<td align="right">89</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Burkina Faso (Upper Volta)</td>
+<td align="left">ALG</td>
+<td align="right">0.1311475</td>
+<td align="right">105</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Algeria</td>
 </tr>
 <tr class="even">
-<td align="left">MAA</td>
-<td align="right">0.1454545</td>
-<td align="right">90</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Mauritania</td>
+<td align="left">MAG</td>
+<td align="right">0.1279070</td>
+<td align="right">106</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Madagascar (Malagasy)</td>
 </tr>
 <tr class="odd">
+<td align="left">MAG</td>
+<td align="right">0.1279070</td>
+<td align="right">106</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Madagascar</td>
+</tr>
+<tr class="even">
+<td align="left">CEN</td>
+<td align="right">0.1269841</td>
+<td align="right">107</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Central African Republic</td>
+</tr>
+<tr class="odd">
+<td align="left">NIR</td>
+<td align="right">0.1269841</td>
+<td align="right">108</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Niger</td>
+</tr>
+<tr class="even">
 <td align="left">PHI</td>
-<td align="right">0.1449275</td>
-<td align="right">91</td>
-<td align="left">(0.143,0.221]</td>
+<td align="right">0.1265823</td>
+<td align="right">109</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">Philippines</td>
-</tr>
-<tr class="even">
-<td align="left">HUN</td>
-<td align="right">0.1443299</td>
-<td align="right">92</td>
-<td align="left">(0.143,0.221]</td>
-<td align="left">Hungary</td>
 </tr>
 <tr class="odd">
 <td align="left">BAR</td>
-<td align="right">0.1428571</td>
-<td align="right">93</td>
-<td align="left">(0.0787,0.143]</td>
+<td align="right">0.1250000</td>
+<td align="right">110</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">Barbados</td>
 </tr>
 <tr class="even">
 <td align="left">KOS</td>
-<td align="right">0.1428571</td>
-<td align="right">94</td>
-<td align="left">(0.0787,0.143]</td>
+<td align="right">0.1250000</td>
+<td align="right">111</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">Kosovo</td>
 </tr>
 <tr class="odd">
-<td align="left">BUL</td>
-<td align="right">0.1386861</td>
-<td align="right">95</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Bulgaria</td>
-</tr>
-<tr class="even">
-<td align="left">MON</td>
-<td align="right">0.1382979</td>
-<td align="right">96</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Mongolia</td>
-</tr>
-<tr class="odd">
-<td align="left">MLT</td>
-<td align="right">0.1372549</td>
-<td align="right">97</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Malta</td>
-</tr>
-<tr class="even">
-<td align="left">POL</td>
-<td align="right">0.1340206</td>
-<td align="right">98</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Poland</td>
-</tr>
-<tr class="odd">
-<td align="left">FJI</td>
-<td align="right">0.1333333</td>
-<td align="right">99</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Fiji</td>
-</tr>
-<tr class="even">
-<td align="left">FIN</td>
-<td align="right">0.1326531</td>
-<td align="right">100</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Finland</td>
-</tr>
-<tr class="odd">
-<td align="left">ALG</td>
-<td align="right">0.1320755</td>
-<td align="right">101</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Algeria</td>
-</tr>
-<tr class="even">
-<td align="left">ALG</td>
-<td align="right">0.1320755</td>
-<td align="right">101</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Algeria</td>
-</tr>
-<tr class="odd">
-<td align="left">RUM</td>
-<td align="right">0.1313869</td>
-<td align="right">102</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Rumania</td>
-</tr>
-<tr class="even">
-<td align="left">CRO</td>
-<td align="right">0.1304348</td>
-<td align="right">103</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Croatia</td>
-</tr>
-<tr class="odd">
-<td align="left">LUX</td>
-<td align="right">0.1285714</td>
-<td align="right">104</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Luxembourg</td>
+<td align="left">LES</td>
+<td align="right">0.1250000</td>
+<td align="right">112</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Lesotho</td>
 </tr>
 <tr class="even">
 <td align="left">POR</td>
-<td align="right">0.1285714</td>
-<td align="right">105</td>
-<td align="left">(0.0787,0.143]</td>
+<td align="right">0.1250000</td>
+<td align="right">113</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">Portugal</td>
 </tr>
 <tr class="odd">
-<td align="left">MYA</td>
-<td align="right">0.1282051</td>
-<td align="right">106</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Myanmar (Burma)</td>
+<td align="left">LUX</td>
+<td align="right">0.1233766</td>
+<td align="right">114</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Luxembourg</td>
 </tr>
 <tr class="even">
-<td align="left">MYA</td>
-<td align="right">0.1282051</td>
-<td align="right">106</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Myanmar (Burma)</td>
+<td align="left">MON</td>
+<td align="right">0.1214953</td>
+<td align="right">115</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Mongolia</td>
+</tr>
+<tr class="odd">
+<td align="left">FIN</td>
+<td align="right">0.1171171</td>
+<td align="right">116</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Finland</td>
+</tr>
+<tr class="even">
+<td align="left">MLT</td>
+<td align="right">0.1166667</td>
+<td align="right">117</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Malta</td>
+</tr>
+<tr class="odd">
+<td align="left">UGA</td>
+<td align="right">0.1166667</td>
+<td align="right">118</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Uganda</td>
+</tr>
+<tr class="even">
+<td align="left">INS</td>
+<td align="right">0.1139241</td>
+<td align="right">119</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Indonesia</td>
 </tr>
 <tr class="odd">
 <td align="left">MAS</td>
-<td align="right">0.1276596</td>
-<td align="right">107</td>
-<td align="left">(0.0787,0.143]</td>
+<td align="right">0.1132075</td>
+<td align="right">120</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">Mauritius</td>
 </tr>
 <tr class="even">
-<td align="left">CEN</td>
-<td align="right">0.1272727</td>
-<td align="right">108</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Central African Republic</td>
-</tr>
-<tr class="odd">
 <td align="left">CON</td>
-<td align="right">0.1272727</td>
-<td align="right">109</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Congo</td>
-</tr>
-<tr class="even">
-<td align="left">CYP</td>
-<td align="right">0.1272727</td>
-<td align="right">110</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Cyprus</td>
-</tr>
-<tr class="odd">
-<td align="left">NIR</td>
-<td align="right">0.1272727</td>
-<td align="right">111</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Niger</td>
-</tr>
-<tr class="even">
-<td align="left">AZE</td>
-<td align="right">0.1250000</td>
-<td align="right">112</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Azerbaijan</td>
-</tr>
-<tr class="odd">
-<td align="left">KYR</td>
-<td align="right">0.1250000</td>
-<td align="right">113</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Kyrgyz Republic</td>
-</tr>
-<tr class="even">
-<td align="left">CUB</td>
-<td align="right">0.1238938</td>
-<td align="right">114</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Cuba</td>
-</tr>
-<tr class="odd">
-<td align="left">SAF</td>
-<td align="right">0.1238095</td>
-<td align="right">115</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">South Africa</td>
-</tr>
-<tr class="even">
-<td align="left">LES</td>
-<td align="right">0.1224490</td>
-<td align="right">116</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Lesotho</td>
-</tr>
-<tr class="odd">
-<td align="left">CZE</td>
-<td align="right">0.1200000</td>
-<td align="right">117</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Czechoslovakia</td>
-</tr>
-<tr class="even">
-<td align="left">BHM</td>
-<td align="right">0.1190476</td>
-<td align="right">118</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Bahamas</td>
-</tr>
-<tr class="odd">
-<td align="left">MAG</td>
-<td align="right">0.1168831</td>
-<td align="right">119</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Madagascar (Malagasy)</td>
-</tr>
-<tr class="even">
-<td align="left">MAG</td>
-<td align="right">0.1168831</td>
-<td align="right">119</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Madagascar</td>
-</tr>
-<tr class="odd">
-<td align="left">INS</td>
-<td align="right">0.1142857</td>
-<td align="right">120</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Indonesia</td>
-</tr>
-<tr class="even">
-<td align="left">TRI</td>
-<td align="right">0.1132075</td>
+<td align="right">0.1129032</td>
 <td align="right">121</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Trinidad and Tobago</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Congo</td>
 </tr>
 <tr class="odd">
 <td align="left">MLI</td>
-<td align="right">0.1090909</td>
+<td align="right">0.1129032</td>
 <td align="right">122</td>
-<td align="left">(0.0787,0.143]</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">Mali</td>
 </tr>
 <tr class="even">
-<td align="left">GFR</td>
-<td align="right">0.1060606</td>
+<td align="left">BHM</td>
+<td align="right">0.1111111</td>
 <td align="right">123</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">German Federal Republic</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Bahamas</td>
 </tr>
 <tr class="odd">
-<td align="left">VNM</td>
-<td align="right">0.1052632</td>
+<td align="left">BLR</td>
+<td align="right">0.1111111</td>
 <td align="right">124</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Vietnam (Annam/Cochin China/Tonkin)</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Belarus (Byelorussia)</td>
 </tr>
 <tr class="even">
-<td align="left">MAL</td>
-<td align="right">0.1034483</td>
+<td align="left">TAJ</td>
+<td align="right">0.1111111</td>
 <td align="right">125</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Malaysia</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Tajikistan</td>
 </tr>
 <tr class="odd">
 <td align="left">GUY</td>
-<td align="right">0.1020408</td>
+<td align="right">0.1090909</td>
 <td align="right">126</td>
-<td align="left">(0.0787,0.143]</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">Guyana</td>
 </tr>
 <tr class="even">
-<td align="left">DRV</td>
-<td align="right">0.0983607</td>
+<td align="left">MAL</td>
+<td align="right">0.1076923</td>
 <td align="right">127</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Vietnam, Democratic Republic of</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Malaysia</td>
 </tr>
 <tr class="odd">
-<td align="left">ZAM</td>
-<td align="right">0.0980392</td>
+<td align="left">KYR</td>
+<td align="right">0.1071429</td>
 <td align="right">128</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Zambia</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Kyrgyz Republic</td>
 </tr>
 <tr class="even">
-<td align="left">CAM</td>
-<td align="right">0.0967742</td>
-<td align="right">129</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Cambodia (Kampuchea)</td>
-</tr>
-<tr class="odd">
-<td align="left">EGY</td>
-<td align="right">0.0967742</td>
-<td align="right">130</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Egypt</td>
-</tr>
-<tr class="even">
-<td align="left">EGY</td>
-<td align="right">0.0967742</td>
-<td align="right">130</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Egypt</td>
-</tr>
-<tr class="odd">
 <td align="left">GDR</td>
-<td align="right">0.0952381</td>
-<td align="right">131</td>
-<td align="left">(0.0787,0.143]</td>
+<td align="right">0.1020408</td>
+<td align="right">129</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">German Democratic Republic</td>
 </tr>
+<tr class="odd">
+<td align="left">TRI</td>
+<td align="right">0.1016949</td>
+<td align="right">130</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Trinidad and Tobago</td>
+</tr>
 <tr class="even">
-<td align="left">UGA</td>
-<td align="right">0.0943396</td>
-<td align="right">132</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Uganda</td>
+<td align="left">LIB</td>
+<td align="right">0.0985915</td>
+<td align="right">131</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Libya</td>
 </tr>
 <tr class="odd">
-<td align="left">KUW</td>
-<td align="right">0.0925926</td>
-<td align="right">133</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Kuwait</td>
+<td align="left">LIB</td>
+<td align="right">0.0985915</td>
+<td align="right">131</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Libya</td>
 </tr>
 <tr class="even">
-<td align="left">TAW</td>
-<td align="right">0.0909091</td>
+<td align="left">TOG</td>
+<td align="right">0.0983607</td>
+<td align="right">132</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Togo</td>
+</tr>
+<tr class="odd">
+<td align="left">GFR</td>
+<td align="right">0.0958904</td>
+<td align="right">133</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">German Federal Republic</td>
+</tr>
+<tr class="even">
+<td align="left">GUI</td>
+<td align="right">0.0952381</td>
 <td align="right">134</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Taiwan</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Guinea</td>
+</tr>
+<tr class="odd">
+<td align="left">DRV</td>
+<td align="right">0.0909091</td>
+<td align="right">135</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Vietnam, Democratic Republic of</td>
+</tr>
+<tr class="even">
+<td align="left">ZAM</td>
+<td align="right">0.0892857</td>
+<td align="right">136</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Zambia</td>
+</tr>
+<tr class="odd">
+<td align="left">CAM</td>
+<td align="right">0.0882353</td>
+<td align="right">137</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Cambodia (Kampuchea)</td>
+</tr>
+<tr class="even">
+<td align="left">EGY</td>
+<td align="right">0.0882353</td>
+<td align="right">138</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Egypt</td>
+</tr>
+<tr class="odd">
+<td align="left">EGY</td>
+<td align="right">0.0882353</td>
+<td align="right">138</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Egypt</td>
+</tr>
+<tr class="even">
+<td align="left">KUW</td>
+<td align="right">0.0857143</td>
+<td align="right">139</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Kuwait</td>
 </tr>
 <tr class="odd">
 <td align="left">IRN</td>
-<td align="right">0.0857143</td>
-<td align="right">135</td>
-<td align="left">(0.0787,0.143]</td>
+<td align="right">0.0849673</td>
+<td align="right">140</td>
+<td align="left">(0.0844,0.146]</td>
 <td align="left">Iran (Persia)</td>
 </tr>
 <tr class="even">
-<td align="left">ARM</td>
+<td align="left">BLZ</td>
+<td align="right">0.0847458</td>
+<td align="right">141</td>
+<td align="left">(0.0844,0.146]</td>
+<td align="left">Belize</td>
+</tr>
+<tr class="odd">
+<td align="left">DRC</td>
 <td align="right">0.0833333</td>
-<td align="right">136</td>
-<td align="left">(0.0787,0.143]</td>
+<td align="right">142</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Congo, Democratic Republic of (Zaire)</td>
+</tr>
+<tr class="even">
+<td align="left">GAB</td>
+<td align="right">0.0833333</td>
+<td align="right">143</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Gabon</td>
+</tr>
+<tr class="odd">
+<td align="left">TAW</td>
+<td align="right">0.0833333</td>
+<td align="right">144</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Taiwan</td>
+</tr>
+<tr class="even">
+<td align="left">TUN</td>
+<td align="right">0.0813953</td>
+<td align="right">145</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Tunisia</td>
+</tr>
+<tr class="odd">
+<td align="left">TUN</td>
+<td align="right">0.0813953</td>
+<td align="right">145</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Tunisia</td>
+</tr>
+<tr class="even">
+<td align="left">SOM</td>
+<td align="right">0.0810811</td>
+<td align="right">146</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Somalia</td>
+</tr>
+<tr class="odd">
+<td align="left">RUS</td>
+<td align="right">0.0794702</td>
+<td align="right">147</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Russia (Soviet Union)</td>
+</tr>
+<tr class="even">
+<td align="left">ETH</td>
+<td align="right">0.0789474</td>
+<td align="right">148</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Ethiopia</td>
+</tr>
+<tr class="odd">
+<td align="left">ARM</td>
+<td align="right">0.0769231</td>
+<td align="right">149</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Armenia</td>
 </tr>
-<tr class="odd">
-<td align="left">TAJ</td>
-<td align="right">0.0833333</td>
-<td align="right">137</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Tajikistan</td>
-</tr>
 <tr class="even">
+<td align="left">YEM</td>
+<td align="right">0.0750000</td>
+<td align="right">150</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Yemen (Arab Republic of Yemen)</td>
+</tr>
+<tr class="odd">
 <td align="left">MAD</td>
-<td align="right">0.0800000</td>
-<td align="right">138</td>
-<td align="left">(0.0787,0.143]</td>
+<td align="right">0.0746269</td>
+<td align="right">151</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Maldives</td>
 </tr>
-<tr class="odd">
-<td align="left">TBT</td>
-<td align="right">0.0789474</td>
-<td align="right">139</td>
-<td align="left">(0.0787,0.143]</td>
-<td align="left">Tibet</td>
-</tr>
 <tr class="even">
-<td align="left">RUS</td>
-<td align="right">0.0785714</td>
-<td align="right">140</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Russia (Soviet Union)</td>
+<td align="left">TBT</td>
+<td align="right">0.0731707</td>
+<td align="right">152</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Tibet</td>
 </tr>
 <tr class="odd">
 <td align="left">MAW</td>
-<td align="right">0.0784314</td>
-<td align="right">141</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0727273</td>
+<td align="right">153</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Malawi</td>
 </tr>
 <tr class="even">
-<td align="left">LIB</td>
-<td align="right">0.0781250</td>
-<td align="right">142</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Libya</td>
-</tr>
-<tr class="odd">
-<td align="left">LIB</td>
-<td align="right">0.0781250</td>
-<td align="right">142</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Libya</td>
-</tr>
-<tr class="even">
 <td align="left">CAP</td>
-<td align="right">0.0750000</td>
-<td align="right">143</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0697674</td>
+<td align="right">154</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Cape Verde</td>
 </tr>
 <tr class="odd">
 <td align="left">CDI</td>
-<td align="right">0.0727273</td>
-<td align="right">144</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0677966</td>
+<td align="right">155</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Ivory Coast</td>
 </tr>
 <tr class="even">
 <td align="left">CHA</td>
-<td align="right">0.0727273</td>
-<td align="right">145</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0677966</td>
+<td align="right">156</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Chad</td>
 </tr>
 <tr class="odd">
-<td align="left">DRC</td>
-<td align="right">0.0727273</td>
-<td align="right">146</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Congo, Democratic Republic of (Zaire)</td>
-</tr>
-<tr class="even">
-<td align="left">YEM</td>
-<td align="right">0.0721649</td>
-<td align="right">147</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Yemen (Arab Republic of Yemen)</td>
-</tr>
-<tr class="odd">
-<td align="left">ETH</td>
-<td align="right">0.0714286</td>
-<td align="right">148</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Ethiopia</td>
-</tr>
-<tr class="even">
-<td align="left">GUI</td>
-<td align="right">0.0701754</td>
-<td align="right">149</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Guinea</td>
-</tr>
-<tr class="odd">
 <td align="left">QAT</td>
-<td align="right">0.0681818</td>
-<td align="right">150</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0638298</td>
+<td align="right">157</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Qatar</td>
 </tr>
 <tr class="even">
 <td align="left">SWA</td>
-<td align="right">0.0638298</td>
-<td align="right">151</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0600000</td>
+<td align="right">158</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Swaziland</td>
 </tr>
 <tr class="odd">
 <td align="left">BOT</td>
-<td align="right">0.0612245</td>
-<td align="right">152</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0576923</td>
+<td align="right">159</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Botswana</td>
 </tr>
 <tr class="even">
-<td align="left">TUN</td>
-<td align="right">0.0606061</td>
-<td align="right">153</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Tunisia</td>
+<td align="left">KEN</td>
+<td align="right">0.0545455</td>
+<td align="right">160</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Kenya</td>
 </tr>
 <tr class="odd">
-<td align="left">TUN</td>
-<td align="right">0.0606061</td>
-<td align="right">153</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Tunisia</td>
+<td align="left">KOR</td>
+<td align="right">0.0540541</td>
+<td align="right">161</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Korea</td>
 </tr>
 <tr class="even">
 <td align="left">SAU</td>
-<td align="right">0.0602410</td>
-<td align="right">154</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0537634</td>
+<td align="right">162</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Saudi Arabia</td>
 </tr>
 <tr class="odd">
-<td align="left">KEN</td>
-<td align="right">0.0576923</td>
-<td align="right">155</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Kenya</td>
+<td align="left">RWA</td>
+<td align="right">0.0526316</td>
+<td align="right">163</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Rwanda</td>
 </tr>
 <tr class="even">
-<td align="left">KOR</td>
-<td align="right">0.0555556</td>
-<td align="right">156</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Korea</td>
+<td align="left">SEN</td>
+<td align="right">0.0526316</td>
+<td align="right">164</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Senegal</td>
 </tr>
 <tr class="odd">
 <td align="left">TAZ</td>
-<td align="right">0.0555556</td>
-<td align="right">157</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0526316</td>
+<td align="right">165</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Tanzania/Tanganyika</td>
 </tr>
 <tr class="even">
-<td align="left">GAB</td>
-<td align="right">0.0545455</td>
-<td align="right">158</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Gabon</td>
-</tr>
-<tr class="odd">
-<td align="left">SEN</td>
-<td align="right">0.0545455</td>
-<td align="right">159</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Senegal</td>
-</tr>
-<tr class="even">
-<td align="left">SOM</td>
-<td align="right">0.0545455</td>
-<td align="right">160</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Somalia</td>
-</tr>
-<tr class="odd">
-<td align="left">TOG</td>
-<td align="right">0.0545455</td>
-<td align="right">161</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Togo</td>
-</tr>
-<tr class="even">
 <td align="left">MZM</td>
-<td align="right">0.0500000</td>
-<td align="right">162</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0476190</td>
+<td align="right">166</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Mozambique</td>
 </tr>
 <tr class="odd">
 <td align="left">AUH</td>
-<td align="right">0.0454545</td>
-<td align="right">163</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0444444</td>
+<td align="right">167</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Austria-Hungary</td>
 </tr>
 <tr class="even">
+<td align="left">MOR</td>
+<td align="right">0.0416667</td>
+<td align="right">168</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Morocco</td>
+</tr>
+<tr class="odd">
+<td align="left">MOR</td>
+<td align="right">0.0416667</td>
+<td align="right">168</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Morocco</td>
+</tr>
+<tr class="even">
 <td align="left">JOR</td>
-<td align="right">0.0434783</td>
-<td align="right">164</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0408163</td>
+<td align="right">169</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Jordan</td>
 </tr>
 <tr class="odd">
-<td align="left">EQG</td>
-<td align="right">0.0425532</td>
-<td align="right">165</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Equatorial Guinea</td>
-</tr>
-<tr class="even">
-<td align="left">BLR</td>
-<td align="right">0.0416667</td>
-<td align="right">166</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Belarus (Byelorussia)</td>
-</tr>
-<tr class="odd">
-<td align="left">TKM</td>
-<td align="right">0.0416667</td>
-<td align="right">167</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Turkmenistan</td>
+<td align="left">ZIM</td>
+<td align="right">0.0392157</td>
+<td align="right">170</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Zimbabwe (Rhodesia)</td>
 </tr>
 <tr class="even">
 <td align="left">NAM</td>
-<td align="right">0.0400000</td>
-<td align="right">168</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0384615</td>
+<td align="right">171</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Namibia</td>
 </tr>
 <tr class="odd">
+<td align="left">TKM</td>
+<td align="right">0.0384615</td>
+<td align="right">172</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Turkmenistan</td>
+</tr>
+<tr class="even">
+<td align="left">EQG</td>
+<td align="right">0.0370370</td>
+<td align="right">173</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Equatorial Guinea</td>
+</tr>
+<tr class="odd">
 <td align="left">SIN</td>
-<td align="right">0.0400000</td>
-<td align="right">169</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0344828</td>
+<td align="right">174</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Singapore</td>
 </tr>
 <tr class="even">
-<td align="left">RWA</td>
-<td align="right">0.0377358</td>
-<td align="right">170</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Rwanda</td>
-</tr>
-<tr class="odd">
-<td align="left">MOR</td>
-<td align="right">0.0337079</td>
-<td align="right">171</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Morocco</td>
-</tr>
-<tr class="even">
-<td align="left">MOR</td>
-<td align="right">0.0337079</td>
-<td align="right">171</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Morocco</td>
-</tr>
-<tr class="odd">
 <td align="left">PRK</td>
-<td align="right">0.0298507</td>
-<td align="right">172</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0289855</td>
+<td align="right">175</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Korea, People’s Republic of</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">OMA</td>
-<td align="right">0.0285714</td>
-<td align="right">173</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0277778</td>
+<td align="right">176</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Oman</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">DJI</td>
-<td align="right">0.0263158</td>
-<td align="right">174</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0256410</td>
+<td align="right">177</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Djibouti</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">ANG</td>
-<td align="right">0.0250000</td>
-<td align="right">175</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0243902</td>
+<td align="right">178</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Angola</td>
 </tr>
+<tr class="even">
+<td align="left">MNG</td>
+<td align="right">0.0232558</td>
+<td align="right">179</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Montenegro</td>
+</tr>
 <tr class="odd">
+<td align="left">MNG</td>
+<td align="right">0.0232558</td>
+<td align="right">179</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Montenegro</td>
+</tr>
+<tr class="even">
 <td align="left">BAH</td>
-<td align="right">0.0227273</td>
-<td align="right">176</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0222222</td>
+<td align="right">180</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Bahrain</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">UAE</td>
-<td align="right">0.0227273</td>
-<td align="right">177</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0222222</td>
+<td align="right">181</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">United Arab Emirates</td>
 </tr>
-<tr class="odd">
-<td align="left">GAM</td>
-<td align="right">0.0200000</td>
-<td align="right">178</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Gambia</td>
-</tr>
 <tr class="even">
-<td align="left">ZIM</td>
-<td align="right">0.0200000</td>
-<td align="right">179</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Zimbabwe (Rhodesia)</td>
+<td align="left">GAM</td>
+<td align="right">0.0196078</td>
+<td align="right">182</td>
+<td align="left">[0,0.0844]</td>
+<td align="left">Gambia</td>
 </tr>
 <tr class="odd">
 <td align="left">CAO</td>
-<td align="right">0.0181818</td>
-<td align="right">180</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">0.0178571</td>
+<td align="right">183</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Cameroon</td>
 </tr>
 <tr class="even">
 <td align="left">BRU</td>
 <td align="right">0.0000000</td>
-<td align="right">181</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">184</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Brunei</td>
 </tr>
 <tr class="odd">
 <td align="left">ERI</td>
 <td align="right">0.0000000</td>
-<td align="right">182</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">185</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Eritrea</td>
 </tr>
 <tr class="even">
 <td align="left">KZK</td>
 <td align="right">0.0000000</td>
-<td align="right">183</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">186</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Kazakhstan</td>
-</tr>
-<tr class="odd">
-<td align="left">MNG</td>
-<td align="right">0.0000000</td>
-<td align="right">184</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Montenegro</td>
-</tr>
-<tr class="even">
-<td align="left">MNG</td>
-<td align="right">0.0000000</td>
-<td align="right">184</td>
-<td align="left">[0,0.0787]</td>
-<td align="left">Montenegro</td>
 </tr>
 <tr class="odd">
 <td align="left">SSD</td>
 <td align="right">0.0000000</td>
-<td align="right">185</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">187</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">South Sudan</td>
 </tr>
 <tr class="even">
 <td align="left">UZB</td>
 <td align="right">0.0000000</td>
-<td align="right">186</td>
-<td align="left">[0,0.0787]</td>
+<td align="right">188</td>
+<td align="left">[0,0.0844]</td>
 <td align="left">Uzbekistan</td>
 </tr>
 </tbody>
@@ -1643,11 +2028,11 @@ knitr::kable(PlotSet)</code></pre>
 <p>David Armstrong has a misc package that I saw to do something that Richard Tucker did for their paper 20! years ago [his with Neal Beck, Jonathan Katz]. <code>btscs</code> takes a binary time series and turns it into a set of discrete time durations. Grouped duration data is their name for it. There’s a rather neat stats feature to the fact that these grouped duration data are exactly the same as a discrete time Cox proportional hazards model. In a related paper, two of the most clever people that I know – David Carter and Curt Signorino – showed that a Taylor-series approximation to the cubic polynomial in that duration approximates just about anything reasonable because it can embed two inflection points for the baseline hazard. Of course, there are assumptions to the model but let’s explore. First, a static picture.</p>
 <pre class="r"><code>library(DAMisc)
 BTSCSdata &lt;- btscs(Keepers, &quot;Event&quot;, tvar=&quot;year&quot;, csunit=&quot;ccode&quot;, pad.ts = TRUE)
-p &lt;- BTSCSdata %&gt;% filter(!is.na(howEnded)) %&gt;% mutate(howEndedF = factor(howEnded)) %&gt;% ggplot(aes(x=spell)) + geom_density(aes(color=howEndedF)) + scale_color_viridis_d(guide=FALSE)+ theme_minimal() + labs(title=&quot;How Long Do Leaders Last Given Fates?&quot;, x=&quot;Leader Duration in Years&quot;) 
+p &lt;- BTSCSdata %&gt;% filter(!is.na(posttenurefate)) %&gt;% mutate(howEndedF = factor(posttenurefate)) %&gt;% ggplot(aes(x=spell)) + geom_density(aes(color=howEndedF)) + scale_color_viridis_d(guide=FALSE)+ theme_minimal() + labs(title=&quot;How Long Do Leaders Last Given Fates?&quot;, x=&quot;Leader Duration in Years&quot;) 
 p</code></pre>
 <p><img src="/post/2019-04-14-visualisation-with-archigos-leaders-of-the-world_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>Animate it.</p>
-<pre class="r"><code>panim &lt;- BTSCSdata %&gt;% filter(!is.na(howEnded)) %&gt;% mutate(howEndedF = factor(howEnded)) %&gt;% ggplot(aes(x=spell)) + geom_density(aes(color=howEndedF, fill=howEndedF)) + scale_color_viridis_d(guide=FALSE) + scale_fill_viridis_d(guide=FALSE) + theme_minimal() + labs(title=&quot;How Long Do Leaders Last Given Fates?&quot;, subtitle = &quot;Ended in: {closest_state}&quot;, x=&quot;Leader Duration in Years&quot;) + transition_states(howEndedF, transition_length = 10, state_length = 40) + enter_fade() + exit_fade()
+<pre class="r"><code>panim &lt;- BTSCSdata %&gt;% filter(!is.na(posttenurefate)) %&gt;% mutate(howEndedF = factor(posttenurefate)) %&gt;% ggplot(aes(x=spell)) + geom_density(aes(color=howEndedF, fill=howEndedF)) + scale_color_viridis_d(guide=FALSE) + scale_fill_viridis_d(guide=FALSE) + theme_minimal() + labs(title=&quot;How Long Do Leaders Last Given Fates?&quot;, subtitle = &quot;Ended in: {closest_state}&quot;, x=&quot;Leader Duration in Years&quot;) + transition_states(howEndedF, transition_length = 10, state_length = 40) + enter_fade() + exit_fade()
 animate(panim, nframes=400)</code></pre>
 <p><img src="/post/2019-04-14-visualisation-with-archigos-leaders-of-the-world_files/figure-html/unnamed-chunk-18-1.gif" /><!-- --></p>
 </div>
