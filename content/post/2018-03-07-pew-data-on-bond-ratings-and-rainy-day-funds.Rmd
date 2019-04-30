@@ -31,7 +31,7 @@ The variation in the data may leave a good bit to be desired.  Let's have a look
 library(haven)
 library(dplyr)
 library(here)
-Pew.Data <- read_dta(paste0(here(),"/data/Pew/modeledforprediction.dta"))
+Pew.Data <- read_dta(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/Pew/modeledforprediction.dta"))
 glimpse(Pew.Data)
 table(Pew.Data$state)
 ```
@@ -51,7 +51,7 @@ Scaled.BR <- MCMCordfactanal(~spnum+fitchnum+moodynum, data=Pew.Data, factors=1,
 
 ```{r DATAL, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
-load(paste0(here(),"/data/Pew/Scaled-BR-Pew.RData"))
+load(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/Pew/Scaled-BR-Pew.RData"))
 state.ratings <- data.frame(state=Pew.Data$state, statefips=Pew.Data$statefips, year=Pew.Data$fyear, BR.Data)
 state.ratings.long <- tidyr::gather(state.ratings, sampleno, value, -statefips, -year, -state)
 state.SE <- state.ratings.long %>% group_by(state,year) %>% summarise(Credit.Quality=mean(value), t1=quantile(value, probs=0.025), t2=quantile(value, probs=0.975))

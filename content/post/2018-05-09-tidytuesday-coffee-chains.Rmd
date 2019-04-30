@@ -21,16 +21,15 @@ For this week:
 First, let's import the data; it is a single Excel spreadsheet.  The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
 
 ```{r LoadData}
-library(here)
 library(readxl)
 library(tidyverse)
 library(janitor)
 library(geofacet)
 library(ggbeeswarm)
 library(ggrepel)
-Starbucks <- read_excel(paste0(here(),"/data/week6_coffee_chains.xlsx"), sheet = "starbucks")
-Dunkin.Donuts <- read_excel(paste0(here(),"/data/week6_coffee_chains.xlsx"), sheet = "dunkin")
-Tim.Hortons <- read_excel(paste0(here(),"/data/week6_coffee_chains.xlsx"), sheet = "timhorton")
+#Starbucks <- read_excel(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx"), sheet = "starbucks")
+#Dunkin.Donuts <- read_excel(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx"), sheet = "dunkin")
+#Tim.Hortons <- read_excel(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx"), sheet = "timhorton")
 # A great function appears below that I grabbed from Stack Overflow a while back.....
 read_excel_allsheets <- function(filename, tibble = TRUE) {
     sheets <- readxl::excel_sheets(filename)
@@ -39,7 +38,13 @@ read_excel_allsheets <- function(filename, tibble = TRUE) {
     names(x) <- sheets
     x
 }
-coffee.xl <- read_excel_allsheets(paste0(here(),"/data/week6_coffee_chains.xlsx"))
+# coffee.xl <- read_excel_allsheets(url("data/week6_coffee_chains.xlsx"))
+# Starbucks <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6SB.rds"))
+# Dunkin.Donuts <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6DD.rds"))
+# Tim.Hortons <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/week6TH.rds"))
+Starbucks <- readRDS("../../data/week6SB.rds")
+Dunkin.Donuts <- readRDS("../../data/week6DD.rds")
+Tim.Hortons <- readRDS("../../data/week6TH.rds")
 ```
 
 What do the data look like?

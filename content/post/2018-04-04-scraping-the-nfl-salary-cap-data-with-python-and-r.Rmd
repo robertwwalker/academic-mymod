@@ -242,8 +242,7 @@ save.image("~/NFL-Data.RData")
 Load up a local copy of the data for now.
 
 ```{r DataL, eval=TRUE}
-library(here)
-load(paste0(here(),"/data/NFL-Data.RData"))
+load(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/NFL-Data.RData"))
 ```
 
 ## Summaries

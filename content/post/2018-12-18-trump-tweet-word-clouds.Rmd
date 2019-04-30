@@ -51,7 +51,7 @@ library(wordcloud2)
 library(tidyverse)
 library(tidytext)
 library(rtweet)
-load("../../data/TMLS.RData")
+load(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData"))
 names(tml.djt)
 ```
 

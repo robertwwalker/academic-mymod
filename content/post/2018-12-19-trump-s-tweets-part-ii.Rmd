@@ -34,7 +34,7 @@ library(SnowballC)
 library(tm)
 library(syuzhet)
 library(rtweet)
-load("../../data/TMLS.RData")
+load(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData"))
 names(tml.djt)
 ts_plot(tml.djt, "days") +
   ggplot2::theme_minimal() +
@@ -241,7 +241,7 @@ tweets_dtm <- tidy.tweets.RN %>%
   cast_dtm(RN, word, n)
 library(topicmodels)
 tweets_lda <- LDA(tweets_dtm, k = 7, control = list(seed = 12345))
-tweet_topics <- tidy(tweets_lda, , matrix="beta")
+tweet_topics <- tidy(tweets_lda, matrix="beta")
 top_terms <- tweet_topics %>% group_by(topic) %>% top_n(10, beta) %>%
     ungroup() %>%
     arrange(topic, -beta)
@@ -254,7 +254,7 @@ top_terms %>%
 ```
 
 ```{r}
-tweet_topicM <- tidy(tweets_lda, , matrix="gamma")
+tweet_topicM <- tidy(tweets_lda, matrix="gamma")
 top_tweets <- tweet_topicM %>% group_by(topic) %>% top_n(10, gamma) %>%
     ungroup() %>%
     arrange(topic, -gamma)

@@ -32,7 +32,8 @@ all_2018_games <- scrape_game_ids(2018) # Default is regular season
 
 ```{r, warning=FALSE, message=FALSE}
 library(nflscrapR)
-all_2018_games <-readRDS("../../../data/NFLGames2018.rds")
+library(RCurl)
+all_2018_games <-readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/NFLGames2018.rds"))
 all_2018_games %>%
   pander::pander()
 ```
@@ -47,7 +48,7 @@ saveRDS(full_season_2018, file="../../../data/2018NFLSeason.rds")
 That gets the data though it took over an hour to acquire it all and it threw two error messages.  I do not yet know if they are conseequential.  My goal here is to use this package and the ability to plot the win probability charts to try to summarise an entire cowboys season.
 
 ```{r}
-full_season_2018 <- readRDS("../../../data/2018NFLSeason.rds") # Downloaded it once.  It sits in rww.science/data
+full_season_2018 <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/2018NFLSeason.rds")) # Downloaded it once.  It sits in rww.science/data
 ```
 
 Let me skim the data for an idea of what it looks like.  I will also pull in three packages that I am deploying or will.
@@ -144,7 +145,7 @@ dal_wp <- dal_season %>%
          !is.na(away_wp)) %>% unite(GIDGSR, game_seconds_remaining, game_id, sep=":")
 dal_wp <- dal_wp %>% dplyr::select(GIDGSR,
                 home_wp,
-                away_wp) %>%
+                away_wp)  %>%
   gather(team, wpa, -GIDGSR) %>% separate(., GIDGSR, c("GSR", "game_id"), sep=":") %>% 
   mutate(game_seconds_remaining = as.integer(GSR))
 dal_wp %>% ggplot(aes(x = game_seconds_remaining, y = wpa, color = team)) +

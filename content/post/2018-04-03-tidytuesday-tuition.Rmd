@@ -15,13 +15,16 @@ tags:
 I found a great example on tidyTuesday that I wanted to work on.  `@JakeKaupp` tweeted his `#tidyTuesday`: a very cool slope plot of tuition changes averaged by state over the last decade.  It is a very informative graphic.  The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates.  All of the R code for this is on [Jake Kaupp's GitHub](https://github.com/jkaupp).  The specific file is [here](https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R).  I did not add much.  All I wanted was some idea of how the growth rates correspond over the period.  I added a cumulative growth rate and encoded the color scheme with it enabling me to play with *viridis*.  The *col_tab* is my creation.  I also moved around the labels so that everyone gets a color coded label and we can see who is where, more or less.  Enjoy!
 
 ```{r BorrowedCode, message=FALSE, warning=FALSE, fig.height=8, fig.width=8}
-library(here)
 library(readxl)
 library(tidyverse)
 library(glue)
 library(ggrepel)
 library(viridis)
-tidy_data <-  read_excel(paste0(here(),"/data/tuition/us_avg_tuition.xlsx")) %>%
+#tidy_data <-  readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/tuition/Tuition.rds")) %>%
+#  gather(year, avg_tuition, -State) %>%
+#  rename(state = State)
+
+tidy_data <-  readRDS("../../data/tuition/Tuition.rds") %>%
   gather(year, avg_tuition, -State) %>%
   rename(state = State)
 

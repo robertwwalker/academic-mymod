@@ -15,13 +15,16 @@ tags:
 
 
 <p>I found a great example on tidyTuesday that I wanted to work on. <code>@JakeKaupp</code> tweeted his <code>#tidyTuesday</code>: a very cool slope plot of tuition changes averaged by state over the last decade. It is a very informative graphic. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on <a href="https://github.com/jkaupp">Jake Kaupp’s GitHub</a>. The specific file is <a href="https://raw.githubusercontent.com/jkaupp/tidyweek/master/R/plot.R">here</a>. I did not add much. All I wanted was some idea of how the growth rates correspond over the period. I added a cumulative growth rate and encoded the color scheme with it enabling me to play with <em>viridis</em>. The <em>col_tab</em> is my creation. I also moved around the labels so that everyone gets a color coded label and we can see who is where, more or less. Enjoy!</p>
-<pre class="r"><code>library(here)
-library(readxl)
+<pre class="r"><code>library(readxl)
 library(tidyverse)
 library(glue)
 library(ggrepel)
 library(viridis)
-tidy_data &lt;-  read_excel(paste0(here(),&quot;/data/tuition/us_avg_tuition.xlsx&quot;)) %&gt;%
+#tidy_data &lt;-  readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/tuition/Tuition.rds&quot;)) %&gt;%
+#  gather(year, avg_tuition, -State) %&gt;%
+#  rename(state = State)
+
+tidy_data &lt;-  readRDS(&quot;../../data/tuition/Tuition.rds&quot;) %&gt;%
   gather(year, avg_tuition, -State) %&gt;%
   rename(state = State)
 

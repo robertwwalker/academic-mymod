@@ -27,7 +27,7 @@ categories:
 <pre class="r"><code>library(haven)
 library(dplyr)
 library(here)
-Pew.Data &lt;- read_dta(paste0(here(),&quot;/data/Pew/modeledforprediction.dta&quot;))
+Pew.Data &lt;- read_dta(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/Pew/modeledforprediction.dta&quot;))
 glimpse(Pew.Data)</code></pre>
 <pre><code>## Observations: 966
 ## Variables: 45
@@ -109,7 +109,7 @@ glimpse(Pew.Data)</code></pre>
 <pre class="r"><code>library(MCMCpack)
 Scaled.BR &lt;- MCMCordfactanal(~spnum+fitchnum+moodynum, data=Pew.Data, factors=1, burnin = 1e6, mcmc=1e6, thin=100, store.scores=TRUE, tune=0.7, lambda.constraints=list(fitchnum=list(2,&quot;+&quot;)), verbose=50000)</code></pre>
 <pre class="r"><code>library(tidyverse)
-load(paste0(here(),&quot;/data/Pew/Scaled-BR-Pew.RData&quot;))
+load(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/Pew/Scaled-BR-Pew.RData&quot;))
 state.ratings &lt;- data.frame(state=Pew.Data$state, statefips=Pew.Data$statefips, year=Pew.Data$fyear, BR.Data)
 state.ratings.long &lt;- tidyr::gather(state.ratings, sampleno, value, -statefips, -year, -state)
 state.SE &lt;- state.ratings.long %&gt;% group_by(state,year) %&gt;% summarise(Credit.Quality=mean(value), t1=quantile(value, probs=0.025), t2=quantile(value, probs=0.975))</code></pre>

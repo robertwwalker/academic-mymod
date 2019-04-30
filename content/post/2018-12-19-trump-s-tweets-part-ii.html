@@ -32,7 +32,7 @@ library(SnowballC)
 library(tm)
 library(syuzhet)
 library(rtweet)
-load(&quot;../../data/TMLS.RData&quot;)
+load(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&quot;))
 names(tml.djt)</code></pre>
 <pre><code>##  [1] &quot;user_id&quot;                 &quot;status_id&quot;              
 ##  [3] &quot;created_at&quot;              &quot;screen_name&quot;            
@@ -319,7 +319,7 @@ tidy.tweets.RN &lt;- clean_tweets %&gt;% select(RN, text) %&gt;% unnest_tokens(w
   cast_dtm(RN, word, n)
 library(topicmodels)
 tweets_lda &lt;- LDA(tweets_dtm, k = 7, control = list(seed = 12345))
-tweet_topics &lt;- tidy(tweets_lda, , matrix=&quot;beta&quot;)
+tweet_topics &lt;- tidy(tweets_lda, matrix=&quot;beta&quot;)
 top_terms &lt;- tweet_topics %&gt;% group_by(topic) %&gt;% top_n(10, beta) %&gt;%
     ungroup() %&gt;%
     arrange(topic, -beta)
@@ -330,7 +330,7 @@ top_terms %&gt;%
     facet_wrap(~ topic, scales = &quot;free&quot;) +
     coord_flip()</code></pre>
 <p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<pre class="r"><code>tweet_topicM &lt;- tidy(tweets_lda, , matrix=&quot;gamma&quot;)
+<pre class="r"><code>tweet_topicM &lt;- tidy(tweets_lda, matrix=&quot;gamma&quot;)
 top_tweets &lt;- tweet_topicM %&gt;% group_by(topic) %&gt;% top_n(10, gamma) %&gt;%
     ungroup() %&gt;%
     arrange(topic, -gamma)

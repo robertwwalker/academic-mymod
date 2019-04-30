@@ -17,12 +17,11 @@ tags:
 <h1>tidyTuesday on Global Mortality</h1>
 <p>The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in <a href="https://ourworldindata.org/what-does-the-world-die-from">the original</a>. For whatever reason, I cannot open this data remotely.</p>
 <p>Here is this week’s tidyTuesday.</p>
-<pre class="r"><code>library(here)
-library(readxl)
-library(skimr)
+<pre class="r"><code>library(skimr)
 library(tidyverse)
 library(rlang)
-global_mortality &lt;- read_excel(paste0(here(),&quot;/data/global_mortality.xlsx&quot;))
+global_mortality &lt;- readRDS(&quot;../../data/global_mortality.rds&quot;)
+# global_mortality &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;))
 skim(global_mortality)</code></pre>
 <pre><code>## Skim summary statistics
 ##  n obs: 6156 
@@ -103,7 +102,7 @@ skim(global_mortality)</code></pre>
 ##   2.65    0.011      0.24       0.91      3.33    16.47 ▇▂▂▁▁▁▁▁
 ##   7.79 1990       1996       2003      2010     2016    ▇▆▆▇▆▆▆▇</code></pre>
 <p>That loads the data for the challenge.</p>
-<pre class="r"><code>Counts &lt;- read.csv(paste0(here(),&quot;/data/annual-number-of-deaths-by-cause.csv&quot;))
+<pre class="r"><code>Counts &lt;- read.csv(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/annual-number-of-deaths-by-cause.csv&quot;))
 Counts %&gt;% filter(Year==2016) %&gt;% select(-Code,-Entity,-Execution..deaths.,-Year) %&gt;% apply(., 2, function(x) { sum(x, na.rm=TRUE)}) -&gt; temp1
 pp.df &lt;- data.frame(Total.Deaths=temp1,name=names(temp1))
 pp.df &lt;- pp.df %&gt;% arrange(Total.Deaths)

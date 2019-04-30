@@ -19,8 +19,6 @@ tags:
 <h1>The tidyTuesday for this week is coffee chain locations</h1>
 <p>For this week: 1. The basic link to the <a href="https://github.com/rfordatascience/tidytuesday"><code>#tidyTuesday</code></a> shows <a href="http://flowingdata.com/2014/03/18/coffee-place-geography/">an original article</a> for Week 6.</p>
 <p>First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.</p>
-<pre class="r"><code>library(here)</code></pre>
-<pre><code>## here() starts at /home/rob/Desktop/RWW8/academic-mymod</code></pre>
 <pre class="r"><code>library(readxl)
 library(tidyverse)</code></pre>
 <pre><code>## Registered S3 methods overwritten by &#39;ggplot2&#39;:
@@ -51,9 +49,9 @@ library(tidyverse)</code></pre>
 ##   +.gg   ggplot2</code></pre>
 <pre class="r"><code>library(ggbeeswarm)
 library(ggrepel)
-Starbucks &lt;- read_excel(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;starbucks&quot;)
-Dunkin.Donuts &lt;- read_excel(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;dunkin&quot;)
-Tim.Hortons &lt;- read_excel(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;timhorton&quot;)
+#Starbucks &lt;- read_excel(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;starbucks&quot;)
+#Dunkin.Donuts &lt;- read_excel(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;dunkin&quot;)
+#Tim.Hortons &lt;- read_excel(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6_coffee_chains.xlsx&quot;), sheet = &quot;timhorton&quot;)
 # A great function appears below that I grabbed from Stack Overflow a while back.....
 read_excel_allsheets &lt;- function(filename, tibble = TRUE) {
     sheets &lt;- readxl::excel_sheets(filename)
@@ -62,7 +60,13 @@ read_excel_allsheets &lt;- function(filename, tibble = TRUE) {
     names(x) &lt;- sheets
     x
 }
-coffee.xl &lt;- read_excel_allsheets(paste0(here(),&quot;/data/week6_coffee_chains.xlsx&quot;))</code></pre>
+# coffee.xl &lt;- read_excel_allsheets(url(&quot;data/week6_coffee_chains.xlsx&quot;))
+# Starbucks &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6SB.rds&quot;))
+# Dunkin.Donuts &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6DD.rds&quot;))
+# Tim.Hortons &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6TH.rds&quot;))
+Starbucks &lt;- readRDS(&quot;../../data/week6SB.rds&quot;)
+Dunkin.Donuts &lt;- readRDS(&quot;../../data/week6DD.rds&quot;)
+Tim.Hortons &lt;- readRDS(&quot;../../data/week6TH.rds&quot;)</code></pre>
 <p>What do the data look like?</p>
 <pre class="r"><code>library(skimr)</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;skimr&#39;:

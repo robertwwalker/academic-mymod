@@ -95,7 +95,7 @@ save(Pres.Acts,PresAct.linkset,Statements.Briefings,BriefState.linkset, file="da
 
 ```{r DataL}
 library(here)
-load(paste0(here(),"/data/PresText.RData"))
+load(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/PresText.RData"))
 ```
 
 
