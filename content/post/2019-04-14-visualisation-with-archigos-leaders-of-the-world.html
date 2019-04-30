@@ -77,8 +77,9 @@ CSTS.Data &lt;- data.frame(do.call(rbind, CSTS))
 CSTS.Data$Name &lt;- as.character(CSTS.Data$Name)
 CSTS.Data$idacr &lt;- as.character(CSTS.Data$idacr)
 # That gets it.  Down to nt=17565.</code></pre>
-<p>CSTS.Data is my result. It has been saved in a subdirectory <code>Archigos-etc</code> of my data on GitHub. You can load it with</p>
-<pre><code>readRDS(url(&quot;&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/Archigos-etc/GWCSTS.rds&quot;&quot;))</code></pre>
+<p>CSTS.Data is my result. It has been saved in a subdirectory <code>Archigos-etc</code> of my data on GitHub. You can load it with:</p>
+<pre><code>CSTS.Data &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/Archigos-etc/GWCSTS.rds&quot;))
+CSTS.Data &lt;- read.csv(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/Archigos-etc/GWCSTS.csv&quot;, stringsAsFactors=FALSE)</code></pre>
 <p>Now I want to accomplish the same thing with a dataset of leaders. The unit here is the leader year. Each leader in Archigos will appear at least once. The method is identical.</p>
 <pre class="r"><code>Archigos &lt;- Archigos %&gt;% group_by(obsid) %&gt;% mutate(startYear = year(startdate), endYear = year(enddate)) %&gt;% ungroup()
 Archigos$obsid &lt;- as.character(Archigos$obsid)
@@ -101,7 +102,7 @@ Full.LTS %&gt;% group_by(leadid.x) %&gt;% summarise(CC.sd = sd(ccode)) %&gt;% ar
 ## 1 81de4823-1e42-11e4-b4cd-db5882bf8def  6.93
 ## 2 821be4de-1e42-11e4-b4cd-db5882bf8def  2.67</code></pre>
 <pre class="r"><code># If countries are a proper nesting operator, then things can be made much easier.  They 
-Full.LTS %&gt;% filter(leadid.x == &quot;81de4823-1e42-11e4-b4cd-db5882bf8def&quot;)</code></pre>
+Full.LTS %&gt;% filter(leadid.x == &quot;81de4823-1e42-11e4-b4cd-db5882bf8def&quot;) # This one seems to be an error with implications</code></pre>
 <pre><code>##         obsid          leader.x                             leadid.x
 ## 1    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def
 ## 2    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def
@@ -392,7 +393,7 @@ Full.LTS %&gt;% filter(leadid.x == &quot;81de4823-1e42-11e4-b4cd-db5882bf8def&qu
 ## 26      1876    1878
 ## 27      1876    1878
 ## 28      1876    1878</code></pre>
-<pre class="r"><code>Full.LTS %&gt;% filter(leadid.x == &quot;821be4de-1e42-11e4-b4cd-db5882bf8def&quot;)</code></pre>
+<pre class="r"><code>Full.LTS %&gt;% filter(leadid.x == &quot;821be4de-1e42-11e4-b4cd-db5882bf8def&quot;) # Cool, someone led two countries.</code></pre>
 <pre><code>##      obsid  leader.x                             leadid.x idacr.x year
 ## 1 SER-2006 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER 2006
 ## 2 SER-2006 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER 2007
@@ -458,8 +459,9 @@ Full.LTS %&gt;% filter(leadid.x == &quot;81de4823-1e42-11e4-b4cd-db5882bf8def&qu
 ## 6    2003
 ## 7    2003</code></pre>
 <p>There are two leaders that led multiple countries. The rest are nested. One of them makes sense, the other seems to be a bad hash.</p>
-<p>Full.LTS is my result. It has been saved in a subdirectory <code>Archigos-etc</code> of my data on GitHub. It contains some merged back sanity checks also. You can load it with</p>
-<pre><code>readRDS(url(&quot;&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/Archigos-etc/Archigos-LTS.rds&quot;&quot;))</code></pre>
+<p>Full.LTS is my result. It has been saved in a subdirectory <code>Archigos-etc</code> of my data on GitHub. It contains some merged back sanity checks also. You can load it with:</p>
+<pre><code>Full.LTS &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/Archigos-etc/Archigos-LTS.rds&quot;))
+Full.LTS &lt;- read.csv(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/Archigos-etc/Archigos-LTS.csv&quot;, stringsAsFactors=FALSE)</code></pre>
 </div>
 </div>
 <div id="on-leaders" class="section level2">
