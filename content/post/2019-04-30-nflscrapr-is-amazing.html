@@ -39,6 +39,8 @@ library(RCurl)
 library(kableExtra)
 library(gganimate)
 library(ggrepel)
+library(ggthemes)
+library(RColorBrewer)
 all_2018_games &lt;-readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/NFLGames2018.rds&quot;))
 all_2018_games %&gt;%  kable()  %&gt;%
   kable_styling() %&gt;%
@@ -8441,7 +8443,10 @@ Dallas.Table %&gt;% head()</code></pre>
 ## 15         20
 ## 16         36</code></pre>
 <p>Now I want to put together a plot of the season. This is pretty cool but it still needs a little bit of work. The magic is that Dallas is a constant color.</p>
-<pre class="r"><code>dal_wp &lt;- dal_season %&gt;% 
+<pre class="r"><code>NFL.colors &lt;- nflteams %&gt;% select(primary)
+NFL.colors &lt;- as.vector(NFL.colors$primary)
+names(NFL.colors) &lt;- nflteams$abbr
+dal_wp &lt;- dal_season %&gt;% 
   filter(!is.na(home_wp),
          !is.na(away_wp)) %&gt;% unite(GIDGSR, game_seconds_remaining, game_id, sep=&quot;:&quot;)
 dal_wp &lt;- dal_wp %&gt;% dplyr::select(GIDGSR,
@@ -8449,16 +8454,9 @@ dal_wp &lt;- dal_wp %&gt;% dplyr::select(GIDGSR,
                 away_wp)  %&gt;%
   gather(team, wpa, -GIDGSR) %&gt;% separate(., GIDGSR, c(&quot;GSR&quot;, &quot;game_id&quot;), sep=&quot;:&quot;) %&gt;% 
   mutate(game_seconds_remaining = as.integer(GSR))
-dal_plt &lt;- dal_wp %&gt;% left_join(My.NFL.Table)</code></pre>
-<pre><code>## Joining, by = &quot;game_id&quot;</code></pre>
-<pre class="r"><code>dal_plt &lt;- dal_plt %&gt;% left_join(all_2018_games)</code></pre>
-<pre><code>## Joining, by = c(&quot;game_id&quot;, &quot;home_team&quot;, &quot;away_team&quot;, &quot;type&quot;, &quot;week&quot;, &quot;season&quot;, &quot;state_of_game&quot;, &quot;game_url&quot;, &quot;home_score&quot;, &quot;away_score&quot;)</code></pre>
-<pre><code>## Warning: Column `game_url` has different attributes on LHS and RHS of join</code></pre>
-<pre><code>## Warning: Column `home_score` has different attributes on LHS and RHS of
-## join</code></pre>
-<pre><code>## Warning: Column `away_score` has different attributes on LHS and RHS of
-## join</code></pre>
-<pre class="r"><code>dal_plt$colors1 &lt;- NA
+dal_plt &lt;- dal_wp %&gt;% left_join(My.NFL.Table)
+dal_plt &lt;- dal_plt %&gt;% left_join(all_2018_games)
+dal_plt$colors1 &lt;- NA
 dal_plt[dal_plt$team==&quot;home_wp&quot;,&quot;colors1&quot;] &lt;- dal_plt[dal_plt$team==&quot;home_wp&quot;,&quot;Home_primary&quot;]
 dal_plt[dal_plt$team==&quot;away_wp&quot;,&quot;colors1&quot;] &lt;- dal_plt[dal_plt$team==&quot;away_wp&quot;,&quot;Away_primary&quot;]
 dal_plt[dal_plt$team==&quot;home_wp&quot;,&quot;team&quot;] &lt;- dal_plt[dal_plt$team==&quot;home_wp&quot;,&quot;home_team&quot;]
@@ -8466,13 +8464,12 @@ dal_plt[dal_plt$team==&quot;away_wp&quot;,&quot;team&quot;] &lt;- dal_plt[dal_pl
 dal_plt$dateG &lt;- substring(dal_plt$game_id, 5, 8)
 dal_plt$titleS &lt;- with(dal_plt, paste0(dateG,&quot;: &quot;,Home_team,&quot;(&quot;,home_score,&quot;) v. &quot;, Away_team ,&quot;(&quot;,away_score,&quot;)&quot;))
 Mini.GSR &lt;- dal_plt %&gt;% group_by(game_id, team) %&gt;% slice( n() ) %&gt;% ungroup() %&gt;% mutate(labs1 = team) %&gt;%  select(game_id, team, game_seconds_remaining, labs1)
-dal_plt &lt;- dal_plt %&gt;% left_join(Mini.GSR)</code></pre>
-<pre><code>## Joining, by = c(&quot;game_id&quot;, &quot;team&quot;, &quot;game_seconds_remaining&quot;)</code></pre>
-<pre class="r"><code>p &lt;- dal_plt %&gt;% ggplot() + aes(x = game_seconds_remaining, y = wpa, color = team, label = labs1) +
+dal_plt &lt;- dal_plt %&gt;% left_join(Mini.GSR)
+p &lt;- dal_plt %&gt;% ggplot() + aes(x = game_seconds_remaining, y = wpa, color = team, label = labs1) +
   geom_line(size = 1) +
   geom_label(size=6.5, nudge_x = 150, hjust=1.5) +
   geom_hline(yintercept = 0.5, color = &quot;gray&quot;, linetype = &quot;dashed&quot;) +
-  scale_color_viridis_d(guide=FALSE) +
+  scale_color_manual(values  = NFL.colors, guide=FALSE) +
   scale_x_reverse(breaks = seq(0, 3600, 300)) + 
   geom_vline(xintercept = 900, linetype = &quot;dashed&quot;, black) + 
   geom_vline(xintercept = 1800, linetype = &quot;dashed&quot;, black) + 
@@ -8484,229 +8481,302 @@ dal_plt &lt;- dal_plt %&gt;% left_join(Mini.GSR)</code></pre>
     title=&quot;2018 Dallas Cowboys Season&quot;,
     subtitle = &quot;{closest_state}&quot;,
     caption = &quot;Data from nflscrapR&quot;
-  ) + theme_minimal() + theme(text=element_text(size=12)) + transition_states(titleS, transition_length=10, state_length = 15)
+  ) + theme_dark() + theme(text=element_text(size=12)) + transition_states(titleS, transition_length=10, state_length = 15)
 animate(p, nframes=450)</code></pre>
-<pre><code>## Warning: Removed 336 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 336 rows containing missing values (geom_label).
+<p><img src="/post/2019-04-30-nflscrapr-is-amazing_files/figure-html/unnamed-chunk-8-1.gif" /><!-- --></p>
+<p>I can write a function to take an input and give an animation for a team. The hardest part was figuring out the color map. The first example, dedicated to Cristian Salgado that sparked my interest in these data, is San Francisco. Then to try it out for another team, I will implement the Texans.</p>
+<pre class="r"><code>season_animator &lt;- function(teamName, data1=full_season_2018, data2=all_2018_games, nflteams = nflscrapR::nflteams) {
+  NFL.colors &lt;- nflteams %&gt;% select(primary)
+  NFL.colors &lt;- as.vector(NFL.colors$primary)
+  names(NFL.colors) &lt;- nflteams$abbr
+  teamName &lt;- teamName
+  title.ST &lt;- nflscrapR::nflteams %&gt;% filter(abbr==teamName) %&gt;% select(team) %&gt;% as.character()
+  title.My &lt;- paste0(&quot;2018 Season: &quot;,title.ST)
+  team_season &lt;- data1 %&gt;% filter(home_team==teamName | away_team==teamName)
+  ntable &lt;- data2 %&gt;% select(game_id, home_team, away_team)
+  ntableH &lt;- ntable
+  ntableH &lt;- ntableH %&gt;% left_join(nflteams, by = c(&quot;home_team&quot; = &quot;abbr&quot;))
+  names(ntableH) &lt;- paste0(&quot;Home_&quot;,names(ntableH), sep=&quot;&quot;)
+  ntableH &lt;- ntableH %&gt;% rename(., game_id = Home_game_id, home_team = Home_home_team, away_team = Home_away_team)
+  ntableA &lt;- ntable
+  ntableA &lt;- ntableA %&gt;% left_join(nflteams, by = c(&quot;away_team&quot; = &quot;abbr&quot;))
+  names(ntableA) &lt;- paste0(&quot;Away_&quot;,names(ntableA), sep=&quot;&quot;)
+  ntableA &lt;- ntableA %&gt;% rename(., game_id = Away_game_id, home_team = Away_home_team, away_team = Away_away_team)
+  My.NFL.Table &lt;- ntableH %&gt;% inner_join(ntableA)
+  My.NFL.Table &lt;- My.NFL.Table %&gt;% left_join(all_2018_games)
+  Team.Table &lt;- My.NFL.Table %&gt;% filter(home_team==teamName | away_team==teamName) %&gt;% select(game_id,Home_team,home_score, Away_team, away_score)
+  team_wp &lt;- team_season %&gt;% 
+  filter(!is.na(home_wp),!is.na(away_wp)) %&gt;% 
+    unite(GIDGSR, game_seconds_remaining, game_id, sep=&quot;:&quot;)
+team_wp &lt;- team_wp %&gt;% dplyr::select(GIDGSR,
+                home_wp,
+                away_wp)  %&gt;%
+  gather(team, wpa, -GIDGSR) %&gt;% separate(., GIDGSR, c(&quot;GSR&quot;, &quot;game_id&quot;), sep=&quot;:&quot;) %&gt;% 
+  mutate(game_seconds_remaining = as.integer(GSR))
+  dal_plt &lt;- team_wp %&gt;% left_join(My.NFL.Table)
+  dal_plt &lt;- dal_plt %&gt;% left_join(data2)
+  dal_plt[dal_plt$team==&quot;home_wp&quot;,&quot;team&quot;] &lt;- dal_plt[dal_plt$team==&quot;home_wp&quot;,&quot;home_team&quot;]
+  dal_plt[dal_plt$team==&quot;away_wp&quot;,&quot;team&quot;] &lt;- dal_plt[dal_plt$team==&quot;away_wp&quot;,&quot;away_team&quot;]
+  dal_plt$dateG &lt;- substring(dal_plt$game_id, 5, 8)
+  dal_plt$titleS &lt;- with(dal_plt, paste0(dateG,&quot;: &quot;,Home_team,&quot;(&quot;,home_score,&quot;) v. &quot;, Away_team ,&quot;(&quot;,away_score,&quot;)&quot;))
+  Mini.GSR &lt;- dal_plt %&gt;% group_by(game_id, team) %&gt;% slice( n() ) %&gt;% ungroup() %&gt;% mutate(labs1 = team) %&gt;%  select(game_id, team, game_seconds_remaining, labs1)
+  dal_plt &lt;- dal_plt %&gt;% left_join(Mini.GSR)
+  p &lt;- dal_plt %&gt;% ggplot() + aes(x = game_seconds_remaining, y = wpa, color = team, label = labs1) +
+  geom_line(size = 1) +
+  geom_label(size=6.5, nudge_x = 50, hjust=1.5) +
+  geom_hline(yintercept = 0.5, color = &quot;gray&quot;, linetype = &quot;dashed&quot;) +
+  scale_color_manual(values = NFL.colors, guide=FALSE) +
+#  scale_color_viridis_d(guide=FALSE) +
+  scale_x_reverse(breaks = seq(0, 3600, 300)) + 
+  geom_vline(xintercept = 900, linetype = &quot;dashed&quot;, black) + 
+  geom_vline(xintercept = 1800, linetype = &quot;dashed&quot;, black) + 
+  geom_vline(xintercept = 2700, linetype = &quot;dashed&quot;, black) + 
+  geom_vline(xintercept = 0, linetype = &quot;dashed&quot;, black) + 
+  labs(
+    x = &quot;Time Remaining (seconds)&quot;,
+    y = &quot;Win Probability&quot;,
+    title=title.My,
+    subtitle = &quot;{closest_state}&quot;,
+    caption = &quot;Data from nflscrapR&quot;
+  ) + theme_dark() + theme(text=element_text(size=11)) + transition_states(titleS, transition_length=10, state_length = 15)
+animate(p, nframes=450)
+}
+SFS &lt;- season_animator(&quot;SF&quot;)
+SFS</code></pre>
+<p><img src="/post/2019-04-30-nflscrapr-is-amazing_files/figure-html/unnamed-chunk-9-1.gif" /><!-- --></p>
+<p>Do the Texans work?</p>
+<pre class="r"><code>HOU &lt;- season_animator(&quot;HOU&quot;)</code></pre>
+<pre><code>## Joining, by = c(&quot;game_id&quot;, &quot;home_team&quot;, &quot;away_team&quot;)
+## Joining, by = c(&quot;game_id&quot;, &quot;home_team&quot;, &quot;away_team&quot;)</code></pre>
+<pre><code>## Joining, by = &quot;game_id&quot;</code></pre>
+<pre><code>## Joining, by = c(&quot;game_id&quot;, &quot;home_team&quot;, &quot;away_team&quot;, &quot;type&quot;, &quot;week&quot;, &quot;season&quot;, &quot;state_of_game&quot;, &quot;game_url&quot;, &quot;home_score&quot;, &quot;away_score&quot;)</code></pre>
+<pre><code>## Warning: Column `game_url` has different attributes on LHS and RHS of join</code></pre>
+<pre><code>## Warning: Column `home_score` has different attributes on LHS and RHS of
+## join</code></pre>
+<pre><code>## Warning: Column `away_score` has different attributes on LHS and RHS of
+## join</code></pre>
+<pre><code>## Joining, by = c(&quot;game_id&quot;, &quot;team&quot;, &quot;game_seconds_remaining&quot;)</code></pre>
+<pre><code>## Warning: Removed 382 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).
 
-## Warning: Removed 336 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 335 rows containing missing values (geom_label).
+## Warning: Removed 382 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 381 rows containing missing values (geom_label).
 
-## Warning: Removed 335 rows containing missing values (geom_label).
+## Warning: Removed 381 rows containing missing values (geom_label).
 
-## Warning: Removed 335 rows containing missing values (geom_label).
+## Warning: Removed 381 rows containing missing values (geom_label).
 
-## Warning: Removed 335 rows containing missing values (geom_label).
+## Warning: Removed 381 rows containing missing values (geom_label).
 
-## Warning: Removed 335 rows containing missing values (geom_label).
+## Warning: Removed 381 rows containing missing values (geom_label).
 
-## Warning: Removed 335 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 381 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 311 rows containing missing values (geom_label).
+## Warning: Removed 332 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 311 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 311 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 311 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 311 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 311 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 346 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 344 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 344 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 344 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 344 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 344 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 344 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).
 
-## Warning: Removed 308 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 450 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 448 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 448 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 448 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 448 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).
+## Warning: Removed 448 rows containing missing values (geom_label).
 
-## Warning: Removed 310 rows containing missing values (geom_label).</code></pre>
+## Warning: Removed 448 rows containing missing values (geom_label).</code></pre>
 <pre><code>## Warning: Removed 358 rows containing missing values (geom_label).
 
 ## Warning: Removed 358 rows containing missing values (geom_label).
@@ -8815,889 +8885,60 @@ animate(p, nframes=450)</code></pre>
 ## Warning: Removed 315 rows containing missing values (geom_label).
 
 ## Warning: Removed 315 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 326 rows containing missing values (geom_label).
+<pre><code>## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).
 
-## Warning: Removed 326 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 325 rows containing missing values (geom_label).
+## Warning: Removed 330 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 325 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 325 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 325 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 325 rows containing missing values (geom_label).
+## Warning: Removed 331 rows containing missing values (geom_label).
 
-## Warning: Removed 325 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).
-
-## Warning: Removed 318 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 319 rows containing missing values (geom_label).
-
-## Warning: Removed 319 rows containing missing values (geom_label).
-
-## Warning: Removed 319 rows containing missing values (geom_label).
-
-## Warning: Removed 319 rows containing missing values (geom_label).
-
-## Warning: Removed 319 rows containing missing values (geom_label).
-
-## Warning: Removed 319 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).
-
-## Warning: Removed 334 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 332 rows containing missing values (geom_label).
-
-## Warning: Removed 332 rows containing missing values (geom_label).
-
-## Warning: Removed 332 rows containing missing values (geom_label).
-
-## Warning: Removed 332 rows containing missing values (geom_label).
-
-## Warning: Removed 332 rows containing missing values (geom_label).
-
-## Warning: Removed 332 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).
-
-## Warning: Removed 304 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 306 rows containing missing values (geom_label).
-
-## Warning: Removed 306 rows containing missing values (geom_label).
-
-## Warning: Removed 306 rows containing missing values (geom_label).
-
-## Warning: Removed 306 rows containing missing values (geom_label).
-
-## Warning: Removed 306 rows containing missing values (geom_label).
-
-## Warning: Removed 306 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 351 rows containing missing values (geom_label).
-
-## Warning: Removed 351 rows containing missing values (geom_label).
-
-## Warning: Removed 351 rows containing missing values (geom_label).
-
-## Warning: Removed 351 rows containing missing values (geom_label).
-
-## Warning: Removed 351 rows containing missing values (geom_label).
-
-## Warning: Removed 351 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).
-
-## Warning: Removed 300 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 301 rows containing missing values (geom_label).
-
-## Warning: Removed 301 rows containing missing values (geom_label).
-
-## Warning: Removed 301 rows containing missing values (geom_label).
-
-## Warning: Removed 301 rows containing missing values (geom_label).
-
-## Warning: Removed 301 rows containing missing values (geom_label).
-
-## Warning: Removed 301 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).
-
-## Warning: Removed 322 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 323 rows containing missing values (geom_label).
-
-## Warning: Removed 323 rows containing missing values (geom_label).
-
-## Warning: Removed 323 rows containing missing values (geom_label).
-
-## Warning: Removed 323 rows containing missing values (geom_label).
-
-## Warning: Removed 323 rows containing missing values (geom_label).
-
-## Warning: Removed 323 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).
-
-## Warning: Removed 340 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 341 rows containing missing values (geom_label).
-
-## Warning: Removed 341 rows containing missing values (geom_label).
-
-## Warning: Removed 341 rows containing missing values (geom_label).
-
-## Warning: Removed 341 rows containing missing values (geom_label).
-
-## Warning: Removed 341 rows containing missing values (geom_label).
-
-## Warning: Removed 341 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).
-
-## Warning: Removed 372 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 371 rows containing missing values (geom_label).
-
-## Warning: Removed 371 rows containing missing values (geom_label).
-
-## Warning: Removed 371 rows containing missing values (geom_label).
-
-## Warning: Removed 371 rows containing missing values (geom_label).
-
-## Warning: Removed 371 rows containing missing values (geom_label).
-
-## Warning: Removed 371 rows containing missing values (geom_label).</code></pre>
-<p><img src="/post/2019-04-30-nflscrapr-is-amazing_files/figure-html/unnamed-chunk-8-1.gif" /><!-- --></p>
-<p>I can write a function to take an input and give an animation for a team.</p>
-<pre class="r"><code>season_animator &lt;- function(teamName, data1, data2) {
-dal_season &lt;- data1 %&gt;% filter(home_team==teamName | away_team==teamName)
-ntable &lt;- data2 %&gt;% select(game_id, home_team, away_team)
-ntableH &lt;- ntable
-ntableH &lt;- ntableH %&gt;% left_join(nflteams, by = c(&quot;home_team&quot; = &quot;abbr&quot;))
-names(ntableH) &lt;- paste0(&quot;Home_&quot;,names(ntableH), sep=&quot;&quot;)
-ntableH &lt;- ntableH %&gt;% rename(., game_id = Home_game_id, home_team = Home_home_team, away_team = Home_away_team)
-ntableA &lt;- ntable
-ntableA &lt;- ntableA %&gt;% left_join(nflteams, by = c(&quot;away_team&quot; = &quot;abbr&quot;))
-names(ntableA) &lt;- paste0(&quot;Away_&quot;,names(ntableA), sep=&quot;&quot;)
-ntableA &lt;- ntableA %&gt;% rename(., game_id = Away_game_id, home_team = Away_home_team, away_team = Away_away_team)
-My.NFL.Table &lt;- ntableH %&gt;% inner_join(ntableA)
-My.NFL.Table &lt;- My.NFL.Table %&gt;% left_join(all_2018_games)
-Team.Table &lt;- My.NFL.Table %&gt;% filter(home_team==teamName | away_team==teamName)
-Team.Table %&gt;% head()
-Team.Table %&gt;% select(game_id,Home_team,home_score, Away_team, away_score)
-dal_wp &lt;- dal_season %&gt;% 
-  filter(!is.na(home_wp),
-         !is.na(away_wp)) %&gt;% unite(GIDGSR, game_seconds_remaining, game_id, sep=&quot;:&quot;)
-dal_wp &lt;- dal_wp %&gt;% dplyr::select(GIDGSR,
-                home_wp,
-                away_wp)  %&gt;%
-  gather(team, wpa, -GIDGSR) %&gt;% separate(., GIDGSR, c(&quot;GSR&quot;, &quot;game_id&quot;), sep=&quot;:&quot;) %&gt;% 
-  mutate(game_seconds_remaining = as.integer(GSR))
-dal_plt &lt;- dal_wp %&gt;% left_join(My.NFL.Table)
-dal_plt &lt;- dal_plt %&gt;% left_join(data2)
-dal_plt$colors1 &lt;- NA
-dal_plt[dal_plt$team==&quot;home_wp&quot;,&quot;colors1&quot;] &lt;- dal_plt[dal_plt$team==&quot;home_wp&quot;,&quot;Home_primary&quot;]
-dal_plt[dal_plt$team==&quot;away_wp&quot;,&quot;colors1&quot;] &lt;- dal_plt[dal_plt$team==&quot;away_wp&quot;,&quot;Away_primary&quot;]
-dal_plt[dal_plt$team==&quot;home_wp&quot;,&quot;team&quot;] &lt;- dal_plt[dal_plt$team==&quot;home_wp&quot;,&quot;home_team&quot;]
-dal_plt[dal_plt$team==&quot;away_wp&quot;,&quot;team&quot;] &lt;- dal_plt[dal_plt$team==&quot;away_wp&quot;,&quot;away_team&quot;]
-dal_plt$dateG &lt;- substring(dal_plt$game_id, 5, 8)
-dal_plt$titleS &lt;- with(dal_plt, paste0(dateG,&quot;: &quot;,Home_team,&quot;(&quot;,home_score,&quot;) v. &quot;, Away_team ,&quot;(&quot;,away_score,&quot;)&quot;))
-Mini.GSR &lt;- dal_plt %&gt;% group_by(game_id, team) %&gt;% slice( n() ) %&gt;% ungroup() %&gt;% mutate(labs1 = team) %&gt;%  select(game_id, team, game_seconds_remaining, labs1)
-dal_plt &lt;- dal_plt %&gt;% left_join(Mini.GSR)
-p &lt;- dal_plt %&gt;% ggplot() + aes(x = game_seconds_remaining, y = wpa, color = team, label = labs1) +
-  geom_line(size = 1) +
-  geom_label(size=6, nudge_x = 200, hjust=2) +
-  geom_hline(yintercept = 0.5, color = &quot;gray&quot;, linetype = &quot;dashed&quot;) +
-  scale_color_viridis_d(guide=FALSE) +
-  scale_x_reverse(breaks = seq(0, 3600, 300)) + 
-  geom_vline(xintercept = 900, linetype = &quot;dashed&quot;, black) + 
-  geom_vline(xintercept = 1800, linetype = &quot;dashed&quot;, black) + 
-  geom_vline(xintercept = 2700, linetype = &quot;dashed&quot;, black) + 
-  geom_vline(xintercept = 0, linetype = &quot;dashed&quot;, black) + 
-  labs(
-    x = &quot;Time Remaining (seconds)&quot;,
-    y = &quot;Win Probability&quot;,
-    title=&quot;2018 Dallas Cowboys Season&quot;,
-    subtitle = &quot;{closest_state}&quot;,
-    caption = &quot;Data from nflscrapR&quot;
-  ) + theme_minimal() + theme(text=element_text(size=12)) + transition_states(titleS, transition_length=10, state_length = 15)
-animate(p, nframes=450)
-}
-SFS &lt;- season_animator(&quot;SF&quot;, full_season_2018, all_2018_games)</code></pre>
-<pre><code>## Joining, by = c(&quot;game_id&quot;, &quot;home_team&quot;, &quot;away_team&quot;)
-## Joining, by = c(&quot;game_id&quot;, &quot;home_team&quot;, &quot;away_team&quot;)</code></pre>
-<pre><code>## Joining, by = &quot;game_id&quot;</code></pre>
-<pre><code>## Joining, by = c(&quot;game_id&quot;, &quot;home_team&quot;, &quot;away_team&quot;, &quot;type&quot;, &quot;week&quot;, &quot;season&quot;, &quot;state_of_game&quot;, &quot;game_url&quot;, &quot;home_score&quot;, &quot;away_score&quot;)</code></pre>
-<pre><code>## Warning: Column `game_url` has different attributes on LHS and RHS of join</code></pre>
-<pre><code>## Warning: Column `home_score` has different attributes on LHS and RHS of
-## join</code></pre>
-<pre><code>## Warning: Column `away_score` has different attributes on LHS and RHS of
-## join</code></pre>
-<pre><code>## Joining, by = c(&quot;game_id&quot;, &quot;team&quot;, &quot;game_seconds_remaining&quot;)</code></pre>
-<pre><code>## Warning: Removed 350 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).
-
-## Warning: Removed 350 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).
-
-## Warning: Removed 352 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).
-
-## Warning: Removed 366 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 365 rows containing missing values (geom_label).
-
-## Warning: Removed 365 rows containing missing values (geom_label).
-
-## Warning: Removed 365 rows containing missing values (geom_label).
-
-## Warning: Removed 365 rows containing missing values (geom_label).
-
-## Warning: Removed 365 rows containing missing values (geom_label).
-
-## Warning: Removed 365 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).
-
-## Warning: Removed 362 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 361 rows containing missing values (geom_label).
-
-## Warning: Removed 361 rows containing missing values (geom_label).
-
-## Warning: Removed 361 rows containing missing values (geom_label).
-
-## Warning: Removed 361 rows containing missing values (geom_label).
-
-## Warning: Removed 361 rows containing missing values (geom_label).
-
-## Warning: Removed 361 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).
-
-## Warning: Removed 328 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 329 rows containing missing values (geom_label).
-
-## Warning: Removed 329 rows containing missing values (geom_label).
-
-## Warning: Removed 329 rows containing missing values (geom_label).
-
-## Warning: Removed 329 rows containing missing values (geom_label).
-
-## Warning: Removed 329 rows containing missing values (geom_label).
-
-## Warning: Removed 329 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).
-
-## Warning: Removed 374 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 373 rows containing missing values (geom_label).
-
-## Warning: Removed 373 rows containing missing values (geom_label).
-
-## Warning: Removed 373 rows containing missing values (geom_label).
-
-## Warning: Removed 373 rows containing missing values (geom_label).
-
-## Warning: Removed 373 rows containing missing values (geom_label).
-
-## Warning: Removed 373 rows containing missing values (geom_label).</code></pre>
+## Warning: Removed 331 rows containing missing values (geom_label).</code></pre>
 <pre><code>## Warning: Removed 338 rows containing missing values (geom_label).
 
 ## Warning: Removed 338 rows containing missing values (geom_label).
@@ -9752,168 +8993,60 @@ SFS &lt;- season_animator(&quot;SF&quot;, full_season_2018, all_2018_games)</cod
 ## Warning: Removed 337 rows containing missing values (geom_label).
 
 ## Warning: Removed 337 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 306 rows containing missing values (geom_label).
+<pre><code>## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).
 
-## Warning: Removed 306 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 307 rows containing missing values (geom_label).
+## Warning: Removed 336 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 339 rows containing missing values (geom_label).
 
-## Warning: Removed 307 rows containing missing values (geom_label).
+## Warning: Removed 339 rows containing missing values (geom_label).
 
-## Warning: Removed 307 rows containing missing values (geom_label).
+## Warning: Removed 339 rows containing missing values (geom_label).
 
-## Warning: Removed 307 rows containing missing values (geom_label).
+## Warning: Removed 339 rows containing missing values (geom_label).
 
-## Warning: Removed 307 rows containing missing values (geom_label).
+## Warning: Removed 339 rows containing missing values (geom_label).
 
-## Warning: Removed 307 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).
-
-## Warning: Removed 344 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 343 rows containing missing values (geom_label).
-
-## Warning: Removed 343 rows containing missing values (geom_label).
-
-## Warning: Removed 343 rows containing missing values (geom_label).
-
-## Warning: Removed 343 rows containing missing values (geom_label).
-
-## Warning: Removed 343 rows containing missing values (geom_label).
-
-## Warning: Removed 343 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 295 rows containing missing values (geom_label).
-
-## Warning: Removed 295 rows containing missing values (geom_label).
-
-## Warning: Removed 295 rows containing missing values (geom_label).
-
-## Warning: Removed 295 rows containing missing values (geom_label).
-
-## Warning: Removed 295 rows containing missing values (geom_label).
-
-## Warning: Removed 295 rows containing missing values (geom_label).</code></pre>
+## Warning: Removed 339 rows containing missing values (geom_label).</code></pre>
 <pre><code>## Warning: Removed 348 rows containing missing values (geom_label).
 
 ## Warning: Removed 348 rows containing missing values (geom_label).
@@ -9957,287 +9090,179 @@ SFS &lt;- season_animator(&quot;SF&quot;, full_season_2018, all_2018_games)</cod
 ## Warning: Removed 348 rows containing missing values (geom_label).
 
 ## Warning: Removed 348 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 349 rows containing missing values (geom_label).
+<pre><code>## Warning: Removed 347 rows containing missing values (geom_label).
 
-## Warning: Removed 349 rows containing missing values (geom_label).
+## Warning: Removed 347 rows containing missing values (geom_label).
 
-## Warning: Removed 349 rows containing missing values (geom_label).
+## Warning: Removed 347 rows containing missing values (geom_label).
 
-## Warning: Removed 349 rows containing missing values (geom_label).
+## Warning: Removed 347 rows containing missing values (geom_label).
 
-## Warning: Removed 349 rows containing missing values (geom_label).
+## Warning: Removed 347 rows containing missing values (geom_label).
 
-## Warning: Removed 349 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 347 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).
 
-## Warning: Removed 350 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 351 rows containing missing values (geom_label).
+## Warning: Removed 318 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 319 rows containing missing values (geom_label).
 
-## Warning: Removed 351 rows containing missing values (geom_label).
+## Warning: Removed 319 rows containing missing values (geom_label).
 
-## Warning: Removed 351 rows containing missing values (geom_label).
+## Warning: Removed 319 rows containing missing values (geom_label).
 
-## Warning: Removed 351 rows containing missing values (geom_label).
+## Warning: Removed 319 rows containing missing values (geom_label).
 
-## Warning: Removed 351 rows containing missing values (geom_label).
+## Warning: Removed 319 rows containing missing values (geom_label).
 
-## Warning: Removed 351 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 319 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).
 
-## Warning: Removed 352 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 353 rows containing missing values (geom_label).
+## Warning: Removed 324 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 325 rows containing missing values (geom_label).
 
-## Warning: Removed 353 rows containing missing values (geom_label).
+## Warning: Removed 325 rows containing missing values (geom_label).
 
-## Warning: Removed 353 rows containing missing values (geom_label).
+## Warning: Removed 325 rows containing missing values (geom_label).
 
-## Warning: Removed 353 rows containing missing values (geom_label).
+## Warning: Removed 325 rows containing missing values (geom_label).
 
-## Warning: Removed 353 rows containing missing values (geom_label).
+## Warning: Removed 325 rows containing missing values (geom_label).
 
-## Warning: Removed 353 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 325 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).
 
-## Warning: Removed 370 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 368 rows containing missing values (geom_label).
+## Warning: Removed 358 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 357 rows containing missing values (geom_label).
 
-## Warning: Removed 368 rows containing missing values (geom_label).
+## Warning: Removed 357 rows containing missing values (geom_label).
 
-## Warning: Removed 368 rows containing missing values (geom_label).
+## Warning: Removed 357 rows containing missing values (geom_label).
 
-## Warning: Removed 368 rows containing missing values (geom_label).
+## Warning: Removed 357 rows containing missing values (geom_label).
 
-## Warning: Removed 368 rows containing missing values (geom_label).
+## Warning: Removed 357 rows containing missing values (geom_label).
 
-## Warning: Removed 368 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).
-
-## Warning: Removed 356 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 355 rows containing missing values (geom_label).
-
-## Warning: Removed 355 rows containing missing values (geom_label).
-
-## Warning: Removed 355 rows containing missing values (geom_label).
-
-## Warning: Removed 355 rows containing missing values (geom_label).
-
-## Warning: Removed 355 rows containing missing values (geom_label).
-
-## Warning: Removed 355 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).
-
-## Warning: Removed 294 rows containing missing values (geom_label).</code></pre>
-<pre><code>## Warning: Removed 295 rows containing missing values (geom_label).
-
-## Warning: Removed 295 rows containing missing values (geom_label).
-
-## Warning: Removed 295 rows containing missing values (geom_label).
-
-## Warning: Removed 295 rows containing missing values (geom_label).
-
-## Warning: Removed 295 rows containing missing values (geom_label).
-
-## Warning: Removed 295 rows containing missing values (geom_label).</code></pre>
+## Warning: Removed 357 rows containing missing values (geom_label).</code></pre>
 <pre><code>## Warning: Removed 344 rows containing missing values (geom_label).
 
 ## Warning: Removed 344 rows containing missing values (geom_label).
@@ -10292,6 +9317,115 @@ SFS &lt;- season_animator(&quot;SF&quot;, full_season_2018, all_2018_games)</cod
 ## Warning: Removed 345 rows containing missing values (geom_label).
 
 ## Warning: Removed 345 rows containing missing values (geom_label).</code></pre>
-<pre class="r"><code>SFS</code></pre>
-<p><img src="/post/2019-04-30-nflscrapr-is-amazing_files/figure-html/unnamed-chunk-9-1.gif" /><!-- --></p>
+<pre><code>## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).
+
+## Warning: Removed 372 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 371 rows containing missing values (geom_label).
+
+## Warning: Removed 371 rows containing missing values (geom_label).
+
+## Warning: Removed 371 rows containing missing values (geom_label).
+
+## Warning: Removed 371 rows containing missing values (geom_label).
+
+## Warning: Removed 371 rows containing missing values (geom_label).
+
+## Warning: Removed 371 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).
+
+## Warning: Removed 324 rows containing missing values (geom_label).</code></pre>
+<pre><code>## Warning: Removed 325 rows containing missing values (geom_label).
+
+## Warning: Removed 325 rows containing missing values (geom_label).
+
+## Warning: Removed 325 rows containing missing values (geom_label).
+
+## Warning: Removed 325 rows containing missing values (geom_label).
+
+## Warning: Removed 325 rows containing missing values (geom_label).
+
+## Warning: Removed 325 rows containing missing values (geom_label).</code></pre>
+<pre class="r"><code>HOU</code></pre>
+<p><img src="/post/2019-04-30-nflscrapr-is-amazing_files/figure-html/unnamed-chunk-10-1.gif" /><!-- --></p>
+<p>I still have not completely figured out overtime. That comes next. <code>nflscrapR</code> is pretty cool. My next plan for this one is a shiny app that allows us to select the abbreviation and show everything.</p>
 </div>
