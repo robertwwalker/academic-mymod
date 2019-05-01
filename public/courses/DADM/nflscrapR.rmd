@@ -21,6 +21,7 @@ devtools::install_github(repo = "maksimhorowitz/nflscrapR")
 
 The github page for [nflscrapR](https://github.com/maksimhorowitz/nflscrapR) is quite informative.
 That
+
 ## Getting Some Data
 
 Following the guide to the package on GitHub, let me try their example.
@@ -57,6 +58,7 @@ Let me skim the data for an idea of what it looks like.  I will also pull in thr
 library(skimr)
 library(tidyverse)
 library(teamcolors)
+library(gganimate)
 full_season_2018 %>% skim()
 ```
 
@@ -137,7 +139,7 @@ Dallas.Table %>% select(game_id,Home_team,Away_team)
 ```
 
 
-The first thing to notice is that this color scheme thing is going to cause trouble when Dallas plays the Seahawks that apparently have the same primary color.  For now, I think that I will just make the opponent some constant color.
+The first thing to notice is that this color scheme thing is going to cause trouble when Dallas plays teams that apparently have the same primary color.  For now, I think that I will just make the opponent some constant color.
 
 ```{r}
 dal_wp <- dal_season %>% 
@@ -148,16 +150,21 @@ dal_wp <- dal_wp %>% dplyr::select(GIDGSR,
                 away_wp)  %>%
   gather(team, wpa, -GIDGSR) %>% separate(., GIDGSR, c("GSR", "game_id"), sep=":") %>% 
   mutate(game_seconds_remaining = as.integer(GSR))
-dal_wp %>% ggplot(aes(x = game_seconds_remaining, y = wpa, color = team)) +
+dal_plt <- dal_wp %>% left_join(My.NFL.Table)
+dal_plt$colors1 <- NA
+dal_plt[dal_plt$team=="home_wp","colors1"] <- dal_plt[dal_plt$team=="home_wp","Home_primary"]
+dal_plt[dal_plt$team=="away_wp","colors1"] <- dal_plt[dal_plt$team=="away_wp","Away_primary"]
+dal_plt[dal_plt$team=="home_wp","team"] <- dal_plt[dal_plt$team=="home_wp","home_team"]
+dal_plt[dal_plt$team=="away_wp","team"] <- dal_plt[dal_plt$team=="away_wp","away_team"]
+dal_plt$dateG <- substring(dal_plt$game_id, 1, 8)
+dal_plt$titleS <- with(dal_plt, paste0(dateG,": ",Home_team," v. ",Away_team))
+p <- dal_plt %>% ggplot() + aes(x = game_seconds_remaining, y = wpa, color = team) +
   geom_line(size = 2) +
   geom_hline(yintercept = 0.5, color = "gray", linetype = "dashed") +
-  scale_color_viridis_d() +
-#  scale_color_manual(labels = c("CAR", "DAL"),
-#                     values = c("#7FFF00", dal_color),
-#                     guide = FALSE) +
+  scale_color_viridis_d(guide=FALSE) +
   scale_x_reverse(breaks = seq(0, 3600, 300)) + 
-#  annotate("text", x = 3000, y = .75, label = "CAR", color = "#7FFF00", size = 8) + 
-#  annotate("text", x = 3000, y = .25, label = "DAL", color = dal_color, size = 8) +
+  annotate("text", x = 3000, y = .75, label = "Home", size = 8) + 
+  annotate("text", x = 3000, y = .25, label = "Away", size = 8) +
   geom_vline(xintercept = 900, linetype = "dashed", black) + 
   geom_vline(xintercept = 1800, linetype = "dashed", black) + 
   geom_vline(xintercept = 2700, linetype = "dashed", black) + 
@@ -165,9 +172,10 @@ dal_wp %>% ggplot(aes(x = game_seconds_remaining, y = wpa, color = team)) +
   labs(
     x = "Time Remaining (seconds)",
     y = "Win Probability",
-    title = "Win Probability Chart",
+    title = "{closest_state}",
 #    subtitle = "Carolina Panthers vs. Dallas Cowboys",
     caption = "Data from nflscrapR"
-  ) + theme_bw() + facet_wrap(~game_id)
+  ) + theme_bw() + transition_states(titleS, transition_length=6, state_length = 10)
+animate(p, nframes=400)
 ```
-
+I will stop with that.
