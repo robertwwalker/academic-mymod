@@ -45,6 +45,7 @@ library(nflscrapR)
 library(RCurl)
 library(kableExtra)
 library(gganimate)
+library(ggrepel)
 all_2018_games <-readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/NFLGames2018.rds"))
 all_2018_games %>%  kable()  %>%
   kable_styling() %>%
@@ -120,20 +121,22 @@ dal_wp <- dal_wp %>% dplyr::select(GIDGSR,
   gather(team, wpa, -GIDGSR) %>% separate(., GIDGSR, c("GSR", "game_id"), sep=":") %>% 
   mutate(game_seconds_remaining = as.integer(GSR))
 dal_plt <- dal_wp %>% left_join(My.NFL.Table)
+dal_plt <- dal_plt %>% left_join(all_2018_games)
 dal_plt$colors1 <- NA
 dal_plt[dal_plt$team=="home_wp","colors1"] <- dal_plt[dal_plt$team=="home_wp","Home_primary"]
 dal_plt[dal_plt$team=="away_wp","colors1"] <- dal_plt[dal_plt$team=="away_wp","Away_primary"]
 dal_plt[dal_plt$team=="home_wp","team"] <- dal_plt[dal_plt$team=="home_wp","home_team"]
 dal_plt[dal_plt$team=="away_wp","team"] <- dal_plt[dal_plt$team=="away_wp","away_team"]
-dal_plt$dateG <- substring(dal_plt$game_id, 1, 8)
-dal_plt$titleS <- with(dal_plt, paste0(dateG,": ",Home_team," v. ",Away_team))
-p <- dal_plt %>% ggplot() + aes(x = game_seconds_remaining, y = wpa, color = team) +
+dal_plt$dateG <- substring(dal_plt$game_id, 5, 8)
+dal_plt$titleS <- with(dal_plt, paste0(dateG,": ",Home_team,"(",home_score,") v. ", Away_team ,"(",away_score,")"))
+Mini.GSR <- dal_plt %>% group_by(game_id, team) %>% slice( n() ) %>% ungroup() %>% mutate(labs1 = team) %>%  select(game_id, team, game_seconds_remaining, labs1)
+dal_plt <- dal_plt %>% left_join(Mini.GSR)
+p <- dal_plt %>% ggplot() + aes(x = game_seconds_remaining, y = wpa, color = team, label = labs1) +
   geom_line(size = 1) +
+  geom_label(size=6.5, nudge_x = 150, hjust=1.5) +
   geom_hline(yintercept = 0.5, color = "gray", linetype = "dashed") +
   scale_color_viridis_d(guide=FALSE) +
   scale_x_reverse(breaks = seq(0, 3600, 300)) + 
-  annotate("text", x = 3000, y = .75, label = "Home", size = 8) + 
-  annotate("text", x = 3000, y = .25, label = "Away", size = 8) +
   geom_vline(xintercept = 900, linetype = "dashed", black) + 
   geom_vline(xintercept = 1800, linetype = "dashed", black) + 
   geom_vline(xintercept = 2700, linetype = "dashed", black) + 
@@ -141,9 +144,71 @@ p <- dal_plt %>% ggplot() + aes(x = game_seconds_remaining, y = wpa, color = tea
   labs(
     x = "Time Remaining (seconds)",
     y = "Win Probability",
-    title = "{closest_state}",
-#    subtitle = "Carolina Panthers vs. Dallas Cowboys",
+    title="2018 Dallas Cowboys Season",
+    subtitle = "{closest_state}",
     caption = "Data from nflscrapR"
-  ) + theme_bw() + transition_states(titleS, transition_length=6, state_length = 10)
-animate(p, nframes=400)
+  ) + theme_minimal() + theme(text=element_text(size=12)) + transition_states(titleS, transition_length=10, state_length = 15)
+animate(p, nframes=450)
+```
+
+
+I can write a function to take an input and give an animation for a team.
+
+```{r}
+season_animator <- function(teamName, data1, data2) {
+dal_season <- data1 %>% filter(home_team==teamName | away_team==teamName)
+ntable <- data2 %>% select(game_id, home_team, away_team)
+ntableH <- ntable
+ntableH <- ntableH %>% left_join(nflteams, by = c("home_team" = "abbr"))
+names(ntableH) <- paste0("Home_",names(ntableH), sep="")
+ntableH <- ntableH %>% rename(., game_id = Home_game_id, home_team = Home_home_team, away_team = Home_away_team)
+ntableA <- ntable
+ntableA <- ntableA %>% left_join(nflteams, by = c("away_team" = "abbr"))
+names(ntableA) <- paste0("Away_",names(ntableA), sep="")
+ntableA <- ntableA %>% rename(., game_id = Away_game_id, home_team = Away_home_team, away_team = Away_away_team)
+My.NFL.Table <- ntableH %>% inner_join(ntableA)
+My.NFL.Table <- My.NFL.Table %>% left_join(all_2018_games)
+Team.Table <- My.NFL.Table %>% filter(home_team==teamName | away_team==teamName)
+Team.Table %>% head()
+Team.Table %>% select(game_id,Home_team,home_score, Away_team, away_score)
+dal_wp <- dal_season %>% 
+  filter(!is.na(home_wp),
+         !is.na(away_wp)) %>% unite(GIDGSR, game_seconds_remaining, game_id, sep=":")
+dal_wp <- dal_wp %>% dplyr::select(GIDGSR,
+                home_wp,
+                away_wp)  %>%
+  gather(team, wpa, -GIDGSR) %>% separate(., GIDGSR, c("GSR", "game_id"), sep=":") %>% 
+  mutate(game_seconds_remaining = as.integer(GSR))
+dal_plt <- dal_wp %>% left_join(My.NFL.Table)
+dal_plt <- dal_plt %>% left_join(data2)
+dal_plt$colors1 <- NA
+dal_plt[dal_plt$team=="home_wp","colors1"] <- dal_plt[dal_plt$team=="home_wp","Home_primary"]
+dal_plt[dal_plt$team=="away_wp","colors1"] <- dal_plt[dal_plt$team=="away_wp","Away_primary"]
+dal_plt[dal_plt$team=="home_wp","team"] <- dal_plt[dal_plt$team=="home_wp","home_team"]
+dal_plt[dal_plt$team=="away_wp","team"] <- dal_plt[dal_plt$team=="away_wp","away_team"]
+dal_plt$dateG <- substring(dal_plt$game_id, 5, 8)
+dal_plt$titleS <- with(dal_plt, paste0(dateG,": ",Home_team,"(",home_score,") v. ", Away_team ,"(",away_score,")"))
+Mini.GSR <- dal_plt %>% group_by(game_id, team) %>% slice( n() ) %>% ungroup() %>% mutate(labs1 = team) %>%  select(game_id, team, game_seconds_remaining, labs1)
+dal_plt <- dal_plt %>% left_join(Mini.GSR)
+p <- dal_plt %>% ggplot() + aes(x = game_seconds_remaining, y = wpa, color = team, label = labs1) +
+  geom_line(size = 1) +
+  geom_label(size=6, nudge_x = 200, hjust=2) +
+  geom_hline(yintercept = 0.5, color = "gray", linetype = "dashed") +
+  scale_color_viridis_d(guide=FALSE) +
+  scale_x_reverse(breaks = seq(0, 3600, 300)) + 
+  geom_vline(xintercept = 900, linetype = "dashed", black) + 
+  geom_vline(xintercept = 1800, linetype = "dashed", black) + 
+  geom_vline(xintercept = 2700, linetype = "dashed", black) + 
+  geom_vline(xintercept = 0, linetype = "dashed", black) + 
+  labs(
+    x = "Time Remaining (seconds)",
+    y = "Win Probability",
+    title="2018 Dallas Cowboys Season",
+    subtitle = "{closest_state}",
+    caption = "Data from nflscrapR"
+  ) + theme_minimal() + theme(text=element_text(size=12)) + transition_states(titleS, transition_length=10, state_length = 15)
+animate(p, nframes=450)
+}
+SFS <- season_animator("SF", full_season_2018, all_2018_games)
+SFS
 ```
