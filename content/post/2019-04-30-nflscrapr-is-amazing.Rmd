@@ -222,7 +222,7 @@ SFS
 
 Do the Texans work?
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 HOU <- season_animator("HOU")
 HOU
 ```
