@@ -107,6 +107,17 @@ Full.LTS %>% filter(leadid.x == "821be4de-1e42-11e4-b4cd-db5882bf8def") # Cool, 
 
 There are two leaders that led multiple countries.  The rest are nested.  One of them makes sense, the other seems to be a bad hash.
 
+```{r, eval=FALSE}
+# Not run
+Full.LTS <- Full.LTS %>% mutate(TenureY = endYear - startYear)
+Sanity.Check <- Full.LTS %>% group_by(obsid) %>% summarise(TenureY = mean(TenureY), CountYm1 = n() - 1)
+Sanity.Check <- Sanity.Check %>% mutate(ShouldBeZero = TenureY - CountYm1)
+table(Sanity.Check$ShouldBeZero)
+#    0 
+# 3409 
+```
+
+
 Full.LTS is my result.  It has been saved in a subdirectory `Archigos-etc` of my data on GitHub.  It contains some merged back sanity checks also.  You can load it with: 
 
 ```
@@ -259,19 +270,24 @@ Switzerland turnover is 1.
 
 ## The Fun Stuff: Durations
 
-David Armstrong has a misc package that I saw to do something that Richard Tucker did for their paper 20! years ago [his with Neal Beck, Jonathan Katz].  `btscs` takes a binary time series and turns it into a set of discrete time durations.  Grouped duration data is their name for it.  There's a rather neat stats feature to the fact that these grouped duration data are exactly the same as a discrete time Cox proportional hazards model.  In a related paper, two of the most clever people that I know -- David Carter and Curt Signorino -- showed that a Taylor-series approximation to the cubic polynomial in that duration approximates just about anything reasonable because it can embed two inflection points for the baseline hazard.  Of course, there are assumptions to the model but let's explore.  First, a static picture.
+Richard Tucker did some work on binary time series cross section data for their paper 20! years ago [his with Neal Beck, Jonathan Katz]. David Armstrong's `btscs` takes a binary time series and turns it into a set of discrete time durations.  Grouped duration data is their name for it.  There's a rather neat stats feature to the fact that these grouped duration data are exactly the same as a discrete time Cox proportional hazards model.  In a related paper, two of the most clever people that I know -- David Carter and Curt Signorino -- showed that a Taylor-series approximation to the cubic polynomial in that duration approximates just about anything reasonable because it can embed two inflection points for the baseline hazard.  Of course, there are assumptions to the model but let's explore.  First, a static picture.  
+
+## Even easier
+
+It turns out that the leader-year data have duration data embedded in them.  Two conditions create the data that we need.  First, the actual duration is created by taking calendar year minus startYear.  Second, the events are one if calendar year is equal to endYear.  Plus, leader-spells are properly nested in countries so we can measure this easily.
+
 
 ```{r, message=FALSE}
-library(DAMisc)
-BTSCSdata <- btscs(Keepers, "Event", tvar="year", csunit="ccode", pad.ts = TRUE)
-p <- BTSCSdata %>% filter(!is.na(posttenurefate)) %>% mutate(howEndedF = factor(posttenurefate)) %>% ggplot(aes(x=spell)) + geom_density(aes(color=howEndedF)) + scale_color_viridis_d(guide=FALSE)+ theme_minimal() + labs(title="How Long Do Leaders Last Given Fates?", x="Leader Duration in Years") 
+Full.LTS$spell <- Full.LTS$year - Full.LTS$startYear
+p <- Full.LTS %>% filter(!is.na(posttenurefate)) %>% mutate(howEndedF = factor(posttenurefate)) %>% ggplot(aes(x=spell)) + geom_density(aes(color=howEndedF)) + scale_color_viridis_d(guide=FALSE)+ theme_minimal() + labs(title="How Long Do Leaders Last Given Fates?", x="Leader Duration in Years") 
 p
 ```
 
 Animate it.
 
 ```{r}
-panim <- BTSCSdata %>% filter(!is.na(posttenurefate)) %>% mutate(howEndedF = factor(posttenurefate)) %>% ggplot(aes(x=spell)) + geom_density(aes(color=howEndedF, fill=howEndedF)) + scale_color_viridis_d(guide=FALSE) + scale_fill_viridis_d(guide=FALSE) + theme_minimal() + labs(title="How Long Do Leaders Last Given Fates?", subtitle = "Ended in: {closest_state}", x="Leader Duration in Years") + transition_states(howEndedF, transition_length = 10, state_length = 40) + enter_fade() + exit_fade()
+panim <- Full.LTS %>% filter(!is.na(posttenurefate)) %>% mutate(howEndedF = factor(posttenurefate)) %>% ggplot(aes(x=spell)) + geom_density(aes(color=howEndedF, fill=howEndedF)) + scale_color_viridis_d(guide=FALSE) + scale_fill_viridis_d(guide=FALSE) + theme_minimal() + labs(title="How Long Do Leaders Last Given Fates?", subtitle = "Ended in: {closest_state}", x="Leader Duration in Years") + transition_states(howEndedF, transition_length = 10, state_length = 40) + enter_fade() + exit_fade()
 animate(panim, nframes=400)
 ```
+
 
