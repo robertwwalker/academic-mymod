@@ -8525,7 +8525,14 @@ WinsTab &lt;- WLTabs %&gt;% group_by(abbr) %&gt;% summarise(Wins = sum(Wins==TRU
 }
 season_animator(&quot;DAL&quot;)</code></pre>
 <p><img src="/post/2019-04-30-nflscrapr-is-amazing_files/figure-html/unnamed-chunk-9-1.gif" /><!-- --></p>
-<p>I decided it was time to experiment with shiny apps again and so I built one out of this. [Check it out!][<a href="https://rwalkerwu.shinyapps.io/NFL-Scrapr/" class="uri">https://rwalkerwu.shinyapps.io/NFL-Scrapr/</a>]. There is one thing that I do not like. The labels are messed up by overtime games.</p>
+<p>I decided it was time to experiment with shiny apps again and so I built one out of this. [Check it out!][<a href="https://rwalkerwu.shinyapps.io/NFL-Scrapr/" class="uri">https://rwalkerwu.shinyapps.io/NFL-Scrapr/</a>]. There is one thing that I do not like. The labels are messed up by overtime games. I finally managed to fix that, both above and in the Shiny by taking game time remaining and turning the overtime seconds into negatives; that made sense given the flipped scale.</p>
 </div>
+</div>
+<div id="run-and-pass" class="section level2">
+<h2>Run and Pass?</h2>
+<p>What does Dallas do with the ball?</p>
+<pre class="r"><code>p &lt;- dal_season %&gt;%  filter(posteam==&quot;DAL&quot;) %&gt;% ggplot(aes(x=play_type, fill=play_type)) + geom_bar() + scale_fill_viridis_d(guide=FALSE) + transition_states(game_id) + labs(title = &quot;{closest_state}&quot;, x=&quot;Type of Play&quot;) + theme_economist_white()
+animate(p)</code></pre>
+<p><img src="/post/2019-04-30-nflscrapr-is-amazing_files/figure-html/unnamed-chunk-10-1.gif" /><!-- --></p>
 </div>
 </div>

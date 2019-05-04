@@ -205,5 +205,15 @@ season_animator("DAL")
 ```
 
 
-I decided it was time to experiment with shiny apps again and so I built one out of this.  [Check it out!][https://rwalkerwu.shinyapps.io/NFL-Scrapr/].  There is one thing that I do not like.  The labels are messed up by overtime games.
+I decided it was time to experiment with shiny apps again and so I built one out of this.  [Check it out!][https://rwalkerwu.shinyapps.io/NFL-Scrapr/].  There is one thing that I do not like.  The labels are messed up by overtime games.  I finally managed to fix that, both above and in the Shiny by taking game time remaining and turning the overtime seconds into negatives; that made sense given the flipped scale.
+
+## Run and Pass?
+
+What does Dallas do with the ball?
+
+```{r}
+p <- dal_season %>%  filter(posteam=="DAL") %>% ggplot(aes(x=play_type, fill=play_type)) + geom_bar() + scale_fill_viridis_d(guide=FALSE) + transition_states(game_id) + labs(title = "{closest_state}", x="Type of Play") + theme_economist_white()
+animate(p)
+```
+
 
