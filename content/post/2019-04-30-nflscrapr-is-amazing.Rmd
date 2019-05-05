@@ -222,7 +222,7 @@ That's kinda cool.  Now I want to clean that up.  I do not really want to look a
 ```{r}
 dal_RP <- dal_season  %>% filter(posteam=="DAL" & play_type %in% c("no_play","run","pass")) %>% tabyl(game_date, play_type)
 dal_RP <-  dal_RP %>% gather("play_type", "count", pass,run,no_play)
-p <- dal_RP %>% ggplot(aes(x=game_date, y=count, color=play_type, size=2)) + geom_line() + scale_color_viridis_d() +  labs(title = "{frame_along}", y="Number of Plays", color="Play Type", x="Game Date") + theme_economist_white() + geom_point(aes(group=seq_along(game_date))) + transition_reveal(game_date) 
+p <- dal_RP %>% ggplot(aes(x=game_date, y=count, color=play_type)) + geom_line() + scale_color_viridis_d() +  labs(title = "{frame_along}", y="Number of Plays", color="Play Type", x="Game Date") + theme_economist_white() + geom_point(aes(group=seq_along(game_date), size=1.5, alpha=0.5)) + guides(size=FALSE, alpha=FALSE) + transition_reveal(game_date) 
 animate(p)
 ```
 

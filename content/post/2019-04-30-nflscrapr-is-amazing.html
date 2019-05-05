@@ -8538,7 +8538,7 @@ animate(p)</code></pre>
 <p>That’s kinda cool. Now I want to clean that up. I do not really want to look at most of the types of possession plays; no play, pass, and run seem interesting, though. Let’s try that out. I also want to change up the display a little bit. Instead of looking at it as a series of graphics, I want the bars to represent the percents from the previous type table and then to show the whole season as it arrives.</p>
 <pre class="r"><code>dal_RP &lt;- dal_season  %&gt;% filter(posteam==&quot;DAL&quot; &amp; play_type %in% c(&quot;no_play&quot;,&quot;run&quot;,&quot;pass&quot;)) %&gt;% tabyl(game_date, play_type)
 dal_RP &lt;-  dal_RP %&gt;% gather(&quot;play_type&quot;, &quot;count&quot;, pass,run,no_play)
-p &lt;- dal_RP %&gt;% ggplot(aes(x=game_date, y=count, color=play_type, size=2)) + geom_line() + scale_color_viridis_d() +  labs(title = &quot;{frame_along}&quot;, y=&quot;Number of Plays&quot;, color=&quot;Play Type&quot;, x=&quot;Game Date&quot;) + theme_economist_white() + geom_point(aes(group=seq_along(game_date))) + transition_reveal(game_date) 
+p &lt;- dal_RP %&gt;% ggplot(aes(x=game_date, y=count, color=play_type)) + geom_line() + scale_color_viridis_d() +  labs(title = &quot;{frame_along}&quot;, y=&quot;Number of Plays&quot;, color=&quot;Play Type&quot;, x=&quot;Game Date&quot;) + theme_economist_white() + geom_point(aes(group=seq_along(game_date), size=1.5, alpha=0.5)) + guides(size=FALSE, alpha=FALSE) + transition_reveal(game_date) 
 animate(p)</code></pre>
 <p><img src="/post/2019-04-30-nflscrapr-is-amazing_files/figure-html/unnamed-chunk-11-1.gif" /><!-- --></p>
 <p>I think that more or less gets what I want. THis might also be a cool case for a simple plotly line plot with a hover for the game and details.</p>
