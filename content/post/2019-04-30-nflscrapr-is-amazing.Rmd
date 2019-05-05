@@ -50,6 +50,7 @@ library(gganimate)
 library(ggrepel)
 library(ggthemes)
 library(RColorBrewer)
+library(janitor)
 all_2018_games <-readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/NFLGames2018.rds"))
 all_2018_games %>%  kable()  %>%
   kable_styling() %>%
@@ -205,7 +206,7 @@ season_animator("DAL")
 ```
 
 
-I decided it was time to experiment with shiny apps again and so I built one out of this.  [Check it out!][https://rwalkerwu.shinyapps.io/NFL-Scrapr/].  There is one thing that I do not like.  The labels are messed up by overtime games.  I finally managed to fix that, both above and in the Shiny by taking game time remaining and turning the overtime seconds into negatives; that made sense given the flipped scale.
+I decided it was time to experiment with shiny apps again and so I built one out of this.  [Check it out!](https://rwalkerwu.shinyapps.io/NFL-Scrapr/).  Overtime games make things a bit messy.  I finally managed to fix that, both above and in the Shiny by taking game time remaining and turning the overtime seconds into negatives; that made sense given the flipped scale.
 
 ## Run and Pass?
 
@@ -216,4 +217,13 @@ p <- dal_season %>%  filter(posteam=="DAL") %>% ggplot(aes(x=play_type, fill=pla
 animate(p)
 ```
 
+That's kinda cool.  Now I want to clean that up.  I do not really want to look at most of the types of possession plays; no play, pass, and run seem interesting, though.  Let's try that out.  I also want to change up the display a little bit.  Instead of looking at it as a series of graphics, I want the bars to represent the percents from the previous type table and then to show the whole season as it arrives.
 
+```{r}
+dal_RP <- dal_season  %>% filter(posteam=="DAL" & play_type %in% c("no_play","run","pass")) %>% tabyl(game_date, play_type)
+dal_RP <-  dal_RP %>% gather("play_type", "count", pass,run,no_play)
+p <- dal_RP %>% ggplot(aes(x=game_date, y=count, color=play_type, size=2)) + geom_line() + scale_color_viridis_d() +  labs(title = "{frame_along}", y="Number of Plays", color="Play Type", x="Game Date") + theme_economist_white() + geom_point(aes(group=seq_along(game_date))) + transition_reveal(game_date) 
+animate(p)
+```
+
+I think that more or less gets what I want.  THis might also be a cool case for a simple plotly line plot with a hover for the game and details.
