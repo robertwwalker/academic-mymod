@@ -480,11 +480,11 @@ skimr::skim(Shorty)</code></pre>
 ##  n obs: 189 
 ##  n variables: 2 
 ## 
-## ── Variable type:character ──────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:character ─────────────────────────────────────────────────────────
 ##  variable missing complete   n min max empty n_unique
 ##     idacr       0      189 189   3   3     0      189
 ## 
-## ── Variable type:integer ────────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:integer ───────────────────────────────────────────────────────────
 ##  variable missing complete   n  mean    sd p0 p25 p50 p75 p100     hist
 ##     count       0      189 189 18.04 20.39  1   6  11  24  141 ▇▂▁▁▁▁▁▁</code></pre>
 <p>Hmm, there are countries that only had one leader. I wonder who they are.</p>
@@ -525,7 +525,7 @@ skimr::skim(Shorty)</code></pre>
 <pre class="r"><code>Archigos %&gt;% mutate(Duration = difftime(enddate, startdate, units=&quot;weeks&quot;)) %&gt;% select(leader,Duration) %&gt;% arrange(desc(Duration)) %&gt;% mutate(DurationInYears = Duration / 52)</code></pre>
 <pre><code>## # A tibble: 3,409 x 3
 ##    leader                      Duration       DurationInYears
-##    &lt;chr&gt;                       &lt;time&gt;         &lt;time&gt;         
+##    &lt;chr&gt;                       &lt;drtn&gt;         &lt;drtn&gt;         
 ##  1 Francis Joseph I            3546.429 weeks 68.20056 weeks 
 ##  2 Nikola I Petrovic-Njegos    2944.286 weeks 56.62089 weeks 
 ##  3 George I                    2607.144 weeks 50.13738 weeks 
