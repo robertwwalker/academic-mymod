@@ -26,3 +26,4 @@ In the Atkinson Graduate School of Management at Willamette University:
 In the Essex Summer School in Social Science Data Analysis:
 
 - 3C: Pooled Cross-Sectional Time Series Analysis
+- 3K: [with Harold Clarke, Dynamics and Heterogeneity: Time Series, CSTS, TSCS, and Panel Data](https://essex2019-3k.netlify.com)

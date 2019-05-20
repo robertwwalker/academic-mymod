@@ -226,4 +226,4 @@ p <- dal_RP %>% ggplot(aes(x=game_date, y=count, color=play_type)) + geom_line()
 animate(p)
 ```
 
-I think that more or less gets what I want.  THis might also be a cool case for a simple plotly line plot with a hover for the game and details.
+I think that more or less gets what I want.  This might also be a cool case for a simple plotly line plot with a hover for the game and details.

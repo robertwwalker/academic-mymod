@@ -152,25 +152,25 @@ EPL.Result %&gt;% group_by(Position) %&gt;% summarise(Mean.Base.Salary=mean(Base
 <pre><code>## # A tibble: 4 x 3
 ##   Position Mean.Base.Salary  sdBS
 ##   &lt;fct&gt;               &lt;dbl&gt; &lt;dbl&gt;
-## 1 D                    26.3  3.65
-## 2 F                    25.2  3.17
-## 3 GK                   29.2  4.62
-## 4 M                    25.0  5.05</code></pre>
+## 1 D                    26.3  3.63
+## 2 F                    25.2  3.14
+## 3 GK                   29.2  4.70
+## 4 M                    25.1  5.07</code></pre>
 <pre class="r"><code>EPL.Result %&gt;% group_by(Position,Team) %&gt;% summarise(Mean.Base.Salary=mean(Base.Num, na.rm=TRUE),sdBS=sd(Base.Num, na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 80 x 4
 ## # Groups:   Position [4]
 ##    Position Team                                     Mean.Base.Salary  sdBS
 ##    &lt;fct&gt;    &lt;fct&gt;                                               &lt;dbl&gt; &lt;dbl&gt;
-##  1 D        Https:www.spotrac.comeplAFC Bournemouth              25.9  4.28
+##  1 D        Https:www.spotrac.comeplAFC Bournemouth              26    4.30
 ##  2 D        Https:www.spotrac.comeplarsenal                      26.8  4.76
-##  3 D        Https:www.spotrac.comeplbrighton Hove A…             27.3  1.80
+##  3 D        Https:www.spotrac.comeplbrighton Hove A…             27.4  1.62
 ##  4 D        Https:www.spotrac.comeplburnley                      27.6  3.07
 ##  5 D        Https:www.spotrac.comeplcardiff City                 28.3  2.87
 ##  6 D        Https:www.spotrac.comeplchelsea                      26.7  3.35
 ##  7 D        Https:www.spotrac.comeplcrystal Palace               26.4  3.47
 ##  8 D        Https:www.spotrac.comepleverton                      26    5.15
 ##  9 D        Https:www.spotrac.comeplfulham                       26.6  2.92
-## 10 D        Https:www.spotrac.comeplhuddersfield To…             25.5  2.45
+## 10 D        Https:www.spotrac.comeplhuddersfield To…             25.8  2.55
 ## # … with 70 more rows</code></pre>
 <p>Finally, a little picture to describe spending on the active roster.</p>
 <pre class="r"><code>fplot &lt;- ggplot(EPL.Result, aes(Base.Num,Team))
@@ -187,7 +187,7 @@ gpl</code></pre>
 <p>Processing them is a bit more difficult. What does the basic table look like?</p>
 <pre class="r"><code>Base.Contracts[[1]] %&gt;% html_nodes(&quot;table&quot;) %&gt;% html_table(header=TRUE, fill=TRUE)</code></pre>
 <pre><code>## [[1]]
-##                  Player (28) Pos. Age
+##                  Player (29) Pos. Age
 ## 1         DefoeJermain Defoe    F  36
 ## 2       BegovicAsmir Begovic   GK  31
 ## 3       LermaJefferson Lerma    M  24
@@ -216,6 +216,7 @@ gpl</code></pre>
 ## 26    RamsdaleAaron Ramsdale   GK  21
 ## 27       SimpsonJack Simpson    D  22
 ## 28        MephamChris Mepham    D  21
+## 29          KellyLloyd Kelly    M  20
 ##                                                             Contract Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
 ## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
@@ -245,6 +246,7 @@ gpl</code></pre>
 ## 26      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
 ## 27      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
 ## 28                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
+## 29                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
 ##    Avg. Salary Transfer Fee Expires
 ## 1   £5,380,000            -    2020
 ## 2   £3,640,000   £9,780,000    2021
@@ -274,9 +276,10 @@ gpl</code></pre>
 ## 26    £156,000     £799,000    2021
 ## 27    £156,000            -    2020
 ## 28           -  £11,900,000       -
+## 29           -  £13,000,000       -
 ## 
 ## [[2]]
-##       Player (28) Pos. Age                         Contract Terms
+##       Player (29) Pos. Age                         Contract Terms
 ## 1 Nathaniel Clyne    D  27 1 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,640,000
 ## 2 Dominic Solanke    F  20 1 yr\n\t\t\t\t\t\t\t\t\t\t\t£1,300,000
 ##   Avg. Salary Transfer Fee Expires
@@ -331,6 +334,7 @@ EPL.Contracts[[1]]</code></pre>
 ## 26    RamsdaleAaron Ramsdale       GK  21
 ## 27       SimpsonJack Simpson        D  22
 ## 28        MephamChris Mepham        D  21
+## 29          KellyLloyd Kelly        M  20
 ##                                                             Contract.Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
 ## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
@@ -360,6 +364,7 @@ EPL.Contracts[[1]]</code></pre>
 ## 26      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
 ## 27      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
 ## 28                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
+## 29                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
 ##    Avg..Salary Transfer.Fee Expires    value years   value.pds
 ## 1   £5,380,000            -    2020 16140000  3 yr £16,140,000
 ## 2   £3,640,000   £9,780,000    2021 14560000  4 yr £14,560,000
@@ -389,6 +394,7 @@ EPL.Contracts[[1]]</code></pre>
 ## 26    £156,000     £799,000    2021   780000  5 yr    £780,000
 ## 27    £156,000            -    2020   468000  3 yr    £468,000
 ## 28           -  £11,900,000       -        0                  
+## 29           -  £13,000,000       -        0                  
 ##        Player.Names                                   Player.links
 ## 1     Jermain Defoe https://www.spotrac.com/redirect/player/23836/
 ## 2     Asmir Begovic https://www.spotrac.com/redirect/player/22625/
@@ -418,6 +424,7 @@ EPL.Contracts[[1]]</code></pre>
 ## 26   Aaron Ramsdale https://www.spotrac.com/redirect/player/22661/
 ## 27     Jack Simpson https://www.spotrac.com/redirect/player/24102/
 ## 28     Chris Mepham https://www.spotrac.com/redirect/player/28460/
+## 29      Lloyd Kelly https://www.spotrac.com/redirect/player/30108/
 ##    Last.Name
 ## 1      Defoe
 ## 2    Begovic
@@ -446,7 +453,8 @@ EPL.Contracts[[1]]</code></pre>
 ## 25     Boruc
 ## 26  Ramsdale
 ## 27   Simpson
-## 28    Mepham</code></pre>
+## 28    Mepham
+## 29     Kelly</code></pre>
 <p>The data now have some junk alongside workable versions of the variables of interest. It is worth noting that the header of the contracts data allows us to verify the size of the table as we picked it up [though I do rename them to allow the rbind to work]. This also suggests a strategy for picking up the rownames that is different than the above method that uses the dimension of the html table. Perhaps I should just gsub the header to recover the integer number of players. To tidy the data, they need to be stacked. A simple do.call and row bind will probably work.</p>
 <pre class="r"><code>Team.Base &lt;- sapply(EPL.Contracts, dim)[1,]
 Team &lt;- rep(as.character(names(Team.Base)),Team.Base)

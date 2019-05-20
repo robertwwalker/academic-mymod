@@ -8541,6 +8541,6 @@ dal_RP &lt;-  dal_RP %&gt;% gather(&quot;play_type&quot;, &quot;count&quot;, pas
 p &lt;- dal_RP %&gt;% ggplot(aes(x=game_date, y=count, color=play_type)) + geom_line() + scale_color_viridis_d() +  labs(title = &quot;{frame_along}&quot;, y=&quot;Number of Plays&quot;, color=&quot;Play Type&quot;, x=&quot;Game Date&quot;) + theme_economist_white() + geom_point(aes(group=seq_along(game_date), size=1.5, alpha=0.5)) + guides(size=FALSE, alpha=FALSE) + transition_reveal(game_date) 
 animate(p)</code></pre>
 <p><img src="/post/2019-04-30-nflscrapr-is-amazing_files/figure-html/unnamed-chunk-11-1.gif" /><!-- --></p>
-<p>I think that more or less gets what I want. THis might also be a cool case for a simple plotly line plot with a hover for the game and details.</p>
+<p>I think that more or less gets what I want. This might also be a cool case for a simple plotly line plot with a hover for the game and details.</p>
 </div>
 </div>
