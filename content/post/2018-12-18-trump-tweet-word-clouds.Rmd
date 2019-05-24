@@ -152,7 +152,7 @@ After seeing a few competing renditions, I prefer `wordcloud2`.  One thing to be
 ```{r jj}
 library(wordcloud2)
 wordcloud2(my.df, color="random-light", backgroundColor = "black", size = 0.5)
-```
+```  
 
 Getting this to work with frame widgets is tricky.  I started something below but cannot seem to make it work so I am constrained to one wordcloud2 per document because they rely on underlying html rendering.
 

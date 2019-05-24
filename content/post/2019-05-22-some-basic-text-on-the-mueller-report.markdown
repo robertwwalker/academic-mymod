@@ -20,7 +20,7 @@ header:
 
 I may as well analyse it a bit.
 
-First, let me see if I can get a hold of the data.
+First, let me see if I can get a hold of the data.  I grabbed the report directly from the Department of Justice website.  You can follow this [link](https://www.justice.gov/storage/report.pdf).
 
 
 ```r
@@ -45,54 +45,8 @@ Now I can use a .csv of the data; reading the .pdf and hacking it up takes time.
 
 ```r
 library(tidyverse)
-```
-
-```
-## Registered S3 methods overwritten by 'ggplot2':
-##   method         from 
-##   [.quosures     rlang
-##   c.quosures     rlang
-##   print.quosures rlang
-```
-
-```
-## Registered S3 method overwritten by 'rvest':
-##   method            from
-##   read_xml.response xml2
-```
-
-```
-## ── Attaching packages ───────────────────── tidyverse 1.2.1 ──
-```
-
-```
-## ✔ ggplot2 3.1.1     ✔ purrr   0.3.2
-## ✔ tibble  2.1.1     ✔ dplyr   0.8.1
-## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
-## ✔ readr   1.3.1     ✔ forcats 0.4.0
-```
-
-```
-## ── Conflicts ──────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(pdftools)
 mueller_report <- read_csv("../../data/mueller_report.csv")
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   page = col_double(),
-##   line = col_double(),
-##   text = col_character()
-## )
-```
-
-```r
 head(mueller_report)
 ```
 
@@ -121,35 +75,10 @@ I want to make use of [cleanNLP](https://github.com/statsmaths/cleanNLP) to turn
 ```r
 library(tidyverse)
 library(RCurl)
-```
-
-```
-## Loading required package: bitops
-```
-
-```
-## 
-## Attaching package: 'RCurl'
-```
-
-```
-## The following object is masked from 'package:tidyr':
-## 
-##     complete
-```
-
-```r
 library(tokenizers)
 library(cleanNLP)
 MRep <- paste(as.character(mueller_ml2$text), " ")
 cnlp_init_spacy()
-```
-
-```
-## Loading required namespace: reticulate
-```
-
-```r
 starttime <- Sys.time()
 spacy_annotate <- MRep %>% as.character() %>% cnlp_annotate(as_strings = TRUE, backend = "spaCy") 
 endtime <- Sys.time()
@@ -199,8 +128,8 @@ wc2.df <- wc2.df %>% filter(freq < 300)
 wordcloud2(wc2.df, size=0.4)
 ```
 
-<!--html_preserve--><div id="htmlwidget-438700054988e0dde16a" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-438700054988e0dde16a">{"x":{"word":["trump_campaign","16_email","special_counsel","white_house","ongoing_matter","states_v","trump_jr","russian_government","new_york","attorney_general","june_9","trump_tower","personal_counsel","trump_organization","et_al","candidate_trump","moscow_project","17_notes","york_times","foreign_policy","russia_investigation","donald_trump","text_message","tower_moscow","cohen_9","paul_manafort","presidential_election","mcgahn_12","michael_cohen","president_trump","9_meeting","grand_jury","washington_post","campaign_officials","fbi_director","national_security","social_media","mcgahn_3","false_statements","president_said","19_302","flynn_11","president_told","transition_team","election_interference","hillary_clinton","sessions_1","section_1512","russian_election","16_text","oval_office","clinton_campaign","see_also","investigative_technique","simes_3","president_asked","june_8","text_messages","mcfarland_12","17_memorandum","17_text","donald_j","russian_ambassador","acting_attorney","trump_moscow","hicks_3","senate_select","pleaded_guilty","select_intelligence","james_b","next_day","2016_presidential","intelligence_committee","cohen_11","jared_kushner","2016_meeting","corney_11","hicks_12","michael_flynn","volume_ii","president_also","8_302","june_2016","former_director","policy_advisor","gru_officers","cohen_recalled","page_3","hunt_5","george_papadopoulos","incoming_administration","115th_cong","counsel_removed","security_advisor","15th_cong","see_volume","porter_4","judiciary_committee","president_called","kushner_4","july_2016","senate_judiciary","christie_2","netyksho_indictment","15_email","call_records","lewandowski_4","papadopoulos_8","manafort_9","october_7","government_officials","priebus_1","see_united","official_proceeding","article_ii","clinton_emails","bannon_2","obstructive_act","plea_agreement","obstruction_statutes","russian_officials","press_conference","17_email","anyone_else","russian_interference","carter_page","flynn_statement","vice_president","16_facebook","president_tweeted","fox_news","flynn_1","vladimir_putin","email_accounts","house_counsel","deputy_attorney","nader_1","quotation_marks","jeff_sessions","december_2016","april_2016","june_14","cohen_said","president_knew","emin_agalarov","written_responses","papadopoulos_statement"],"freq":[229,220,215,204,197,175,150,145,141,134,131,128,117,100,100,90,83,82,81,81,79,76,74,72,72,70,69,69,68,68,67,64,63,63,61,60,59,59,58,58,56,55,55,54,54,53,53,53,52,52,51,50,50,50,49,47,47,47,46,46,45,44,42,42,42,41,41,40,39,39,38,36,36,36,35,35,34,34,33,33,33,32,32,32,32,32,32,31,31,30,30,30,30,29,29,29,29,28,28,28,27,27,27,27,27,27,27,27,27,26,26,26,26,26,26,25,25,25,25,25,24,24,24,24,23,23,23,23,23,23,22,22,22,22,22,22,22,22,21,21,21,21,21,21,21,21,21],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.314410480349345,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-853bb036750fe704262a" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-853bb036750fe704262a">{"x":{"word":["trump_campaign","16_email","special_counsel","white_house","ongoing_matter","states_v","trump_jr","russian_government","new_york","attorney_general","june_9","trump_tower","personal_counsel","trump_organization","et_al","candidate_trump","moscow_project","17_notes","foreign_policy","york_times","russia_investigation","donald_trump","text_message","tower_moscow","cohen_9","paul_manafort","presidential_election","mcgahn_12","michael_cohen","president_trump","9_meeting","grand_jury","campaign_officials","washington_post","fbi_director","national_security","social_media","mcgahn_3","false_statements","president_said","19_302","flynn_11","president_told","transition_team","election_interference","hillary_clinton","sessions_1","section_1512","russian_election","16_text","oval_office","clinton_campaign","see_also","investigative_technique","simes_3","president_asked","june_8","text_messages","mcfarland_12","17_memorandum","17_text","donald_j","russian_ambassador","acting_attorney","trump_moscow","hicks_3","senate_select","pleaded_guilty","james_b","select_intelligence","next_day","2016_presidential","intelligence_committee","cohen_11","jared_kushner","2016_meeting","corney_11","hicks_12","michael_flynn","volume_ii","president_also","june_2016","policy_advisor","8_302","former_director","gru_officers","cohen_recalled","page_3","hunt_5","george_papadopoulos","incoming_administration","counsel_removed","115th_cong","security_advisor","15th_cong","see_volume","porter_4","judiciary_committee","president_called","kushner_4","july_2016","senate_judiciary","netyksho_indictment","christie_2","15_email","call_records","papadopoulos_8","manafort_9","lewandowski_4","october_7","government_officials","see_united","priebus_1","official_proceeding","article_ii","clinton_emails","bannon_2","plea_agreement","obstructive_act","obstruction_statutes","russian_officials","press_conference","17_email","anyone_else","russian_interference","carter_page","flynn_statement","16_facebook","vice_president","president_tweeted","fox_news","vladimir_putin","email_accounts","flynn_1","deputy_attorney","house_counsel","nader_1","quotation_marks","jeff_sessions","december_2016","april_2016","june_14","cohen_said","emin_agalarov","president_knew","written_responses","papadopoulos_statement"],"freq":[229,220,215,204,197,175,150,145,141,134,131,128,117,100,100,90,83,82,81,81,79,76,74,72,72,70,69,69,68,68,67,64,63,63,61,60,59,59,58,58,56,55,55,54,54,53,53,53,52,52,51,50,50,50,49,47,47,47,46,46,45,44,42,42,42,41,41,40,39,39,38,36,36,36,35,35,34,34,33,33,33,32,32,32,32,32,32,31,31,30,30,30,30,29,29,29,29,28,28,28,27,27,27,27,27,27,27,27,27,26,26,26,26,26,26,25,25,25,25,25,24,24,24,24,23,23,23,23,23,23,22,22,22,22,22,22,22,22,21,21,21,21,21,21,21,21,21],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.314410480349345,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script><!--/html_preserve-->
 
 
 
