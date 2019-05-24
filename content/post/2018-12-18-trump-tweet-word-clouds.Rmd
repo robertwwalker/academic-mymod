@@ -104,7 +104,7 @@ TTW <- table(Trumps.Words)
 TTW <- TTW[order(TTW, decreasing = T)]
 TTW <- data.frame(TTW)
 names(TTW) <- c("word","freq")
-wordcloud2(TTW, color="random-light", backgroundColor = "black")
+wordcloud(TTW$word, TTW$freq)
 ```
 
 Well, that is kinda cool.  Now, I want to do a bit more with it using more complicated word combinations.
@@ -149,9 +149,20 @@ wordcloud2(my.df, color="random-light", backgroundColor = "black")
 
 After seeing a few competing renditions, I prefer `wordcloud2`.  One thing to be careful about is scaling.  In this case, the most frequent bigram is missing because the ratio makes it too large to fit.  With size smaller, it can be made to show.  It appears that embedding multiple of these in one post does not render.  I will stick with the one correct one.
 
-```{r}
+```{r jj}
 library(wordcloud2)
 wordcloud2(my.df, color="random-light", backgroundColor = "black", size = 0.5)
+```
+
+Getting this to work with frame widgets is tricky.  I started something below but cannot seem to make it work so I am constrained to one wordcloud2 per document because they rely on underlying html rendering.
+
+
+```{r, eval=FALSE}
+library(htmlwidgets)
+library(webshot)
+library(widgetframe)
+hw1 <- wordcloud2(my.df, color="random-light", backgroundColor = "black", size = 0.5)
+frameWidget(hw1, width=600)
 ```
 
 I think that works quite nicely.  The use of jpg for shapes has not worked for me.  Nor has letterCloud.  I found some code on github that will supposedly solve this but it does not seem to work either.  It is supposed to render as an htmlwidget but something about that seems not to work properly.
@@ -159,12 +170,10 @@ I think that works quite nicely.  The use of jpg for shapes has not worked for m
 ```{r, eval=FALSE, echo=TRUE}
 library(htmlwidgets)
 library(webshot)
+library(widgetframe)
 Ments.Tab <- data.frame(table(Ments))
 Ments.Tab <- Ments.Tab[order(Ments.Tab$Freq, decreasing=TRUE),]
-#webshot::install_phantomjs()
 my.df.short <- my.df[c(1:40),]
 hw1 <- letterCloud(Ments.Tab, "@", size=4, color='random-light')
-saveWidget(hw1,"1.html",selfcontained = F)
-webshot::webshot("1.html","1.png",vwidth = 700, vheight = 500, delay =10)
+frameWidget(hw1, width=600)
 ```
-![](1.png)

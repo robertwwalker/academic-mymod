@@ -70,7 +70,7 @@ endtime <- Sys.time()
 
 I wanted to find the bigrams while removing stop words.  Apparently, the easiest way to do this is `quanteda`.  I got this from [stack overflow](https://stackoverflow.com/questions/34282370/form-bigrams-without-stopwords-in-r)
 
-```{r}
+```{r wc1}
 library(quanteda)
 library(wordcloud2)
 myDfm <- tokens(MRep) %>%
@@ -88,6 +88,8 @@ wordcloud2(wc2.df, size=0.4)
 
 
 ## pdfpages: A little plot
+
+I found some instructions on constructing the entire document on a grid and pulled the report apart to visualise it in that way.
 
 ```{r, eval=FALSE, echo=FALSE}
 library(pdftools)
