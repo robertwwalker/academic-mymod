@@ -152,25 +152,25 @@ EPL.Result %&gt;% group_by(Position) %&gt;% summarise(Mean.Base.Salary=mean(Base
 <pre><code>## # A tibble: 4 x 3
 ##   Position Mean.Base.Salary  sdBS
 ##   &lt;fct&gt;               &lt;dbl&gt; &lt;dbl&gt;
-## 1 D                    26.3  3.63
-## 2 F                    25.2  3.14
-## 3 GK                   29.2  4.70
-## 4 M                    25.1  5.07</code></pre>
+## 1 D                    26.2  3.34
+## 2 F                    25.6  3.29
+## 3 GK                   28.4  4.28
+## 4 M                    25.2  5.38</code></pre>
 <pre class="r"><code>EPL.Result %&gt;% group_by(Position,Team) %&gt;% summarise(Mean.Base.Salary=mean(Base.Num, na.rm=TRUE),sdBS=sd(Base.Num, na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 80 x 4
 ## # Groups:   Position [4]
 ##    Position Team                                     Mean.Base.Salary  sdBS
 ##    &lt;fct&gt;    &lt;fct&gt;                                               &lt;dbl&gt; &lt;dbl&gt;
-##  1 D        Https:www.spotrac.comeplAFC Bournemouth              26    4.30
-##  2 D        Https:www.spotrac.comeplarsenal                      26.8  4.76
-##  3 D        Https:www.spotrac.comeplbrighton Hove A…             27.4  1.62
-##  4 D        Https:www.spotrac.comeplburnley                      27.6  3.07
-##  5 D        Https:www.spotrac.comeplcardiff City                 28.3  2.87
-##  6 D        Https:www.spotrac.comeplchelsea                      26.7  3.35
-##  7 D        Https:www.spotrac.comeplcrystal Palace               26.4  3.47
-##  8 D        Https:www.spotrac.comepleverton                      26    5.15
-##  9 D        Https:www.spotrac.comeplfulham                       26.6  2.92
-## 10 D        Https:www.spotrac.comeplhuddersfield To…             25.8  2.55
+##  1 D        Https:www.spotrac.comeplAFC Bournemouth              26.4  3.02
+##  2 D        Https:www.spotrac.comeplarsenal                      26    3.71
+##  3 D        Https:www.spotrac.comeplbrighton Hove A…             27.9  3.13
+##  4 D        Https:www.spotrac.comeplburnley                      27.2  1.72
+##  5 D        Https:www.spotrac.comeplcardiff City                 29.4  3.26
+##  6 D        Https:www.spotrac.comeplchelsea                      24.9  2.47
+##  7 D        Https:www.spotrac.comeplcrystal Palace               26.9  3.69
+##  8 D        Https:www.spotrac.comepleverton                      24.1  3.45
+##  9 D        Https:www.spotrac.comeplfulham                       27.7  2.66
+## 10 D        Https:www.spotrac.comeplhuddersfield To…             26.8  2.55
 ## # … with 70 more rows</code></pre>
 <p>Finally, a little picture to describe spending on the active roster.</p>
 <pre class="r"><code>fplot &lt;- ggplot(EPL.Result, aes(Base.Num,Team))
@@ -187,7 +187,7 @@ gpl</code></pre>
 <p>Processing them is a bit more difficult. What does the basic table look like?</p>
 <pre class="r"><code>Base.Contracts[[1]] %&gt;% html_nodes(&quot;table&quot;) %&gt;% html_table(header=TRUE, fill=TRUE)</code></pre>
 <pre><code>## [[1]]
-##                  Player (29) Pos. Age
+##                  Player (26) Pos. Age
 ## 1         DefoeJermain Defoe    F  36
 ## 2       BegovicAsmir Begovic   GK  31
 ## 3       LermaJefferson Lerma    M  24
@@ -201,22 +201,19 @@ gpl</code></pre>
 ## 11        GoslingDan Gosling    M  29
 ## 12           SmithAdam Smith    D  28
 ## 13            CookLewis Cook    M  22
-## 14      FrancisSimon Francis    D  34
-## 15         FraserRyan Fraser    F  25
-## 16    DanielsCharlie Daniels    D  32
-## 17 StanislasJunior Stanislas    F  29
-## 18           SmithBrad Smith    D  25
-## 19        MoussetLys Mousset    F  23
-## 20        BrooksDavid Brooks    M  21
-## 21            RicoDiego Rico    D  26
-## 22             PughMarc Pugh    M  32
-## 23    HyndmanEmerson Hyndman    M  23
-## 24         MingsTyrone Mings    D  26
-## 25          BorucArtur Boruc   GK  39
-## 26    RamsdaleAaron Ramsdale   GK  21
-## 27       SimpsonJack Simpson    D  22
-## 28        MephamChris Mepham    D  21
-## 29          KellyLloyd Kelly    M  20
+## 14         FraserRyan Fraser    F  25
+## 15    DanielsCharlie Daniels    D  32
+## 16 StanislasJunior Stanislas    F  29
+## 17           SmithBrad Smith    D  25
+## 18        MoussetLys Mousset    F  23
+## 19        BrooksDavid Brooks    M  21
+## 20            RicoDiego Rico    D  26
+## 21    HyndmanEmerson Hyndman    M  23
+## 22         MingsTyrone Mings    D  26
+## 23    RamsdaleAaron Ramsdale   GK  21
+## 24       SimpsonJack Simpson    D  22
+## 25        MephamChris Mepham    D  21
+## 26          KellyLloyd Kelly    M  20
 ##                                                             Contract Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
 ## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
@@ -231,22 +228,19 @@ gpl</code></pre>
 ## 11   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
 ## 12   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
 ## 13   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 14   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 15   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 14   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 15   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
 ## 16   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
-## 17   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
-## 18   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 17   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 18   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
 ## 19   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 20   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 21   4004000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,004,000
-## 22   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
-## 23   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
-## 24   2860000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,860,000
-## 25   2080000\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,080,000
-## 26      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
-## 27      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
-## 28                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
-## 29                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
+## 20   4004000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,004,000
+## 21   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
+## 22   2860000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,860,000
+## 23      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
+## 24      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
+## 25                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
+## 26                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
 ##    Avg. Salary Transfer Fee Expires
 ## 1   £5,380,000            -    2020
 ## 2   £3,640,000   £9,780,000    2021
@@ -261,30 +255,19 @@ gpl</code></pre>
 ## 11  £1,820,000            -    2021
 ## 12  £1,820,000            -    2021
 ## 13  £1,560,000   £5,950,000    2020
-## 14  £1,560,000            -    2019
-## 15  £1,404,000     £400,000    2020
-## 16  £1,820,000     £191,000    2020
-## 17  £1,820,000            -    2021
-## 18  £1,300,000   £3,060,000    2020
-## 19  £1,040,000   £5,530,000    2020
-## 20  £1,040,000  £10,125,000    2022
-## 21  £1,001,000  £10,750,000    2022
-## 22  £1,300,000     £100,000    2019
-## 23    £780,000            -    2020
-## 24    £715,000   £9,610,000    2022
-## 25  £2,080,000  £10,000,000    2019
-## 26    £156,000     £799,000    2021
-## 27    £156,000            -    2020
-## 28           -  £11,900,000       -
-## 29           -  £13,000,000       -
-## 
-## [[2]]
-##       Player (29) Pos. Age                         Contract Terms
-## 1 Nathaniel Clyne    D  27 1 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,640,000
-## 2 Dominic Solanke    F  20 1 yr\n\t\t\t\t\t\t\t\t\t\t\t£1,300,000
-##   Avg. Salary Transfer Fee Expires
-## 1           -            -       -
-## 2           -            -       -</code></pre>
+## 14  £1,404,000     £400,000    2020
+## 15  £1,820,000     £191,000    2020
+## 16  £1,820,000            -    2021
+## 17  £1,300,000   £3,060,000    2020
+## 18  £1,040,000   £5,530,000    2020
+## 19  £1,040,000  £10,125,000    2022
+## 20  £1,001,000  £10,750,000    2022
+## 21    £780,000            -    2020
+## 22    £715,000   £9,610,000    2022
+## 23    £156,000     £799,000    2021
+## 24    £156,000            -    2020
+## 25           -  £11,900,000       -
+## 26           -  £13,000,000       -</code></pre>
 <p>The names and the contract year and terms are going to require parsing. I have chosen the first html that corresponds to Bournemouth; other teams are worse because loan players are in a second table. That impacts the wage bill, perhaps, depending on the arrangement in the loan, but the contract details from the player do not have that team as signatory. This has to be fixed. That is easy enough to fix, there are two embedded tables and I can select the first one. When it comes to the names, there is no easy separation for the first column; I will grab them from nodes in the html.</p>
 <pre class="r"><code>data.creator &lt;- function(data) { 
   data %&gt;% html_nodes(&quot;table&quot;) %&gt;% html_table(header=TRUE, fill=TRUE) -&gt; ret.tab
@@ -319,22 +302,19 @@ EPL.Contracts[[1]]</code></pre>
 ## 11        GoslingDan Gosling        M  29
 ## 12           SmithAdam Smith        D  28
 ## 13            CookLewis Cook        M  22
-## 14      FrancisSimon Francis        D  34
-## 15         FraserRyan Fraser        F  25
-## 16    DanielsCharlie Daniels        D  32
-## 17 StanislasJunior Stanislas        F  29
-## 18           SmithBrad Smith        D  25
-## 19        MoussetLys Mousset        F  23
-## 20        BrooksDavid Brooks        M  21
-## 21            RicoDiego Rico        D  26
-## 22             PughMarc Pugh        M  32
-## 23    HyndmanEmerson Hyndman        M  23
-## 24         MingsTyrone Mings        D  26
-## 25          BorucArtur Boruc       GK  39
-## 26    RamsdaleAaron Ramsdale       GK  21
-## 27       SimpsonJack Simpson        D  22
-## 28        MephamChris Mepham        D  21
-## 29          KellyLloyd Kelly        M  20
+## 14         FraserRyan Fraser        F  25
+## 15    DanielsCharlie Daniels        D  32
+## 16 StanislasJunior Stanislas        F  29
+## 17           SmithBrad Smith        D  25
+## 18        MoussetLys Mousset        F  23
+## 19        BrooksDavid Brooks        M  21
+## 20            RicoDiego Rico        D  26
+## 21    HyndmanEmerson Hyndman        M  23
+## 22         MingsTyrone Mings        D  26
+## 23    RamsdaleAaron Ramsdale       GK  21
+## 24       SimpsonJack Simpson        D  22
+## 25        MephamChris Mepham        D  21
+## 26          KellyLloyd Kelly        M  20
 ##                                                             Contract.Terms
 ## 1  16140000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£16,140,000
 ## 2  14560000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£14,560,000
@@ -349,22 +329,19 @@ EPL.Contracts[[1]]</code></pre>
 ## 11   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
 ## 12   7280000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£7,280,000
 ## 13   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 14   6240000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£6,240,000
-## 15   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 14   5616000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,616,000
+## 15   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
 ## 16   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
-## 17   5460000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,460,000
-## 18   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 17   5200000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£5,200,000
+## 18   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
 ## 19   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 20   4160000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,160,000
-## 21   4004000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,004,000
-## 22   3900000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,900,000
-## 23   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
-## 24   2860000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,860,000
-## 25   2080000\n\t\t\t\t\t\t\t\t\t\t\t1 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,080,000
-## 26      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
-## 27      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
-## 28                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
-## 29                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
+## 20   4004000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£4,004,000
+## 21   3120000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£3,120,000
+## 22   2860000\n\t\t\t\t\t\t\t\t\t\t\t4 yr\n\t\t\t\t\t\t\t\t\t\t\t£2,860,000
+## 23      780000\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t£780,000
+## 24      468000\n\t\t\t\t\t\t\t\t\t\t\t3 yr\n\t\t\t\t\t\t\t\t\t\t\t£468,000
+## 25                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
+## 26                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
 ##    Avg..Salary Transfer.Fee Expires    value years   value.pds
 ## 1   £5,380,000            -    2020 16140000  3 yr £16,140,000
 ## 2   £3,640,000   £9,780,000    2021 14560000  4 yr £14,560,000
@@ -379,22 +356,19 @@ EPL.Contracts[[1]]</code></pre>
 ## 11  £1,820,000            -    2021  7280000  4 yr  £7,280,000
 ## 12  £1,820,000            -    2021  7280000  4 yr  £7,280,000
 ## 13  £1,560,000   £5,950,000    2020  6240000  4 yr  £6,240,000
-## 14  £1,560,000            -    2019  6240000  4 yr  £6,240,000
-## 15  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000
-## 16  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000
-## 17  £1,820,000            -    2021  5460000  3 yr  £5,460,000
-## 18  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000
-## 19  £1,040,000   £5,530,000    2020  4160000  4 yr  £4,160,000
-## 20  £1,040,000  £10,125,000    2022  4160000  4 yr  £4,160,000
-## 21  £1,001,000  £10,750,000    2022  4004000  4 yr  £4,004,000
-## 22  £1,300,000     £100,000    2019  3900000  3 yr  £3,900,000
-## 23    £780,000            -    2020  3120000  4 yr  £3,120,000
-## 24    £715,000   £9,610,000    2022  2860000  4 yr  £2,860,000
-## 25  £2,080,000  £10,000,000    2019  2080000  1 yr  £2,080,000
-## 26    £156,000     £799,000    2021   780000  5 yr    £780,000
-## 27    £156,000            -    2020   468000  3 yr    £468,000
-## 28           -  £11,900,000       -        0                  
-## 29           -  £13,000,000       -        0                  
+## 14  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000
+## 15  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000
+## 16  £1,820,000            -    2021  5460000  3 yr  £5,460,000
+## 17  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000
+## 18  £1,040,000   £5,530,000    2020  4160000  4 yr  £4,160,000
+## 19  £1,040,000  £10,125,000    2022  4160000  4 yr  £4,160,000
+## 20  £1,001,000  £10,750,000    2022  4004000  4 yr  £4,004,000
+## 21    £780,000            -    2020  3120000  4 yr  £3,120,000
+## 22    £715,000   £9,610,000    2022  2860000  4 yr  £2,860,000
+## 23    £156,000     £799,000    2021   780000  5 yr    £780,000
+## 24    £156,000            -    2020   468000  3 yr    £468,000
+## 25           -  £11,900,000       -        0                  
+## 26           -  £13,000,000       -        0                  
 ##        Player.Names                                   Player.links
 ## 1     Jermain Defoe https://www.spotrac.com/redirect/player/23836/
 ## 2     Asmir Begovic https://www.spotrac.com/redirect/player/22625/
@@ -409,22 +383,19 @@ EPL.Contracts[[1]]</code></pre>
 ## 11      Dan Gosling https://www.spotrac.com/redirect/player/22682/
 ## 12       Adam Smith https://www.spotrac.com/redirect/player/22689/
 ## 13       Lewis Cook https://www.spotrac.com/redirect/player/22676/
-## 14    Simon Francis https://www.spotrac.com/redirect/player/22679/
-## 15      Ryan Fraser https://www.spotrac.com/redirect/player/22680/
-## 16  Charlie Daniels https://www.spotrac.com/redirect/player/22678/
-## 17 Junior Stanislas https://www.spotrac.com/redirect/player/22691/
-## 18       Brad Smith https://www.spotrac.com/redirect/player/22690/
-## 19      Lys Mousset https://www.spotrac.com/redirect/player/22687/
-## 20     David Brooks https://www.spotrac.com/redirect/player/27877/
-## 21       Diego Rico https://www.spotrac.com/redirect/player/27879/
-## 22        Marc Pugh https://www.spotrac.com/redirect/player/22688/
-## 23  Emerson Hyndman https://www.spotrac.com/redirect/player/23139/
-## 24     Tyrone Mings https://www.spotrac.com/redirect/player/22686/
-## 25      Artur Boruc https://www.spotrac.com/redirect/player/22660/
-## 26   Aaron Ramsdale https://www.spotrac.com/redirect/player/22661/
-## 27     Jack Simpson https://www.spotrac.com/redirect/player/24102/
-## 28     Chris Mepham https://www.spotrac.com/redirect/player/28460/
-## 29      Lloyd Kelly https://www.spotrac.com/redirect/player/30108/
+## 14      Ryan Fraser https://www.spotrac.com/redirect/player/22680/
+## 15  Charlie Daniels https://www.spotrac.com/redirect/player/22678/
+## 16 Junior Stanislas https://www.spotrac.com/redirect/player/22691/
+## 17       Brad Smith https://www.spotrac.com/redirect/player/22690/
+## 18      Lys Mousset https://www.spotrac.com/redirect/player/22687/
+## 19     David Brooks https://www.spotrac.com/redirect/player/27877/
+## 20       Diego Rico https://www.spotrac.com/redirect/player/27879/
+## 21  Emerson Hyndman https://www.spotrac.com/redirect/player/23139/
+## 22     Tyrone Mings https://www.spotrac.com/redirect/player/22686/
+## 23   Aaron Ramsdale https://www.spotrac.com/redirect/player/22661/
+## 24     Jack Simpson https://www.spotrac.com/redirect/player/24102/
+## 25     Chris Mepham https://www.spotrac.com/redirect/player/28460/
+## 26      Lloyd Kelly https://www.spotrac.com/redirect/player/30108/
 ##    Last.Name
 ## 1      Defoe
 ## 2    Begovic
@@ -439,22 +410,19 @@ EPL.Contracts[[1]]</code></pre>
 ## 11   Gosling
 ## 12     Smith
 ## 13      Cook
-## 14   Francis
-## 15    Fraser
-## 16   Daniels
-## 17 Stanislas
-## 18     Smith
-## 19   Mousset
-## 20    Brooks
-## 21      Rico
-## 22      Pugh
-## 23   Hyndman
-## 24     Mings
-## 25     Boruc
-## 26  Ramsdale
-## 27   Simpson
-## 28    Mepham
-## 29     Kelly</code></pre>
+## 14    Fraser
+## 15   Daniels
+## 16 Stanislas
+## 17     Smith
+## 18   Mousset
+## 19    Brooks
+## 20      Rico
+## 21   Hyndman
+## 22     Mings
+## 23  Ramsdale
+## 24   Simpson
+## 25    Mepham
+## 26     Kelly</code></pre>
 <p>The data now have some junk alongside workable versions of the variables of interest. It is worth noting that the header of the contracts data allows us to verify the size of the table as we picked it up [though I do rename them to allow the rbind to work]. This also suggests a strategy for picking up the rownames that is different than the above method that uses the dimension of the html table. Perhaps I should just gsub the header to recover the integer number of players. To tidy the data, they need to be stacked. A simple do.call and row bind will probably work.</p>
 <pre class="r"><code>Team.Base &lt;- sapply(EPL.Contracts, dim)[1,]
 Team &lt;- rep(as.character(names(Team.Base)),Team.Base)
