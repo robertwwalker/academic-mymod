@@ -71,8 +71,9 @@ endtime <- Sys.time()
 I wanted to find the bigrams while removing stop words.  Apparently, the easiest way to do this is `quanteda`.  I got this from [stack overflow](https://stackoverflow.com/questions/34282370/form-bigrams-without-stopwords-in-r)
 
 ```{r wc1}
+library(widgetframe)
 library(quanteda)
-library(wordcloud2)
+library(wordcloud)
 myDfm <- tokens(MRep) %>%
     tokens_remove("\\p{P}", valuetype = "regex", padding = TRUE) %>%
     tokens_remove(stopwords("english"), padding  = TRUE) %>%
@@ -82,7 +83,9 @@ wc2 <- topfeatures(myDfm, n=150, scheme="count")
 wc2.df <- data.frame(word = names(wc2), freq=as.numeric(wc2))
 wc2.df$word <- as.character(wc2.df$word)
 wc2.df <- wc2.df %>% filter(freq < 300)
-wordcloud2(wc2.df, size=0.4)
+# wordcloud(wc2.df, size=0.4)
+library(highcharter)
+frameWidget(hchart(wc2.df, "wordcloud", hcaes(name=word, weight=freq/30)))
 ```
 
 
@@ -110,7 +113,7 @@ totalwidth <- (imgwidth+spacing) * (gridwidth)
 totalheight <- (imgheight+spacing) * gridheight
  
 # Plot all the pages and save as PNG.
-png("all_pages.png", round((imgwidth+spacing)*gridwidth/7), round((imgheight+spacing)*gridheight/7))
+png("RSMReport.png", round((imgwidth+spacing)*gridwidth/7), round((imgheight+spacing)*gridheight/7))
 par(mar=c(0,0,0,0))
 plot(0, 0, type='n', xlim=c(0, totalwidth), ylim=c(0, totalheight), asp=1, bty="n", axes=FALSE)
 for (i in 1:448) {
@@ -125,4 +128,4 @@ for (i in 1:448) {
 dev.off()
 ```
 
-![A Graphic]("../../all_pages.png")
+![A Graphic](https://rww.science/img/RSMReport.png)
