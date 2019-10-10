@@ -151,7 +151,8 @@ head(Sent.Res)</code></pre>
 </div>
 <div id="a-single-number-sentiment" class="section level1">
 <h1>A Single Number Sentiment</h1>
-<pre class="r"><code>SNTRB &lt;- apply(TDF, 1, function(x) {get_sentiment(x, method=&quot;bing&quot;)})
+<pre class="r"><code>library(tidytext)
+SNTRB &lt;- apply(TDF, 1, function(x) {get_sentiment(x, method=&quot;bing&quot;)})
 DJTDF$Bing &lt;- SNTRB
 DJTDF &lt;- DJTDF %&gt;% mutate(RN=row_number())
 DJTDF &lt;- DJTDF
@@ -180,16 +181,14 @@ text(My.Res[66,], &quot;March for Our Life&quot;, cex=0.6)</code></pre>
 <pre><code>## 
 ##  -1   0   1 
 ##  84  16 231</code></pre>
-<p>That’s pretty interesting. There are considerably more positive days than negative ones. The timing of the maximum and minimum are fairly clear in time.</p>
-<pre class="r"><code>library(tidytext)
-tidy.tweets &lt;- DJTDF %&gt;% select(created_at, text) %&gt;% unnest_tokens(word, text)
+<p>That’s pretty interesting. There are considerably more positive days than negative ones. The timing of the maximum and minimum are fairly clear in time. Some changes the tidytext and licenses for sentiments broke this. To fix it, I have to save a local.</p>
+<pre class="r"><code>tidy.tweets &lt;- DJTDF %&gt;% select(created_at, text) %&gt;% unnest_tokens(word, text)
 afinn &lt;- tidy.tweets %&gt;% 
   inner_join(get_sentiments(&quot;afinn&quot;)) %&gt;% 
   group_by(created_at) %&gt;% 
-  summarise(sentiment = sum(score)) %&gt;% 
-  mutate(method = &quot;AFINN&quot;)</code></pre>
-<pre><code>## Joining, by = &quot;word&quot;</code></pre>
-<pre class="r"><code>bing_and_nrc &lt;- bind_rows(tidy.tweets %&gt;% 
+  summarise(sentiment = sum(value)) %&gt;% 
+  mutate(method = &quot;AFINN&quot;)
+bing_and_nrc &lt;- bind_rows(tidy.tweets %&gt;% 
                             inner_join(get_sentiments(&quot;bing&quot;)) %&gt;%
                             mutate(method = &quot;Bing&quot;),
                           tidy.tweets %&gt;% 
@@ -199,20 +198,20 @@ afinn &lt;- tidy.tweets %&gt;%
                             mutate(method = &quot;NRC&quot;)) %&gt;%
   count(method, created_at, sentiment) %&gt;%
   spread(sentiment, n, fill = 0) %&gt;%
-  mutate(sentiment = positive - negative) %&gt;% select(created_at, sentiment, method)</code></pre>
-<pre><code>## Joining, by = &quot;word&quot;
-## Joining, by = &quot;word&quot;</code></pre>
-<pre class="r"><code>Sents.Me &lt;- bind_rows(afinn,bing_and_nrc)
+  mutate(sentiment = positive - negative) %&gt;% select(created_at, sentiment, method)
+Sents.Me &lt;- bind_rows(afinn,bing_and_nrc)
 SME_tbl_time_d &lt;- Sents.Me  %&gt;% as_tbl_time(index = created_at) 
 My.Res &lt;- SME_tbl_time_d %&gt;% group_by(method) %&gt;%
     collapse_by(&quot;daily&quot;) %&gt;%
     dplyr::group_by(created_at, method) %&gt;%
     dplyr::summarise_if(is.numeric, mean) %&gt;% ungroup()
+save(Sents.Me,SME_tbl_time_d,My.Res,bing_and_nrc,tidy.tweets, file=&quot;~/TrumpTweets.RData&quot;)</code></pre>
+<pre class="r"><code>load(&quot;~/TrumpTweets.RData&quot;)
 ggplot(data = My.Res) +
   aes(x = created_at, y = sentiment, color = method) +
   geom_line() +
   theme_minimal()</code></pre>
-<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <div id="averaging-three-types-of-scaled-sentiments" class="section level2">
 <h2>Averaging three types of scaled sentiments</h2>
 <pre class="r"><code>MRS &lt;- My.Res %&gt;% group_by(method) %&gt;% mutate(SS=scale(sentiment))
@@ -227,7 +226,7 @@ MRS2 &lt;- MRS %&gt;%  collapse_by(&quot;daily&quot;) %&gt;% select(created_at, 
     x = &#39;Date&#39;,
     y = &#39;Mean Scaled Sentiment&#39;) +
   theme_minimal()</code></pre>
-<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="common-words" class="section level2">
 <h2>Common Words</h2>
@@ -246,7 +245,7 @@ library(reshape2)</code></pre>
   comparison.cloud(colors = c(&quot;red&quot;,&quot;green&quot;),
                    max.words = 100)</code></pre>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
-<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 <div id="networks" class="section level2">
 <h2>Networks</h2>
@@ -308,7 +307,7 @@ djt_bigrams %&gt;%
          !str_detect(word1, &quot;\\d&quot;),
          !str_detect(word2, &quot;\\d&quot;)) %&gt;%
   visualize_bigrams()</code></pre>
-<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <pre class="r"><code>clean_tweets$RN &lt;- DJTDF$RN
 tidy.tweets.RN &lt;- clean_tweets %&gt;% select(RN, text) %&gt;% unnest_tokens(word, text) %&gt;%
   anti_join(stop_words) %&gt;%
@@ -329,7 +328,7 @@ top_terms %&gt;%
     geom_col(show.legend = FALSE) +
     facet_wrap(~ topic, scales = &quot;free&quot;) +
     coord_flip()</code></pre>
-<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/post/2018-12-19-trump-s-tweets-part-ii_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>tweet_topicM &lt;- tidy(tweets_lda, matrix=&quot;gamma&quot;)
 top_tweets &lt;- tweet_topicM %&gt;% group_by(topic) %&gt;% top_n(10, gamma) %&gt;%
     ungroup() %&gt;%
@@ -359,7 +358,7 @@ clean_tweets &lt;- clean_tweets
 # create an empty file of &quot;stopwords&quot;
 # file.create(empty_file &lt;- tempfile())
 # mystopwords &lt;- as.character(stop_words[,1])
-stopwords_en &lt;-  stop_words()
+stopwords_en &lt;-  stop_words
 #system.file(&quot;stoplists/en.txt&quot;, package = &quot;mallet&quot;)
 docs &lt;- mallet.import(clean_tweets$RN, clean_tweets$text, stoplist=stopwords_en)
 mallet_model &lt;- MalletLDA(num.topics = 6)
@@ -372,6 +371,6 @@ mallet.top.words(mallet_model, word.weights = topic.words[4,], num.top.words = 5
 </div>
 <div id="sentiments-and-tidy-calendars" class="section level2">
 <h2>Sentiments and Tidy Calendars</h2>
-<p>Now I want to play with the time series properties of the tweet sentiments. Days of the week and times of day aggregated over different periods can say something… Perhaps?</p>
+<p>Now I want to play with the time series properties of the tweet sentiments. Days of the week and times of day aggregated over different periods can say something… Perhaps some day?</p>
 </div>
 </div>

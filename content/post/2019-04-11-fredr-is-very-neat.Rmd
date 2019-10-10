@@ -135,6 +135,7 @@ OR_emoj
 Now to build a first map to make sure that it works.
 
 ```{r}
+library(maps)
 county.fips$fips <- as.character(county.fips$fips)
 SubPrime.M <- left_join(SubPrime.OR, county.fips, by=c("FIPS"="fips"))
 SubPrime.M <- SubPrime.M %>% separate(., polyname, c("region","subregion"), sep=",")

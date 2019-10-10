@@ -20,6 +20,7 @@ Automates a lot of equity research and calculation using *tidy* concepts.  Here,
 
 ```{r cars, message=FALSE}
 library(tidyquant)
+library(tidyverse)
 tq_index("SP500") %>% filter(weight > 0.0125) %>% select(symbol,company) -> Tickers
 Tickers <- Tickers %>% filter(symbol!="BRK.B") %>% filter(symbol!="GOOGL")
 Eq.P <- Tickers %>%  tq_get(., from="2018/01/01", to="2019/03/14") 

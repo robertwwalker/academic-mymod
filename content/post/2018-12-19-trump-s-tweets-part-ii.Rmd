@@ -101,6 +101,7 @@ head(Sent.Res)
 # A Single Number Sentiment
 
 ```{r}
+library(tidytext)
 SNTRB <- apply(TDF, 1, function(x) {get_sentiment(x, method="bing")})
 DJTDF$Bing <- SNTRB
 DJTDF <- DJTDF %>% mutate(RN=row_number())
@@ -122,15 +123,16 @@ text(My.Res[316,], "GHW Bush Passes", cex=0.6)
 text(My.Res[66,], "March for Our Life", cex=0.6)
 table(sign(My.Res$Bing))
 ```
-That's pretty interesting.  There are considerably more positive days than negative ones.  The timing of the maximum and minimum are fairly clear in time.
+That's pretty interesting.  There are considerably more positive days than negative ones.  The timing of the maximum and minimum are fairly clear in time.  Some changes the tidytext and licenses for sentiments broke this.  To fix it, I have to save a local.
 
-```{r}
-library(tidytext)
+
+
+```{r, eval=FALSE}
 tidy.tweets <- DJTDF %>% select(created_at, text) %>% unnest_tokens(word, text)
 afinn <- tidy.tweets %>% 
   inner_join(get_sentiments("afinn")) %>% 
   group_by(created_at) %>% 
-  summarise(sentiment = sum(score)) %>% 
+  summarise(sentiment = sum(value)) %>% 
   mutate(method = "AFINN")
 bing_and_nrc <- bind_rows(tidy.tweets %>% 
                             inner_join(get_sentiments("bing")) %>%
@@ -149,6 +151,12 @@ My.Res <- SME_tbl_time_d %>% group_by(method) %>%
     collapse_by("daily") %>%
     dplyr::group_by(created_at, method) %>%
     dplyr::summarise_if(is.numeric, mean) %>% ungroup()
+save(Sents.Me,SME_tbl_time_d,My.Res,bing_and_nrc,tidy.tweets, file="~/TrumpTweets.RData")
+```
+
+
+```{r}
+load("~/TrumpTweets.RData")
 ggplot(data = My.Res) +
   aes(x = created_at, y = sentiment, color = method) +
   geom_line() +
@@ -273,7 +281,7 @@ clean_tweets <- clean_tweets
 # create an empty file of "stopwords"
 # file.create(empty_file <- tempfile())
 # mystopwords <- as.character(stop_words[,1])
-stopwords_en <-  stop_words()
+stopwords_en <-  stop_words
 #system.file("stoplists/en.txt", package = "mallet")
 docs <- mallet.import(clean_tweets$RN, clean_tweets$text, stoplist=stopwords_en)
 mallet_model <- MalletLDA(num.topics = 6)
@@ -287,5 +295,5 @@ mallet.top.words(mallet_model, word.weights = topic.words[4,], num.top.words = 5
 
 ## Sentiments and Tidy Calendars
 
-Now I want to play with the time series properties of the tweet sentiments.  Days of the week and times of day aggregated over different periods can say something...  Perhaps?
+Now I want to play with the time series properties of the tweet sentiments.  Days of the week and times of day aggregated over different periods can say something...  Perhaps some day?
 

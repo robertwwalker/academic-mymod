@@ -34,11 +34,6 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>library(ggplot2)</code></pre>
-<pre><code>## Registered S3 methods overwritten by &#39;ggplot2&#39;:
-##   method         from 
-##   [.quosures     rlang
-##   c.quosures     rlang
-##   print.quosures rlang</code></pre>
 <p>A student wanted to find data on charge-offs. <code>fredr</code> has a search capability. Let’s see what we can find.</p>
 <pre class="r"><code>ChargeOff &lt;- fredr_series_search_text(
   search_text = &quot;real estate charge offs&quot;,
@@ -52,12 +47,12 @@ ChargeOff %&gt;% select(title)</code></pre>
 ##  2 Charge-Off Rate on Loans Secured by Real Estate, All Commercial Banks   
 ##  3 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, Single…
 ##  4 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
-##  5 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, All Co…
-##  6 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
-##  7 Charge-Off Rate on Loans Secured by Real Estate, Top 100 Banks Ranked b…
-##  8 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
-##  9 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, Commer…
-## 10 Charge-Off Rate on Loans Secured by Real Estate, All Commercial Banks   
+##  5 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
+##  6 Charge-Off Rate on Loans Secured by Real Estate, All Commercial Banks   
+##  7 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, Commer…
+##  8 Net Charge-Offs on All Loans and Leases, Secured by Real Estate, All Co…
+##  9 Charge-Off Rate on Commercial Real Estate Loans (Excluding Farmland), B…
+## 10 Charge-Off Rate on Loans Secured by Real Estate, Top 100 Banks Ranked b…
 ## # … with 14 more rows</code></pre>
 <p>Wow, there is a rich array of data from that query. An even cooler feature is the ability to retrieve multiple at once in combination with the <code>map_dfr</code> command from the <code>purrr</code> library to make it tidy; that will go through the search results and stack the data that is returned [bind it together by rows]. These map commands are the tidy version of apply. In this case, binding the columns will likely fail because the times series are unlikely to be of the same length and that would create ragged columns. Better tidy from the start here.</p>
 <pre class="r"><code>library(stringr)
@@ -78,7 +73,7 @@ ChargeOff.Short %&gt;% ggplot(data = ., mapping = aes(x = date, y = value)) +
 ## 1 EQFXSUBPRIME036061</code></pre>
 <p>The way that these are organized in FRED is going to make this a mess. The series_id actually contains data. Every data vector is stored as the series name and a FIPS code embdeded. The FIPS code is likely to be the last five characters/numbers. Fun. My other limitation is that I am only seeing 1000 of 3000+ counties. That’s a limit of the API. I am going to have to do this a bit differently. I am going to work backward. I have access to the full set of county fips codes so I think that I can build the dataset to query. Here goes.</p>
 <pre class="r"><code>library(here)</code></pre>
-<pre><code>## here() starts at /home/rob/Desktop/RWW8/academic-mymod</code></pre>
+<pre><code>## here() starts at /home/rob/Sandbox/academic-mymod/academic-mymod</code></pre>
 <pre class="r"><code>library(readr)
 CFIPS &lt;- read_delim(paste0(here(),&quot;/data/COUNTYFIPS.txt&quot;),
     &quot;\t&quot;, escape_double = FALSE, trim_ws = TRUE)</code></pre>
@@ -117,13 +112,8 @@ SubPrime.OR %&gt;% ggplot(aes(x=date, y=value, colour=series_id)) +
   transition_reveal(date)</code></pre>
 <p><img src="/post/2019-04-11-fredr-is-very-neat_files/figure-html/unnamed-chunk-6-1.gif" /><!-- --></p>
 <p>My goal here is to build an animation of the map of this. So here goes.</p>
-<pre class="r"><code>states &lt;- map_data(&quot;state&quot;)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;maps&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     map</code></pre>
-<pre class="r"><code>OR.df &lt;- subset(states, region == &quot;oregon&quot;)
+<pre class="r"><code>states &lt;- map_data(&quot;state&quot;)
+OR.df &lt;- subset(states, region == &quot;oregon&quot;)
 OR_base &lt;- ggplot(data = OR.df, mapping = aes(x = long, y = lat, group = group)) +
 geom_polygon(color = &quot;black&quot;, fill = &quot;gray&quot;)+ theme_minimal() 
 OR_base + geom_point(aes(x=-123.0433, y=44.925167))</code></pre>
@@ -137,6 +127,12 @@ OR_emoj &lt;- OR_base +  add_emoji(&quot;1f352&quot;, x=-123.0433, y=44.925167, 
 OR_emoj</code></pre>
 <p><img src="/post/2019-04-11-fredr-is-very-neat_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>Now to build a first map to make sure that it works.</p>
+<pre class="r"><code>library(maps)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;maps&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map</code></pre>
 <pre class="r"><code>county.fips$fips &lt;- as.character(county.fips$fips)
 SubPrime.M &lt;- left_join(SubPrime.OR, county.fips, by=c(&quot;FIPS&quot;=&quot;fips&quot;))
 SubPrime.M &lt;- SubPrime.M %&gt;% separate(., polyname, c(&quot;region&quot;,&quot;subregion&quot;), sep=&quot;,&quot;)

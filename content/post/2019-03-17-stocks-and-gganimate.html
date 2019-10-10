@@ -20,6 +20,7 @@ header:
 <h2>tidyquant</h2>
 <p>Automates a lot of equity research and calculation using <em>tidy</em> concepts. Here, I will first use it to get the components of the S and P 500 and pick out those with weights over 1.25 percent. In the next step, I download the data and finally calculate daily returns and a cumulative wealth index.</p>
 <pre class="r"><code>library(tidyquant)
+library(tidyverse)
 tq_index(&quot;SP500&quot;) %&gt;% filter(weight &gt; 0.0125) %&gt;% select(symbol,company) -&gt; Tickers
 Tickers &lt;- Tickers %&gt;% filter(symbol!=&quot;BRK.B&quot;) %&gt;% filter(symbol!=&quot;GOOGL&quot;)
 Eq.P &lt;- Tickers %&gt;%  tq_get(., from=&quot;2018/01/01&quot;, to=&quot;2019/03/14&quot;) 
@@ -35,7 +36,7 @@ Returns %&gt;% skim()</code></pre>
 ##  n variables: 3 
 ##  group variables: symbol 
 ## 
-## ── Variable type:Date ────────────────────────────────────────
+## ── Variable type:Date ────────────────────────────────────────────────────────────────────
 ##  symbol variable missing complete   n        min        max     median
 ##    AAPL     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
 ##    AMZN     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
@@ -44,7 +45,7 @@ Returns %&gt;% skim()</code></pre>
 ##     JNJ     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
 ##     JPM     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
 ##    MSFT     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
-##     XOM     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
+##      PG     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
 ##  n_unique
 ##       300
 ##       300
@@ -55,7 +56,7 @@ Returns %&gt;% skim()</code></pre>
 ##       300
 ##       300
 ## 
-## ── Variable type:numeric ─────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────
 ##  symbol      variable missing complete   n        mean    sd     p0
 ##    AAPL daily.returns       0      300 300     0.00042 0.019 -0.1  
 ##    AMZN daily.returns       0      300 300     0.0014  0.022 -0.078
@@ -64,7 +65,7 @@ Returns %&gt;% skim()</code></pre>
 ##     JNJ daily.returns       0      300 300 2e-04       0.013 -0.1  
 ##     JPM daily.returns       0      300 300 8e-05       0.013 -0.048
 ##    MSFT daily.returns       0      300 300     0.0012  0.017 -0.054
-##     XOM daily.returns       0      300 300     8.9e-05 0.013 -0.057
+##      PG daily.returns       0      300 300     0.00058 0.012 -0.04 
 ##      p25      p50    p75  p100     hist
 ##  -0.0082  0.00089 0.0094 0.07  ▁▁▁▂▇▅▁▁
 ##  -0.008   0.0018  0.013  0.094 ▁▁▂▇▅▁▁▁
@@ -73,7 +74,7 @@ Returns %&gt;% skim()</code></pre>
 ##  -0.005   0.0011  0.0073 0.035 ▁▁▁▁▁▇▇▁
 ##  -0.0069 -9.6e-05 0.0074 0.041 ▁▁▂▆▇▃▁▁
 ##  -0.0072  0.0021  0.011  0.076 ▁▁▃▇▃▁▁▁
-##  -0.0078  0.00071 0.0085 0.048 ▁▁▁▅▇▃▁▁</code></pre>
+##  -0.0058  0.00042 0.0063 0.088 ▁▂▇▂▁▁▁▁</code></pre>
 </div>
 <div id="animating-a-plot" class="section level2">
 <h2>Animating a plot</h2>
