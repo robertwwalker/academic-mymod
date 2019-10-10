@@ -212,6 +212,7 @@ Bond.Funds %&gt;% group_by(Risk) %&gt;%
 <pre class="r"><code>mosaicplot(~Risk+Fees, data=Bond.Funds)</code></pre>
 <p><img src="/R/2019-10-09-tables-pivots-bars-and-mosaics_files/figure-html/MP1-1.png" width="672" /></p>
 <p>I recently came across a nice plotter for tabular data on <em>github</em>. You can search for it as <em>thatssorandom</em>. We installed it above.</p>
+<p><img src="/R/2019-10-09-tables-pivots-bars-and-mosaics_files/figure-html/pMos-1.png" width="672" /></p>
 <p>Notice it handles an implicit plotting of the set of conditional probabilities along the relevant margin. It is plotting <span class="math inline">\(Pr(Fees|Risk)\)</span> as breaks along the <em>y-axis</em> defined by frequency/empirical probability. This would be the equivalent of taking the <em>column marginal</em> of the table of Fees and Risk that we saw before. Now it has a graphical representation.</p>
 <pre class="r"><code>prop.table(FR.Tab, 2)</code></pre>
 <pre><code>##      Risk

@@ -379,7 +379,7 @@ mosaicplot(~Risk+Fees, data=Bond.Funds)
 
 I recently came across a nice plotter for tabular data on *github*.  You can search for it as *thatssorandom*.  We installed it above.
 
-```{r pMos, echo=FALSE, eval=FALSE, message=FALSE}
+```{r pMos, echo=FALSE, eval=TRUE, message=FALSE}
 library(thatssorandom)
 ggmm(Bond.Funds, y=Fees, x=Risk, add_text = "n")
 ```
