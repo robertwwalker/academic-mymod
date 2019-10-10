@@ -1,7 +1,7 @@
 ---
 title: NFL ScrapR
 author: RWW
-date: 'April 24, 2019'
+date: '2019-04-19'
 slug: nflscrapR-test
 categories:
   - tidyverse
