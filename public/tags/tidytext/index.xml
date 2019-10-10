@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tidytext on Robert W. Walker</title>
+    <link>/tags/tidytext/</link>
+    <description>Recent content in tidytext on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Wed, 22 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/tidytext/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Some Basic Text on the Mueller Report</title>
+      <link>/post/some-basic-text-on-the-mueller-report/</link>
+      <pubDate>Wed, 22 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/some-basic-text-on-the-mueller-report/</guid>
+      <description>So this Robert Mueller guy wrote a report I may as well analyse it a bit.
+First, let me see if I can get a hold of the data. I grabbed the report directly from the Department of Justice website. You can follow this link.
+library(tidyverse) library(pdftools) # Download report from link above mueller_report_txt &amp;lt;- pdf_text(&amp;quot;../data/report.pdf&amp;quot;) # Create a tibble of the text with line numbers and pages mueller_report &amp;lt;- tibble( page = 1:length(mueller_report_txt), text = mueller_report_txt) %&amp;gt;% separate_rows(text, sep = &amp;quot;\n&amp;quot;) %&amp;gt;% group_by(page) %&amp;gt;% mutate(line = row_number()) %&amp;gt;% ungroup() %&amp;gt;% select(page, line, text) write_csv(mueller_report, &amp;quot;data/mueller_report.</description>
+    </item>
+    
+    <item>
+      <title>Trump&#39;s Tweets, Part II</title>
+      <link>/post/trump-s-tweets-part-ii/</link>
+      <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/trump-s-tweets-part-ii/</guid>
+      <description>Trump’s Tone A cool post on sentiment analysis can be found here. I will now get at the time series characteristics of his tweets and the sentiment stuff.
+I start by loading the tmls object that I created in the previous post.
+Trump’s Overall Tweeting What does it look like?
+library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuzhet) library(rtweet) load(url(&amp;quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&amp;quot;)) names(tml.djt) ## [1] &amp;quot;user_id&amp;quot; &amp;quot;status_id&amp;quot; ## [3] &amp;quot;created_at&amp;quot; &amp;quot;screen_name&amp;quot; ## [5] &amp;quot;text&amp;quot; &amp;quot;source&amp;quot; ## [7] &amp;quot;display_text_width&amp;quot; &amp;quot;reply_to_status_id&amp;quot; ## [9] &amp;quot;reply_to_user_id&amp;quot; &amp;quot;reply_to_screen_name&amp;quot; ## [11] &amp;quot;is_quote&amp;quot; &amp;quot;is_retweet&amp;quot; ## [13] &amp;quot;favorite_count&amp;quot; &amp;quot;retweet_count&amp;quot; ## [15] &amp;quot;hashtags&amp;quot; &amp;quot;symbols&amp;quot; ## [17] &amp;quot;urls_url&amp;quot; &amp;quot;urls_t.</description>
+    </item>
+    
+    <item>
+      <title>Trump Tweet Word Clouds</title>
+      <link>/post/trump-tweet-word-clouds/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/trump-tweet-word-clouds/</guid>
+      <description>Mining Twitter Data Is rather easy. You have to arrange a developer account with Twitter and set up an app. After that, Twitter gives you access to a consumer key and secret and an access token and access secret. My tool of choice for this is rtweet because it automagically processes tweet elements and makes them easy to slice and dice. I also played with twitteR but it was harder to work with for what I wanted.</description>
+    </item>
+    
+    <item>
+      <title>Scraping EPL Salary Data</title>
+      <link>/post/scraping-epl-salary-data/</link>
+      <pubDate>Sun, 08 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/scraping-epl-salary-data/</guid>
+      <description>EPL Scraping In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.
+library(rvest) library(tidyverse) base_url &amp;lt;- &amp;quot;http://www.spotrac.com/epl/&amp;quot; read.base &amp;lt;- read_html(base_url) team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;) team.</description>
+    </item>
+    
+    <item>
+      <title>tidytext is neat! White House Communications</title>
+      <link>/post/tidytext-is-neat/</link>
+      <pubDate>Wed, 21 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytext-is-neat/</guid>
+      <description>Presidential Press The language of presidential communications is interesting and I know very little about text as data. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?
+White House News
+The site is split in four parts: all news, articles, presidential actions, and briefings and statements. The first one is a catch all and the second is news links.</description>
+    </item>
+    
+  </channel>
+</rss>

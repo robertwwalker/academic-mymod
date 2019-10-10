@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tables on Robert W. Walker</title>
+    <link>/categories/tables/</link>
+    <description>Recent content in tables on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Wed, 09 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/tables/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Tables, Pivots, Bars, and Mosaics</title>
+      <link>/r/tables-pivots-bars-and-mosaics/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/r/tables-pivots-bars-and-mosaics/</guid>
+      <description>R Markdown There is detailed help for all that Markdown can do under Help in the RStudio. The key to it is knitting documents with the Knit button in the RStudio. If we use helpers like the R Commander, Radiant, or esquisse, we will need the R code implanted in the Markdown document in particular ways. I will use Markdown for everything. I even use a close relation of Markdown in my scholarly pursuits.</description>
+    </item>
+    
+  </channel>
+</rss>

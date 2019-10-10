@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.58.3" />
+  <meta name="author" content="Robert W. Walker">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
+Here is this week’s tidyTuesday.
+library(skimr) library(tidyverse) library(rlang) # global_mortality &lt;- readRDS(&quot;../../data/global_mortality.rds&quot;) global_mortality &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/tidytuesday-takes-on-global-mortality/">
+
+  
+
+
+
+  
+  
+  <meta name="theme-color" content="">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js//styles/dracula.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/css/bootstrap.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/%!s(<nil>)/css/academicons.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/%!s(<nil>)/css/font-awesome.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/tidytuesday-takes-on-global-mortality/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@PieRatio">
+  <meta property="twitter:creator" content="@PieRatio">
+  
+  <meta property="og:site_name" content="Robert W. Walker">
+  <meta property="og:url" content="/post/tidytuesday-takes-on-global-mortality/">
+  <meta property="og:title" content="Global mortality tidyTuesday | Robert W. Walker">
+  <meta property="og:description" content="tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
+Here is this week’s tidyTuesday.
+library(skimr) library(tidyverse) library(rlang) # global_mortality &lt;- readRDS(&quot;../../data/global_mortality.rds&quot;) global_mortality &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-04-18T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-04-18T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>Global mortality tidyTuesday | Robert W. Walker</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/"><img src="/img/headers/wuagsm.jpg" alt="Robert W. Walker"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#publications_selected">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/img/vita.pdf">
+            
+            <span>Curriculum Vitae</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a href="/r">
+            
+            <span>R Stuff</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Global mortality tidyTuesday</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-04-18 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2018-04-18
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/tidyverse">tidyverse</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Global%20mortality%20tidyTuesday&amp;url=%2fpost%2ftidytuesday-takes-on-global-mortality%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2ftidytuesday-takes-on-global-mortality%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ftidytuesday-takes-on-global-mortality%2f&amp;title=Global%20mortality%20tidyTuesday"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2ftidytuesday-takes-on-global-mortality%2f&amp;title=Global%20mortality%20tidyTuesday"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Global%20mortality%20tidyTuesday&amp;body=%2fpost%2ftidytuesday-takes-on-global-mortality%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+
+<div id="tidytuesday-on-global-mortality" class="section level1">
+<h1>tidyTuesday on Global Mortality</h1>
+<p>The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in <a href="https://ourworldindata.org/what-does-the-world-die-from">the original</a>. For whatever reason, I cannot open this data remotely.</p>
+<p>Here is this week’s tidyTuesday.</p>
+<pre class="r"><code>library(skimr)
+library(tidyverse)
+library(rlang)
+# global_mortality &lt;- readRDS(&quot;../../data/global_mortality.rds&quot;)
+global_mortality &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;))
+skim(global_mortality)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 6156 
+##  n variables: 35 
+## 
+## ── Variable type:character ───────────────────────────────────────────────────────────────
+##      variable missing complete    n min max empty n_unique
+##       country       0     6156 6156   4  32     0      228
+##  country_code     864     5292 6156   3   8     0      196
+## 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────
+##                                  variable missing complete    n     mean
+##                     Alcohol disorders (%)       0     6156 6156    0.32 
+##                               Cancers (%)       0     6156 6156   14.39 
+##               Cardiovascular diseases (%)       0     6156 6156   29.93 
+##                              Conflict (%)    1398     4758 6156    0.29 
+##                              Dementia (%)       0     6156 6156    3.22 
+##                              Diabetes (%)       0     6156 6156    6.29 
+##                    Diarrheal diseases (%)       0     6156 6156    3.2  
+##                    Digestive diseases (%)       0     6156 6156    1.97 
+##                              Drowning (%)       0     6156 6156    0.71 
+##                        Drug disorders (%)       0     6156 6156    0.18 
+##                                  Fire (%)       0     6156 6156    0.33 
+##  Heat-related (hot and cold exposure) (%)       0     6156 6156    0.1  
+##                             Hepatitis (%)       0     6156 6156    0.16 
+##                              HIV/AIDS (%)       0     6156 6156    3.35 
+##                              Homicide (%)       0     6156 6156    0.98 
+##        Intestinal infectious diseases (%)       0     6156 6156    0.18 
+##                        Kidney disease (%)       0     6156 6156    2.09 
+##                         Liver disease (%)       0     6156 6156    2.12 
+##          Lower respiratory infections (%)       0     6156 6156    5.84 
+##                               Malaria (%)       0     6156 6156    1.8  
+##                       Maternal deaths (%)       0     6156 6156    0.59 
+##                            Meningitis (%)       0     6156 6156    0.78 
+##                     Natural disasters (%)       0     6156 6156    0.095
+##                       Neonatal deaths (%)       0     6156 6156    4.57 
+##              Nutritional deficiencies (%)       0     6156 6156    1.1  
+##                     Parkinson disease (%)       0     6156 6156    0.29 
+##           Protein-energy malnutrition (%)       0     6156 6156    1    
+##                  Respiratory diseases (%)       0     6156 6156    4.1  
+##                        Road accidents (%)       0     6156 6156    2.53 
+##                               Suicide (%)       0     6156 6156    1.39 
+##                             Terrorism (%)    1398     4758 6156    0.037
+##                          Tuberculosis (%)       0     6156 6156    2.13 
+##                                      year       0     6156 6156 2003    
+##     sd         p0        p25       p50      p75    p100     hist
+##   0.41    0.013      0.078      0.16      0.39     3.08 ▇▂▁▁▁▁▁▁
+##   8.15    0.58       6.93      13.31     21.36    33.62 ▃▇▅▅▃▃▃▁
+##  14.02    1.43      18.74      30.65     38.45    67.39 ▂▅▃▇▆▂▂▁
+##   2.4     0          0          0         0.017   82.32 ▇▁▁▁▁▁▁▁
+##   2.75    0.045      1.01       2.53      4.33    16.67 ▇▆▂▂▁▁▁▁
+##   4.44    0.33       3.2        4.99      7.93    35.82 ▇▆▂▁▁▁▁▁
+##   4.36    0.0083     0.18       0.77      5.29    25.18 ▇▂▁▁▁▁▁▁
+##   0.68    0.31       1.51       1.93      2.29     5.16 ▁▅▇▅▂▁▁▁
+##   0.51    0.053      0.35       0.61      0.96     4.51 ▇▆▂▁▁▁▁▁
+##   0.19    0.0018     0.058      0.12      0.23     1.31 ▇▃▁▁▁▁▁▁
+##   0.18    0.057      0.19       0.32      0.43     1.34 ▇▇▆▂▁▁▁▁
+##   0.13    0.0071     0.042      0.07      0.11     1.17 ▇▁▁▁▁▁▁▁
+##   0.17    0.0048     0.038      0.11      0.24     1.58 ▇▃▁▁▁▁▁▁
+##   7.81    0          0.081      0.44      2.33    62.19 ▇▁▁▁▁▁▁▁
+##   1.45    0.045      0.24       0.52      1       14.23 ▇▁▁▁▁▁▁▁
+##   0.3     7.1e-05    0.00077    0.014     0.27     2.28 ▇▂▁▁▁▁▁▁
+##   1.49    0.056      0.9        1.73      2.96     9.95 ▇▇▅▂▁▁▁▁
+##   1.24    0.19       1.34       1.83      2.54    11.65 ▇▇▂▁▁▁▁▁
+##   3.42    0.68       3.21       5.14      8.16    20.04 ▆▇▅▃▂▁▁▁
+##   4.21    0          0          0.0027    0.48    24.43 ▇▁▁▁▁▁▁▁
+##   0.7     0.0019     0.032      0.24      1        3.41 ▇▂▁▂▁▁▁▁
+##   0.97    0.028      0.11       0.35      1.02     6.98 ▇▁▁▁▁▁▁▁
+##   1.28    0          0          0         0.017   65.29 ▇▁▁▁▁▁▁▁
+##   3.85    0.041      0.69       3.89      7.74    17.81 ▇▃▃▃▂▁▁▁
+##   1.87    0.0037     0.09       0.4       1.34    35.55 ▇▁▁▁▁▁▁▁
+##   0.26    0.0023     0.074      0.21      0.43     1.59 ▇▅▂▂▁▁▁▁
+##   1.81    0.0011     0.058      0.32      1.22    35.52 ▇▁▁▁▁▁▁▁
+##   2.35    0.3        2.26       3.63      5.38    16.29 ▆▇▆▂▁▁▁▁
+##   2.19    0.28       1.36       1.93      2.9     20.9  ▇▂▁▁▁▁▁▁
+##   1.11    0.1        0.69       1.18      1.8     15.41 ▇▂▁▁▁▁▁▁
+##   0.23    0          0          0         0.004    5.88 ▇▁▁▁▁▁▁▁
+##   2.65    0.011      0.24       0.91      3.33    16.47 ▇▂▂▁▁▁▁▁
+##   7.79 1990       1996       2003      2010     2016    ▇▆▆▇▆▆▆▇</code></pre>
+<p>That loads the data for the challenge.</p>
+<pre class="r"><code>Counts &lt;- read.csv(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/annual-number-of-deaths-by-cause.csv&quot;))
+Counts %&gt;% filter(Year==2016) %&gt;% select(-Code,-Entity,-Execution..deaths.,-Year) %&gt;% apply(., 2, function(x) { sum(x, na.rm=TRUE)}) -&gt; temp1
+pp.df &lt;- data.frame(Total.Deaths=temp1,name=names(temp1))
+pp.df &lt;- pp.df %&gt;% arrange(Total.Deaths)
+pp.df$name &lt;- factor(pp.df$name, levels = pp.df$name)
+cplot &lt;- ggplot(pp.df, aes(name,Total.Deaths)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() + scale_fill_gradientn(colours = terrain.colors(10)) + ggtitle(&quot;The Causes of Global Mortailty (2016)&quot;)
+cplot</code></pre>
+<p><img src="/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/COrig-1.png" width="672" /></p>
+<p>With a reenactment of the base target plots, I can turn to new visuals. I wanted to be able to develop a comparison of the various classified causes of death and to try out my nifty function for summarizing panel data. So here goes.</p>
+<pre class="r"><code>xtsum &lt;- function(formula, data) {
+  pform &lt;- terms(formula, data=data)
+  unit &lt;- pform[[2]]
+  vars &lt;- attr(pform, &quot;term.labels&quot;)
+  cls &lt;- sapply(data, class)
+  data &lt;- data %&gt;% select(which(cls%in%c(&quot;numeric&quot;,&quot;integer&quot;)))
+  varnames &lt;- intersect(names(data),vars)
+  sumfunc &lt;- function(data=data, varname, unit) {
+  loc.unit &lt;- enquo(unit)
+  varname &lt;- ensym(varname)
+    ores &lt;- data %&gt;% filter(!is.na(!! varname)==TRUE) %&gt;% summarise(
+    O.mean=round(mean(`$`(data, !! varname), na.rm=TRUE), digits=3),
+    O.sd=round(sd(`$`(data, !! varname), na.rm=TRUE), digits=3), 
+    O.min = min(`$`(data, !! varname), na.rm=TRUE), 
+    O.max=max(`$`(data, !! varname), na.rm=TRUE), 
+    O.SumSQ=round(sum(scale(`$`(data, !! varname), center=TRUE, scale=FALSE)^2, na.rm=TRUE), digits=3), 
+    O.N=sum(as.numeric((!is.na(`$`(data, !! varname))))))
+ bmeans &lt;- data %&gt;% filter(!is.na(!! varname)==TRUE) %&gt;% group_by(!! loc.unit) %&gt;% summarise(
+   meanx=mean(`$`(.data, !! varname), na.rm=T), 
+   t.count=sum(as.numeric(!is.na(`$`(.data, !! varname)))))
+    bres &lt;- bmeans %&gt;% ungroup() %&gt;% summarise(
+    B.mean = round(mean(meanx, na.rm=TRUE), digits=3),
+    B.sd = round(sd(meanx, na.rm=TRUE), digits=3),
+    B.min = min(meanx, na.rm=TRUE), 
+    B.max=max(meanx, na.rm=TRUE), 
+    Units=sum(as.numeric(!is.na(t.count))), 
+    t.bar=round(mean(t.count, na.rm=TRUE), digits=3))
+  wdat &lt;- data %&gt;% filter(!is.na(!! varname)==TRUE) %&gt;% group_by(!! loc.unit) %&gt;% mutate(
+    W.x = scale(`$`(.data,!! varname), scale=FALSE))
+  wres &lt;- wdat %&gt;% ungroup() %&gt;% summarise(
+    W.sd=round(sd(W.x, na.rm=TRUE), digits=3), 
+    W.min=min(W.x, na.rm=TRUE), 
+    W.max=max(W.x, na.rm=TRUE), 
+    W.SumSQ=round(sum(W.x^2, na.rm=TRUE), digits=3))
+    W.Ratio &lt;- round(wres$W.SumSQ/ores$O.SumSQ, digits=3)
+  return(c(ores,bres,wres,Within.Ovr.Ratio=W.Ratio))
+  }
+res1 &lt;- sapply(varnames, function(x) {sumfunc(data, !!x, !!unit)})
+return(t(res1))
+}  
+global_mortality$countryF &lt;- as.factor(global_mortality$country)
+global_mortality$countryN &lt;- as.numeric(as.factor(global_mortality$country))
+names(global_mortality) &lt;- gsub(&quot; \\(%\\)&quot;,&quot;&quot;,names(global_mortality))
+# For some reason, the xtsum function does not respond to the weird variable names but will accept them devoid of (%)
+myxt.res &lt;- xtsum(countryN~., data=global_mortality)
+myxt.res</code></pre>
+<pre><code>##              O.mean O.sd  O.min       O.max    O.SumSQ  O.N  B.mean B.sd 
+## year         2003   7.79  1990        2016     373464   6156 2003   0    
+## Cancers      14.387 8.154 0.5822726   33.6175  409267.1 6156 14.387 8.034
+## Diabetes     6.286  4.436 0.3271329   35.81619 121099.2 6156 6.286  4.24 
+## Dementia     3.221  2.746 0.04475178  16.67248 46417.87 6156 3.221  2.618
+## Tuberculosis 2.133  2.648 0.01088091  16.46586 43159.87 6156 2.133  2.554
+## Suicide      1.391  1.111 0.1016103   15.41202 7591.252 6156 1.391  1.086
+## Malaria      1.801  4.213 0           24.42596 109251.4 6156 1.801  4.11 
+## Homicide     0.983  1.454 0.04520209  14.22926 13007.95 6156 0.983  1.425
+## Meningitis   0.783  0.967 0.02798604  6.981346 5760.664 6156 0.783  0.951
+## Drowning     0.714  0.514 0.05330638  4.510948 1628.778 6156 0.714  0.487
+## Hepatitis    0.161  0.165 0.004847886 1.583289 167.675  6156 0.161  0.158
+## Fire         0.334  0.181 0.05691324  1.343686 201.769  6156 0.334  0.168
+## Conflict     0.291  2.399 0           82.317   27372.61 4758 0.291  0.921
+## Terrorism    0.037  0.229 0           5.877    250.161  4758 0.037  0.121
+##              B.min       B.max     Units t.bar W.sd  W.min      W.max    
+## year         2003        2003      228   27    7.79  -13        13       
+## Cancers      3.109526    30.19716  228   27    1.489 -8.017757  5.449552 
+## Diabetes     1.183787    27.70547  228   27    1.331 -9.750057  10.92867 
+## Dementia     0.2734327   11.82133  228   27    0.847 -5.183193  5.145011 
+## Tuberculosis 0.03205589  14.84698  228   27    0.72  -6.169898  7.156982 
+## Suicide      0.2441106   12.16457  228   27    0.243 -2.210464  3.247445 
+## Malaria      0           20.10408  228   27    0.963 -7.916651  6.903596 
+## Homicide     0.05593046  11.06133  228   27    0.303 -3.487857  3.167933 
+## Meningitis   0.04221932  5.315156  228   27    0.187 -1.984723  2.166714 
+## Drowning     0.06142987  3.515331  228   27    0.168 -1.775808  1.274717 
+## Hepatitis    0.008156611 0.9932521 228   27    0.048 -0.3946904 0.8763799
+## Fire         0.07003296  0.9950066 228   27    0.069 -0.4329619 0.8721761
+## Conflict     0           9.320885  183   26    2.216 -9.320885  78.38404 
+## Terrorism    0           1.298962  183   26    0.195 -1.298962  4.578038 
+##              W.SumSQ  Within.Ovr.Ratio
+## year         373464   1               
+## Cancers      13651.25 0.033           
+## Diabetes     10897.8  0.09            
+## Dementia     4420.371 0.095           
+## Tuberculosis 3193.133 0.074           
+## Suicide      364.808  0.048           
+## Malaria      5711.216 0.052           
+## Homicide     564.186  0.043           
+## Meningitis   216.175  0.038           
+## Drowning     174.405  0.107           
+## Hepatitis    14.147   0.084           
+## Fire         29.045   0.144           
+## Conflict     23357.85 0.853           
+## Terrorism    180.881  0.723</code></pre>
+<p>The function output can be read as follows. It needs better formatting as a table. For now, O. is an overall measure, overall mean, standard deviation, minimum, maximum, sum of squares and total observations. A between mean, standard deviation, minimum, and maximum with the number of units and the average number of time points. Finally, we have a within standard deviation, minimum, maximum, sum of squares, and a within proportion of the overall variance. In this case, terrorism and conflict are the two variables that vary almost entirely within and far less between countries. I suspect this is because they are rather high in a few places and consistently so.</p>
+<pre class="r"><code>ggplot.res &lt;- data.frame(myxt.res)
+ggplot.res &lt;- ggplot.res[-1,]; ggplot.res &lt;- ggplot.res[,17]
+mydf &lt;- t(data.frame(ggplot.res))
+mydf &lt;- data.frame(value=mydf,name=rownames(mydf))
+mydf &lt;- mydf %&gt;% arrange(value)
+mydf$name &lt;- factor(mydf$name, levels = mydf$name)
+mydf &lt;- mydf %&gt;% mutate(Emph=as.numeric(value&gt;0.5))
+mydf %&gt;% ggplot(aes(name,value, fill=Emph)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() + ylab(&quot;Within Percent of Total Variation&quot;) + xlab(&quot;Cause of Mortality&quot;) + ggtitle(&quot;Within-country variation in the Causes of Death&quot;) + guides(fill=&quot;none&quot;)</code></pre>
+<p><img src="/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/Result-1.png" width="672" /></p>
+<pre class="r"><code>Mean.Homicide &lt;- global_mortality %&gt;% group_by(countryF) %&gt;% summarise(mymean=mean(Homicide, na.rm=TRUE))
+Mean.Homicide %&gt;% ungroup() %&gt;% arrange(mymean) -&gt; mydf
+mydf$countryF &lt;- factor(mydf$countryF, levels = mydf$countryF)
+mydf %&gt;% ungroup() %&gt;% top_n(30, mymean) %&gt;% arrange(mymean) %&gt;% mutate(Emph=c(rep(1,10),rep(2,10),rep(3,10))) -&gt; mydf
+mydf %&gt;% ggplot(aes(countryF,mymean, fill=Emph)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() + ylab(&quot;Homicides&quot;) + ggtitle(&quot;Top 30 Countries/Places in Homicide&quot;) + xlab(&quot;&quot;) + guides(fill=&quot;none&quot;) -&gt; Homicideplot
+Homicideplot</code></pre>
+<p><img src="/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/MHG30-1.png" width="672" /></p>
+<pre class="r"><code>global_mortality %&gt;% filter(year==2016) %&gt;% ggplot(aes(`Drug disorders`,`Alcohol disorders`)) + geom_point() + ggtitle(&quot;Drugs and Alcohol in 2016&quot;) -&gt; scatterDA
+scatterDA</code></pre>
+<p><img src="/post/2018-04-17-tidytuesday-takes-on-global-mortality_files/figure-html/DandA-1.png" width="672" /></p>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/tidytuesday">tidyTuesday</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/tidyverse">tidyverse</a>
+  
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/tidytuesday-tuition/">tidyTuesday - Tuition</a></li>
+        
+        <li><a href="/post/scraping-the-nfl-salary-cap-data-with-python-and-r/">Scraping the NFL Salary Cap Data with Python and R</a></li>
+        
+        <li><a href="/post/tidytext-is-neat/">tidytext is neat! White House Communications</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/%!s(<nil>)/jquery.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/%!s(<nil>)/imagesloaded.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/js/bootstrap.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/%!s(<nil>)/isotope.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/%!s(<nil>)/highlight.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/%!s(<nil>)/MathJax.js?config=TeX-AMS_CHTML" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

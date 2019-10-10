@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.58.3" />
+  <meta name="author" content="Robert W. Walker">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
+First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
+library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/tidytuesday-coffee-chains/">
+
+  
+
+
+
+  
+  
+  <meta name="theme-color" content="">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js//styles/dracula.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/css/bootstrap.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/%!s(<nil>)/css/academicons.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/%!s(<nil>)/css/font-awesome.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/tidytuesday-coffee-chains/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@PieRatio">
+  <meta property="twitter:creator" content="@PieRatio">
+  
+  <meta property="og:site_name" content="Robert W. Walker">
+  <meta property="og:url" content="/post/tidytuesday-coffee-chains/">
+  <meta property="og:title" content="tidyTuesday: coffee chains | Robert W. Walker">
+  <meta property="og:description" content="The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
+First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
+library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-05-09T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-05-09T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>tidyTuesday: coffee chains | Robert W. Walker</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/"><img src="/img/headers/wuagsm.jpg" alt="Robert W. Walker"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#publications_selected">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/img/vita.pdf">
+            
+            <span>Curriculum Vitae</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a href="/r">
+            
+            <span>R Stuff</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">tidyTuesday: coffee chains</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-05-09 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2018-05-09
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/tidyverse">tidyverse</a
+    >, 
+    
+    <a href="/categories/maps">Maps</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=tidyTuesday%3a%20coffee%20chains&amp;url=%2fpost%2ftidytuesday-coffee-chains%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2ftidytuesday-coffee-chains%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ftidytuesday-coffee-chains%2f&amp;title=tidyTuesday%3a%20coffee%20chains"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2ftidytuesday-coffee-chains%2f&amp;title=tidyTuesday%3a%20coffee%20chains"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=tidyTuesday%3a%20coffee%20chains&amp;body=%2fpost%2ftidytuesday-coffee-chains%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+
+<div id="the-tidytuesday-for-this-week-is-coffee-chain-locations" class="section level1">
+<h1>The tidyTuesday for this week is coffee chain locations</h1>
+<p>For this week:
+1. The basic link to the <a href="https://github.com/rfordatascience/tidytuesday"><code>#tidyTuesday</code></a> shows <a href="http://flowingdata.com/2014/03/18/coffee-place-geography/">an original article</a> for Week 6.</p>
+<p>First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.</p>
+<pre class="r"><code>library(readxl)
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
+## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
+## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
+## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
+<pre><code>## ── Conflicts ──────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(janitor)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code>library(geofacet)</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;geofacet&#39;:
+##   method from   
+##   +.gg   ggplot2</code></pre>
+<pre class="r"><code>library(ggbeeswarm)
+library(ggrepel)
+# A great function appears below that I grabbed from Stack Overflow a while back.....
+# URL functionality with read_excel is tricky so I turned them in to rds
+read_excel_allsheets &lt;- function(filename, tibble = TRUE) {
+    sheets &lt;- readxl::excel_sheets(filename)
+    x &lt;- lapply(sheets, function(X) readxl::read_excel(filename, sheet = X))
+    if(!tibble) x &lt;- lapply(x, as.data.frame)
+    names(x) &lt;- sheets
+    x
+}
+coffee.xl &lt;- read_excel_allsheets(&quot;../../data/week6_coffee_chains.xlsx&quot;)
+Starbucks &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6SB.rds&quot;))
+Dunkin.Donuts &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6DD.rds&quot;))
+Tim.Hortons &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/week6TH.rds&quot;))</code></pre>
+<p>What do the data look like?</p>
+<pre class="r"><code>library(skimr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;skimr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre class="r"><code>skim(Starbucks)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 25600 
+##  n variables: 13 
+## 
+## ── Variable type:character ───────────────────────────────────────────────────────────────
+##        variable missing complete     n min max empty n_unique
+##           Brand       0    25600 25600   7  21     0        4
+##            City      14    25586 25600   2  29     0     5470
+##         Country       0    25600 25600   2   2     0       73
+##  Ownership Type       0    25600 25600   8  13     0        4
+##    Phone Number    6861    18739 25600   1  18     0    18559
+##        Postcode    1521    24079 25600   1   9     0    18888
+##  State/Province       0    25600 25600   1   3     0      338
+##      Store Name       0    25600 25600   2  60     0    25364
+##    Store Number       0    25600 25600   5  12     0    25599
+##  Street Address       2    25598 25600   1 234     0    25353
+##        Timezone       0    25600 25600  18  30     0      101
+## 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────
+##   variable missing complete     n   mean    sd      p0     p25    p50
+##   Latitude       1    25599 25600  34.79 13.34  -46.41   31.24  36.75
+##  Longitude       1    25599 25600 -27.87 96.84 -159.46 -104.66 -79.35
+##     p75   p100     hist
+##   41.57  64.85 ▁▁▁▁▂▇▇▁
+##  100.63 176.92 ▃▇▂▁▁▁▅▁</code></pre>
+<pre class="r"><code>skim(Dunkin.Donuts)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 4898 
+##  n variables: 22 
+## 
+## ── Variable type:character ───────────────────────────────────────────────────────────────
+##    variable missing complete    n min max empty n_unique
+##    biz_info    4091      807 4898  14  18     0      709
+##    biz_name       0     4898 4898   8  38     0       33
+##   biz_phone       0     4898 4898  14  14     0     4562
+##   e_address       0     4898 4898   6  61     0     4864
+##      e_city       0     4898 4898   2  27     0     1770
+##   e_country       0     4898 4898   3   3     0        1
+##     e_state       0     4898 4898   2   2     0       41
+##  e_zip_full       0     4898 4898  10  10     0      545
+##  loc_county       0     4898 4898   3  21     0      395
+##     loc_DST       0     4898 4898   1   1     0        3
+##    loc_PMSA       0     4898 4898   2   4     0       53
+##      loc_TZ       0     4898 4898   3   5     0        5
+##     web_url       0     4898 4898  20 175     0       22
+## 
+## ── Variable type:numeric ─────────────────────────────────────────────────────────────────
+##           variable missing complete    n     mean       sd      p0
+##           e_postal       0     4898 4898 21528.34 20311.57 1001   
+##                 id       0     4898 4898  2459.46  1420.28    1   
+##      loc_area_code       0     4898 4898   590.09   229.26  201   
+##           loc_FIPS       0     4898 4898 27911.17 12470.14 1069   
+##   loc_LAT_centroid       0     4898 4898    39.62     4.33   21.42
+##       loc_LAT_poly       0     4898 4898    39.62     4.32   21.39
+##  loc_LONG_centroid       0     4898 4898   -77.55     7.31 -157.93
+##      loc_LONG_poly       0     4898 4898   -77.55     7.31 -157.96
+##            loc_MSA       0     4898 4898  4284.65  2849.57  160   
+##       p25      p50      p75     p100     hist
+##   6080    13334.5  32810.75 98112    ▇▃▂▁▂▁▁▁
+##   1231.25  2458.5   3686.75  4920    ▇▇▇▇▇▇▇▇
+##    401      610      781      989    ▆▃▅▅▇▇▆▃
+##  17031    26125    36111    55111    ▁▇▅▇▆▆▆▂
+##     39.39    41.22    42.11    47.63 ▁▁▁▁▁▅▇▁
+##     39.38    41.2     42.09    47.64 ▁▁▁▁▁▅▇▁
+##    -81.44   -75.08   -72.66   -67.23 ▁▁▁▁▁▁▃▇
+##    -81.44   -75.08   -72.66   -67.28 ▁▁▁▁▁▁▃▇
+##   1520     3800     6880     9320    ▇▇▅▂▂▇▅▂</code></pre>
+<pre class="r"><code>skim(Tim.Hortons)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 4955 
+##  n variables: 6 
+## 
+## ── Variable type:character ───────────────────────────────────────────────────────────────
+##     variable missing complete    n min max empty n_unique
+##      address       0     4955 4955   6  51     0     4803
+##         city       0     4955 4955   3  38     0     1206
+##      country       0     4955 4955   2   2     0        2
+##  postal_code       0     4955 4955   4   7     0     4328
+##        state       0     4955 4955   2   2     0       27
+##   store_name       0     4955 4955   2  63     0     3167</code></pre>
+<p>A basic plot of the global Starbucks data.</p>
+<pre class="r"><code>library(ggmap)</code></pre>
+<pre><code>## Google&#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.</code></pre>
+<pre><code>## Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</code></pre>
+<pre class="r"><code>mapWorld &lt;- borders(&quot;world&quot;, colour=&quot;gray50&quot;, fill=&quot;gray50&quot;) # create a layer of borders
+mp &lt;- ggplot() +   mapWorld
+mp &lt;- mp + geom_point(aes(x=Starbucks$Longitude, y=Starbucks$Latitude) ,color=&quot;dark green&quot;, size=0.5) + xlab(&quot;&quot;) + ylab(&quot;&quot;)
+mp &lt;- mp + geom_point(aes(x=Dunkin.Donuts$loc_LONG_centroid, y=Dunkin.Donuts$loc_LAT_centroid) ,color=&quot;orange&quot;, size=0.5) + xlab(&quot;&quot;) + ylab(&quot;&quot;)
+mp</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<p><img src="/post/2018-05-09-tidytuesday-coffee-chains_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div id="starbucks-and-dunkin" class="section level2">
+<h2>Starbucks and Dunkin</h2>
+<p>Google Maps interface changed and I have not updated this part. Shame.</p>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/tidytuesday">tidyTuesday</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/tidyverse">tidyverse</a>
+  
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/tidytuesday-tuition/">tidyTuesday - Tuition</a></li>
+        
+        <li><a href="/post/tidytuesday-takes-on-global-mortality/">Global mortality tidyTuesday</a></li>
+        
+        <li><a href="/post/scraping-the-nfl-salary-cap-data-with-python-and-r/">Scraping the NFL Salary Cap Data with Python and R</a></li>
+        
+        <li><a href="/post/tidytext-is-neat/">tidytext is neat! White House Communications</a></li>
+        
+        <li><a href="/post/scraping-epl-salary-data/">Scraping EPL Salary Data</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/%!s(<nil>)/jquery.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/%!s(<nil>)/imagesloaded.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/js/bootstrap.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/%!s(<nil>)/isotope.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/%!s(<nil>)/highlight.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/%!s(<nil>)/MathJax.js?config=TeX-AMS_CHTML" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

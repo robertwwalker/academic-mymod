@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R Code on Robert W. Walker</title>
+    <link>/r/</link>
+    <description>Recent content in R Code on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Tue, 01 Oct 2019 00:00:00 -0700</lastBuildDate>
+    
+	<atom:link href="/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Alluvial Plots</title>
+      <link>/r/alluvials/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/r/alluvials/</guid>
+      <description>Alluvial and Sankey Diagrams The aforementioned plots are methods for visualising the flow of data through a stream of markers. I was motivated to show this because enough of you deal in orders, tickets, and the like the flow visualisation of a system might prove of use. I will work with a familiar dataset. These are data on Admissions at the University of California Berkeley. The data exist as an internal R file in tabular form.</description>
+    </item>
+    
+    <item>
+      <title>Tables, Pivots, Bars, and Mosaics</title>
+      <link>/r/tables-pivots-bars-and-mosaics/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/r/tables-pivots-bars-and-mosaics/</guid>
+      <description>R Markdown There is detailed help for all that Markdown can do under Help in the RStudio. The key to it is knitting documents with the Knit button in the RStudio. If we use helpers like the R Commander, Radiant, or esquisse, we will need the R code implanted in the Markdown document in particular ways. I will use Markdown for everything. I even use a close relation of Markdown in my scholarly pursuits.</description>
+    </item>
+    
+    <item>
+      <title>Practice Midterm - 2019</title>
+      <link>/r/practicemidterm/</link>
+      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/r/practicemidterm/</guid>
+      <description>A Practice Midterm Answer the following questions in as much detail as possible in the time permitted. In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered. Answer the questions to the best of your ability and be systematic in solving the problems. This will always take you far. A Workbook called NaturalGas2019.</description>
+    </item>
+    
+    <item>
+      <title>NFL ScrapR</title>
+      <link>/r/nflscrapr-test/</link>
+      <pubDate>Fri, 19 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/r/nflscrapr-test/</guid>
+      <description>Scraping NFL data with nflscrapr The nflscrapR package is designed to make data on NFL games more easily available. To install the package, we need to grab it from github.
+devtools::install_github(repo = &amp;quot;maksimhorowitz/nflscrapR&amp;quot;) The github page for nflscrapR is quite informative. It has a lot of useful insight for working with the data; the set itself is quite large.
+Getting Some Data Following the guide to the package on GitHub, let me try their example.</description>
+    </item>
+    
+  </channel>
+</rss>

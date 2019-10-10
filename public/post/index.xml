@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Robert W. Walker</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 -0800</lastBuildDate>
+    
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Generative aRt</title>
+      <link>/post/generative-art/</link>
+      <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/generative-art/</guid>
+      <description>mathart A cool package for math generated art that I just discovered. Here is the install code for it
+install.packages(c(&amp;quot;devtools&amp;quot;, &amp;quot;mapproj&amp;quot;, &amp;quot;tidyverse&amp;quot;, &amp;quot;ggforce&amp;quot;, &amp;quot;Rcpp&amp;quot;)) devtools::install_github(&amp;quot;marcusvolz/mathart&amp;quot;) devtools::install_github(&amp;quot;marcusvolz/ggart&amp;quot;) Load some libraries library(mathart) library(ggart) library(ggforce) library(Rcpp) library(tidyverse)  Generate some Art? This is quite fun to do.
+set.seed(12341) terminals &amp;lt;- data.frame(x = runif(10, 0, 10000), y = runif(10, 0, 10000)) df &amp;lt;- 1:10000 %&amp;gt;% map_df(~weiszfeld(terminals, c(points$x[.], points$y[.])), .id = &amp;quot;id&amp;quot;) p &amp;lt;- ggplot() + geom_point(aes(x, y), points, size = 1, alpha = 0.</description>
+    </item>
+    
+    <item>
+      <title>Simple Oregon County Mapping</title>
+      <link>/post/simple-oregon-county-mapping/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/simple-oregon-county-mapping/</guid>
+      <description>Some Data for the Map I want to get some data to place on the map. I found a website with population and population change data for Oregon in .csv format. I cannot direct download it from R, instead I have to button download it and import it.
+library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.1.3 ✔ dplyr 0.</description>
+    </item>
+    
+    <item>
+      <title>The Economist&#39;s Visualization Errors</title>
+      <link>/post/the-economist-s-visualization-errors/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/the-economist-s-visualization-errors/</guid>
+      <description>The Economist’s Errors and Credit Where Credit is Due The Economist is serious about their use of data visualization and they have occasionally owned up to errors in their visualizations. They can be deceptive, uninformative, confusing, excessively busy, and present a host of other barriers to clean communication. Their blog post on their errors is great.
+I have drawn the following example from a #tidyTuesday earlier this year that explores this.</description>
+    </item>
+    
+    <item>
+      <title>tidyTuesday does Pizza</title>
+      <link>/post/tidytuesday-does-pizza/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-does-pizza/</guid>
+      <description>Pizza Ratings The #tidyTuesday for this week involves pizza shop ratings data. Let’s see what we have.
+pizza_jared &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_jared.csv&amp;quot;) ## Parsed with column specification: ## cols( ## polla_qid = col_double(), ## answer = col_character(), ## votes = col_double(), ## pollq_id = col_double(), ## question = col_character(), ## place = col_character(), ## time = col_double(), ## total_votes = col_double(), ## percent = col_double() ## ) pizza_barstool &amp;lt;- readr::read_csv(&amp;quot;https://raw.</description>
+    </item>
+    
+    <item>
+      <title>Some Basic Text on the Mueller Report</title>
+      <link>/post/some-basic-text-on-the-mueller-report/</link>
+      <pubDate>Wed, 22 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/some-basic-text-on-the-mueller-report/</guid>
+      <description>So this Robert Mueller guy wrote a report I may as well analyse it a bit.
+First, let me see if I can get a hold of the data. I grabbed the report directly from the Department of Justice website. You can follow this link.
+library(tidyverse) library(pdftools) # Download report from link above mueller_report_txt &amp;lt;- pdf_text(&amp;quot;../data/report.pdf&amp;quot;) # Create a tibble of the text with line numbers and pages mueller_report &amp;lt;- tibble( page = 1:length(mueller_report_txt), text = mueller_report_txt) %&amp;gt;% separate_rows(text, sep = &amp;quot;\n&amp;quot;) %&amp;gt;% group_by(page) %&amp;gt;% mutate(line = row_number()) %&amp;gt;% ungroup() %&amp;gt;% select(page, line, text) write_csv(mueller_report, &amp;quot;data/mueller_report.</description>
+    </item>
+    
+    <item>
+      <title>nflscrapR is amazing</title>
+      <link>/post/nflscrapr-is-amazing/</link>
+      <pubDate>Tue, 30 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/nflscrapr-is-amazing/</guid>
+      <description>Scraping NFL data Note: An original version of this post had issues induced by overtime games. There is a better way to handle all of this that I learned from a brief analysis of a tie game between Cleveland and Pittsburgh in Week One.
+The nflscrapR package is designed to make data on NFL games more easily available. To install the package, we need to grab it from github.</description>
+    </item>
+    
+    <item>
+      <title>Visualisation with Archigos: Leaders of the World</title>
+      <link>/post/visualisation-with-archigos-leaders-of-the-world/</link>
+      <pubDate>Sun, 14 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/visualisation-with-archigos-leaders-of-the-world/</guid>
+      <description>Archigos Is an amazing collaboration that produced a comprehensive dataset of world leaders going pretty far back; see Archigos on the web. For thinking about leadership, it is quite natural. In this post, I want to do some reshaping into country year and leader year datasets and explore the basic confines of Archigos. I also want to use gganimate for a few things. So what do we know?
+library(lubridate) library(tidyverse) library(ggthemes) library(stringr) library(gganimate) library(emoGG) library(emojifont) library(haven) Archigos &amp;lt;- read_dta(url(&amp;quot;http://www.</description>
+    </item>
+    
+    <item>
+      <title>fredr is very neat</title>
+      <link>/post/fredr-is-very-neat/</link>
+      <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/fredr-is-very-neat/</guid>
+      <description>FRED via fredr The Federal Reserve Economic Database [FRED] is a wonderful public resource for data and the r api that connects to it is very easy to use for the things that I have previously needed. For example, one of my students was interested in commercial credit default data. I used the FRED search instructions from the following vignette to find that data. My first step was the vignette for using fredr.</description>
+    </item>
+    
+    <item>
+      <title>Stocks and gganimate</title>
+      <link>/post/stocks-and-gganimate/</link>
+      <pubDate>Sun, 17 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/stocks-and-gganimate/</guid>
+      <description>tidyquant Automates a lot of equity research and calculation using tidy concepts. Here, I will first use it to get the components of the S and P 500 and pick out those with weights over 1.25 percent. In the next step, I download the data and finally calculate daily returns and a cumulative wealth index.
+library(tidyquant) library(tidyverse) tq_index(&amp;quot;SP500&amp;quot;) %&amp;gt;% filter(weight &amp;gt; 0.0125) %&amp;gt;% select(symbol,company) -&amp;gt; Tickers Tickers &amp;lt;- Tickers %&amp;gt;% filter(symbol!</description>
+    </item>
+    
+    <item>
+      <title>Trump&#39;s Tweets, Part II</title>
+      <link>/post/trump-s-tweets-part-ii/</link>
+      <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/trump-s-tweets-part-ii/</guid>
+      <description>Trump’s Tone A cool post on sentiment analysis can be found here. I will now get at the time series characteristics of his tweets and the sentiment stuff.
+I start by loading the tmls object that I created in the previous post.
+Trump’s Overall Tweeting What does it look like?
+library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuzhet) library(rtweet) load(url(&amp;quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&amp;quot;)) names(tml.djt) ## [1] &amp;quot;user_id&amp;quot; &amp;quot;status_id&amp;quot; ## [3] &amp;quot;created_at&amp;quot; &amp;quot;screen_name&amp;quot; ## [5] &amp;quot;text&amp;quot; &amp;quot;source&amp;quot; ## [7] &amp;quot;display_text_width&amp;quot; &amp;quot;reply_to_status_id&amp;quot; ## [9] &amp;quot;reply_to_user_id&amp;quot; &amp;quot;reply_to_screen_name&amp;quot; ## [11] &amp;quot;is_quote&amp;quot; &amp;quot;is_retweet&amp;quot; ## [13] &amp;quot;favorite_count&amp;quot; &amp;quot;retweet_count&amp;quot; ## [15] &amp;quot;hashtags&amp;quot; &amp;quot;symbols&amp;quot; ## [17] &amp;quot;urls_url&amp;quot; &amp;quot;urls_t.</description>
+    </item>
+    
+    <item>
+      <title>Trump Tweet Word Clouds</title>
+      <link>/post/trump-tweet-word-clouds/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/trump-tweet-word-clouds/</guid>
+      <description>Mining Twitter Data Is rather easy. You have to arrange a developer account with Twitter and set up an app. After that, Twitter gives you access to a consumer key and secret and an access token and access secret. My tool of choice for this is rtweet because it automagically processes tweet elements and makes them easy to slice and dice. I also played with twitteR but it was harder to work with for what I wanted.</description>
+    </item>
+    
+    <item>
+      <title>tidyTuesday meets the Economics of Majors</title>
+      <link>/post/tidytuesday-meets-the-economics-of-majors/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-meets-the-economics-of-majors/</guid>
+      <description>This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is here.
+library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv&amp;quot;) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.</description>
+    </item>
+    
+    <item>
+      <title>tidyTuesday: coffee chains</title>
+      <link>/post/tidytuesday-coffee-chains/</link>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-coffee-chains/</guid>
+      <description>The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
+First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
+library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.</description>
+    </item>
+    
+    <item>
+      <title>Global mortality tidyTuesday</title>
+      <link>/post/tidytuesday-takes-on-global-mortality/</link>
+      <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-takes-on-global-mortality/</guid>
+      <description>tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
+Here is this week’s tidyTuesday.
+library(skimr) library(tidyverse) library(rlang) # global_mortality &amp;lt;- readRDS(&amp;quot;../../data/global_mortality.rds&amp;quot;) global_mortality &amp;lt;- readRDS(url(&amp;quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&amp;quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.</description>
+    </item>
+    
+    <item>
+      <title>Scraping EPL Salary Data</title>
+      <link>/post/scraping-epl-salary-data/</link>
+      <pubDate>Sun, 08 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/scraping-epl-salary-data/</guid>
+      <description>EPL Scraping In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.
+library(rvest) library(tidyverse) base_url &amp;lt;- &amp;quot;http://www.spotrac.com/epl/&amp;quot; read.base &amp;lt;- read_html(base_url) team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;) team.</description>
+    </item>
+    
+    <item>
+      <title>Scraping the NFL Salary Cap Data with Python and R</title>
+      <link>/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
+      <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
+      <description>The NFL Data [SporTrac](http://www.sportrac.com] has a wonderful array of financial data on sports. A student going to work for the Seattle Seahawks wanted the NFL salary cap data and I also found data on the English Premier League there. Now I have a source to scrape the data from.
+With a source in hand, the key tool is the SelectorGadget. SelectorGadget is a browser add-in for Chrome that allows us to select text and identify the css or xpath selector to scrape the data.</description>
+    </item>
+    
+    <item>
+      <title>tidyTuesday - Tuition</title>
+      <link>/post/tidytuesday-tuition/</link>
+      <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-tuition/</guid>
+      <description>I found a great example on tidyTuesday that I wanted to work on. @JakeKaupp tweeted his #tidyTuesday: a very cool slope plot of tuition changes averaged by state over the last decade. It is a very informative graphic. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on Jake Kaupp’s GitHub.</description>
+    </item>
+    
+    <item>
+      <title>Pew Data on Bond Ratings and Rainy Day Funds</title>
+      <link>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
+      <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
+      <description>Pew on Rainy Day Funds and Credit Quality The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund.</description>
+    </item>
+    
+    <item>
+      <title>Mapping with the Government Finance Database</title>
+      <link>/post/mapping-with-the-government-finance-database/</link>
+      <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mapping-with-the-government-finance-database/</guid>
+      <description>The Government Finance Database Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the Government Finance data available from the Census. They published an article in PLoS One with the rationale; I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states.</description>
+    </item>
+    
+    <item>
+      <title>Longitudinal Panel Data R Packages</title>
+      <link>/post/panel-data-r-packages/</link>
+      <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/panel-data-r-packages/</guid>
+      <description>Longitudinal and Panel Data Analysis in R Goal: A CRAN task view for panel/longitudinal data analysis in R.
+What is Panel Data? Panel data are variously called longitudinal, panel, cross-sectional time series, and pooled time series data. The most precise definition is two-dimensional data; invariably one of the dimensions is time. We can think about a general depiction of what a model with linear coefficients typical for such data structures, though ridiculously overparameterized, like so:</description>
+    </item>
+    
+    <item>
+      <title>Black Boxes: A Gender Gap Example</title>
+      <link>/post/black-boxes-a-gender-gap-example/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/black-boxes-a-gender-gap-example/</guid>
+      <description>Variance in the Outcome: The Black Box Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained.</description>
+    </item>
+    
+    <item>
+      <title>Correlation Function</title>
+      <link>/post/correlation-function/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/correlation-function/</guid>
+      <description>Correlations and the Impact on Sums and Differences I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.</description>
+    </item>
+    
+    <item>
+      <title>tidytext is neat! White House Communications</title>
+      <link>/post/tidytext-is-neat/</link>
+      <pubDate>Wed, 21 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytext-is-neat/</guid>
+      <description>Presidential Press The language of presidential communications is interesting and I know very little about text as data. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?
+White House News
+The site is split in four parts: all news, articles, presidential actions, and briefings and statements. The first one is a catch all and the second is news links.</description>
+    </item>
+    
+  </channel>
+</rss>

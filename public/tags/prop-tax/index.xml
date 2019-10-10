@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>prop-tax on Robert W. Walker</title>
+    <link>/tags/prop-tax/</link>
+    <description>Recent content in prop-tax on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Wed, 27 Apr 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/prop-tax/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Oregon Property Taxes</title>
+      <link>/project/prop-tax/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/project/prop-tax/</guid>
+      <description>Property tax limitations in Oregon are unique and have interesting consequences for development patterns.</description>
+    </item>
+    
+  </channel>
+</rss>

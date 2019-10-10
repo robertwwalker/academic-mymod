@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>animation on Robert W. Walker</title>
+    <link>/categories/animation/</link>
+    <description>Recent content in animation on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Tue, 30 Apr 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/animation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>nflscrapR is amazing</title>
+      <link>/post/nflscrapr-is-amazing/</link>
+      <pubDate>Tue, 30 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/nflscrapr-is-amazing/</guid>
+      <description>Scraping NFL data Note: An original version of this post had issues induced by overtime games. There is a better way to handle all of this that I learned from a brief analysis of a tie game between Cleveland and Pittsburgh in Week One.
+The nflscrapR package is designed to make data on NFL games more easily available. To install the package, we need to grab it from github.</description>
+    </item>
+    
+    <item>
+      <title>Visualisation with Archigos: Leaders of the World</title>
+      <link>/post/visualisation-with-archigos-leaders-of-the-world/</link>
+      <pubDate>Sun, 14 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/visualisation-with-archigos-leaders-of-the-world/</guid>
+      <description>Archigos Is an amazing collaboration that produced a comprehensive dataset of world leaders going pretty far back; see Archigos on the web. For thinking about leadership, it is quite natural. In this post, I want to do some reshaping into country year and leader year datasets and explore the basic confines of Archigos. I also want to use gganimate for a few things. So what do we know?
+library(lubridate) library(tidyverse) library(ggthemes) library(stringr) library(gganimate) library(emoGG) library(emojifont) library(haven) Archigos &amp;lt;- read_dta(url(&amp;quot;http://www.</description>
+    </item>
+    
+  </channel>
+</rss>

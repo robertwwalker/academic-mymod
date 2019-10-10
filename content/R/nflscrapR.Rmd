@@ -15,10 +15,10 @@ header:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE, tidy = TRUE)
 ```
 
-## Scraping NFL data
+# Scraping NFL data with `nflscrapr`
 
 The `nflscrapR` package is designed to make data on NFL games more easily available.  To install the package, we need to grab it from github.
 
@@ -26,33 +26,38 @@ The `nflscrapR` package is designed to make data on NFL games more easily availa
 devtools::install_github(repo = "maksimhorowitz/nflscrapR")
 ```
 
-The github page for [nflscrapR](https://github.com/maksimhorowitz/nflscrapR) is quite informative.
+The github page for [nflscrapR](https://github.com/maksimhorowitz/nflscrapR) is quite informative.  It has a lot of useful insight for working with the data; the set itself is quite large.
 
 ## Getting Some Data
 
 Following the guide to the package on GitHub, let me try their example.
 
-```{r NFLdata, eval=FALSE, message=FALSE, warning=FALSE}
+```
 library(nflscrapR)
 all_2018_games <- scrape_game_ids(2018) # Default is regular season
 ```
 
-```{r, warning=FALSE, message=FALSE}
+I saved a local copy of it to work with; this is the 2018 season.
+
+```{r, warning=FALSE, message=FALSE, results='markup'}
+library(emo)
+library(tidyverse)
+library(kableExtra)
 library(nflscrapR)
 library(RCurl)
 all_2018_games <-readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/NFLGames2018.rds"))
-all_2018_games %>%
-  pander::pander()
+all_2018_games %>% select(week,game_id,home_team,home_score,away_team,away_score) %>% kable(format = "html") %>% kable_styling() %>%
+  scroll_box(width = "600px", height = "500px")
 ```
 
-That's all the regular season games in the 2018 season.  They suggest that it is straightforward to grab an entire season of play by play data.
+That's all the regular season games in the 2018 season.  They suggest that it is straightforward to grab an entire season of play by play data and it is. `r emo::ji("clap")`.
 
-```{r, echo=TRUE, eval=FALSE}
+```
 full_season_2018 <- scrape_season_play_by_play(2018, "reg")
 saveRDS(full_season_2018, file="../../../data/2018NFLSeason.rds")
 ```
 
-That gets the data though it took over an hour to acquire it all and it threw two error messages.  I do not yet know if they are conseequential.  My goal here is to use this package and the ability to plot the win probability charts to try to summarise an entire cowboys season.
+That gets the data though it took over an hour to acquire it all and it threw two error messages.  I do not yet know if they are conseequential.  My goal here is to use this package and the ability to plot the win probability charts to try to summarise an entire Dallas Cowboys season -- the team I grew up with along with the former Houston Oilers and I was never really okay about them moving.  `r emo::ji("down")`
 
 ```{r}
 full_season_2018 <- readRDS(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/2018NFLSeason.rds")) # Downloaded it once.  It sits in rww.science/data
@@ -60,13 +65,15 @@ full_season_2018 <- readRDS(url("https://github.com/robertwwalker/academic-mymod
 
 Let me skim the data for an idea of what it looks like.  I will also pull in three packages that I am deploying or will.
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, results='markup'}
 library(skimr)
-library(tidyverse)
 library(teamcolors)
 library(gganimate)
-full_season_2018 %>% skim()
+full_season_2018  %>% head() %>% kableExtra::kable() %>% kable_styling() %>%
+  scroll_box(width = "700px", height = "400px")
 ```
+
+## Fixing up the color scheme
 
 ```{r}
 nfl_teamcolors <- teamcolors %>% filter(league == "nfl")
@@ -79,6 +86,8 @@ car_color <- nfl_teamcolors %>%
 ```
 
 `dal_color` is a value for the primary Cowboys color.
+
+## The Dallas Cowboys Games
 
 Now let me get the Dallas games.  The easiest way I can figure out how to do this would be to filter by Dallas being one of the two teams where Dallas is `DAL`.
 
@@ -184,4 +193,5 @@ p <- dal_plt %>% ggplot() + aes(x = game_seconds_remaining, y = wpa, color = tea
   ) + theme_bw() + transition_states(titleS, transition_length=6, state_length = 10)
 animate(p, nframes=400)
 ```
-I will stop with that.
+
+I will stop with that.  In a blog post, I did a bit more with this and also [built a shiny app for doing it for all of the teams](https://rwalkerwu.shinyapps.io/NFL-Scrapr/) that is linked there.

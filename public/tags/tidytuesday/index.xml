@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tidyTuesday on Robert W. Walker</title>
+    <link>/tags/tidytuesday/</link>
+    <description>Recent content in tidyTuesday on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Wed, 09 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/tidytuesday/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>The Economist&#39;s Visualization Errors</title>
+      <link>/post/the-economist-s-visualization-errors/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/the-economist-s-visualization-errors/</guid>
+      <description>The Economist’s Errors and Credit Where Credit is Due The Economist is serious about their use of data visualization and they have occasionally owned up to errors in their visualizations. They can be deceptive, uninformative, confusing, excessively busy, and present a host of other barriers to clean communication. Their blog post on their errors is great.
+I have drawn the following example from a #tidyTuesday earlier this year that explores this.</description>
+    </item>
+    
+    <item>
+      <title>tidyTuesday does Pizza</title>
+      <link>/post/tidytuesday-does-pizza/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-does-pizza/</guid>
+      <description>Pizza Ratings The #tidyTuesday for this week involves pizza shop ratings data. Let’s see what we have.
+pizza_jared &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_jared.csv&amp;quot;) ## Parsed with column specification: ## cols( ## polla_qid = col_double(), ## answer = col_character(), ## votes = col_double(), ## pollq_id = col_double(), ## question = col_character(), ## place = col_character(), ## time = col_double(), ## total_votes = col_double(), ## percent = col_double() ## ) pizza_barstool &amp;lt;- readr::read_csv(&amp;quot;https://raw.</description>
+    </item>
+    
+    <item>
+      <title>tidyTuesday meets the Economics of Majors</title>
+      <link>/post/tidytuesday-meets-the-economics-of-majors/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-meets-the-economics-of-majors/</guid>
+      <description>This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is here.
+library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv&amp;quot;) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.</description>
+    </item>
+    
+    <item>
+      <title>tidyTuesday: coffee chains</title>
+      <link>/post/tidytuesday-coffee-chains/</link>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-coffee-chains/</guid>
+      <description>The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
+First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
+library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.</description>
+    </item>
+    
+    <item>
+      <title>Global mortality tidyTuesday</title>
+      <link>/post/tidytuesday-takes-on-global-mortality/</link>
+      <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-takes-on-global-mortality/</guid>
+      <description>tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
+Here is this week’s tidyTuesday.
+library(skimr) library(tidyverse) library(rlang) # global_mortality &amp;lt;- readRDS(&amp;quot;../../data/global_mortality.rds&amp;quot;) global_mortality &amp;lt;- readRDS(url(&amp;quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&amp;quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.</description>
+    </item>
+    
+    <item>
+      <title>tidyTuesday - Tuition</title>
+      <link>/post/tidytuesday-tuition/</link>
+      <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-tuition/</guid>
+      <description>I found a great example on tidyTuesday that I wanted to work on. @JakeKaupp tweeted his #tidyTuesday: a very cool slope plot of tuition changes averaged by state over the last decade. It is a very informative graphic. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on Jake Kaupp’s GitHub.</description>
+    </item>
+    
+  </channel>
+</rss>
