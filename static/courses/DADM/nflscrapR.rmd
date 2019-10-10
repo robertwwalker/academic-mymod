@@ -8,14 +8,14 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
 ```
 
 ## Scraping NFL data
 
 The `nflscrapR` package is designed to make data on NFL games more easily available.  To install the package, we need to grab it from github.
 
-```{r cars, eval=FALSE, echo=TRUE}
+```
 devtools::install_github(repo = "maksimhorowitz/nflscrapR")
 ```
 

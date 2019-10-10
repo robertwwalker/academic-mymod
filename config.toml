@@ -271,7 +271,13 @@ defaultContentLanguageInSubdir = false
 [[menu.main]]
   name = "Contact"
   url = "#contact"
+  weight = 7
+
+[[menu.main]]
+  name = "R Stuff"
+  url = "#R"
   weight = 6
+
 
 [[menu.main]]
    name = "Curriculum Vitae"
