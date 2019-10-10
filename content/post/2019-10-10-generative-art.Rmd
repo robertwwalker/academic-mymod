@@ -45,7 +45,7 @@ library(tidyverse)
 
 This is quite fun to do.
 
-```{r Art1, eval=TRUE}
+```{r Art1, eval=FALSE}
 set.seed(12341)
 
 terminals <- data.frame(x = runif(10, 0, 10000), y = runif(10, 0, 10000))
@@ -65,10 +65,10 @@ p <- ggplot() +
 ggsave("weiszfeld.png", p, width = 20, height = 20, units = "in")
 ```
 
-![Weiszfeld](weiszfeld.png)
+![Weiszfeld](static/img/art/weiszfeld.png)
 
 
-```{r LAttr, eval=TRUE}
+```{r LAttr, eval=FALSE}
 df <- lorenz_attractor(a=18, b=8/3, c=26, n=1000000)
 
 p <- ggplot() +
@@ -80,9 +80,9 @@ p <- ggplot() +
 ggsave("LAttr.png", p, width = 20, height = 20, units = "cm")
 ```
 
-![Lorenz](LAttr.png)
+![Lorenz](static/img/art/LAttr.png)
 
-```{r LAttr2, eval=TRUE}
+```{r LAttr2, eval=FALSE}
 df <- lorenz_attractor(a=3, b = 3, x0 = -1, y0 = 1, n=1000000)
 p <- ggplot() +
   geom_path(aes(x, z), df, alpha = 0.5, size = 0.1, color="pink") +
@@ -92,7 +92,9 @@ p <- ggplot() +
 ggsave("LAttr2.png", p, width = 20, height = 20, units = "cm")
 ```
 
-![Lorenz2](LAttr2.png)
+![Lorenz2](static/img/art/LAttr2.png)
+
+## Bob Ross as a Kandinsky
 
 One interesting thing that I found is the ability to build a Kandinsky out of data.  There was a tidyTuesday on Bob Ross paintings/episodes; nothing could be better than to Kandinsky Bob Ross.
 
@@ -102,3 +104,9 @@ bob_ross <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/t
 kandinsky(bob_ross)
 ```
 
+That's kinda lame.  Let's try visits to US National Parks.
+
+```{r}
+park_visits <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-09-17/national_parks.csv")
+kandinsky(park_visits)
+```
