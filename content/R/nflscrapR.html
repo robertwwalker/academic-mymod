@@ -1,10 +1,17 @@
 ---
-title: "NFL Scraper"
-author: "RWW"
-date: "April 24, 2019"
-output: 
-  html_document:
-    self_contained: true
+title: NFL ScrapR
+author: RWW
+date: 'April 24, 2019'
+slug: nflscrapR-test
+categories:
+  - tidyverse
+  - R
+tags:
+  - R
+header:
+  caption: ''
+  image: ''
+  preview: yes
 ---
 
 
@@ -4188,7 +4195,7 @@ full_season_2018 %&gt;% skim()</code></pre>
 ##  n obs: 45144 
 ##  n variables: 256 
 ## 
-## ── Variable type:character ───────────────────────────────────────────────────────────────
+## ── Variable type:character ─────────────────────────────────────────────────────────────────────
 ##                              variable missing complete     n min max empty
 ##             assist_tackle_1_player_id   39616     5528 45144  10  10     0
 ##           assist_tackle_1_player_name   39616     5528 45144   5  18     0
@@ -4384,23 +4391,23 @@ full_season_2018 %&gt;% skim()</code></pre>
 ##         2
 ##      1593
 ## 
-## ── Variable type:Date ────────────────────────────────────────────────────────────────────
+## ── Variable type:Date ──────────────────────────────────────────────────────────────────────────
 ##   variable missing complete     n        min        max     median
 ##  game_date       0    45144 45144 2018-09-06 2018-12-30 2018-11-04
 ##  n_unique
 ##        50
 ## 
-## ── Variable type:factor ──────────────────────────────────────────────────────────────────
+## ── Variable type:factor ────────────────────────────────────────────────────────────────────────
 ##  variable missing complete     n n_unique
 ##      down    7300    37844 45144        4
 ##                             top_counts ordered
 ##  1: 15570, 2: 11370, NA: 7300, 3: 7109   FALSE
 ## 
-## ── Variable type:integer ─────────────────────────────────────────────────────────────────
+## ── Variable type:integer ───────────────────────────────────────────────────────────────────────
 ##  variable missing complete     n  mean   sd p0 p25 p50 p75 p100     hist
 ##     drive       0    45144 45144 11.89 6.88  1   6  12  17   38 ▇▇▆▇▅▁▁▁
 ## 
-## ── Variable type:logical ─────────────────────────────────────────────────────────────────
+## ── Variable type:logical ───────────────────────────────────────────────────────────────────────
 ##                          variable missing complete     n mean count
 ##         assist_tackle_3_player_id   45144        0 45144  NaN 45144
 ##       assist_tackle_3_player_name   45144        0 45144  NaN 45144
@@ -4415,7 +4422,7 @@ full_season_2018 %&gt;% skim()</code></pre>
 ##       tackle_for_loss_2_player_id   45144        0 45144  NaN 45144
 ##     tackle_for_loss_2_player_name   45144        0 45144  NaN 45144
 ## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────
 ##                       variable missing complete     n       mean        sd
 ##                        air_epa   27630    17514 45144    0.49       1.46  
 ##                        air_wpa   27647    17497 45144    0.015      0.062 
