@@ -1,0 +1,449 @@
+---
+title: 'Practice Midterm - 2019'
+author: 'Robert W. Walker'
+date: '2019-10-09'
+header:
+  caption: ''
+  image: ''
+  preview: yes
+---
+
+# A Practice Midterm
+
+Answer the following questions in as much detail as possible in the time permitted.  In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered.  Answer the questions to the best of your ability and be systematic in solving the problems.  This will always take you far.  A Workbook called *NaturalGas2019.xls* contains the necessary data.
+
+1.	What is the probability that a log-normal random variable [in R, lnorm is the noun] whose logarithm has mean equal to 0 and standard deviation equal to 1, takes values less than 1?  *The probability is one-half.  The reason?  If the logarithm has mean 0, then it is just $e^{Normal(0,1)}$.  Because $e^{0}$ is 1 and half of the probability in a normal is below 0, it must be one half.*
+
+```{r}
+plnorm(1)
+```
+
+
+2.	What is the value of a log-normal random variable [in R, lnorm is the noun] whose logarithm has mean equal to 0 and standard deviation equal to 1, such that 0.95 of the probability is below said value? *The value should be $e^{qnorm(0.95)}$ which is 5.18.*
+
+```{r}
+qlnorm(0.95)
+```
+
+3.	Find the plus/minus z such that the area in red is exactly equal to 0.6827 as shown below.  *There is $1-0.6827=0.3173$ outside of the noted  interval which corresponds to $\frac{0.3173}{2}$ in each tail.*
+
+```{r shno1,eval=TRUE,echo=FALSE,message=FALSE}
+Forecast <- structure(list(Period = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
+12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 
+28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 
+44, 45, 46, 47, 48, 49, 50, 51, 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
+10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 
+26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 
+42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52), TianjinForecast = c(2894143, 
+3436784, 4101907, 4351314, 2351514, 2270174, 5452294, 5259389, 
+4038561, 2882140, 6404078, 2363443, 5670960, 1818329, 3033642, 
+3203306, 4208041, 5541472, 2252344, 1604932, 3456988, 4421606, 
+6761850, 5148802, 4871142, 1924523, 1815230, 5748518, 5149951, 
+2280916, 5505182, 1994935, 6623336, 6510467, 4928639, 2203393, 
+5419757, 5177381, 3942133, 2290494, 1525784, 3772579, 6171272, 
+3654803, 2018557, 3091920, 2768268, 2687385, 4195901, 6028336, 
+3644003, 1877885, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA), HenryHubForecast = c(3098422, 
+3606300, 4413385, 4567793, 2798252, 2740368, 5756915, 5650688, 
+4267043, 3296090, 6778847, 2684719, 5970096, 2156440, 3195131, 
+3618057, 4735241, 5867650, 2562005, 1879944, 3663712, 4837979, 
+7071457, 5393938, 5310069, 2310512, 1965588, 6162814, 5455554, 
+2564360, 5926260, 2398289, 7166874, 6976819, 5394053, 2568165, 
+5672726, 5477587, 4468600, 2645540, 1712033, 4217897, 6495690, 
+3922418, 2337244, 3517452, 3044256, 3038180, 4475113, 6564413, 
+3985750, 2247965, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA), Forecast = c(3098422, 3606300, 
+4413385, 4567793, 2798252, 2740368, 5756915, 5650688, 4267043, 
+3296090, 6778847, 2684719, 5970096, 2156440, 3195131, 3618057, 
+4735241, 5867650, 2562005, 1879944, 3663712, 4837979, 7071457, 
+5393938, 5310069, 2310512, 1965588, 6162814, 5455554, 2564360, 
+5926260, 2398289, 7166874, 6976819, 5394053, 2568165, 5672726, 
+5477587, 4468600, 2645540, 1712033, 4217897, 6495690, 3922418, 
+2337244, 3517452, 3044256, 3038180, 4475113, 6564413, 3985750, 
+2247965, 2894143, 3436784, 4101907, 4351314, 2351514, 2270174, 
+5452294, 5259389, 4038561, 2882140, 6404078, 2363443, 5670960, 
+1818329, 3033642, 3203306, 4208041, 5541472, 2252344, 1604932, 
+3456988, 4421606, 6761850, 5148802, 4871142, 1924523, 1815230, 
+5748518, 5149951, 2280916, 5505182, 1994935, 6623336, 6510467, 
+4928639, 2203393, 5419757, 5177381, 3942133, 2290494, 1525784, 
+3772579, 6171272, 3654803, 2018557, 3091920, 2768268, 2687385, 
+4195901, 6028336, 3644003, 1877885), Location = structure(c(1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+2L, 2L, 2L, 2L, 2L, 2L, 2L), .Label = c("HenryHub", "Tianjin"
+), class = "factor")), row.names = c(NA, -104L), class = "data.frame")
+
+Newspapers <- structure(list(Date = structure(c(1367712000, 1368144000, 1369872000, 
+1370736000, 1372032000, 1372896000, 1373328000, 1373760000, 1374192000, 
+1374624000, 1375488000, 1375920000, 1376352000, 1377216000, 1377648000, 
+1378080000, 1378512000, 1378944000, 1379808000, 1380240000, 1380672000, 
+1381536000, 1381968000, 1382572800, 1383091200, 1382659200, 1382227200, 
+1381795200, 1381449600, 1380931200, 1380499200, 1380067200, 1379635200, 
+1379116800, 1378771200, 1378339200, 1377907200, 1377388800, 1377043200, 
+1376611200, 1376179200, 1375747200, 1375315200, 1374883200, 1374451200, 
+1374019200, 1373587200, 1373155200, 1372723200, 1372291200, 1371859200, 
+1371427200, 1370995200, 1370563200, 1370131200, 1369699200, 1369267200, 
+1368835200, 1368403200, 1368057600, 1367625600), class = c("POSIXct", 
+"POSIXt"), tzone = "UTC"), Price = c(4.02, 4.04, 4, 3.88, 3.99, 
+3.92, 3.95, 3.92, 3.93, 3.99, 4, 4.05, 4.01, 4.04, 4.05, 3.99, 
+4.05, 4.04, 4.04, 4.01, 4, 3.98, 4.01, 4.05, 3.9, 3.56, 3.93, 
+3.89, 4.01, 3.8, 3.71, 3.77, 4.07, 3.84, 3.85, 3.82, 3.59, 3.98, 
+3.85, 3.7, 3.7, 3.58, 3.68, 3.69, 3.65, 3.64, 3.93, 4.04, 3.75, 
+3.52, 3.79, 3.79, 3.83, 3.9, 3.91, 3.9, 3.69, 3.77, 3.93, 3.67, 
+3.92), Location = structure(c(2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+2L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L), .Label = c("HenryHub", "Tianjin"), class = "factor"), 
+    HHDate = structure(c(1382659200, 1382227200, 1381795200, 
+    1381449600, 1380931200, 1380499200, 1380067200, 1379635200, 
+    1379116800, 1378771200, 1378339200, 1377907200, 1377388800, 
+    1377043200, 1376611200, 1376179200, 1375747200, 1375315200, 
+    1374883200, 1374451200, 1374019200, 1373587200, 1373155200, 
+    1372723200, 1372291200, 1371859200, 1371427200, 1370995200, 
+    1370563200, 1370131200, 1369699200, 1369267200, 1368835200, 
+    1368403200, 1368057600, 1367625600, NA, NA, NA, NA, NA, NA, 
+    NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+    NA, NA, NA, NA), class = c("POSIXct", "POSIXt"), tzone = "UTC"), 
+    HHPrice = c(3.56, 3.93, 3.89, 4.01, 3.8, 3.71, 3.77, 4.07, 
+    3.84, 3.85, 3.82, 3.59, 3.98, 3.85, 3.7, 3.7, 3.58, 3.68, 
+    3.69, 3.65, 3.64, 3.93, 4.04, 3.75, 3.52, 3.79, 3.79, 3.83, 
+    3.9, 3.91, 3.9, 3.69, 3.77, 3.93, 3.67, 3.92, NA, NA, NA, 
+    NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+    NA, NA, NA, NA, NA, NA, NA), TianjinDate = structure(c(1367712000, 
+    1368144000, 1369872000, 1370736000, 1372032000, 1372896000, 
+    1373328000, 1373760000, 1374192000, 1374624000, 1375488000, 
+    1375920000, 1376352000, 1377216000, 1377648000, 1378080000, 
+    1378512000, 1378944000, 1379808000, 1380240000, 1380672000, 
+    1381536000, 1381968000, 1382572800, 1383091200, NA, NA, NA, 
+    NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+    NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+    NA, NA, NA), class = c("POSIXct", "POSIXt"), tzone = "UTC"), 
+    TianjinPrice = c(4.02, 4.04, 4, 3.88, 3.99, 3.92, 3.95, 3.92, 
+    3.93, 3.99, 4, 4.05, 4.01, 4.04, 4.05, 3.99, 4.05, 4.04, 
+    4.04, 4.01, 4, 3.98, 4.01, 4.05, 3.9, NA, NA, NA, NA, NA, 
+    NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+    NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+    NA)), row.names = c(NA, -61L), class = "data.frame")
+Experts <- structure(list(TianjinBuild = structure(c(1L, 2L, 2L, 2L, 2L, 
+1L, 2L, 1L, 2L, 1L, 2L, 1L, 1L, 1L, 1L, 2L, 1L, 2L, 2L, 2L, 1L, 
+1L, 1L, 1L, 2L, 2L, 1L, 2L, 1L, 1L, 1L, 2L, 1L, 1L, 2L, 2L, 1L, 
+2L, 1L, 2L, 2L, 2L, 1L, 1L, 2L, 2L, 1L, 2L, 2L, 2L, 1L, 1L, 2L, 
+2L, 1L, 1L, 1L, 2L, 2L, 1L, 1L, 2L, 2L, 2L, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), .Label = c("Build", 
+"No"), class = "factor"), HHBuild = structure(c(1L, 1L, 1L, 1L, 
+1L, 1L, 2L, 1L, 2L, 1L, 1L, 1L, 2L, 1L, 1L, 1L, 2L, 1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L, 1L, 1L, 1L, 2L, 1L, 2L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 2L, 1L, 1L, 1L, 2L, 1L, 1L, 1L, 1L, 2L, 1L, 1L, 1L, 1L, 
+1L, 1L, 2L, 1L, 1L, 2L, 1L, 2L, 1L, 1L, 1L, 1L, 1L, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), .Label = c("Build", 
+"No"), class = "factor"), Build = structure(c(1L, 1L, 1L, 1L, 
+1L, 1L, 2L, 1L, 2L, 1L, 1L, 1L, 2L, 1L, 1L, 1L, 2L, 1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L, 1L, 1L, 1L, 2L, 1L, 2L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 2L, 1L, 1L, 1L, 2L, 1L, 1L, 1L, 1L, 2L, 1L, 1L, 1L, 1L, 
+1L, 1L, 2L, 1L, 1L, 2L, 1L, 2L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L, 
+2L, 2L, 1L, 2L, 1L, 2L, 1L, 2L, 1L, 1L, 1L, 1L, 2L, 1L, 2L, 2L, 
+2L, 1L, 1L, 1L, 1L, 2L, 2L, 1L, 2L, 1L, 1L, 1L, 2L, 1L, 1L, 2L, 
+2L, 1L, 2L, 1L, 2L, 2L, 2L, 1L, 1L, 2L, 2L, 1L, 2L, 2L, 2L, 1L, 
+1L, 2L, 2L, 1L, 1L, 1L, 2L, 2L, 1L, 1L, 2L, 2L, 2L), .Label = c("Build", 
+"No"), class = "factor"), Location = structure(c(1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L, 
+2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
+2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L), .Label = c("HenryHub", 
+"Tianjin"), class = "factor")), row.names = c(NA, -145L), class = "data.frame")
+shadenorm <- function(below=NULL, above=NULL, pcts = c(0.025,0.975), mu=0, sig=1, numpts = 500, color = "gray", dens = 40, lines=FALSE,between=NULL,outside=NULL, main="Normal Distribution", xlab="x", ylab="Density", sub=""){
+  if(is.null(between)){
+    bothnull = is.null(below) & is.null(above)
+    if(bothnull==TRUE){
+      below = ifelse(is.null(below), qnorm(pcts[1],mu,sig), below)
+      above = ifelse(is.null(above), qnorm(pcts[2],mu,sig), above)
+    }
+  }
+  if(is.null(outside)==FALSE){
+    if(is.numeric(outside)==FALSE){if(outside==TRUE){outside=qnorm(pcts,mu,sig)}}
+    below = min(outside)
+    above = max(outside)
+  }
+  lowlim = mu - 4*sig
+  uplim = mu + 4*sig
+  x.grid = seq(lowlim,uplim, length= numpts)
+  dens.all = dnorm(x.grid,mean=mu, sd = sig)
+  if(lines==FALSE){
+    plot(x.grid, dens.all, type="l", main=main, axes=FALSE, xlab=xlab, ylab=ylab, sub=sub)
+  }
+  if(lines==TRUE){
+    lines(x.grid,dens.all)
+  }
+  if(is.null(below)==FALSE){
+    x.below = x.grid[x.grid<below]
+    dens.below = dens.all[x.grid<below]
+    polygon(c(x.below,rev(x.below)),c(rep(0,length(x.below)),rev(dens.below)),col=color,density=dens)
+  }
+  if(is.null(above)==FALSE){
+    x.above = x.grid[x.grid>above]
+    dens.above = dens.all[x.grid>above]
+    polygon(c(x.above,rev(x.above)),c(rep(0,length(x.above)),rev(dens.above)),col=color,density=dens)
+  }
+  if(is.null(between)==FALSE){
+    if(is.numeric(between)==FALSE){if(between==TRUE){between=qnorm(pcts,mu,sig)}}
+    from = min(between)
+    to = max(between)
+    x.between = x.grid[x.grid>from&x.grid<to]
+    dens.between = dens.all[x.grid>from&x.grid<to]
+    polygon(c(x.between,rev(x.between)),c(rep(0,length(x.between)),rev(dens.between)),col=color,density=dens)
+  }
+}
+shadenorm(between=c(-1,1), mu=0, sig=1, col=2, sub=expression(paste("Normal(",mu,"=0, ",sigma,"=1)", sep="")))
+axis(1, at=seq(-3,3, by=3))
+text(x=0, y=0.05, labels=round(pnorm(1)-pnorm(-1), digits=4), cex=1.5)
+abline(v=c(-1,1), lty=1, col="red")
+```
+
+*Between -1 and 1.  The empirical rule.*
+
+## The Case
+
+**A chemical manufacturer will build a new epoxy plant in one of two locations -- one adjacent to an extant facility in Tianjin, China and one near the company's headquarters in the United States near Henry Hub in Louisiana.  The plant is a first-of-its-kind entirely automated plant that hosts only a tiny number of supervisors and labor costs across the two locations do not differ.  The only input that might reasonably differ in cost is energy.  Where to locate the factory and potential differences in the cost of energy will play a crucial role in our decision.**
+
+## An Energy Cost Comparison
+
+An intern has collected two random samples of energy prices from local newspapers for comparison.  Over the last six months, the intern has a random sample of size 25 from Tianjin and a random sample of size 36 from Henry Hub reported in *Newspapers* -- a sheet in the Excel Workbook on WISE referenced above.  You are to undertake an initial summary of these data.  You should note that both prices are reported in United States dollars per Million BTU (million British thermal units).  The dates that the prices (spot) were recorded is listed in the adjacent column for each series.  The worksheet contains the data in both a stacked and an unstacked format.
+
+1.	Provide a single plot combining the two samples of data. Which of the two series is more symmetric? What information in the plot led you to this choice?  *Henry Hub is far more symmetric.*  It is even more useful to plot the z-scores to match up the scales.  The process requires a few steps.  First, I standardize each variable.  Then I stack them to render them on a single picture.
+
+A combined boxplot tells the story fairly clearly.  Once the data are stacked, plotting by groups becomes an option.  Here, it is clear tht Henry Hub is symmetric while Tianjin is not.
+
+```{r BP, message=FALSE}
+boxplot(Price~Location, data=Newspapers)
+```
+
+2.	Provide an appropriate numerical summary of each set of data given your plots.  *Summarising symmetric data with means and standard deviations is appropriate.  Tianjin will require a five number summary.*
+
+```{r, message=FALSE}
+library(tidyverse)
+library(skimr)
+Newspapers %>% group_by(Location) %>% skim(Price)
+```
+
+3.	What is the sample mean and sample standard deviation of natural gas prices in Tianjin?
+
+```{r}
+# Mean
+mean(Newspapers$TianjinPrice, na.rm=TRUE)
+meanTJ <- mean(Newspapers$TianjinPrice, na.rm=TRUE)
+# Std. Dev.
+sd(Newspapers$TianjinPrice, na.rm=TRUE)
+sdTJ <- sd(Newspapers$TianjinPrice, na.rm=TRUE)
+```
+
+
+4.	What is a 95% (central) confidence interval for the average price in Tianjin given this precise sample? Provide both boundaries.
+
+```{r}
+t.test(Newspapers$TianjinPrice, alternative='two.sided', mu=0.0, conf.level=.95)
+```
+
+5.	Assume that the underlying population is normal with the population mean and population standard deviation exactly equal to the sample mean and standard deviation that you have estimated from the sample from Tianjin. What is the probability of a daily price of $4.00 or higher at Tianjin?
+
+```{r}
+pnorm(4, mean=3.9944, sd=0.05, lower.tail=FALSE)
+pnorm(4, mean=meanTJ, sd=sdTJ, lower.tail=FALSE)
+```
+
+
+6.	Is a mean price of $4.00 or lower given the Henry Hub data possible with 95% confidence?
+
+```{r}
+t.test(Newspapers$TianjinPrice, alternative='greater', mu=4, conf.level=.95)
+```
+
+The probability is the p-value above.  Or it is `r pt(-0.55261, 24, lower.tail=FALSE)`.
+
+
+7.	What is a 95% confidence interval of the difference in average prices. This calculation requires an assumption about the variances/standard deviations of the two samples that you have. What have you assumed? Why? Is there any information in the plot that you provided that might inform this decision?
+
+*The samples have very different standard deviations.  Henry Hub's data entirely spans Tianjin's data; the ratio of the standard deviations is over 2 to 1.  I will assume that they are unequal.*  I cannot know that this is right, but intuition suggests it.  I show what happens if we assume them the same below that.  
+
+```{r}
+t.test(Price~Location, alternative='two.sided', conf.level=.95, var.equal=FALSE, data=Newspapers)
+t.test(Price~Location, alternative='two.sided', conf.level=.95, var.equal=TRUE, data=Newspapers)
+```
+
+**Henry Hub is cheaper.  With 95% confidence, the average price in Henry Hub is $0.25 to $0.15 lower.**  This difference in prices suggests the factory should be build at Henry Hub.  If we assume equal variances, the range is now $0.26 to $0.14 cheaper in Henry Hub.  The decision does not depend on the assumption.
+
+
+## Profit Forecasting by Location
+
+The division that is principally entrusted with forecasting and the supply chain has calculated a series of profit forecasts in dollars for the first 52 weeks after completion of the factory in Tianjin and the factory in Henry Hub.  Because the production process is one-of-a-kind, it is known that the first 52 weeks will involve planned calibration of the factory; this is accounted for in the weekly forecasts and is the same pattern across both locations.  These forecasts appear in worksheet *Forecast* of the workbook on WISE.
+
+
+1.	Graphically and numerically summarize profits by location.
+
+```{r}
+names(Forecast)
+summary(Forecast$TianjinForecast)
+sd(Forecast$TianjinForecast, na.rm=TRUE)
+summary(Forecast$HenryHubForecast)
+sd(Forecast$HenryHubForecast, na.rm=TRUE)
+```
+
+```{r}
+boxplot(Forecast~Location, data=Forecast)
+```
+
+This hides the pattern in the data.  Better shown like this:
+
+```{r}
+plot(Forecast$Period, Forecast$HenryHubForecast, type="l")
+lines(Forecast$Period, Forecast$TianjinForecast, col="red")
+```
+
+2. Provide an appropriate 95% confidence interval for average profits per week over the 52 week period in Tianjin, China.
+
+```{r}
+t.test(Forecast$TianjinForecast, alternative='two.sided', mu=0.0, conf.level=.95)
+```
+
+3. Provide an appropriate 95% confidence interval for average profits per week over the 52 week period in Henry Hub, Louisiana.
+
+```{r}
+t.test(Forecast$HenryHubForecast, alternative='two.sided', mu=0.0, conf.level=.95)
+```
+
+4. Construct a 95% confidence interval for the average difference between profits in Tianjin and Henry Hub.
+
+```{r}
+t.test(Forecast$HenryHubForecast, Forecast$TianjinForecast, 
+  alternative='two.sided', conf.level=.95, paired=TRUE)
+```
+
+```{r}
+Forecast$ForecastDiff <- with(Forecast, HenryHubForecast- TianjinForecast)
+t.test(Forecast$ForecastDiff, alternative='two.sided', mu=0.0, conf.level=.95)
+```
+
+It can also be done by hand.
+
+```{r}
+mean(Forecast$ForecastDiff, na.rm=TRUE)+qt(c(0.025,0.975), df=51)*sd(Forecast$ForecastDiff, na.rm=TRUE)/sqrt(52)
+```
+
+5. Is either of the two locations forecast to have higher profits with at least 95% confidence?  Which one?  What is the probability of no difference?
+
+*Henry Hub has higher profits.  With 95% confidence, these profits are 316072 to 371696 higher.*  The probability of no difference [the p-value] is zero.
+
+6. If the building cost were $12 million more for the more profitable location, provide a 95% confidence interval for average recovery time of cost difference expressed in weeks.
+
+*The previous is measured in dollars per week.  If I divide $12,000,000 by the profit difference in dollars per week; the resulting metric is weeks.  Here is where R's calculator is handy.*
+
+```{r}
+12000000/(mean(Forecast$ForecastDiff, na.rm=TRUE)+qt(c(0.025,0.975), df=51)*sd(Forecast$ForecastDiff, na.rm=TRUE)/sqrt(52))
+```
+
+The above result is in weeks; it will take 32 to 38 weeks.
+
+## Expert Assessment of Location
+
+As management closes on a decision, word has leaked about the factory and the location decision.  Boomblerg Television and BCNC have reported on the plans and industry experts now well understand the decision facing management.  The Sall Tweet Kernel conducted a survey of independent samples of industry experts regarding the decision and their responses are recorded as worksheet *Experts* in the workbook on WISE.  A Build represents a belief that the facility should be built in the given location (Tianjin/Henry Hub) while a No represents an opinion that the facility should not be built in the given location.  With reference to these data, you are to answer the following questions.
+
+1.	Tablulate opinions by location. What is the proportion of analysts favoring each location?
+
+```{r}
+table(Experts$Location,Experts$Build)
+prop.table(table(Experts$Location,Experts$Build), 1)
+T1 <- table(Experts$Location,Experts$Build)
+```
+
+2.	The true proportion of analysts believing that the facility should be built in Henry Hub, Louisiana is 0.5 with 95% confidence. True or False, when compared to the alternative that it is less than 0.5.
+
+
+
+```{r EBT1E}
+binom.test(66, 66+15, alternative="less")
+```
+
+*It clearly is not less than 0.5; it is much higher.*
+
+We could also ask for the exact 95% lower bound given the data.  That would be:
+
+```{r EB2TE}
+binom.test(66, 66+15, alternative="greater")
+```
+
+With 95% confidence, the probability of yes for Henry Hub is at least 0.73.
+
+3.	Could we say, with 95% confidence, that there is a difference (as opposed to no difference) between the proportion of analysts suggesting a factory in Tianjin, China and in Henry Hub, Louisiana? If so, provide the boundaries of the 95% confidence interval and which alternative is preferred.
+
+```{r Res2}
+prop.test(T1, alternative='two.sided', conf.level=.95, correct=FALSE)
+```
+
+*The probability of build is between 0.18 and 0.48 higher for Henry Hub with 95% confidence.*
+
+4.	How large a sample would be required, with 95% confidence, to estimate the true proportion to within ? 0.15 assuming, for planning purposes, that the true proportion is 0.5?
+
+```{r Res3}
+qnorm(0.025)^2*0.5^2/0.15^2
+```
+
+*Only 43 people are needed.  We should have plenty.*
+
+
+
+5.	The survey was, in both cases, sent to samples of size 100. As is clear, not everyone that was sent the survey actually responded. Assume that responding to the survey or not is a binomial random variable with a constant probability of responding equal to 0.73. Assuming this to be true, what is the probability of having received the number of completed responses for Tianjin or fewer? What is the probability of having received the number of completed responses (or greater) for Henry Hub? What might these two bits of information, taken together, mean about the likelihood of a constant probability of response?
+
+```{r}
+binom.test(81,100, alt="greater")
+binom.test(64,100, alt="less")
+```
+
+The probability of responding for Henry Hub is at least 0.734 with 95% confidence; the probability of responding for Tianjib is at most 0.72 with 95% confidence.
+
+
+## Weather Concerns
+
+Both locations [Tianjin and Henry Hub] are adjacent to large bodies of water.  **If the probability of more than 3 hurricanes in a year exceeds 0.05 in either location, this is a game changing fact.  Management is unwilling to build in a location with such a high probability of a disatrous loss of investment and possible collateral damage.**  
+
+1. If the arrival rate of hurricanes at Henry Hub is 1 per year (as it is known to be), what is the probability of more than 3 hurricanes in a given year at Henry Hub?  
+
+```{r}
+ppois(3, 1, lower.tail=FALSE)
+```
+
+2. If the arrival rate of hurricanes at Tianjin is 0.6 (as it is known to be), then what is the probability of more than 3 hurricanes in a given year at Tianjin?
+
+```{r}
+ppois(3, 0.6, lower.tail=FALSE)
+```
+
+*Both are less than 0.05 so no problems.*
+
+
+## Final Problem
+
+Defend a decision to build the factory in one of the two locations and relate each previous section and your analysis of the relevant data to your chosen alternative.  If necessary, weigh the value of conflicting evidence in light of the source.  You are only to faithfully report the results of your analysis and are to bring no external considerations to bear beyond the information in the data and the issues raised in this investigation.
+
+*Henry Hub*  Every bit of data supports that decision except the fact that hurricanes are more likely.  But not that much so.  The payback period is less than a year and that difference should yield benefits through the life of the project.  Natural gas is cheaper and the experts think it is better idea.

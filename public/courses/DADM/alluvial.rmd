@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 ```
 
 ## Alluvial and Sankey Diagrams
@@ -29,7 +29,7 @@ UCBADF  # This is what the data structure needs to look like.
 This is the tidy version that we worked with at the individual level.  To make this code work, change the below locations to import the same data.
 
 ```{r DL}
-load("../../../data/UCBtidy.RData")
+load(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/UCBtidy.RData"))
 head(DiscriminationUCB)
 ```
 
