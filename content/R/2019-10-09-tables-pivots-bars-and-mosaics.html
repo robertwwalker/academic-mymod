@@ -220,6 +220,19 @@ Bond.Funds %&gt;% group_by(Risk) %&gt;%
 ##   No      0.6271186 0.7101449     0.7857143
 ##   Yes     0.3728814 0.2898551     0.2142857</code></pre>
 </div>
+<div id="for-berkeley-admissions" class="section level2">
+<h2>For Berkeley Admissions:</h2>
+<pre class="r"><code>data(&quot;UCBAdmissions&quot;)
+UCB &lt;- DescTools::Untable(UCBAdmissions)
+UCB$Gender &lt;- as.character(UCB$Gender)
+UCB$Gender[UCB$Gender==&quot;Male&quot;] &lt;- &quot;M&quot;
+UCB$Gender[UCB$Gender==&quot;Female&quot;] &lt;- &quot;F&quot;
+UCB$DeptMF &lt;- paste(UCB$Dept,UCB$Gender, sep=&quot;:&quot;)
+UCB &lt;- UCB %&gt;% select(Admit,DeptMF)
+p1 &lt;- ggmm(UCB, x=DeptMF, y=Admit, add_text = &quot;n&quot;)
+p1 + labs(x=&quot;Dept:M/F&quot;, y=&quot;Admitted&quot;) + theme(axis.text=element_text(size=10))</code></pre>
+<p><img src="/R/2019-10-09-tables-pivots-bars-and-mosaics_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
 <div id="barplots" class="section level2">
 <h2>Barplots</h2>
 <p>Basic things like barplots can be accomplished in many ways. Using the <em>R4DS</em> approach, we have</p>

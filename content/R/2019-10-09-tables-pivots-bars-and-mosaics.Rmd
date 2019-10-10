@@ -389,6 +389,22 @@ Notice it handles an implicit plotting of the set of conditional probabilities a
 ```{r PTRes1}
 prop.table(FR.Tab, 2)
 ```
+
+## For Berkeley Admissions:
+
+```{r}
+data("UCBAdmissions")
+UCB <- DescTools::Untable(UCBAdmissions)
+UCB$Gender <- as.character(UCB$Gender)
+UCB$Gender[UCB$Gender=="Male"] <- "M"
+UCB$Gender[UCB$Gender=="Female"] <- "F"
+UCB$DeptMF <- paste(UCB$Dept,UCB$Gender, sep=":")
+UCB <- UCB %>% select(Admit,DeptMF)
+p1 <- ggmm(UCB, x=DeptMF, y=Admit, add_text = "n")
+p1 + labs(x="Dept:M/F", y="Admitted") + theme(axis.text=element_text(size=10))
+```
+
+
 ## Barplots
 
 Basic things like barplots can be accomplished in many ways.  Using the *R4DS* approach, we have
@@ -403,7 +419,6 @@ Placed into densities.  This is really only helpful with another dimension becau
 ```{r GGBar2}
 ggplot(data = Bond.Funds, aes(x = Risk, fill=Fees)) + geom_bar(position="fill")
 ```
-
 
 Or in Base R
 
