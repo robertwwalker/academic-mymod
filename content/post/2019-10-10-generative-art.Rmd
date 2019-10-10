@@ -65,7 +65,7 @@ p <- ggplot() +
 ggsave("weiszfeld.png", p, width = 20, height = 20, units = "in")
 ```
 
-![Weiszfeld](static/img/art/weiszfeld.png)
+![Weiszfeld](https://rww.science/img/art/weiszfeld.png)
 
 
 ```{r LAttr, eval=FALSE}
@@ -80,7 +80,7 @@ p <- ggplot() +
 ggsave("LAttr.png", p, width = 20, height = 20, units = "cm")
 ```
 
-![Lorenz](static/img/art/LAttr.png)
+![Lorenz](https://rww.science/img/art/LAttr.png)
 
 ```{r LAttr2, eval=FALSE}
 df <- lorenz_attractor(a=3, b = 3, x0 = -1, y0 = 1, n=1000000)
@@ -92,7 +92,7 @@ p <- ggplot() +
 ggsave("LAttr2.png", p, width = 20, height = 20, units = "cm")
 ```
 
-![Lorenz2](static/img/art/LAttr2.png)
+![Lorenz2](https://rww.science/img/art/LAttr2.png)
 
 ## Bob Ross as a Kandinsky
 
