@@ -157,14 +157,14 @@ animate(Asia.p, nframes=200)
 ## Oceania
 
 ```{r}
-HR.Data.Named %>% filter(COW  >= 900) %>% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x="Year", y="Human Rights Dynamic Factor Score", title = "The Evolution of Human Rights with Normed Scores", caption = "See Fariss and Schnakenberg (2014)", subtitle = "Middle East and North Africa") + theme_economist()
+HR.Data.Named %>% filter(COW  >= 900) %>% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x="Year", y="Human Rights Dynamic Factor Score", title = "The Evolution of Human Rights with Normed Scores", caption = "See Fariss and Schnakenberg (2014)", subtitle = "Oceania") + theme_economist()
 ```
 
 
 ### Animate Oceania
 
 ```{r}
-HR.Data.Named %>% filter(COW >= 900) %>% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = "y") + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x="Year", y="Human Rights Dynamic Factor Score", title = "The Evolution of Human Rights with Normed Scores", caption = "See Fariss and Schnakenberg (2014)", subtitle = "Middle East and North Africa") + theme_economist() + transition_reveal(YEAR) -> OC.p
+HR.Data.Named %>% filter(COW >= 900) %>% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = "y") + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x="Year", y="Human Rights Dynamic Factor Score", title = "The Evolution of Human Rights with Normed Scores", caption = "See Fariss and Schnakenberg (2014)", subtitle = "Oceania") + theme_economist() + transition_reveal(YEAR) -> OC.p
 animate(OC.p, nframes=200)
 ```
 

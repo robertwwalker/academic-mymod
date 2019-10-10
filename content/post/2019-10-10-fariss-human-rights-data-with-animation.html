@@ -183,11 +183,11 @@ animate(Asia.p, nframes=200)</code></pre>
 </div>
 <div id="oceania" class="section level2">
 <h2>Oceania</h2>
-<pre class="r"><code>HR.Data.Named %&gt;% filter(COW  &gt;= 900) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Middle East and North Africa&quot;) + theme_economist()</code></pre>
+<pre class="r"><code>HR.Data.Named %&gt;% filter(COW  &gt;= 900) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Oceania&quot;) + theme_economist()</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <div id="animate-oceania" class="section level3">
 <h3>Animate Oceania</h3>
-<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &gt;= 900) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = &quot;y&quot;) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Middle East and North Africa&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; OC.p
+<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &gt;= 900) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = &quot;y&quot;) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Oceania&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; OC.p
 animate(OC.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-18-1.gif" /><!-- --></p>
 </div>
