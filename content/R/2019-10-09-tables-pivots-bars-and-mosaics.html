@@ -1,0 +1,255 @@
+---
+title: Tables, Pivots, Bars, and Mosaics
+author: RWW
+date: '2019-10-09'
+slug: tables-pivots-bars-and-mosaics
+categories:
+  - R
+  - tidyverse
+  - tables
+tags:
+  - tidyverse
+  - R Markdown
+header:
+  caption: ''
+  image: ''
+---
+
+
+
+<div id="r-markdown" class="section level1">
+<h1>R Markdown</h1>
+<p>There is detailed help for all that Markdown can do under Help in the RStudio. The key to it is knitting documents with the <em>Knit</em> button in the RStudio. If we use helpers like the R Commander, Radiant, or
+<em>esquisse</em>, we will need the R code implanted in the Markdown document in particular ways. I will use Markdown for <em>everything</em>. I even use a close relation of Markdown in my scholarly pursuits.</p>
+<div id="the-packages-tidyverse-and-esquisse" class="section level2">
+<h2>The Packages: <em>tidyverse</em> and <em>esquisse</em></h2>
+<p>We will rely on five. The <em>tidyverse</em> is Hadley Wickham’s collection of packages. It represents a different philosophy for the construction of exploratory data analysis with literate programming – code that you can read. We will rely on the <code>%&gt;%</code> piping operators of the <em>magrittr</em> package that pipes something to a subsequent command as a core function of the tidyverse.</p>
+<p>For everything that we want in a summary, there is the <em>skimr</em> function <em>skim</em>. For cross-tabulation the easy way, there is <em>janitor</em>. The other two are developmental pieces of software that have yet to deploy into the regular package system of R. <em>esquisse</em> and parts of <em>that’s so random</em> blog’s package for implementing ggmosaic.</p>
+<pre class="r"><code>pkgTest &lt;- function(x)
+  {
+    if (!require(x,character.only = TRUE))
+    {
+      install.packages(x,dep=TRUE, type=&quot;binary&quot;)
+        if(!require(x,character.only = TRUE)) stop(&quot;Package not found&quot;)
+    }
+}
+pkgTest(&quot;tidyverse&quot;)
+pkgTest(&quot;magrittr&quot;)
+pkgTest(&quot;skimr&quot;)
+pkgTest(&quot;janitor&quot;)
+pkgTest(&quot;devtools&quot;)
+devtools::install_github(&quot;EdwinTH/thatssorandom&quot;)
+devtools::install_github(&quot;dreamRs/esquisse&quot;)</code></pre>
+</div>
+<div id="a-first-go" class="section level2">
+<h2>A first go</h2>
+<p>We have an embedded data object; if you look at the beginning of the document, I have used an <em>R</em> command called <em>dput</em> to embed the data in the document. Above, there is encoded text of <em>Bond.Funds</em> to use as an example. To get a sense of the data, I will load the <em>skim</em> function and put it to work. In <em>R</em>, we will use the <code>library</code> command to load <em>functions</em> into the <em>namespace</em> – the set of recognizable commands. <em>R</em> needs to know how a function is defined to use it. The function <em>skim</em> appears in the <em>skimr</em> library.</p>
+<pre class="r"><code>library(skimr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;skimr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre class="r"><code>skim(Bond.Funds)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 184 
+##  n variables: 9 
+## 
+## ── Variable type:character ─────────────────────────────────────────────────────────────────────
+##     variable missing complete   n min max empty n_unique
+##         Fees       0      184 184   2   3     0        2
+##  Fund Number       0      184 184   4   6     0      184
+##         Risk       0      184 184   7  13     0        3
+##         Type       0      184 184  20  23     0        2
+## 
+## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────
+##       variable missing complete   n   mean      sd     p0    p25   p50
+##  3-Year Return       0      184 184   4.66    2.52 -13.8    4.05   5.1
+##  5-Year Return       0      184 184   3.99    1.49  -7.3    3.6    4.3
+##         Assets       0      184 184 910.65 2253.27  12.4  113.72 268.4
+##  Expense Ratio       0      184 184   0.71    0.26   0.12   0.53   0.7
+##    Return 2009       0      184 184   7.16    6.09  -8.8    3.48   6.4
+##     p75     p100     hist
+##    6.1      9.4  ▁▁▁▁▁▂▇▂
+##    4.9      6.8  ▁▁▁▁▁▂▇▂
+##  621.95 18603.5  ▇▁▁▁▁▁▁▁
+##    0.9      1.94 ▂▇▇▇▂▁▁▁
+##   10.72    32    ▁▂▇▆▃▁▁▁</code></pre>
+<pre class="r"><code># skimr::skim(Bond.Funds)</code></pre>
+</div>
+</div>
+<div id="tidy" class="section level1">
+<h1>tidy?</h1>
+<p>The beauty of <em>tidy</em> is rendering code readable with an organizational focus on data objects. Let me take the Bond Funds example and use a simple literate example to mirror a pivot table. Let’s pivot two basic statistics, the mean and standard deviation, then the median and interquartile range grouped by Risk. I should point out that the variable names containing spaces are difficult and have to be enclosed in quotes. Better naming at the outset would help. With simple names, we can ignore the quoting.</p>
+<div id="numerical-summary" class="section level2">
+<h2>Numerical Summary</h2>
+<pre class="r"><code>library(tidyverse)
+Bond.Funds %&gt;% group_by(Risk) %&gt;% 
+  summarise(Avg.Return = mean(`Return 2009`), SD.Return=sd(`Return 2009`), median.Return=median(`Return 2009`), IQR.Return=IQR(`Return 2009`))</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   Risk          Avg.Return SD.Return median.Return IQR.Return
+##   &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Above average       8.31      9.24           7.9      13.0 
+## 2 Average             6.87      4.39           6         7.3 
+## 3 Below average       6.31      2.71           6.1       3.18</code></pre>
+<p>I can also use <em>skim</em>.</p>
+<pre class="r"><code>Bond.Funds %&gt;% group_by(Risk,Fees) %&gt;% skim(`Return 2009`)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 184 
+##  n variables: 9 
+##  group variables: Risk, Fees 
+## 
+## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────
+##           Risk Fees    variable missing complete  n mean    sd   p0  p25
+##  Above average   No Return 2009       0       37 37 8.25  8.92 -8.8 0.7 
+##  Above average  Yes Return 2009       0       22 22 8.42  9.96 -4.8 0.98
+##        Average   No Return 2009       0       49 49 7.37  4.51 -1.1 4.3 
+##        Average  Yes Return 2009       0       20 20 5.66  3.93 -0.6 3.35
+##  Below average   No Return 2009       0       44 44 6.33  2.8   0.2 4.85
+##  Below average  Yes Return 2009       0       12 12 6.26  2.46  1.5 5.02
+##   p50   p75 p100     hist
+##  9.9  13.5  32   ▂▅▃▂▇▁▁▁
+##  6.85 14.93 29.7 ▃▇▇▁▅▁▁▂
+##  6.5  11.2  16.4 ▃▅▅▇▃▇▅▂
+##  4.8   8    12.9 ▃▃▇▆▃▂▁▆
+##  6.2   7.58 13   ▂▃▅▇▇▅▂▂
+##  6.05  8.22 10.1 ▂▂▁▇▅▂▅▅</code></pre>
+<p>I want to recreate a categorical pivot table also.</p>
+</div>
+<div id="categorical-descriptions-requires-tables-or-graphics" class="section level2">
+<h2>Categorical Descriptions Requires Tables [or Graphics]</h2>
+<p>There are numerous ways to build tables in R. Base R has a <em>table</em> function that works but it does not naturally work inside data environments; we have to provide them using <code>$</code> or <code>with</code> environments [or <code>%$%</code> in <em>magrittr</em>]. This brief description of environments is part of a broader idea of <em>scoping</em> in R.</p>
+<div id="easiest-janitor" class="section level3">
+<h3>Easiest: janitor</h3>
+<p>The package <em>janitor</em> contains a <em>tabyl</em> with the ability to add totals and calculate percentages of relevance. Here are two examples.</p>
+<pre class="r"><code>library(janitor)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code>Bond.Funds %&gt;% tabyl(Fees,Risk) %&gt;% adorn_totals(c(&quot;row&quot;,&quot;col&quot;))</code></pre>
+<pre><code>##   Fees Above average Average Below average Total
+##     No            37      49            44   130
+##    Yes            22      20            12    54
+##  Total            59      69            56   184</code></pre>
+<pre class="r"><code>Bond.Funds %&gt;% tabyl(Fees,Risk) %&gt;% adorn_percentages(&quot;row&quot;)</code></pre>
+<pre><code>##  Fees Above average   Average Below average
+##    No     0.2846154 0.3769231     0.3384615
+##   Yes     0.4074074 0.3703704     0.2222222</code></pre>
+</div>
+<div id="easier-with-xtabs-and-formulae" class="section level3">
+<h3>Easier with xtabs and formulae</h3>
+<p>This is actually made much easier with a slightly new form of syntax: formulae. Base R, as you have already learned (or will learn) with <em>swirl</em>, uses different and less readable syntax than the tidyverse. But this is a problem that is quite easy for R in the base commands <em>table</em> and <em>xtabs</em> [crosstabs]. In the first instance, we merely create a table counting values. In the second, the data is a named argument for the function <em>xtabs</em> that requires a statement of <em>margins</em> for the table as a series of names with “+”. The order will determine the rows [first] and the columns [second].</p>
+<pre class="r"><code>table(Bond.Funds$Fees,Bond.Funds$Risk)</code></pre>
+<pre><code>##      
+##       Above average Average Below average
+##   No             37      49            44
+##   Yes            22      20            12</code></pre>
+<pre class="r"><code>xtabs(~Fees+Risk, data=Bond.Funds)</code></pre>
+<pre><code>##      Risk
+## Fees  Above average Average Below average
+##   No             37      49            44
+##   Yes            22      20            12</code></pre>
+<p>These can also be assigned as objects using the “&lt;-”; this saves a local version of the table as something that we can work on. I will call mine FR.Tab for the F(ees)R(isk).Tab(le).</p>
+<pre class="r"><code>FR.Tab &lt;- xtabs(~Fees+Risk, data=Bond.Funds)</code></pre>
+</div>
+<div id="worst-table" class="section level3">
+<h3>Worst: Table</h3>
+<p>Base R table is great but it requires that we specify an environment. To grab a variable from inside a data.frame requires <code>$</code>, as in</p>
+<pre class="r"><code>table(Bond.Funds$Fees,Bond.Funds$Risk)</code></pre>
+<pre><code>##      
+##       Above average Average Below average
+##   No             37      49            44
+##   Yes            22      20            12</code></pre>
+<pre class="r"><code>BRTab1 &lt;- table(Bond.Funds$Fees,Bond.Funds$Risk)</code></pre>
+<p>We can accomplish the same with <em>with</em>, telling R to evaluate something inside whatever data object is in <em>with</em>, for example,</p>
+<pre class="r"><code>with(Bond.Funds, table(Fees,Risk))</code></pre>
+<pre><code>##      Risk
+## Fees  Above average Average Below average
+##   No             37      49            44
+##   Yes            22      20            12</code></pre>
+<pre class="r"><code>WBF1 &lt;- with(Bond.Funds, table(Fees,Risk))</code></pre>
+</div>
+</div>
+<div id="conditional-frequency" class="section level2">
+<h2>Conditional Frequency</h2>
+<p>If we think about conditional probability as measured in proportions of the table, we can ask R to calculate them. The command is <em>prop.table</em> and the inputs are a table and a <em>margin</em> here 1 is rows [conditioning on the first name you entered] and 2 is columns [the second name you entered]. Nothing specified is joint or total.</p>
+<pre class="r"><code>prop.table(FR.Tab)</code></pre>
+<pre><code>##      Risk
+## Fees  Above average    Average Below average
+##   No     0.20108696 0.26630435    0.23913043
+##   Yes    0.11956522 0.10869565    0.06521739</code></pre>
+<pre class="r"><code>prop.table(FR.Tab, 1)</code></pre>
+<pre><code>##      Risk
+## Fees  Above average   Average Below average
+##   No      0.2846154 0.3769231     0.3384615
+##   Yes     0.4074074 0.3703704     0.2222222</code></pre>
+<pre class="r"><code>prop.table(FR.Tab, 2)</code></pre>
+<pre><code>##      Risk
+## Fees  Above average   Average Below average
+##   No      0.6271186 0.7101449     0.7857143
+##   Yes     0.3728814 0.2898551     0.2142857</code></pre>
+<pre class="r"><code>prop.table(WBF1)</code></pre>
+<pre><code>##      Risk
+## Fees  Above average    Average Below average
+##   No     0.20108696 0.26630435    0.23913043
+##   Yes    0.11956522 0.10869565    0.06521739</code></pre>
+<pre class="r"><code>prop.table(WBF1, 1)</code></pre>
+<pre><code>##      Risk
+## Fees  Above average   Average Below average
+##   No      0.2846154 0.3769231     0.3384615
+##   Yes     0.4074074 0.3703704     0.2222222</code></pre>
+<pre class="r"><code>prop.table(WBF1, 2)</code></pre>
+<pre><code>##      Risk
+## Fees  Above average   Average Below average
+##   No      0.6271186 0.7101449     0.7857143
+##   Yes     0.3728814 0.2898551     0.2142857</code></pre>
+</div>
+<div id="pivot-plots-mosaic" class="section level2">
+<h2>Pivot Plots [Mosaic]</h2>
+<p>Base R Graphics contain a mosaic with the same formula as the cross-tabulation above.</p>
+<pre class="r"><code>mosaicplot(~Risk+Fees, data=Bond.Funds)</code></pre>
+<p><img src="/R/2019-10-09-tables-pivots-bars-and-mosaics_files/figure-html/MP1-1.png" width="672" /></p>
+<p>I recently came across a nice plotter for tabular data on <em>github</em>. You can search for it as <em>thatssorandom</em>. We installed it above.</p>
+<p>Notice it handles an implicit plotting of the set of conditional probabilities along the relevant margin. It is plotting <span class="math inline">\(Pr(Fees|Risk)\)</span> as breaks along the <em>y-axis</em> defined by frequency/empirical probability. This would be the equivalent of taking the <em>column marginal</em> of the table of Fees and Risk that we saw before. Now it has a graphical representation.</p>
+<pre class="r"><code>prop.table(FR.Tab, 2)</code></pre>
+<pre><code>##      Risk
+## Fees  Above average   Average Below average
+##   No      0.6271186 0.7101449     0.7857143
+##   Yes     0.3728814 0.2898551     0.2142857</code></pre>
+</div>
+<div id="barplots" class="section level2">
+<h2>Barplots</h2>
+<p>Basic things like barplots can be accomplished in many ways. Using the <em>R4DS</em> approach, we have</p>
+<pre class="r"><code>ggplot(data = Bond.Funds) + 
+  stat_count(mapping = aes(x = Risk))</code></pre>
+<p><img src="/R/2019-10-09-tables-pivots-bars-and-mosaics_files/figure-html/GGBar-1.png" width="672" /></p>
+<p>Placed into densities. This is really only helpful with another dimension because the X is categorical so all bars will be height 1.</p>
+<pre class="r"><code>ggplot(data = Bond.Funds, aes(x = Risk, fill=Fees)) + geom_bar(position=&quot;fill&quot;)</code></pre>
+<p><img src="/R/2019-10-09-tables-pivots-bars-and-mosaics_files/figure-html/GGBar2-1.png" width="672" /></p>
+<p>Or in Base R</p>
+<pre class="r"><code>par(mfrow=c(1,2))
+barplot(table(Bond.Funds$Risk))
+barplot(table(Bond.Funds$Fees,Bond.Funds$Risk))</code></pre>
+<p><img src="/R/2019-10-09-tables-pivots-bars-and-mosaics_files/figure-html/BRBar-1.png" width="672" /></p>
+<p>A legend would help.</p>
+<pre class="r"><code>par(mfrow=c(1,2))
+barplot(table(Bond.Funds$Fees,Bond.Funds$Risk), legend=TRUE)
+barplot(table(Bond.Funds$Fees,Bond.Funds$Risk), legend=TRUE, args.legend=list(bty=&quot;n&quot;))</code></pre>
+<p><img src="/R/2019-10-09-tables-pivots-bars-and-mosaics_files/figure-html/BRBar2-1.png" width="672" /></p>
+</div>
+<div id="simple-visualization-esquisse" class="section level2">
+<h2>Simple Visualization: <em>esquisse()</em></h2>
+<p>There is a wonderful tool for quickly succeeding with one of the most elegant and frustrating parts of R – <em>ggplot2</em>. Hadley Wickham’s <em>Grammar of Graphics</em> is brilliant when understood but is hard to comprehend initially and the programming structure of the package <em>makes</em> it hard for learners. Fortunately, a package called <em>esquisse</em> is available to make <em>ggplot2</em> drag and drop to harness much of the power in an easy fashion. With code in the output, it also facilitates learning how to manipulate the code of <em>ggplot2</em>.</p>
+<p><em>esquisse</em> is quite powerful; we can explore this at length. Here is a simple graphic that I created with x and fills.</p>
+<pre class="r"><code>library(ggplot2)
+plt1 &lt;- ggplot(data = Bond.Funds) +
+  aes(x = Type, fill = Fees) +
+  geom_bar() +
+  theme_minimal()
+plt1</code></pre>
+<p><img src="/R/2019-10-09-tables-pivots-bars-and-mosaics_files/figure-html/GGP1-1.png" width="672" /></p>
+<p>If you notice, <em>esquisse</em> directly outputs graphics to powerpoint. This feature is quite useful.</p>
+</div>
+</div>
