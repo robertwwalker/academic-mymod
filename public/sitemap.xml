@@ -4,6 +4,15 @@
     
     <url>
     
+      <loc>/categories/animation/</loc>
+      <lastmod>2019-10-10T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/art/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
@@ -22,7 +31,25 @@
     
     <url>
     
+      <loc>/post/fariss-human-rights-data-with-animation/</loc>
+      <lastmod>2019-10-10T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/generative-art/</loc>
+      <lastmod>2019-10-10T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/gganimate/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
     
@@ -77,6 +104,24 @@
     <url>
     
       <loc>/tags/</loc>
+      <lastmod>2019-10-10T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/tidyverse/</loc>
+      <lastmod>2019-10-10T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/tidyverse/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
     
@@ -184,24 +229,6 @@
     
     <url>
     
-      <loc>/categories/tidyverse/</loc>
-      <lastmod>2019-10-09T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/tidyverse/</loc>
-      <lastmod>2019-10-09T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/r/</loc>
       <lastmod>2019-10-01T00:00:00-07:00</lastmod>
     </url>
@@ -247,15 +274,6 @@
     
     <url>
     
-      <loc>/categories/animation/</loc>
-      <lastmod>2019-04-30T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/post/nflscrapr-is-amazing/</loc>
       <lastmod>2019-04-30T00:00:00+00:00</lastmod>
     </url>
@@ -267,15 +285,6 @@
     
       <loc>/r/nflscrapr-test/</loc>
       <lastmod>2019-04-19T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/gganimate/</loc>
-      <lastmod>2019-04-14T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -454,7 +463,7 @@
     
     <url>
     
-      <loc>/categories/python/</loc>
+      <loc>/tags/python/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     
@@ -463,7 +472,7 @@
     
     <url>
     
-      <loc>/tags/python/</loc>
+      <loc>/categories/python/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     

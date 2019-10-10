@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Tue, 30 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/animation/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Fariss Human Rights Data with Animation</title>
+      <link>/post/fariss-human-rights-data-with-animation/</link>
+      <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/fariss-human-rights-data-with-animation/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>nflscrapR is amazing</title>
