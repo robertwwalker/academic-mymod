@@ -275,7 +275,7 @@ defaultContentLanguageInSubdir = false
 
 [[menu.main]]
   name = "R Stuff"
-  url = "#R"
+  url = "/R"
   weight = 6
 
 
