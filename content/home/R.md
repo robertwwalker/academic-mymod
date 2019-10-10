@@ -1,7 +1,7 @@
 +++
 # Recent Posts widget.
 # This widget displays recent posts from `content/R/`.
-widget = "posts"
+# widget = "posts"
 active = true
 date = "2016-04-20T00:00:00"
 
@@ -18,7 +18,7 @@ tags_include = []
 tags_exclude = []
 
 # Number of posts to list.
-count = 10
+count = 3
 
 +++
 
