@@ -304,7 +304,7 @@ load(&quot;~/FarissHRData.RData&quot;) skimr::skim(HR.Data) ## Skim summary stat
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    7 min read
+    8 min read
   </span>
   
 
@@ -466,7 +466,7 @@ animate(p1, nframes = 200)</code></pre>
 COW.Codes &lt;- distinct(COW.Codes) # Duplicates exist in the COW Code master file
 COW.Codes$Continent &lt;- cut(COW.Codes$CCode, breaks = c(0, 100, 200, 400, 600, 700, 900,1000), labels = c(&quot;N. America&quot;, &quot;S. America&quot;, &quot;Europe&quot;, &quot;Africa&quot;, &quot;Med/Mid&quot;, &quot;Asia&quot;, &quot;Oceania&quot;), right = FALSE)
 HR.Data.Named &lt;- left_join(HR.Data, COW.Codes, by = c(&quot;COW&quot; = &quot;CCode&quot;))</code></pre>
-<p>Now I have something to work with.</p>
+<p>Now I have something to work with that is labeled.</p>
 <pre class="r"><code>( ggplot(HR.Data.Named) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateAbb) + geom_line(alpha = 0.3)  +  scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot; ) + theme_economist_white() + facet_wrap(vars(Continent)) -&gt; p2 )</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre class="r"><code>p2</code></pre>
@@ -478,11 +478,11 @@ animate(p2, nframes = 200)</code></pre>
 </div>
 <div id="north-america" class="section level2">
 <h2>North America</h2>
-<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 200) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateAbb) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;North America&quot;) + theme_economist_white()</code></pre>
+<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 100) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateAbb) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;North America&quot;) + theme_economist_white()</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <div id="an-animation-for-north-america" class="section level3">
 <h3>An Animation for North America</h3>
-<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 100) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = &quot;y&quot;) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;North America&quot;) + theme_economist_white() + transition_reveal(YEAR) -&gt; NA.p
+<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 100) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=2, direction = &quot;y&quot;, hjust = 1, nudge_x = 20) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;North America&quot;) + theme_economist_white() + transition_reveal(YEAR) -&gt; NA.p
 animate(NA.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-6-1.gif" /><!-- --></p>
 </div>
@@ -493,7 +493,7 @@ animate(NA.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <div id="animation-for-south-america" class="section level3">
 <h3>Animation for South America</h3>
-<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 200 &amp; COW &gt;= 100) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = &quot;y&quot;) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;South America&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; SA.p
+<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 200 &amp; COW &gt;= 100) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=2, direction = &quot;y&quot;, hjust = 1, nudge_x = 20) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;South America&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; SA.p
 animate(SA.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-8-1.gif" /><!-- --></p>
 </div>
@@ -504,7 +504,7 @@ animate(SA.p, nframes=200)</code></pre>
 </div>
 <div id="animate-europe" class="section level3">
 <h3>Animate Europe</h3>
-<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 400 &amp; COW &gt;= 200) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = &quot;y&quot;) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Europe&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; EU.p
+<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 400 &amp; COW &gt;= 200) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=2, direction = &quot;y&quot;, hjust = 1, nudge_x = 20) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Europe&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; EU.p
 animate(EU.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-10-1.gif" /><!-- --></p>
 </div>
@@ -515,7 +515,7 @@ animate(EU.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <div id="animate-africa" class="section level3">
 <h3>Animate Africa</h3>
-<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 600 &amp; COW &gt;= 400) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = &quot;y&quot;) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Africa&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; AF.p
+<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 600 &amp; COW &gt;= 400) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=2, direction = &quot;y&quot;, hjust = 1, nudge_x = 20) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Africa&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; AF.p
 animate(EU.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-12-1.gif" /><!-- --></p>
 </div>
@@ -526,7 +526,7 @@ animate(EU.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <div id="animate-mid-east-north-africa" class="section level3">
 <h3>Animate Mid East / North Africa</h3>
-<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 700 &amp; COW &gt;= 600) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = &quot;y&quot;) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Middle East and North Africa&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; MENA.p
+<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 700 &amp; COW &gt;= 600) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=2, direction = &quot;y&quot;, hjust = 1, nudge_x = 20) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Middle East and North Africa&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; MENA.p
 animate(MENA.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-14-1.gif" /><!-- --></p>
 </div>
@@ -537,7 +537,7 @@ animate(MENA.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <div id="animate-asia" class="section level3">
 <h3>Animate Asia</h3>
-<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 900 &amp; COW &gt;= 700) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = &quot;y&quot;) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Asia&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; Asia.p
+<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &lt; 900 &amp; COW &gt;= 700) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2015, size=2, direction = &quot;y&quot;, hjust = 1, nudge_x = 20) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Asia&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; Asia.p
 animate(Asia.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-16-1.gif" /><!-- --></p>
 </div>
@@ -548,7 +548,7 @@ animate(Asia.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <div id="animate-oceania" class="section level3">
 <h3>Animate Oceania</h3>
-<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &gt;= 900) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=3, direction = &quot;y&quot;) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Oceania&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; OC.p
+<pre class="r"><code>HR.Data.Named %&gt;% filter(COW &gt;= 900) %&gt;% ggplot(.) + aes(x=YEAR, y=theta_mean, color=as.factor(StateAbb), label = StateNme) + geom_label_repel(x=2010, size=2, direction = &quot;y&quot;, hjust = 1, nudge_x = 20) + geom_line(alpha = 0.3) +   scale_color_viridis_d(guide=FALSE) + labs(x=&quot;Year&quot;, y=&quot;Human Rights Dynamic Factor Score&quot;, title = &quot;The Evolution of Human Rights with Normed Scores&quot;, caption = &quot;See Fariss and Schnakenberg (2014)&quot;, subtitle = &quot;Oceania&quot;) + theme_economist() + transition_reveal(YEAR) -&gt; OC.p
 animate(OC.p, nframes=200)</code></pre>
 <p><img src="/post/2019-10-10-fariss-human-rights-data-with-animation_files/figure-html/unnamed-chunk-18-1.gif" /><!-- --></p>
 </div>
