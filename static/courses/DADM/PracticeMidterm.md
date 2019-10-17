@@ -1,5 +1,5 @@
 ---
-title: "Practice Midterm - 2018"
+title: "Practice Midterm - 2019"
 author: "Robert W. Walker"
 output: 
   html_document: 
@@ -73,7 +73,7 @@ Newspapers %>% group_by(Location) %>% skim(Price)
 ##  n variables: 7 
 ##  group variables: Location 
 ## 
-## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## ── Variable type:numeric ─────────────────────────────────────
 ##  Location variable missing complete  n mean    sd   p0  p25  p50  p75 p100
 ##  HenryHub    Price       0       36 36 3.8  0.14  3.52 3.69 3.79 3.9  4.07
 ##   Tianjin    Price       0       25 25 3.99 0.051 3.88 3.98 4    4.04 4.05
@@ -154,24 +154,24 @@ pnorm(4, mean=meanTJ, sd=sdTJ, lower.tail=FALSE)
 
 
 ```r
-t.test(Newspapers$TianjinPrice, alternative='greater', mu=4, conf.level=.95)
+t.test(Newspapers$HHPrice, alternative='greater', mu=4, conf.level=.95)
 ```
 
 ```
 ## 
 ## 	One Sample t-test
 ## 
-## data:  Newspapers$TianjinPrice
-## t = -0.55261, df = 24, p-value = 0.7072
+## data:  Newspapers$HHPrice
+## t = -8.761, df = 35, p-value = 1
 ## alternative hypothesis: true mean is greater than 4
 ## 95 percent confidence interval:
-##  3.977062      Inf
+##  3.75646     Inf
 ## sample estimates:
 ## mean of x 
-##    3.9944
+##  3.795833
 ```
 
-The probability is the p-value above.  Or it is 0.7071795.
+The probability is the p-value above.  Or it is 1.
 
 
 7.	What is a 95% confidence interval of the difference in average prices. This calculation requires an assumption about the variances/standard deviations of the two samples that you have. What have you assumed? Why? Is there any information in the plot that you provided that might inform this decision?

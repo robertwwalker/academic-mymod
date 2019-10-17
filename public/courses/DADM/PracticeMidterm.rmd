@@ -130,10 +130,10 @@ pnorm(4, mean=meanTJ, sd=sdTJ, lower.tail=FALSE)
 6.	Is a mean price of $4.00 or lower given the Henry Hub data possible with 95% confidence?
 
 ```{r}
-t.test(Newspapers$TianjinPrice, alternative='greater', mu=4, conf.level=.95)
+t.test(Newspapers$HHPrice, alternative='greater', mu=4, conf.level=.95)
 ```
 
-The probability is the p-value above.  Or it is `r pt(-0.55261, 24, lower.tail=FALSE)`.
+The probability is the p-value above.  Or it is `r t.test(Newspapers$HHPrice, alternative='greater', mu=4, conf.level=.95)$p.value`.
 
 
 7.	What is a 95% confidence interval of the difference in average prices. This calculation requires an assumption about the variances/standard deviations of the two samples that you have. What have you assumed? Why? Is there any information in the plot that you provided that might inform this decision?
