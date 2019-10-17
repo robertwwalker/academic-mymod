@@ -8,7 +8,7 @@ output:
 
 # A Practice Midterm
 
-Answer the following questions in as much detail as possible in the time permitted.  In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered.  Answer the questions to the best of your ability and be systematic in solving the problems.  This will always take you far.  A Workbook called *NaturalGas2018.xls* contains the necessary data.
+Answer the following questions in as much detail as possible in the time permitted.  In the exam format, partial credit will be awarded in the event that the reasoning is sufficiently clear to uncover the parts of a question correctly answered.  Answer the questions to the best of your ability and be systematic in solving the problems.  This will always take you far.  A Workbook called *NaturalGas2019.xls* contains the necessary data.
 
 1.	What is the probability that a log-normal random variable [in R, lnorm is the noun] whose logarithm has mean equal to 0 and standard deviation equal to 1, takes values less than 1?  *The probability is one-half.  The reason?  If the logarithm has mean 0, then it is just $e^{Normal(0,1)}$.  Because $e^{0}$ is 1 and half of the probability in a normal is below 0, it must be one half.*
 

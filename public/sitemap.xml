@@ -139,7 +139,7 @@
     
     <url>
     
-      <loc>/categories/maps/</loc>
+      <loc>/tags/maps/</loc>
       <lastmod>2019-10-09T00:00:00+00:00</lastmod>
     </url>
     
@@ -148,7 +148,7 @@
     
     <url>
     
-      <loc>/tags/maps/</loc>
+      <loc>/categories/maps/</loc>
       <lastmod>2019-10-09T00:00:00+00:00</lastmod>
     </url>
     
@@ -256,7 +256,7 @@
     
     <url>
     
-      <loc>/tags/tidytext/</loc>
+      <loc>/categories/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -265,7 +265,7 @@
     
     <url>
     
-      <loc>/categories/tidytext/</loc>
+      <loc>/tags/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -463,7 +463,7 @@
     
     <url>
     
-      <loc>/tags/python/</loc>
+      <loc>/categories/python/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     
@@ -472,7 +472,7 @@
     
     <url>
     
-      <loc>/categories/python/</loc>
+      <loc>/tags/python/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     
