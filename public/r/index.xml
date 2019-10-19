@@ -50,5 +50,15 @@ devtools::install_github(repo = &amp;quot;maksimhorowitz/nflscrapR&amp;quot;) Th
 Getting Some Data Following the guide to the package on GitHub, let me try their example.</description>
     </item>
     
+    <item>
+      <title>The Duality of Hypothesis Tests and Confidence Intervals</title>
+      <link>/r/hypothesis-test-ci/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/r/hypothesis-test-ci/</guid>
+      <description>cars data I will work with R’s internal dataset on cars: cars. There are two variables in the dataset, this is what they look like.
+plot(cars) An Hypothesis Test I will work with the speed variable. The hypothesis to advance is that 17 or greater is the true average speed. The alternative must then be that the average speed is less than 17. Knowing only the sample size, I can figure out what \(t\) must be to reject 17 or greater and conclude that the true average must be less with 90% probability.</description>
+    </item>
+    
   </channel>
 </rss>

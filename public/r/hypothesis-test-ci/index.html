@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.58.3" />
+  <meta name="author" content="Robert W. Walker">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="cars data I will work with R’s internal dataset on cars: cars. There are two variables in the dataset, this is what they look like.
+plot(cars) An Hypothesis Test I will work with the speed variable. The hypothesis to advance is that 17 or greater is the true average speed. The alternative must then be that the average speed is less than 17. Knowing only the sample size, I can figure out what \(t\) must be to reject 17 or greater and conclude that the true average must be less with 90% probability.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/r/hypothesis-test-ci/">
+
+  
+
+
+
+  
+  
+  <meta name="theme-color" content="">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js//styles/dracula.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/css/bootstrap.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/%!s(<nil>)/css/academicons.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/%!s(<nil>)/css/font-awesome.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/r/hypothesis-test-ci/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@PieRatio">
+  <meta property="twitter:creator" content="@PieRatio">
+  
+  <meta property="og:site_name" content="Robert W. Walker">
+  <meta property="og:url" content="/r/hypothesis-test-ci/">
+  <meta property="og:title" content="The Duality of Hypothesis Tests and Confidence Intervals | Robert W. Walker">
+  <meta property="og:description" content="cars data I will work with R’s internal dataset on cars: cars. There are two variables in the dataset, this is what they look like.
+plot(cars) An Hypothesis Test I will work with the speed variable. The hypothesis to advance is that 17 or greater is the true average speed. The alternative must then be that the average speed is less than 17. Knowing only the sample size, I can figure out what \(t\) must be to reject 17 or greater and conclude that the true average must be less with 90% probability.">
+  <meta property="og:locale" content="en-us">
+  
+  
+  
+  
+
+  
+
+  <title>The Duality of Hypothesis Tests and Confidence Intervals | Robert W. Walker</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/"><img src="/img/headers/wuagsm.jpg" alt="Robert W. Walker"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#publications_selected">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/img/vita.pdf">
+            
+            <span>Curriculum Vitae</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a href="/r">
+            
+            <span>R Stuff</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">The Duality of Hypothesis Tests and Confidence Intervals</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="0001-01-01 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      0001-01-01
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=The%20Duality%20of%20Hypothesis%20Tests%20and%20Confidence%20Intervals&amp;url=%2fr%2fhypothesis-test-ci%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fr%2fhypothesis-test-ci%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fr%2fhypothesis-test-ci%2f&amp;title=The%20Duality%20of%20Hypothesis%20Tests%20and%20Confidence%20Intervals"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fr%2fhypothesis-test-ci%2f&amp;title=The%20Duality%20of%20Hypothesis%20Tests%20and%20Confidence%20Intervals"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=The%20Duality%20of%20Hypothesis%20Tests%20and%20Confidence%20Intervals&amp;body=%2fr%2fhypothesis-test-ci%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+
+<div id="cars-data" class="section level1">
+<h1>cars data</h1>
+<p>I will work with R’s internal dataset on cars: <code>cars</code>. There are two variables in the dataset, this is what they look like.</p>
+<pre class="r"><code>plot(cars)</code></pre>
+<p><img src="/R/Hypothesis-Test-CI_files/figure-html/cars-1.png" width="672" /></p>
+<div id="an-hypothesis-test" class="section level2">
+<h2>An Hypothesis Test</h2>
+<p>I will work with the speed variable. The hypothesis to advance is that 17 or greater is the true average speed. The alternative must then be that the average speed is less than 17. Knowing only the sample size, I can figure out what <span class="math inline">\(t\)</span> must be to reject 17 or greater and conclude that the true average must be less with 90% probability. The sample mean would have to be at least <code>qt(0.1, 49)</code> standard errors below 17 to rule out a mean of 17 or greater. Now let’s see what we have. Let me skim the data for the relevant information.</p>
+<pre class="r"><code>library(skimr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;skimr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre class="r"><code>skim(cars)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 50 
+##  n variables: 2 
+## 
+## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────
+##  variable missing complete  n  mean    sd p0 p25 p50 p75 p100     hist
+##      dist       0       50 50 42.98 25.77  2  26  36  56  120 ▃▇▇▅▂▂▁▁
+##     speed       0       50 50 15.4   5.29  4  12  15  19   25 ▁▂▃▇▅▅▃▃</code></pre>
+<p>Doing the math by hand, I get:</p>
+<p><span class="math display">\[ t = \frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}} = \frac{15.4 - 17}{\frac{5.29}{\sqrt{50}}} = -2.14 \]</span></p>
+<p>Interpreting the result, the sample mean is 2.14 standard errors below the hypothetical mean of 17. The probability of a sample mean of 15.4 [or smaller] given a true average of 17, this standard deviation and sample size is <code>pt(-2.14, 49)</code> = 0.0186798. Notice that probability is less than 0.1; thus with at least 90% confidence, the true mean is not 17 or greater and thus must be smaller. Assuming the hypothetical mean [17 or greater] is true, the likelihood of generating a sample mean of 15.4 is only 0.0187 and this is far less than the 10% permissible outside of 90% confidence. Indeed, any sample mean more than 1.299 standard errors below 17 would be too small to sustain the belief that the true mean is 17 or greater because <code>qt(0.1, 49)</code> is -1.299. Put in the original metric, any sample mean below 16.0285747 would require a rejection of the claim that the true mean is 17 or greater with 90% confidence.</p>
+</div>
+<div id="the-confidence-interval" class="section level2">
+<h2>The Confidence Interval</h2>
+<p>The confidence interval is always centered on the sample mean. Rearranging the equation above and solving for <span class="math inline">\(\mu\)</span> given the <span class="math inline">\(t\)</span> above, we get</p>
+<p><span class="math display">\[ \mu = \overline{x} - t(\frac{s}{\sqrt{n}}) = 15.4 - (-1.299*\frac{5.29}{\sqrt{50}}) = 16.37143 \]</span></p>
+<p>With 90% confidence, given this sample mean, the true value should be less than 16.37143.</p>
+</div>
+<div id="the-native-t.test" class="section level2">
+<h2>The native <code>t.test</code></h2>
+<pre class="r"><code>t.test(cars$speed, conf.level = 0.9, alternative = &quot;less&quot;, mu=17)</code></pre>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  cars$speed
+## t = -2.1397, df = 49, p-value = 0.01869
+## alternative hypothesis: true mean is less than 17
+## 90 percent confidence interval:
+##      -Inf 16.37143
+## sample estimates:
+## mean of x 
+##      15.4</code></pre>
+</div>
+<div id="simplifying" class="section level2">
+<h2>Simplifying?</h2>
+<p><span class="math display">\[ t(\frac{s}{\sqrt{n}}) = \overline{x} - \mu \]</span> can lead to either:</p>
+<p><span class="math display">\[  \overline{x} - t(\frac{s}{\sqrt{n}}) = \mu \]</span></p>
+<p>or</p>
+<p><span class="math display">\[ \overline{x} = \mu + t(\frac{s}{\sqrt{n}}) \]</span></p>
+<p>So a minus <span class="math inline">\(t\)</span> will be below <span class="math inline">\(\mu\)</span> but above <span class="math inline">\(\overline{x}\)</span> and a positive <span class="math inline">\(t\)</span> will be above <span class="math inline">\(\mu\)</span> but below <span class="math inline">\(\overline{x}\)</span>.<br />
+1. An hypothesis test given <span class="math inline">\(\mu\)</span> with an alternative that is less must then render an upper bound given <span class="math inline">\(\overline{x}\)</span>.<br />
+2. An hypothesis test given <span class="math inline">\(\mu\)</span> with an alternative that is greater must then render a lower bound given <span class="math inline">\(\overline{x}\)</span>.</p>
+</div>
+<div id="a-graphical-representation" class="section level2">
+<h2>A graphical representation</h2>
+<p>Given a sample size <span class="math inline">\(n\)</span>, some unknown constant <span class="math inline">\(\mu\)</span> and satisfaction of Lindeberg’s condition, the sampling distribution of the sample mean follows a <span class="math inline">\(t\)</span> distribution with degrees of freedom <span class="math inline">\(n-1\)</span>. To render a graphical representation, let’s arbitrarily set n to 50, as in the above example. Here is a plot.</p>
+<pre class="r"><code>plot(seq(-5,5, by=0.01), dt(seq(-5,5, by=0.01), df=49), xlab=expression(paste(&quot;x-bar -&quot;,mu,&quot; (measured in std. errors of the mean)&quot;, sep=&quot;&quot;)), ylab=&quot;Density&quot;, type=&quot;l&quot;)</code></pre>
+<p><img src="/R/Hypothesis-Test-CI_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div id="inverting-the-scale-transformation" class="section level3">
+<h3>Inverting the <code>scale</code> transformation</h3>
+<p>We can now reverse the scale by the standard error of the mean. In the above example, it is 0.7478. Measured in miles per hour, we obtain:</p>
+<pre class="r"><code>plot(seq(-5,5, by=0.01)*0.7478, dt(seq(-5,5, by=0.01), df=49), xlab=expression(paste(&quot;x-bar -&quot;,mu,&quot; (measured in mph)&quot;, sep=&quot;&quot;)), ylab=&quot;Density&quot;, type=&quot;l&quot;)</code></pre>
+<p><img src="/R/Hypothesis-Test-CI_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Now we will take the concrete example above.</p>
+</div>
+<div id="the-hypothesis-test" class="section level3">
+<h3>The Hypothesis Test</h3>
+<p>We claim that the true mean is 17 or greater. Now we need center the distribution above as though the claim is true.</p>
+<pre class="r"><code>plot(x=17+seq(-5,5, by=0.01)*0.7478, dt(seq(-5,5, by=0.01), df=49), xlab=expression(paste(mu,&quot; (measured in mph)&quot;, sep=&quot;&quot;)), ylab=&quot;Density&quot;, type=&quot;l&quot;)
+abline(v=17, col=&quot;red&quot;)
+polygon(x = c(17+seq(0,5, by=0.01)*0.7478, 21), y = c(0, dt(seq(0,5, by=0.01), df=49)), col = &quot;red&quot;)</code></pre>
+<p><img src="/R/Hypothesis-Test-CI_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>The sample mean is estimated to be 15.4. How likely is that?</p>
+<pre class="r"><code>plot(x=17+seq(-5,5, by=0.01)*0.7478, dt(seq(-5,5, by=0.01), df=49), xlab=expression(paste(&quot;x-bar -&quot;,mu,&quot; (measured in mph)&quot;, sep=&quot;&quot;)), ylab=&quot;Density&quot;, type=&quot;l&quot;)
+abline(v=17, col=&quot;red&quot;)
+abline(v=15.4, col=&quot;blue&quot;)
+polygon(x = c(17+seq(0,5, by=0.01)*0.7478, 21), y = c(0, dt(seq(0,5, by=0.01), df=49)), col = &quot;red&quot;)
+polygon(x = c(12, 17+seq(-5,-2.14, by=0.01)*0.7478), y = c(dt(seq(-5,-2.14, by=0.01), df=49), 0), col = &quot;blue&quot;)
+abline(h=0, col=&quot;black&quot;)
+abline(v=17 + qt(0.1, df=49)*0.7874, col=&quot;black&quot;, lty=3)</code></pre>
+<p><img src="/R/Hypothesis-Test-CI_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>The probability of seeing such a small sample mean if the true average is 17 is only 0.01869. The probability above the dotted black line is 0.9 with 0.1 below. WIth 90% confidence, anything below this would be sufficient evidence to reject the claim that the true average is 17 or above.</p>
+</div>
+</div>
+<div id="the-confidence-interval-1" class="section level2">
+<h2>The Confidence Interval</h2>
+<p>Let’s take the sample mean as the center and work out a confidence interval at 90%. It’s exactly the 16.37143 gives above.</p>
+<pre class="r"><code>plot(x=15.4+seq(-5,5, by=0.01)*0.7478, dt(seq(-5,5, by=0.01), df=49), xlab=expression(paste(mu,&quot; | x-bar (measured in mph)&quot;, sep=&quot;&quot;)), ylab=&quot;Density&quot;, type=&quot;l&quot;)
+abline(v=15.4, col=&quot;blue&quot;)
+abline(v=15.4 - qt(0.1, df=49)*0.7478, col=&quot;black&quot;, lty=3)
+polygon(x = c(11, 15.4+seq(-5,1.3, by=0.01)*0.7478), y = c(dt(seq(-5,1.3, by=0.01), df=49), 0), col = &quot;blue&quot;)</code></pre>
+<p><img src="/R/Hypothesis-Test-CI_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>As an aside, 17 has exactly 0.01869 probability above it shown in orange.</p>
+<pre class="r"><code>plot(x=15.4+seq(-5,5, by=0.01)*0.7478, dt(seq(-5,5, by=0.01), df=49), xlab=expression(paste(mu,&quot; | x-bar (measured in mph)&quot;, sep=&quot;&quot;)), ylab=&quot;Density&quot;, type=&quot;l&quot;)
+abline(v=15.4, col=&quot;blue&quot;)
+abline(v=15.4 - qt(0.1, df=49)*0.7478, col=&quot;black&quot;, lty=3)
+polygon(x = c(11, 15.4+seq(-5,1.3, by=0.01)*0.7478), y = c(dt(seq(-5,1.3, by=0.01), df=49), 0), col = &quot;blue&quot;)
+polygon(x = c(15.4+seq(2.14,5, by=0.01)*0.7478, 17), y = c(dt(seq(2.14,5, by=0.01), df=49), 0), col = &quot;orange&quot;)</code></pre>
+<p><img src="/R/Hypothesis-Test-CI_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+    
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/%!s(<nil>)/jquery.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/%!s(<nil>)/imagesloaded.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/js/bootstrap.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/%!s(<nil>)/isotope.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/%!s(<nil>)/highlight.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/%!s(<nil>)/MathJax.js?config=TeX-AMS_CHTML" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

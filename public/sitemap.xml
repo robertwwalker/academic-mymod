@@ -112,7 +112,7 @@
     
     <url>
     
-      <loc>/tags/tidyverse/</loc>
+      <loc>/categories/tidyverse/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
     
@@ -121,7 +121,7 @@
     
     <url>
     
-      <loc>/categories/tidyverse/</loc>
+      <loc>/tags/tidyverse/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
     
@@ -825,6 +825,14 @@
     
       <loc>/courses/5103dadm/</loc>
       <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/r/hypothesis-test-ci/</loc>
     </url>
     
   
