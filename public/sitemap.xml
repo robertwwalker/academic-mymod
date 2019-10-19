@@ -4,6 +4,24 @@
     
     <url>
     
+      <loc>/</loc>
+      <lastmod>2019-10-16T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/r/hypothesis-test-ci/</loc>
+      <lastmod>2019-10-16T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/categories/animation/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
@@ -85,15 +103,6 @@
     
     <url>
     
-      <loc>/</loc>
-      <lastmod>2019-10-10T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/categories/simulation/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
@@ -112,7 +121,7 @@
     
     <url>
     
-      <loc>/categories/tidyverse/</loc>
+      <loc>/tags/tidyverse/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
     
@@ -121,7 +130,7 @@
     
     <url>
     
-      <loc>/tags/tidyverse/</loc>
+      <loc>/categories/tidyverse/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
     
@@ -256,7 +265,7 @@
     
     <url>
     
-      <loc>/categories/tidytext/</loc>
+      <loc>/tags/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -265,7 +274,7 @@
     
     <url>
     
-      <loc>/tags/tidytext/</loc>
+      <loc>/categories/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -825,14 +834,6 @@
     
       <loc>/courses/5103dadm/</loc>
       <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/r/hypothesis-test-ci/</loc>
     </url>
     
   
