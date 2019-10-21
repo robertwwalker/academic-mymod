@@ -430,7 +430,7 @@ prop.test(T1, alternative='two.sided', conf.level=.95, correct=FALSE)
 
 *The probability of build is between 0.18 and 0.48 higher for Henry Hub with 95% confidence.*
 
-4.	How large a sample would be required, with 95% confidence, to estimate the true proportion to within ? 0.15 assuming, for planning purposes, that the true proportion is 0.5?
+4.	How large a sample would be required, with 95% confidence, to estimate the true proportion to within $\pm$ 0.15 assuming, for planning purposes, that the true proportion is 0.5?
 
 ```{r Res3}
 qnorm(0.025)^2*0.5^2/0.15^2
