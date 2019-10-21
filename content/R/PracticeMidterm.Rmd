@@ -286,6 +286,7 @@ pnorm(4, mean=3.9944, sd=0.05, lower.tail=FALSE)
 pnorm(4, mean=meanTJ, sd=sdTJ, lower.tail=FALSE)
 ```
 
+The probability of $4.00 or higher is 0.455.
 
 6.	Is a mean price of $4.00 or lower given the Henry Hub data possible with 95% confidence?
 
@@ -293,7 +294,7 @@ pnorm(4, mean=meanTJ, sd=sdTJ, lower.tail=FALSE)
 t.test(Newspapers$HHPrice, alternative='greater', mu=4, conf.level=.95)
 ```
 
-The probability is the p-value above.  Or it is 1. The sample mean is 8.76 standard errors below 4.
+The probability is the p-value above.  Or it is 1. The sample mean is 8.76 standard errors below 4.  Thus, it is almost certain to be $4.00 or lwoer and is quite a bit lower it would seem.
 
 
 7.	What is a 95% confidence interval of the difference in average prices. This calculation requires an assumption about the variances/standard deviations of the two samples that you have. What have you assumed? Why? Is there any information in the plot that you provided that might inform this decision?
@@ -354,11 +355,16 @@ table(Forecast$TianjinForecast < Forecast$HenryHubForecast)
 t.test(Forecast$TianjinForecast, alternative='two.sided', mu=0.0, conf.level=.95)
 ```
 
+Average forecasted profits per week range from 3425833 to 4295348 dollars per period/week with 95% confidence in Tianjin.
+
 3. Provide an appropriate 95% confidence interval for average profits per week over the 52 week period in Henry Hub, Louisiana.
 
 ```{r}
 t.test(Forecast$HenryHubForecast, alternative='two.sided', mu=0.0, conf.level=.95)
 ```
+
+Average forecasted profits per week range from 3761714 to 4647235 dollars per period/week with 95% confidence at Henry Hub.
+
 
 4. Construct a 95% confidence interval for the average difference between profits in Tianjin and Henry Hub.
 
@@ -377,6 +383,8 @@ It can also be done by hand.
 ```{r}
 mean(Forecast$ForecastDiff, na.rm=TRUE)+qt(c(0.025,0.975), df=51)*sd(Forecast$ForecastDiff, na.rm=TRUE)/sqrt(52)
 ```
+
+The average difference in profits per week, with 95% confidence, ranges from 316072.2 to 371696.7 dollars per week.
 
 5. Is either of the two locations forecast to have higher profits with at least 95% confidence?  Which one?  What is the probability of no difference?
 
@@ -404,6 +412,8 @@ prop.table(table(Experts$Location,Experts$Build), 1)
 T1 <- table(Experts$Location,Experts$Build)
 ```
 
+81 percent favor Henry Hub; under 50% favor Tianjin.
+
 2.	The true proportion of analysts believing that the facility should be built in Henry Hub, Louisiana is 0.5 with 95% confidence. True or False, when compared to the alternative that it is less than 0.5.
 
 
@@ -412,7 +422,7 @@ T1 <- table(Experts$Location,Experts$Build)
 binom.test(66, 66+15, alternative="less")
 ```
 
-*It clearly is not less than 0.5; it is much higher.*
+*It clearly is not less than 0.5; it is much higher.*  Compared to the less alternative, it must be false.
 
 We could also ask for the exact 95% lower bound given the data.  That would be:
 

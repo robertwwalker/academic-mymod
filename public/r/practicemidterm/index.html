@@ -302,7 +302,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    14 min read
+    15 min read
   </span>
   
 
@@ -454,6 +454,7 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
 <pre><code>## [1] 0.4554117</code></pre>
 <pre class="r"><code>pnorm(4, mean=meanTJ, sd=sdTJ, lower.tail=FALSE)</code></pre>
 <pre><code>## [1] 0.4559979</code></pre>
+<p>The probability of $4.00 or higher is 0.455.</p>
 <ol start="6" style="list-style-type: decimal">
 <li>Is a mean price of $4.00 or lower given the Henry Hub data possible with 95% confidence?</li>
 </ol>
@@ -469,7 +470,7 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
 ## sample estimates:
 ## mean of x 
 ##  3.795833</code></pre>
-<p>The probability is the p-value above. Or it is 1. The sample mean is 8.76 standard errors below 4.</p>
+<p>The probability is the p-value above. Or it is 1. The sample mean is 8.76 standard errors below 4. Thus, it is almost certain to be $4.00 or lwoer and is quite a bit lower it would seem.</p>
 <ol start="7" style="list-style-type: decimal">
 <li>What is a 95% confidence interval of the difference in average prices. This calculation requires an assumption about the variances/standard deviations of the two samples that you have. What have you assumed? Why? Is there any information in the plot that you provided that might inform this decision?</li>
 </ol>
@@ -549,6 +550,7 @@ Forecast %&gt;% ggplot(., aes(x=Period, y=Forecast, color=Location)) + geom_poin
 ## sample estimates:
 ## mean of x 
 ##   3860590</code></pre>
+<p>Average forecasted profits per week range from 3425833 to 4295348 dollars per period/week with 95% confidence in Tianjin.</p>
 <ol start="3" style="list-style-type: decimal">
 <li>Provide an appropriate 95% confidence interval for average profits per week over the 52 week period in Henry Hub, Louisiana.</li>
 </ol>
@@ -564,6 +566,7 @@ Forecast %&gt;% ggplot(., aes(x=Period, y=Forecast, color=Location)) + geom_poin
 ## sample estimates:
 ## mean of x 
 ##   4204475</code></pre>
+<p>Average forecasted profits per week range from 3761714 to 4647235 dollars per period/week with 95% confidence at Henry Hub.</p>
 <ol start="4" style="list-style-type: decimal">
 <li>Construct a 95% confidence interval for the average difference between profits in Tianjin and Henry Hub.</li>
 </ol>
@@ -596,6 +599,7 @@ t.test(Forecast$ForecastDiff, alternative=&#39;two.sided&#39;, mu=0.0, conf.leve
 <p>It can also be done by hand.</p>
 <pre class="r"><code>mean(Forecast$ForecastDiff, na.rm=TRUE)+qt(c(0.025,0.975), df=51)*sd(Forecast$ForecastDiff, na.rm=TRUE)/sqrt(52)</code></pre>
 <pre><code>## [1] 316072.2 371696.7</code></pre>
+<p>The average difference in profits per week, with 95% confidence, ranges from 316072.2 to 371696.7 dollars per week.</p>
 <ol start="5" style="list-style-type: decimal">
 <li>Is either of the two locations forecast to have higher profits with at least 95% confidence? Which one? What is the probability of no difference?</li>
 </ol>
@@ -625,6 +629,7 @@ t.test(Forecast$ForecastDiff, alternative=&#39;two.sided&#39;, mu=0.0, conf.leve
 ##   HenryHub 0.8148148 0.1851852
 ##   Tianjin  0.4843750 0.5156250</code></pre>
 <pre class="r"><code>T1 &lt;- table(Experts$Location,Experts$Build)</code></pre>
+<p>81 percent favor Henry Hub; under 50% favor Tianjin.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>The true proportion of analysts believing that the facility should be built in Henry Hub, Louisiana is 0.5 with 95% confidence. True or False, when compared to the alternative that it is less than 0.5.</li>
 </ol>
@@ -640,7 +645,7 @@ t.test(Forecast$ForecastDiff, alternative=&#39;two.sided&#39;, mu=0.0, conf.leve
 ## sample estimates:
 ## probability of success 
 ##              0.8148148</code></pre>
-<p><em>It clearly is not less than 0.5; it is much higher.</em></p>
+<p><em>It clearly is not less than 0.5; it is much higher.</em> Compared to the less alternative, it must be false.</p>
 <p>We could also ask for the exact 95% lower bound given the data. That would be:</p>
 <pre class="r"><code>binom.test(66, 66+15, alternative=&quot;greater&quot;)</code></pre>
 <pre><code>## 
