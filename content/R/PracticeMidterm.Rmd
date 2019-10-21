@@ -23,7 +23,15 @@ plnorm(1)
 qlnorm(0.95)
 ```
 
-3.	Find the plus/minus z such that the area in red is exactly equal to 0.6827 as shown below.  *There is $1-0.6827=0.3173$ outside of the noted  interval which corresponds to $\frac{0.3173}{2}$ in each tail.*
+3. Plot a random sample of 1000 random draws from the aforementioned lognormal distribution (mean 0 and std. dev. 1).
+
+```{r PlotLN,eval=TRUE,message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggthemes)
+data.frame(LogN = rlnorm(1000, 0, 1)) %>% ggplot(., aes(x=LogN)) + geom_density(colour = "magenta") + theme_economist_white() + labs(title="1000 draws from a lognormal")
+```
+
+4.	Find the plus/minus z such that the area in red is exactly equal to 0.6827 as shown below.  *There is $1-0.6827=0.3173$ outside of the noted  interval which corresponds to $\frac{0.3173}{2}$ in each tail.*
 
 ```{r shno1,eval=TRUE,echo=FALSE,message=FALSE}
 Forecast <- structure(list(Period = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
@@ -238,6 +246,13 @@ A combined boxplot tells the story fairly clearly.  Once the data are stacked, p
 boxplot(Price~Location, data=Newspapers)
 ```
 
+or in ggplot.
+
+```{r}
+ggplot(Newspapers, aes(x=Location, y=Price, color=Location)) + geom_violin()
+```
+
+
 2.	Provide an appropriate numerical summary of each set of data given your plots.  *Summarising symmetric data with means and standard deviations is appropriate.  Tianjin will require a five number summary.*
 
 ```{r, message=FALSE}
@@ -318,6 +333,20 @@ This hides the pattern in the data.  Better shown like this:
 plot(Forecast$Period, Forecast$HenryHubForecast, type="l")
 lines(Forecast$Period, Forecast$TianjinForecast, col="red")
 ```
+
+It's nicer as a ggplot.
+
+```{r}
+options(scipen=7)
+Forecast %>% ggplot(., aes(x=Period, y=Forecast, color=Location)) + geom_point(size=2) + geom_line(alpha=0.1) + labs(title="Forecasted profits over a 52 week period") + theme_economist_white()
+```
+
+One clear point of this is that Henry Hub is *always* better.
+
+```{r}
+table(Forecast$TianjinForecast < Forecast$HenryHubForecast)
+```
+
 
 2. Provide an appropriate 95% confidence interval for average profits per week over the 52 week period in Tianjin, China.
 
@@ -414,11 +443,18 @@ qnorm(0.025)^2*0.5^2/0.15^2
 5.	The survey was, in both cases, sent to samples of size 100. As is clear, not everyone that was sent the survey actually responded. Assume that responding to the survey or not is a binomial random variable with a constant probability of responding equal to 0.73. Assuming this to be true, what is the probability of having received the number of completed responses for Tianjin or fewer? What is the probability of having received the number of completed responses (or greater) for Henry Hub? What might these two bits of information, taken together, mean about the likelihood of a constant probability of response?
 
 ```{r}
+1-pbinom(80, 100, 0.73)
+pbinom(64, 100, 0.73)
+```
+
+Neither is very likely to have occurred with the constant probability of 0.73.  There is a reason for that; the exact binomial interval rejects 0.73 in both cases given an appropriate view of only one tail.
+
+```{r}
 binom.test(81,100, alt="greater")
 binom.test(64,100, alt="less")
 ```
 
-The probability of responding for Henry Hub is at least 0.734 with 95% confidence; the probability of responding for Tianjib is at most 0.72 with 95% confidence.
+The probability of responding for Henry Hub is at least 0.734 with 95% confidence; the probability of responding for Tianjib is at most 0.72 with 95% confidence.  It is not constant and it seems that analysts were less likely to respond to the less favored location.
 
 
 ## Weather Concerns

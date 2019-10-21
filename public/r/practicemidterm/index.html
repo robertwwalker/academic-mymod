@@ -376,6 +376,13 @@
 <pre class="r"><code>qlnorm(0.95)</code></pre>
 <pre><code>## [1] 5.180252</code></pre>
 <ol start="3" style="list-style-type: decimal">
+<li>Plot a random sample of 1000 random draws from the aforementioned lognormal distribution (mean 0 and std. dev. 1).</li>
+</ol>
+<pre class="r"><code>library(tidyverse)
+library(ggthemes)
+data.frame(LogN = rlnorm(1000, 0, 1)) %&gt;% ggplot(., aes(x=LogN)) + geom_density(colour = &quot;magenta&quot;) + theme_economist_white() + labs(title=&quot;1000 draws from a lognormal&quot;)</code></pre>
+<p><img src="/R/PracticeMidterm_files/figure-html/PlotLN-1.png" width="672" /></p>
+<ol start="4" style="list-style-type: decimal">
 <li>Find the plus/minus z such that the area in red is exactly equal to 0.6827 as shown below. <em>There is <span class="math inline">\(1-0.6827=0.3173\)</span> outside of the noted interval which corresponds to <span class="math inline">\(\frac{0.3173}{2}\)</span> in each tail.</em></li>
 </ol>
 <p><img src="/R/PracticeMidterm_files/figure-html/shno1-1.png" width="672" /></p>
@@ -393,6 +400,9 @@
 <p>A combined boxplot tells the story fairly clearly. Once the data are stacked, plotting by groups becomes an option. Here, it is clear tht Henry Hub is symmetric while Tianjin is not.</p>
 <pre class="r"><code>boxplot(Price~Location, data=Newspapers)</code></pre>
 <p><img src="/R/PracticeMidterm_files/figure-html/BP-1.png" width="672" /></p>
+<p>or in ggplot.</p>
+<pre class="r"><code>ggplot(Newspapers, aes(x=Location, y=Price, color=Location)) + geom_violin()</code></pre>
+<p><img src="/R/PracticeMidterm_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <ol start="2" style="list-style-type: decimal">
 <li>Provide an appropriate numerical summary of each set of data given your plots. <em>Summarising symmetric data with means and standard deviations is appropriate. Tianjin will require a five number summary.</em></li>
 </ol>
@@ -510,11 +520,20 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
 <pre class="r"><code>sd(Forecast$HenryHubForecast, na.rm=TRUE)</code></pre>
 <pre><code>## [1] 1590365</code></pre>
 <pre class="r"><code>boxplot(Forecast~Location, data=Forecast)</code></pre>
-<p><img src="/R/PracticeMidterm_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/R/PracticeMidterm_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>This hides the pattern in the data. Better shown like this:</p>
 <pre class="r"><code>plot(Forecast$Period, Forecast$HenryHubForecast, type=&quot;l&quot;)
 lines(Forecast$Period, Forecast$TianjinForecast, col=&quot;red&quot;)</code></pre>
-<p><img src="/R/PracticeMidterm_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/R/PracticeMidterm_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>It’s nicer as a ggplot.</p>
+<pre class="r"><code>options(scipen=7)
+Forecast %&gt;% ggplot(., aes(x=Period, y=Forecast, color=Location)) + geom_point(size=2) + geom_line(alpha=0.1) + labs(title=&quot;Forecasted profits over a 52 week period&quot;) + theme_economist_white()</code></pre>
+<p><img src="/R/PracticeMidterm_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>One clear point of this is that Henry Hub is <em>always</em> better.</p>
+<pre class="r"><code>table(Forecast$TianjinForecast &lt; Forecast$HenryHubForecast)</code></pre>
+<pre><code>## 
+## TRUE 
+##   52</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Provide an appropriate 95% confidence interval for average profits per week over the 52 week period in Tianjin, China.</li>
 </ol>
@@ -629,7 +648,7 @@ t.test(Forecast$ForecastDiff, alternative=&#39;two.sided&#39;, mu=0.0, conf.leve
 ## 
 ## data:  66 and 66 + 15
 ## number of successes = 66, number of trials = 81, p-value =
-## 4.313e-09
+## 0.000000004313
 ## alternative hypothesis: true probability of success is greater than 0.5
 ## 95 percent confidence interval:
 ##  0.7292665 1.0000000
@@ -646,7 +665,7 @@ t.test(Forecast$ForecastDiff, alternative=&#39;two.sided&#39;, mu=0.0, conf.leve
 ##  correction
 ## 
 ## data:  T1
-## X-squared = 17.628, df = 1, p-value = 2.686e-05
+## X-squared = 17.628, df = 1, p-value = 0.00002686
 ## alternative hypothesis: two.sided
 ## 95 percent confidence interval:
 ##  0.1816207 0.4792590
@@ -663,13 +682,18 @@ t.test(Forecast$ForecastDiff, alternative=&#39;two.sided&#39;, mu=0.0, conf.leve
 <ol start="5" style="list-style-type: decimal">
 <li>The survey was, in both cases, sent to samples of size 100. As is clear, not everyone that was sent the survey actually responded. Assume that responding to the survey or not is a binomial random variable with a constant probability of responding equal to 0.73. Assuming this to be true, what is the probability of having received the number of completed responses for Tianjin or fewer? What is the probability of having received the number of completed responses (or greater) for Henry Hub? What might these two bits of information, taken together, mean about the likelihood of a constant probability of response?</li>
 </ol>
+<pre class="r"><code>1-pbinom(80, 100, 0.73)</code></pre>
+<pre><code>## [1] 0.04199353</code></pre>
+<pre class="r"><code>pbinom(64, 100, 0.73)</code></pre>
+<pre><code>## [1] 0.03031104</code></pre>
+<p>Neither is very likely to have occurred with the constant probability of 0.73. There is a reason for that; the exact binomial interval rejects 0.73 in both cases given an appropriate view of only one tail.</p>
 <pre class="r"><code>binom.test(81,100, alt=&quot;greater&quot;)</code></pre>
 <pre><code>## 
 ##  Exact binomial test
 ## 
 ## data:  81 and 100
 ## number of successes = 81, number of trials = 100, p-value =
-## 1.351e-10
+## 0.0000000001351
 ## alternative hypothesis: true probability of success is greater than 0.5
 ## 95 percent confidence interval:
 ##  0.7337953 1.0000000
@@ -688,7 +712,7 @@ t.test(Forecast$ForecastDiff, alternative=&#39;two.sided&#39;, mu=0.0, conf.leve
 ## sample estimates:
 ## probability of success 
 ##                   0.64</code></pre>
-<p>The probability of responding for Henry Hub is at least 0.734 with 95% confidence; the probability of responding for Tianjib is at most 0.72 with 95% confidence.</p>
+<p>The probability of responding for Henry Hub is at least 0.734 with 95% confidence; the probability of responding for Tianjib is at most 0.72 with 95% confidence. It is not constant and it seems that analysts were less likely to respond to the less favored location.</p>
 </div>
 <div id="weather-concerns" class="section level2">
 <h2>Weather Concerns</h2>
