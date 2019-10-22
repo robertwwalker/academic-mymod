@@ -421,6 +421,7 @@ Newspapers %&gt;% group_by(Location) %&gt;% skim(Price)</code></pre>
 ##      hist
 ##  ▃▃▇▅▆▇▁▃
 ##  ▂▂▁▁▁▆▃▇</code></pre>
+<p>The mean of prices at Henry Hub is 3 dollars 80 cents with a standard deviation of 14 cents. Henry Hub is reasonably symmetric; the z-scores are evenly split between plus and minus. Tianjin is not symmetric. Thus, an appropriate summary is that Tianjin prices range from 3.88 to 4.05 dollars with a media of 4, a first quartile of 3.98 and a third quartile of 4.04.</p>
 <ol start="3" style="list-style-type: decimal">
 <li>What is the sample mean and sample standard deviation of natural gas prices in Tianjin?</li>
 </ol>
@@ -432,6 +433,7 @@ mean(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
 sd(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
 <pre><code>## [1] 0.05066886</code></pre>
 <pre class="r"><code>sdTJ &lt;- sd(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
+<p>The sample mean of natural gas prices in Tianjin is 3.99 dollars and the standard deviation is 0.05 dollars [5.1 cents].</p>
 <ol start="4" style="list-style-type: decimal">
 <li>What is a 95% (central) confidence interval for the average price in Tianjin given this precise sample? Provide both boundaries.</li>
 </ol>
@@ -447,6 +449,7 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
 ## sample estimates:
 ## mean of x 
 ##    3.9944</code></pre>
+<p>The average price of natural gas at Tianjin ranges from 3.97 to 4.015 dollars with 95% confidence.</p>
 <ol start="5" style="list-style-type: decimal">
 <li>Assume that the underlying population is normal with the population mean and population standard deviation exactly equal to the sample mean and standard deviation that you have estimated from the sample from Tianjin. What is the probability of a daily price of $4.00 or higher at Tianjin?</li>
 </ol>
@@ -454,7 +457,7 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
 <pre><code>## [1] 0.4554117</code></pre>
 <pre class="r"><code>pnorm(4, mean=meanTJ, sd=sdTJ, lower.tail=FALSE)</code></pre>
 <pre><code>## [1] 0.4559979</code></pre>
-<p>The probability of $4.00 or higher is 0.455.</p>
+<p>The probability of $4.00 or higher is 0.455, given the normal assumption.</p>
 <ol start="6" style="list-style-type: decimal">
 <li>Is a mean price of $4.00 or lower given the Henry Hub data possible with 95% confidence?</li>
 </ol>
@@ -629,7 +632,7 @@ t.test(Forecast$ForecastDiff, alternative=&#39;two.sided&#39;, mu=0.0, conf.leve
 ##   HenryHub 0.8148148 0.1851852
 ##   Tianjin  0.4843750 0.5156250</code></pre>
 <pre class="r"><code>T1 &lt;- table(Experts$Location,Experts$Build)</code></pre>
-<p>81 percent favor Henry Hub; under 50% favor Tianjin.</p>
+<p>81 percent favor Henry Hub [66 of 81]; under 50% favor Tianjin [31 of 64].</p>
 <ol start="2" style="list-style-type: decimal">
 <li>The true proportion of analysts believing that the facility should be built in Henry Hub, Louisiana is 0.5 with 95% confidence. True or False, when compared to the alternative that it is less than 0.5.</li>
 </ol>

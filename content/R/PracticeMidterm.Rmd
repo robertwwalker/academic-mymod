@@ -261,6 +261,8 @@ library(skimr)
 Newspapers %>% group_by(Location) %>% skim(Price)
 ```
 
+The mean of prices at Henry Hub is 3 dollars 80 cents with a standard deviation of 14 cents.  Henry Hub is reasonably symmetric; the z-scores are evenly split between plus and minus.  Tianjin is not symmetric.  Thus, an appropriate summary is that Tianjin prices range from 3.88 to 4.05 dollars with a media of 4, a first quartile of 3.98 and a third quartile of 4.04.
+
 3.	What is the sample mean and sample standard deviation of natural gas prices in Tianjin?
 
 ```{r}
@@ -272,12 +274,16 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)
 sdTJ <- sd(Newspapers$TianjinPrice, na.rm=TRUE)
 ```
 
+The sample mean of natural gas prices in Tianjin is 3.99 dollars and the standard deviation is 0.05 dollars [5.1 cents].
+
 
 4.	What is a 95% (central) confidence interval for the average price in Tianjin given this precise sample? Provide both boundaries.
 
 ```{r}
 t.test(Newspapers$TianjinPrice, alternative='two.sided', mu=0.0, conf.level=.95)
 ```
+
+The average price of natural gas at Tianjin ranges from 3.97 to 4.015 dollars with 95% confidence.
 
 5.	Assume that the underlying population is normal with the population mean and population standard deviation exactly equal to the sample mean and standard deviation that you have estimated from the sample from Tianjin. What is the probability of a daily price of $4.00 or higher at Tianjin?
 
@@ -286,7 +292,7 @@ pnorm(4, mean=3.9944, sd=0.05, lower.tail=FALSE)
 pnorm(4, mean=meanTJ, sd=sdTJ, lower.tail=FALSE)
 ```
 
-The probability of $4.00 or higher is 0.455.
+The probability of $4.00 or higher is 0.455, given the normal assumption.
 
 6.	Is a mean price of $4.00 or lower given the Henry Hub data possible with 95% confidence?
 
@@ -412,7 +418,7 @@ prop.table(table(Experts$Location,Experts$Build), 1)
 T1 <- table(Experts$Location,Experts$Build)
 ```
 
-81 percent favor Henry Hub; under 50% favor Tianjin.
+81 percent favor Henry Hub [66 of 81]; under 50% favor Tianjin [31 of 64].
 
 2.	The true proportion of analysts believing that the facility should be built in Henry Hub, Louisiana is 0.5 with 95% confidence. True or False, when compared to the alternative that it is less than 0.5.
 
