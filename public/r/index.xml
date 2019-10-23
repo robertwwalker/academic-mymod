@@ -41,6 +41,17 @@ plot(cars) An Hypothesis Test I will work with the speed variable. The hypothesi
     </item>
     
     <item>
+      <title>Working an Example on Proportions</title>
+      <link>/r/workedproportion/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/r/workedproportion/</guid>
+      <description>A Proportions Example We started with an equation:
+\[ z = \frac{\hat{\pi} - \pi}{\sqrt{\frac{\pi(1-\pi)}{n}}} \]
+In language, the difference between the sample proportion (recall that with only two outcomes the sample proportion \(\hat{\pi}\) is between 0 [all No’s] and 1 [all Yes’s]) and the true probability \(\pi\) divided by the standard error of the proportion \(\sqrt{\frac{\pi(1-\pi)}{n}}\) has a \(z\) [Normal(0,1)] distribution under the condition that \(n\pi &amp;gt; 10\) and \(n(1-\pi) &amp;gt; 10\).</description>
+    </item>
+    
+    <item>
       <title>Practice Midterm - 2019</title>
       <link>/r/practicemidterm/</link>
       <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
