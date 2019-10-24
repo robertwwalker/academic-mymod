@@ -60,7 +60,9 @@ Here's a link to the [curated twitter thread](https://threadreaderapp.com/thread
 
 [Queueing for the Tubes](https://twitter.com/PieRatio/status/1162769309736869890?s=20)
 
+![Human Mass](https://rww.science/img/tweets/Street.jpg)
+
 [My Signed Momento](https://twitter.com/PieRatio/status/1163589076785618945?s=20)
 
-![Ticket](https://rww.science/img/Proof.jpg)
+![Ticket](https://rww.science/img/tweets/Proof.jpg)
 
