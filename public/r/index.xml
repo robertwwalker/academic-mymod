@@ -13,6 +13,17 @@
     
     
     <item>
+      <title>Working an Example on Proportions</title>
+      <link>/r/workedproportion/</link>
+      <pubDate>Sun, 20 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/r/workedproportion/</guid>
+      <description>A Proportions Example We started with an equation:
+\[ z = \frac{\hat{\pi} - \pi}{\sqrt{\frac{\pi(1-\pi)}{n}}} \]
+In language, the difference between the sample proportion (recall that with only two outcomes the sample proportion \(\hat{\pi}\) is between 0 [all No’s] and 1 [all Yes’s]) and the true probability \(\pi\) divided by the standard error of the proportion \(\sqrt{\frac{\pi(1-\pi)}{n}}\) has a \(z\) [Normal(0,1)] distribution under the condition that \(n\pi &amp;gt; 10\) and \(n(1-\pi) &amp;gt; 10\).</description>
+    </item>
+    
+    <item>
       <title>The Duality of Hypothesis Tests and Confidence Intervals</title>
       <link>/r/hypothesis-test-ci/</link>
       <pubDate>Wed, 16 Oct 2019 00:00:00 +0000</pubDate>
@@ -38,17 +49,6 @@ plot(cars) An Hypothesis Test I will work with the speed variable. The hypothesi
       
       <guid>/r/tables-pivots-bars-and-mosaics/</guid>
       <description>R Markdown There is detailed help for all that Markdown can do under Help in the RStudio. The key to it is knitting documents with the Knit button in the RStudio. If we use helpers like the R Commander, Radiant, or esquisse, we will need the R code implanted in the Markdown document in particular ways. I will use Markdown for everything. I even use a close relation of Markdown in my scholarly pursuits.</description>
-    </item>
-    
-    <item>
-      <title>Working an Example on Proportions</title>
-      <link>/r/workedproportion/</link>
-      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/r/workedproportion/</guid>
-      <description>A Proportions Example We started with an equation:
-\[ z = \frac{\hat{\pi} - \pi}{\sqrt{\frac{\pi(1-\pi)}{n}}} \]
-In language, the difference between the sample proportion (recall that with only two outcomes the sample proportion \(\hat{\pi}\) is between 0 [all No’s] and 1 [all Yes’s]) and the true probability \(\pi\) divided by the standard error of the proportion \(\sqrt{\frac{\pi(1-\pi)}{n}}\) has a \(z\) [Normal(0,1)] distribution under the condition that \(n\pi &amp;gt; 10\) and \(n(1-\pi) &amp;gt; 10\).</description>
     </item>
     
     <item>

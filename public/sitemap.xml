@@ -40,6 +40,15 @@
     
     <url>
     
+      <loc>/r/workedproportion/</loc>
+      <lastmod>2019-10-20T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/r/hypothesis-test-ci/</loc>
       <lastmod>2019-10-16T00:00:00+00:00</lastmod>
     </url>
@@ -166,7 +175,7 @@
     
     <url>
     
-      <loc>/categories/maps/</loc>
+      <loc>/tags/maps/</loc>
       <lastmod>2019-10-09T00:00:00+00:00</lastmod>
     </url>
     
@@ -175,7 +184,7 @@
     
     <url>
     
-      <loc>/tags/maps/</loc>
+      <loc>/categories/maps/</loc>
       <lastmod>2019-10-09T00:00:00+00:00</lastmod>
     </url>
     
@@ -256,15 +265,6 @@
     
     <url>
     
-      <loc>/r/workedproportion/</loc>
-      <lastmod>2019-10-09T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/r/</loc>
       <lastmod>2019-10-01T00:00:00-07:00</lastmod>
     </url>
@@ -292,7 +292,7 @@
     
     <url>
     
-      <loc>/categories/tidytext/</loc>
+      <loc>/tags/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -301,7 +301,7 @@
     
     <url>
     
-      <loc>/tags/tidytext/</loc>
+      <loc>/categories/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
