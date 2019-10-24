@@ -124,8 +124,11 @@ How likely I am to see something that is 0.2 standard errors [or more] above and
 par(mfrow=c(1,2))
 plot(x=seq(-4,4, by=0.01), y=dnorm(seq(-4,4, by=0.01)), type="l", xlab="z", main="Standard Normal Density", ylab="f(z)")
 abline(v=c(-0.2,0.2), col="red")
+polygon(x=c(-4,seq(-4,-0.2, by=0.01)), y=c(dnorm(seq(-4,-0.2, by=0.01)), 0), col="green")
+polygon(x=c(seq(0.2, 4, by=0.01), 4), y=c(0,dnorm(seq(0.2,4, by=0.01))), col="green")
 plot(x=seq(-4,4, by=0.01), y=pnorm(seq(-4,4, by=0.01)), type="l", xlab="z", main="Cumulative Standard Normal", ylab="Pr(Z < z)")
 abline(v=c(-0.2,0.2), col="red")
+abline(h=c(pnorm(c(-0.2,0.2))), col="green")
 ```
 
 That's the area below -0.2 and above 0.2, or 
@@ -135,21 +138,23 @@ pnorm(-0.2)+1-pnorm(0.2)
 prop.test(51,100, correct=FALSE)
 ```
 
-0.51 is too close to 0.5 with this size of sample to conclude that the *true* probability isn't 0.5.  
+0.51 is too close to 0.5 with this size of sample to conclude that the *true* probability isn't 0.5.  Note the use of `correct=FALSE`.  The binomial is discrete and we are approximating it with a normal, there is a famous correction to better approximate continuity that is the default in *R*.  The statistic that *R* reports is $\chi^2$ -- a squared normal or the square of our $z$.
 
 # Directional Claims
 
-Now we only place the $z$ we obtained on the graph.
+Now we only place the $z$ we obtained on the graph.  Let's look at the two directions we could examine.  Is the *true* probability 0.5 or greater, compared to less?  If it is less, we would expect the sample data to be below the claim.  Here, it is not, but the p-value will simply measure all of the probability up to the $z$ we obtained: 0.2.
 
 ```{r}
 par(mfrow=c(1,2))
 plot(x=seq(-4,4, by=0.01), y=dnorm(seq(-4,4, by=0.01)), type="l", xlab="z", main="Standard Normal Density", ylab="f(z)")
 abline(v=c(0.2), col="red")
+polygon(x=c(-4,seq(-4,0.2, by=0.01)), y=c(dnorm(seq(-4,0.2, by=0.01)), 0), col="purple")
 plot(x=seq(-4,4, by=0.01), y=pnorm(seq(-4,4, by=0.01)), type="l", xlab="z", main="Cumulative Standard Normal", ylab="Pr(Z < z)")
 abline(v=c(0.2), col="red")
+abline(h=pnorm(0.2), col="purple")
 ```
 
-Now let's look at the two directions we could examine.  Is the *true* probability 0.5 or greater, compared to less?  If it is less, we would expect the sample data to be below the claim.  Here, it is not, but the p-value will simply measure all of the probability up to the $z$ we obtained: 0.2.
+That's quite likely.
 
 ```{r}
 pnorm(0.2)
@@ -157,6 +162,17 @@ prop.test(51,100, correct=FALSE, alternative = "less")
 ```
 
 Were we to instead evaluate the claim that it is 0.5 against the alternative that it is greater, we want the upper tail probability of 0.2.
+
+```{r}
+par(mfrow=c(1,2))
+plot(x=seq(-4,4, by=0.01), y=dnorm(seq(-4,4, by=0.01)), type="l", xlab="z", main="Standard Normal Density", ylab="f(z)")
+abline(v=c(0.2), col="red")
+polygon(x=c(seq(0.2, 4, by=0.01), 4), y=c(0,dnorm(seq(0.2,4, by=0.01))), col="magenta")
+plot(x=seq(-4,4, by=0.01), y=pnorm(seq(-4,4, by=0.01)), type="l", xlab="z", main="Cumulative Standard Normal", ylab="Pr(Z < z)")
+abline(v=c(0.2), col="red")
+abline(h=pnorm(0.2), col="magenta")
+```
+
 
 ```{r}
 1-pnorm(0.2)
