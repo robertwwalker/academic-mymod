@@ -4,8 +4,35 @@
     
     <url>
     
+      <loc>/tags/essex/</loc>
+      <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/</loc>
-      <lastmod>2019-10-16T00:00:00+00:00</lastmod>
+      <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/</loc>
+      <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tribute-to-griffin-park/</loc>
+      <lastmod>2019-10-23T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -104,15 +131,6 @@
     <url>
     
       <loc>/categories/simulation/</loc>
-      <lastmod>2019-10-10T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
     
@@ -274,7 +292,7 @@
     
     <url>
     
-      <loc>/tags/tidytext/</loc>
+      <loc>/categories/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -283,7 +301,7 @@
     
     <url>
     
-      <loc>/categories/tidytext/</loc>
+      <loc>/tags/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -481,7 +499,7 @@
     
     <url>
     
-      <loc>/tags/python/</loc>
+      <loc>/categories/python/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     
@@ -490,7 +508,7 @@
     
     <url>
     
-      <loc>/categories/python/</loc>
+      <loc>/tags/python/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     
@@ -555,15 +573,6 @@
     
       <loc>/post/mapping-with-the-government-finance-database/</loc>
       <lastmod>2018-02-25T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/essex/</loc>
-      <lastmod>2018-02-24T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -834,6 +843,15 @@
     
       <loc>/publication/long-memory-es/</loc>
       <lastmod>1999-12-02T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/2019-10-23-tribute-to-griffin-park/</loc>
+      <priority>0</priority>
     </url>
     
   
