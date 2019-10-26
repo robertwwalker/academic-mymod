@@ -4,8 +4,35 @@
     
     <url>
     
-      <loc>/tags/essex/</loc>
-      <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+      <loc>/r/a-quick-and-dirty-introduction-to-r/</loc>
+      <lastmod>2019-10-25T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/</loc>
+      <lastmod>2019-10-25T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/gsm-data/</loc>
+      <lastmod>2019-10-25T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/r/</loc>
+      <lastmod>2019-10-25T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -14,7 +41,7 @@
     <url>
     
       <loc>/</loc>
-      <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+      <lastmod>2019-10-25T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -23,6 +50,24 @@
     <url>
     
       <loc>/tags/</loc>
+      <lastmod>2019-10-25T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/tidyverse/</loc>
+      <lastmod>2019-10-25T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/essex/</loc>
       <lastmod>2019-10-23T00:00:00+00:00</lastmod>
     </url>
     
@@ -68,15 +113,6 @@
     <url>
     
       <loc>/tags/art/</loc>
-      <lastmod>2019-10-10T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/categories/</loc>
       <lastmod>2019-10-10T00:00:00+00:00</lastmod>
     </url>
     
@@ -157,25 +193,7 @@
     
     <url>
     
-      <loc>/categories/tidyverse/</loc>
-      <lastmod>2019-10-10T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/r/alluvials/</loc>
-      <lastmod>2019-10-09T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/categories/maps/</loc>
       <lastmod>2019-10-09T00:00:00+00:00</lastmod>
     </url>
     
@@ -193,7 +211,7 @@
     
     <url>
     
-      <loc>/categories/r/</loc>
+      <loc>/categories/maps/</loc>
       <lastmod>2019-10-09T00:00:00+00:00</lastmod>
     </url>
     
@@ -292,7 +310,7 @@
     
     <url>
     
-      <loc>/categories/tidytext/</loc>
+      <loc>/tags/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -301,7 +319,7 @@
     
     <url>
     
-      <loc>/tags/tidytext/</loc>
+      <loc>/categories/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -517,7 +535,7 @@
     
     <url>
     
-      <loc>/categories/reticulate/</loc>
+      <loc>/tags/reticulate/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     
@@ -526,7 +544,7 @@
     
     <url>
     
-      <loc>/tags/reticulate/</loc>
+      <loc>/categories/reticulate/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     

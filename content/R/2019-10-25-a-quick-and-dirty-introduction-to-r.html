@@ -1,0 +1,81 @@
+---
+title: A Quick and Dirty Introduction to R
+author: RWW
+date: '2019-10-25'
+slug: a-quick-and-dirty-introduction-to-r
+categories:
+  - R
+  - tidyverse
+tags:
+  - GSM Data
+header:
+  caption: ''
+  image: ''
+---
+
+
+
+<div id="some-data" class="section level1">
+<h1>Some Data</h1>
+<p>I will start with some inline data.</p>
+<pre class="r"><code>library(tidyverse); library(skimr);
+Support.Times &lt;- structure(list(Screened = c(26.9, 28.4, 23.9, 21.8, 22.4, 25.9, 
+26.5, 20, 23.7, 23.7, 22.6, 19.4, 27.3, 25.3, 27.7, 25.3, 28.4, 
+24.2, 20.4, 29.6, 27, 23.6, 18.3, 28.1, 20.5, 24.1, 27.2, 26.4, 
+24.5, 25.6, 17.9, 23.5, 25.3, 20.2, 26.3, 27.9), Not.Screened = c(24.7, 
+19.1, 21, 17.8, 22.8, 24.4, 17.9, 20.5, 20, 26.2, 14.5, 22.4, 
+21.1, 24.3, 22, 24.3, 23.9, 19.6, 23.8, 29.2, 19.7, 20.9, 25.2, 
+22.5, 23.1, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)), class = &quot;data.frame&quot;, row.names = c(NA, -36L))</code></pre>
+<p>Now I will use the tidyverse to stack it. This can also be done with <code>stack(Support.Times)</code>.</p>
+<pre><code>stack(Support.Times) %&gt;% drop_na()</code></pre>
+<p>Using the <code>tidyverse</code>, the new data <code>SSTimes</code> will stack the data using pivot longer into two variables that I will name <code>Self.Screen</code> and <code>Call.Time</code> to store the stacked data. The final command drops the missing data. Then I will group them and skim them.</p>
+<pre class="r"><code>SSTimes &lt;- Support.Times %&gt;% pivot_longer(., c(Screened,Not.Screened), names_to = &quot;Self.Screen&quot;, values_to = &quot;Call.Time&quot;) %&gt;% drop_na()
+SSTimes %&gt;% group_by(Self.Screen) %&gt;% skim()</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 61 
+##  n variables: 2 
+##  group variables: Self.Screen 
+## 
+## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────
+##   Self.Screen  variable missing complete  n  mean   sd   p0   p25  p50
+##  Not.Screened Call.Time       0       25 25 22.04 3.11 14.5 20    22.4
+##      Screened Call.Time       0       36 36 24.44 3.08 17.9 22.55 24.9
+##    p75 p100     hist
+##  24.3  29.2 ▁▂▅▅▆▇▁▁
+##  26.92 29.6 ▂▅▁▆▃▇▇▃</code></pre>
+<p>So I have 25 observations that are not screened and 36 that are screened. What does it look like?</p>
+<pre class="r"><code>ggplot(SSTimes, aes(x=Self.Screen, y=Call.Time, fill=Self.Screen)) + geom_violin(alpha = 0.2) + scale_fill_discrete(guide=FALSE) + labs(title = &quot;Self Screen and Non-Self Screen Call Times&quot;)</code></pre>
+<p><img src="/R/2019-10-25-a-quick-and-dirty-introduction-to-r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Here is a picture of the distributions of the two means.</p>
+<pre class="r"><code>gplots::plotmeans(Call.Time~Self.Screen, data=SSTimes, n.label=FALSE, ci.label=TRUE, ylim=c(20,27))</code></pre>
+<p><img src="/R/2019-10-25-a-quick-and-dirty-introduction-to-r_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>What does the t-test look like?</p>
+<pre class="r"><code>t.test(Support.Times$Not.Screened, Support.Times$Screened)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  Support.Times$Not.Screened and Support.Times$Screened
+## t = -2.9793, df = 51.512, p-value = 0.004399
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -4.0216630 -0.7841148
+## sample estimates:
+## mean of x mean of y 
+##  22.03600  24.43889</code></pre>
+<pre class="r"><code>t.test(Call.Time~Self.Screen, data=SSTimes)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  Call.Time by Self.Screen
+## t = -2.9793, df = 51.512, p-value = 0.004399
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -4.0216630 -0.7841148
+## sample estimates:
+## mean in group Not.Screened     mean in group Screened 
+##                   22.03600                   24.43889</code></pre>
+<p>It is worth noting that R stores a bunch of stuff. For example, it stores the standard error of the difference and that is worth looking at in this case; the standard error that describes the difference in the averages is 0.8065242.</p>
+<pre class="r"><code>Resample.Times &lt;- ResampleProps::ResampleDiffMeans(Support.Times$Screened,Support.Times$Not.Screened)
+sd(Resample.Times)</code></pre>
+<pre><code>## [1] 0.7758375</code></pre>
+</div>

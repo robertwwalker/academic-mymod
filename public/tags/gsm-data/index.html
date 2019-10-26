@@ -18,7 +18,7 @@
   <meta name="description" content="Associate Professor of Quantitative Methods">
 
   
-  <link rel="alternate" hreflang="en-us" href="/categories/tidyverse/">
+  <link rel="alternate" hreflang="en-us" href="/tags/gsm-data/">
 
   
 
@@ -58,15 +58,15 @@
   
 
   
-  <link rel="alternate" href="/categories/tidyverse/index.xml" type="application/rss+xml" title="Robert W. Walker">
-  <link rel="feed" href="/categories/tidyverse/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="alternate" href="/tags/gsm-data/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="feed" href="/tags/gsm-data/index.xml" type="application/rss+xml" title="Robert W. Walker">
   
 
   <link rel="manifest" href="/site.webmanifest">
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/categories/tidyverse/">
+  <link rel="canonical" href="/tags/gsm-data/">
 
   <meta property="twitter:card" content="summary_large_image">
   
@@ -74,8 +74,8 @@
   <meta property="twitter:creator" content="@PieRatio">
   
   <meta property="og:site_name" content="Robert W. Walker">
-  <meta property="og:url" content="/categories/tidyverse/">
-  <meta property="og:title" content="tidyverse | Robert W. Walker">
+  <meta property="og:url" content="/tags/gsm-data/">
+  <meta property="og:title" content="GSM Data | Robert W. Walker">
   <meta property="og:description" content="Associate Professor of Quantitative Methods">
   <meta property="og:locale" content="en-us">
   
@@ -84,7 +84,7 @@
 
   
 
-  <title>tidyverse | Robert W. Walker</title>
+  <title>GSM Data | Robert W. Walker</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
@@ -278,83 +278,24 @@
 
 <div class="universal-wrapper">
 
-  <h1>tidyverse</h1>
+  <h1>GSM Data</h1>
 
   
 
   
   
   <div>
-    <h2><a href="/post/stocks-and-gganimate/">Stocks and gganimate</a></h2>
+    <h2><a href="/r/a-quick-and-dirty-introduction-to-r/">A Quick and Dirty Introduction to R</a></h2>
     <div class="article-style">
       
-      tidyquant Automates a lot of equity research and calculation using tidy concepts. Here, I will first use it to get the components of the S and P 500 and pick out those with weights over 1.25 percent. In the next step, I download the data and finally calculate daily returns and a cumulative wealth index.
-library(tidyquant) library(tidyverse) tq_index(&quot;SP500&quot;) %&gt;% filter(weight &gt; 0.0125) %&gt;% select(symbol,company) -&gt; Tickers Tickers &lt;- Tickers %&gt;% filter(symbol!
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/trump-tweet-word-clouds/">Trump Tweet Word Clouds</a></h2>
-    <div class="article-style">
-      
-      Mining Twitter Data Is rather easy. You have to arrange a developer account with Twitter and set up an app. After that, Twitter gives you access to a consumer key and secret and an access token and access secret. My tool of choice for this is rtweet because it automagically processes tweet elements and makes them easy to slice and dice. I also played with twitteR but it was harder to work with for what I wanted.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/tidytuesday-coffee-chains/">tidyTuesday: coffee chains</a></h2>
-    <div class="article-style">
-      
-      The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
-First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/tidytuesday-takes-on-global-mortality/">Global mortality tidyTuesday</a></h2>
-    <div class="article-style">
-      
-      tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
-Here is this week’s tidyTuesday.
-library(skimr) library(tidyverse) library(rlang) # global_mortality &lt;- readRDS(&quot;../../data/global_mortality.rds&quot;) global_mortality &lt;- readRDS(url(&quot;<a href="https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)" target="_blank">https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)</a>) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/scraping-the-nfl-salary-cap-data-with-python-and-r/">Scraping the NFL Salary Cap Data with Python and R</a></h2>
-    <div class="article-style">
-      
-      The NFL Data [SporTrac](<a href="http://www.sportrac.com]" target="_blank">http://www.sportrac.com]</a> has a wonderful array of financial data on sports. A student going to work for the Seattle Seahawks wanted the NFL salary cap data and I also found data on the English Premier League there. Now I have a source to scrape the data from.
-With a source in hand, the key tool is the SelectorGadget. SelectorGadget is a browser add-in for Chrome that allows us to select text and identify the css or xpath selector to scrape the data.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/tidytuesday-tuition/">tidyTuesday - Tuition</a></h2>
-    <div class="article-style">
-      
-      I found a great example on tidyTuesday that I wanted to work on. @JakeKaupp tweeted his #tidyTuesday: a very cool slope plot of tuition changes averaged by state over the last decade. It is a very informative graphic. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on Jake Kaupp’s GitHub.
+      Some Data I will start with some inline data.
+library(tidyverse); library(skimr); Support.Times &lt;- structure(list(Screened = c(26.9, 28.4, 23.9, 21.8, 22.4, 25.9, 26.5, 20, 23.7, 23.7, 22.6, 19.4, 27.3, 25.3, 27.7, 25.3, 28.4, 24.2, 20.4, 29.6, 27, 23.6, 18.3, 28.1, 20.5, 24.1, 27.2, 26.4, 24.5, 25.6, 17.9, 23.5, 25.3, 20.2, 26.3, 27.9), Not.Screened = c(24.7, 19.1, 21, 17.8, 22.8, 24.4, 17.9, 20.5, 20, 26.2, 14.5, 22.4, 21.1, 24.3, 22, 24.3, 23.
       
     </div>
   </div>
   
 
   
-<nav>
-  <ul class="pager">
-    
-    <li><a href="/categories/tidyverse/">&lt;</a></li>
-    
-    
-  </ul>
-</nav>
-
 
 
 </div>
