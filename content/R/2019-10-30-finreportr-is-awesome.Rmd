@@ -81,10 +81,8 @@ JPM.BS.W <- dcast(JPM.BS, Metric + Units ~ endDate, value.var="Amount")
 Now I want to write the file to Excel and combine them. I will use `xlsx`.
 
 ```{r}
-library(xlsx) #load the package
-write.xlsx(JPM.IS.W, file = "JPM-2015.xlsx", sheetName = "IS", row.names = FALSE)
-write.xlsx(JPM.BS.W, file = "JPM-2015.xlsx", sheetName = "BS", row.names = FALSE, append=TRUE)
-write.xlsx(JPM.SCF.W, file = "JPM-2015.xlsx", sheetName = "SCF", row.names = FALSE, append=TRUE)
+library(openxlsx) #load the package
+write.xlsx(list(JPM.IS.W,JPM.BS.W,JPM.SCF.W), file = "JPM-2015.xlsx")
 ```
 
 ## The Coup de Grace for Excel Users
@@ -94,9 +92,9 @@ The last set of code can automate this. I will create a little function to do it
 ```{r}
 getSEC <- function(ticker, year) {
 options(scipen=12)
-require(finreportr)
-require(reshape2)
-require(xlsx)
+library(finreportr)
+library(reshape2)
+library(openxlsx)
 SEC.IS <- GetIncome(ticker, 2015)
 SEC.IS$Amount <- as.numeric(SEC.IS$Amount)
 SEC.BS <- GetBalanceSheet(ticker, 2015)
@@ -106,9 +104,7 @@ SEC.SCF$Amount <- as.numeric(SEC.SCF$Amount)
 SEC.IS.W <- dcast(SEC.IS, Metric + Units ~ endDate, value.var="Amount", fun.aggregate=mean)
 SEC.SCF.W <- dcast(SEC.SCF, Metric + Units ~ endDate, value.var="Amount", fun.aggregate=mean)
 SEC.BS.W <- dcast(SEC.BS, Metric + Units ~ endDate, value.var="Amount", fun.aggregate=mean)
-write.xlsx(SEC.IS.W, file = paste(ticker,"-",year,".xlsx", sep=""), sheetName = "IS", row.names = FALSE)
-write.xlsx(SEC.BS.W, file = paste(ticker,"-",year,".xlsx", sep=""), sheetName = "BS", row.names = FALSE, append=TRUE)
-write.xlsx(SEC.SCF.W, file = paste(ticker,"-",year,".xlsx", sep=""), sheetName = "SCF", row.names = FALSE, append=TRUE)
+write.xlsx(list(SEC.IS.W,SEC.BS.W,SEC.SCF.W), file = paste(ticker,"-",year,".xlsx", sep=""))
 return(list(BS=SEC.BS,IS=SEC.IS,SCF=SEC.SCF))
 }
 ```

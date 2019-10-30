@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.59.0" />
+  <meta name="author" content="Robert W. Walker">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="The Package: finreport The key tool to facilitate the financial analysis of companies that file regular SEC reports of certain forms is finreportr. To make use of it, we must first have R install it and dependencies. To install it, install.packages(&quot;finreportr&quot;, dependencies=TRUE).
+ The Commands The first command is CompanyInfo().
+library(finreportr) CompanyInfo(&quot;JPM&quot;) ## company CIK SIC state state.inc FY.end ## 1 JPMORGAN CHASE &amp; CO 0000019617 6021 NY DE 1231 ## street.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/r/finreportr-is-awesome/">
+
+  
+
+
+
+  
+  
+  <meta name="theme-color" content="">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js//styles/dracula.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/css/bootstrap.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/%!s(<nil>)/css/academicons.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/%!s(<nil>)/css/font-awesome.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/r/finreportr-is-awesome/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@PieRatio">
+  <meta property="twitter:creator" content="@PieRatio">
+  
+  <meta property="og:site_name" content="Robert W. Walker">
+  <meta property="og:url" content="/r/finreportr-is-awesome/">
+  <meta property="og:title" content="Financial Analysis of SEC Reports in R | Robert W. Walker">
+  <meta property="og:description" content="The Package: finreport The key tool to facilitate the financial analysis of companies that file regular SEC reports of certain forms is finreportr. To make use of it, we must first have R install it and dependencies. To install it, install.packages(&quot;finreportr&quot;, dependencies=TRUE).
+ The Commands The first command is CompanyInfo().
+library(finreportr) CompanyInfo(&quot;JPM&quot;) ## company CIK SIC state state.inc FY.end ## 1 JPMORGAN CHASE &amp; CO 0000019617 6021 NY DE 1231 ## street.">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2019-10-29T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2019-10-29T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>Financial Analysis of SEC Reports in R | Robert W. Walker</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/"><img src="/img/headers/wuagsm.jpg" alt="Robert W. Walker"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#publications_selected">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/img/vita.pdf">
+            
+            <span>Curriculum Vitae</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a href="/r">
+            
+            <span>R Stuff</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Financial Analysis of SEC Reports in R</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-10-29 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2019-10-29
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    4 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Financial%20Analysis%20of%20SEC%20Reports%20in%20R&amp;url=%2fr%2ffinreportr-is-awesome%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fr%2ffinreportr-is-awesome%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fr%2ffinreportr-is-awesome%2f&amp;title=Financial%20Analysis%20of%20SEC%20Reports%20in%20R"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fr%2ffinreportr-is-awesome%2f&amp;title=Financial%20Analysis%20of%20SEC%20Reports%20in%20R"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Financial%20Analysis%20of%20SEC%20Reports%20in%20R&amp;body=%2fr%2ffinreportr-is-awesome%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+
+<div id="the-package-finreport" class="section level2">
+<h2>The Package: <code>finreport</code></h2>
+<p>The key tool to facilitate the financial analysis of companies that file regular SEC reports of certain forms is <code>finreportr</code>. To make use of it, we must first have R install it and dependencies. To install it, <code>install.packages(&quot;finreportr&quot;, dependencies=TRUE)</code>.</p>
+</div>
+<div id="the-commands" class="section level2">
+<h2>The Commands</h2>
+<p>The first command is <code>CompanyInfo()</code>.</p>
+<pre class="r"><code>library(finreportr)
+CompanyInfo(&quot;JPM&quot;)</code></pre>
+<pre><code>##               company        CIK  SIC state state.inc FY.end
+## 1 JPMORGAN CHASE &amp; CO 0000019617 6021    NY        DE   1231
+##       street.address        city.state
+## 1 383 MADISON AVENUE NEW YORK NY 10017</code></pre>
+<p><code>CompanyInfo()</code> gives the basics on the company from the SEC including addresses, incorporation details, and numeric codes.</p>
+<p>The next command is <code>AnnualReports()</code>. It returns a list of the reports with the type and the accession number of the actual document.</p>
+</div>
+<div id="jp-morgan-jpm" class="section level2">
+<h2>JP Morgan [JPM]</h2>
+<pre class="r"><code>AnnualReports(&quot;JPM&quot;)</code></pre>
+<pre><code>##    filing.name filing.date         accession.no
+## 1         10-K  2019-02-26 0000019617-19-000054
+## 2         10-K  2018-02-27 0000019617-18-000057
+## 3         10-K  2017-02-28 0000019617-17-000314
+## 4         10-K  2016-02-23 0000019617-16-000902
+## 5         10-K  2015-02-24 0000019617-15-000272
+## 6         10-K  2014-02-20 0000019617-14-000289
+## 7         10-K  2013-02-28 0000019617-13-000221
+## 8         10-K  2012-02-29 0000019617-12-000163
+## 9         10-K  2011-02-28 0000950123-11-019773
+## 10        10-K  2010-02-24 0000950123-10-016029
+## 11        10-K  2009-03-02 0000950123-09-003840
+## 12        10-K  2008-02-29 0001193125-08-043536
+## 13        10-K  2007-03-01 0000950123-07-003015
+## 14      10-K/A  2006-08-03 0000950123-06-009854
+## 15      10-K/A  2006-06-22 0000950123-06-008545
+## 16        10-K  2006-03-09 0000950123-06-002875
+## 17      10-K/A  2005-06-28 9999999997-05-030472
+## 18        10-K  2005-03-02 0000950123-05-002539
+## 19      10-K/A  2004-06-28 9999999997-04-028305
+## 20        10-K  2004-02-18 0000950123-04-002022
+## 21      10-K/A  2003-06-30 9999999997-03-028080
+## 22        10-K  2003-03-19 0000950123-03-002985
+## 23      10-K/A  2002-06-28 9999999997-02-037872
+## 24     10-K405  2002-03-22 0000950123-02-002823
+## 25     10-K405  2001-03-22 0000950123-01-002499
+## 26      10-K/A  2000-06-28 0000019617-00-000125
+## 27        10-K  2000-03-13 0000950123-00-002204
+## 28      10-K/A  1999-06-29 0000950123-99-006055
+## 29     10-K405  1999-03-11 0000950123-99-002057
+## 30     10-K405  1998-03-30 0000950123-98-003043
+## 31        10-K  1997-03-25 0000950123-97-002412
+## 32     10-K405  1996-03-20 0000950123-96-001197
+## 33      10-K/A  1995-06-26 0000019617-95-000080
+## 34     10-K405  1995-03-27 0000950123-95-000706
+## 35      10-K/A  1994-05-09 0000019617-94-000048
+## 36        10-K  1994-03-25 0000950123-94-000607</code></pre>
+<p>The analysis works on three financial reports: (1) <code>GetIncome()</code>, (2) <code>GetCashFlow()</code>, and (3) <code>GetBalanceSheet()</code>. Each takes as argument the ticker and the year. First, a look at the disclaimer.</p>
+<div class="figure">
+<img src="https://github.com/robertwwalker/DADMStuff/raw/master/finreportr.png" alt="Disclaimer" />
+<p class="caption">Disclaimer</p>
+</div>
+<div id="income-statements" class="section level3">
+<h3>Income Statements</h3>
+<pre class="r"><code>JPM.IS &lt;- GetIncome(&quot;JPM&quot;, 2015)</code></pre>
+</div>
+<div id="balance-sheets" class="section level3">
+<h3>Balance Sheets</h3>
+<pre class="r"><code>JPM.BS &lt;- GetBalanceSheet(&quot;JPM&quot;, 2015)</code></pre>
+</div>
+<div id="statement-of-cash-flows" class="section level3">
+<h3>Statement of Cash Flows</h3>
+<pre class="r"><code>JPM.SCF &lt;- GetCashFlow(&quot;JPM&quot;, 2015)</code></pre>
+</div>
+</div>
+<div id="rendering-a-useful-tool-for-excel" class="section level2">
+<h2>Rendering a Useful Tool for Excel</h2>
+<p>I want to develop a tool to export the data that we have grabbed. How might we do that? This will involve a reshape that will require the reshape2 package. This can be done relatively systematically. The <em>reshape</em> command will take the <code>Metric</code> and <code>Units</code> as rows and place the <code>Amount</code> in columns defined by the <code>endDate</code>. The command is <code>dcast</code> and it takes an input file and restructures data according to a fixed rule. Here, I will have a <code>Metric</code> and <code>Units</code> for each of multiple entries defined by <code>endDate</code> with distinct <code>Amount</code> for each <code>endDate</code>. First, I will generate a separate version of each statement.</p>
+<div id="reshape-rendering-the-data-in-wide-format" class="section level3">
+<h3>Reshape: Rendering the Data in Wide Format</h3>
+<pre class="r"><code>library(reshape2)
+JPM.IS.W &lt;- dcast(JPM.IS, Metric + Units ~ endDate, value.var=&quot;Amount&quot;)
+JPM.SCF.W &lt;- dcast(JPM.SCF, Metric + Units ~ endDate, value.var=&quot;Amount&quot;)
+JPM.BS.W &lt;- dcast(JPM.BS, Metric + Units ~ endDate, value.var=&quot;Amount&quot;)</code></pre>
+</div>
+</div>
+<div id="writing-a-file-to-excel" class="section level2">
+<h2>Writing a file to Excel</h2>
+<p>Now I want to write the file to Excel and combine them. I will use <code>xlsx</code>.</p>
+<pre class="r"><code>library(openxlsx) #load the package
+write.xlsx(list(JPM.IS.W,JPM.BS.W,JPM.SCF.W), file = &quot;JPM-2015.xlsx&quot;)</code></pre>
+</div>
+<div id="the-coup-de-grace-for-excel-users" class="section level2">
+<h2>The Coup de Grace for Excel Users</h2>
+<p>The last set of code can automate this. I will create a little function to do it all, taking as input, the ticker and year.</p>
+<pre class="r"><code>getSEC &lt;- function(ticker, year) {
+options(scipen=12)
+library(finreportr)
+library(reshape2)
+library(openxlsx)
+SEC.IS &lt;- GetIncome(ticker, 2015)
+SEC.IS$Amount &lt;- as.numeric(SEC.IS$Amount)
+SEC.BS &lt;- GetBalanceSheet(ticker, 2015)
+SEC.BS$Amount &lt;- as.numeric(SEC.BS$Amount)
+SEC.SCF &lt;- GetCashFlow(ticker, 2015)
+SEC.SCF$Amount &lt;- as.numeric(SEC.SCF$Amount)
+SEC.IS.W &lt;- dcast(SEC.IS, Metric + Units ~ endDate, value.var=&quot;Amount&quot;, fun.aggregate=mean)
+SEC.SCF.W &lt;- dcast(SEC.SCF, Metric + Units ~ endDate, value.var=&quot;Amount&quot;, fun.aggregate=mean)
+SEC.BS.W &lt;- dcast(SEC.BS, Metric + Units ~ endDate, value.var=&quot;Amount&quot;, fun.aggregate=mean)
+write.xlsx(list(SEC.IS.W,SEC.BS.W,SEC.SCF.W), file = paste(ticker,&quot;-&quot;,year,&quot;.xlsx&quot;, sep=&quot;&quot;))
+return(list(BS=SEC.BS,IS=SEC.IS,SCF=SEC.SCF))
+}</code></pre>
+<p>Does it work?</p>
+<pre class="r"><code># Try the function on Target
+TGT &lt;- getSEC(&quot;TGT&quot;, 2015)
+# Try the function on Mondelez
+MDLZ &lt;- getSEC(&quot;MDLZ&quot;, 2015)</code></pre>
+<p>It does not always work. Some statements are incomplete and the file fail. Then we have to go back and figure it out.</p>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/finance">finance</a>
+  
+</div>
+
+
+
+
+    
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/%!s(<nil>)/jquery.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/%!s(<nil>)/imagesloaded.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/js/bootstrap.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/%!s(<nil>)/isotope.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/%!s(<nil>)/highlight.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/%!s(<nil>)/MathJax.js?config=TeX-AMS_CHTML" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

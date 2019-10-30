@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>finance on Robert W. Walker</title>
+    <link>/tags/finance/</link>
+    <description>Recent content in finance on Robert W. Walker</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Tue, 29 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/finance/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Financial Analysis of SEC Reports in R</title>
+      <link>/r/finreportr-is-awesome/</link>
+      <pubDate>Tue, 29 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/r/finreportr-is-awesome/</guid>
+      <description>The Package: finreport The key tool to facilitate the financial analysis of companies that file regular SEC reports of certain forms is finreportr. To make use of it, we must first have R install it and dependencies. To install it, install.packages(&amp;quot;finreportr&amp;quot;, dependencies=TRUE).
+ The Commands The first command is CompanyInfo().
+library(finreportr) CompanyInfo(&amp;quot;JPM&amp;quot;) ## company CIK SIC state state.inc FY.end ## 1 JPMORGAN CHASE &amp;amp; CO 0000019617 6021 NY DE 1231 ## street.</description>
+    </item>
+    
+  </channel>
+</rss>
