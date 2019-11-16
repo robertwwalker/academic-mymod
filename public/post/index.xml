@@ -18,10 +18,9 @@
       <pubDate>Fri, 15 Nov 2019 00:00:00 +0000</pubDate>
       
       <guid>/post/building-a-blogdown/</guid>
-      <description>Motivation Credit where credit is due; Alison Hill motivated all of this with her wealth of resources. Indeed, I redesigned the flow for today because of her brilliant R-Ladies Canberra seminar [I found the resource links on Twitter and the idea is
-Alison Hill’s magnificent resources on this. The Blogdown Book
-Summer of Blogdown
-I wish I had them when I had to figure this all out for myself.</description>
+      <description>Pre-Talk Set the RStudio to install blogdown.
+install.packages(&amp;quot;blogdown&amp;quot;) and to get a working local version of Hugo, the static site generator at the heart of this,
+blogdown::install_hugo()  Motivation Credit where credit is due; Alison Hill motivated all of this with her wealth of resources. Indeed, I redesigned the flow for today because of her brilliant R-Ladies Canberra seminar [I found the resource links on Twitter and the idea is</description>
     </item>
     
     <item>
