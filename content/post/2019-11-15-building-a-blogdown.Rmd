@@ -1,0 +1,47 @@
+---
+title: Building a Blogdown
+author: RWW
+date: '2019-11-15'
+slug: building-a-blogdown
+categories: []
+tags: []
+header:
+  caption: ''
+  image: ''
+  preview: yes
+---
+
+# Motivation
+
+Credit where credit is due; Alison Hill motivated all of this with her wealth of resources.  Indeed, I redesigned the flow for today because of her brilliant R-Ladies Canberra seminar [I found the resource links on Twitter and the idea is 
+
+![](https://media.giphy.com/media/vyaVOTmCl7o1MAlnwK/giphy.gif)
+
+## Alison Hill's magnificent resources on this.  
+
+[The Blogdown Book](https://bookdown.org/yihui/blogdown/)
+
+[Summer of Blogdown](https://summer-of-blogdown.netlify.com/)
+
+I wish I had them when I had to figure this all out for myself.
+
+## Why Blogdown
+
+![](/post/2019-11-15-building-a-blogdown_files/HadleyThread.png)
+
+## Workflow
+
+Navigate to the [github base for this](https://github.com/WUCDS1920/blankslate).
+
+[Go!](https://media.giphy.com/media/69D4FSNqihhKpFcc1a/giphy.gif)
+
+## Create a github site
+
+If you do not already have one, you will need to create a github site.  I created one for today called wucds1920 -- Willamette University Certificate in Data Science 19/20.  *I would associate it with a professional durable email account.*
+
+[Go!](https://media.giphy.com/media/69D4FSNqihhKpFcc1a/giphy.gif)
+
+##  Fork blankslate
+
+
+
