@@ -13,6 +13,8 @@ header:
 
 ## Pre-Talk
 
+[Slides](https://rww.science/presentations/BlogdownPresentation.html)
+
 Set the RStudio to install blogdown.
 
 ```
@@ -108,7 +110,7 @@ ggplot(as.data.frame(UCBAdmissions), # Flatten the table
   geom_label(stat = "stratum", label.strata = TRUE) +
   scale_x_discrete(limits = c("Gender", "Dept"), expand = c(.05, .05)) +
   scale_fill_brewer(type = "qual", palette = "Set1") +
-  ggtitle("Admissions by sex and department: UCB") + labs(caption = "A ggallvial example")
+  ggtitle("Admissions by sex and department: UCB") + labs(caption = "A ggalluvial example")
 ```
   
 Now we are going to undertake our first interaction with GitHub from RStudio.
