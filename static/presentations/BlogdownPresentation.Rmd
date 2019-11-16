@@ -1,5 +1,5 @@
 ---
-title: "Blogdown Presenation"
+title: "Blogdown Presentation"
 author: "Robert W. Walker"
 date: "11/16/2019"
 output: ioslides_presentation
@@ -20,7 +20,7 @@ and to get a working local version of Hugo, the static site generator at the hea
 blogdown::install_hugo()
 ```
 
-# Motivation
+## Motivation
 
 Credit where credit is due; Alison Hill motivated all of this with her wealth of resources.  Indeed, I redesigned the flow for today because of her brilliant R-Ladies Canberra seminar [I found the resource links on Twitter and the idea is 
 
@@ -58,7 +58,7 @@ If you do not already have one, you will need to create a github site.  I create
 
 ![Go!](https://media.giphy.com/media/69D4FSNqihhKpFcc1a/giphy.gif)
 
-### The Action
+## The Action
 
 ![](../img/TheAction.png)
 
@@ -122,12 +122,13 @@ ggplot(as.data.frame(UCBAdmissions), # Flatten the table
   ggtitle("Admissions by sex and department: UCB") + labs(caption = "A ggallvial example")
 ```
   
-Now we are going to undertake our first interaction with GitHub from RStudio.
 
-# First a commit.
+## First a commit.
+
+Now we are going to undertake our first interaction with GitHub from RStudio.
 
 Stage all the changes and produce an informative commit message.  My first post and the initial edits to blankslate or something like that.
 
-# To Netlify
+## To Netlify
 
 And check out the deployment.  In the meantime, we can, and probably should, copy off the deployment part from Netlify so we can check the status without logging in.  We should also edit README.md to make the deploy button unique to our fork.
