@@ -3,4 +3,4 @@
 
 # academic-mymod
 
-My netlify website at [rww.science](https:rww.science)
+My netlify website at [rww.science](https://rww.science)
