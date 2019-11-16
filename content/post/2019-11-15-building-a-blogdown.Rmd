@@ -31,7 +31,9 @@ Credit where credit is due; Alison Hill motivated all of this with her wealth of
 
 ![](https://media.giphy.com/media/vyaVOTmCl7o1MAlnwK/giphy.gif)
 
-## Alison Hill's magnificent resources on this.  
+# All Credit to Alison Hill and Yihui Xie
+
+Alison Hill's magnificent resources on this.  
 
 [The Blogdown Book](https://bookdown.org/yihui/blogdown/)
 

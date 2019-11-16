@@ -2,7 +2,7 @@
 title: "Blogdown Presenation"
 author: "Robert W. Walker"
 date: "11/16/2019"
-output: slidy_presentation
+output: ioslides_presentation
 ---
 
 ## Pre-Talk
@@ -36,7 +36,7 @@ I wish I had them when I had to figure this all out for myself.
 
 ## Why Blogdown
 
-![](/post/2019-11-15-building-a-blogdown_files/HadleyThread.png)
+![](../img//HadleyThread.png)
 
 ## Workflow
 
@@ -52,7 +52,7 @@ If you do not already have one, you will need to create a github site.  I create
 
 ##  Fork blankslate
 
-![](/post/2019-11-15-building-a-blogdown_files/ForkMe.png)
+![](../img//ForkMe.png)
 
 ## Migrate to your fork
 
@@ -60,7 +60,7 @@ If you do not already have one, you will need to create a github site.  I create
 
 ### The Action
 
-![](/post/2019-11-15-building-a-blogdown_files/TheAction.png)
+![](../img/TheAction.png)
 
 
 ## The Magic of GitHub
@@ -71,7 +71,7 @@ From our github
 
 We may need:
 
-![](/post/2019-11-15-building-a-blogdown_files/GitandRStudio.png)
+![](../img/GitandRStudio.png)
 
 Hadley Wickham has a great writeup on this:
 [](http://r-pkgs.had.co.nz/git.html)
@@ -90,7 +90,25 @@ Addins : New Post
 
 Something pretty simple.
 
-```{r, message=FALSE, warning=FALSE}
+# Code
+
+```
+data("UCBAdmissions")
+# install.packages("ggalluvial")
+library(tidyverse); library(ggalluvial)
+ggplot(as.data.frame(UCBAdmissions), # Flatten the table
+       aes(y = Freq, axis1 = Gender, axis2 = Dept)) +
+  geom_alluvium(aes(fill = Admit), width = 1/12) +
+  geom_stratum(width = 1/12, fill = "black", color = "grey") +
+  geom_label(stat = "stratum", label.strata = TRUE) +
+  scale_x_discrete(limits = c("Gender", "Dept"), expand = c(.05, .05)) +
+  scale_fill_brewer(type = "qual", palette = "Set1") +
+  ggtitle("Admissions by sex and department: UCB") + labs(caption = "A ggallvial example")
+```
+
+# A Picture
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
 data("UCBAdmissions")
 # install.packages("ggalluvial")
 library(tidyverse); library(ggalluvial)
