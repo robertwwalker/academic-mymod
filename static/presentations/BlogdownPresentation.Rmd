@@ -1,19 +1,14 @@
 ---
-title: Building a Blogdown
-author: RWW
-date: '2019-11-15'
-slug: building-a-blogdown
-categories: []
-tags: []
-header:
-  caption: ''
-  image: ''
-  preview: yes
+title: "Blogdown Presenation"
+author: "Robert W. Walker"
+date: "11/16/2019"
+output: slidy_presentation
 ---
 
 ## Pre-Talk
 
 Set the RStudio to install blogdown.
+
 
 ```
 install.packages("blogdown")
@@ -118,4 +113,3 @@ Stage all the changes and produce an informative commit message.  My first post 
 # To Netlify
 
 And check out the deployment.  In the meantime, we can, and probably should, copy off the deployment part from Netlify so we can check the status without logging in.  We should also edit README.md to make the deploy button unique to our fork.
-
