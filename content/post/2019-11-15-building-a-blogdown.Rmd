@@ -69,6 +69,8 @@ If you do not already have one, you will need to create a github site.  I create
 
 ### The Action
 
+We will need to edit `config.toml` in the root directory to reflect our chosen URL on netlify.  The remaining action is:
+
 ![](/post/2019-11-15-building-a-blogdown_files/TheAction.png)
 
 
