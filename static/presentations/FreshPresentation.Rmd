@@ -1,0 +1,433 @@
+---
+title: 'The Fresh Case: Multiple Regression, Functional Forms, and Indicators'
+author: "Robert W. Walker"
+date: "November 18, 2019"
+output:
+  ioslides_presentation:
+    self_contained: yes
+    smaller: yes
+    widescreen: yes
+---
+
+
+
+```{r DataLoad, echo=FALSE,message=FALSE}
+library(foreign); library(tidyverse)
+library(gdata)
+library(xtable)
+library(stargazer)
+library(fields)
+#library(rgl)
+library(nlme)
+library(mgcv)
+library(car)
+#knit_hooks$set(webgl = hook_webgl)
+fresh.data <- structure(list(Fresh.Demand = c(7.38000011444092, 8.51000022888184, 
+9.52000045776367, 7.5, 9.32999992370605, 8.27999973297119, 8.75, 
+7.86999988555908, 7.09999990463257, 8, 7.8899998664856, 8.14999961853027, 
+9.10000038146973, 8.85999965667725, 8.89999961853027, 8.86999988555908, 
+9.26000022888184, 9, 8.75, 7.94999980926514, 7.65000009536743, 
+7.26999998092651, 8, 8.5, 8.75, 9.21000003814697, 8.27000045776367, 
+7.67000007629395, 7.92999982833862, 9.26000022888184), Fresh.Price = c(3.84999990463257, 
+3.75, 3.70000004768372, 3.70000004768372, 3.59999990463257, 3.59999990463257, 
+3.59999990463257, 3.79999995231628, 3.79999995231628, 3.84999990463257, 
+3.90000009536743, 3.90000009536743, 3.70000004768372, 3.75, 3.75, 
+3.79999995231628, 3.70000004768372, 3.79999995231628, 3.70000004768372, 
+3.79999995231628, 3.79999995231628, 3.75, 3.70000004768372, 3.54999995231628, 
+3.59999990463257, 3.65000009536743, 3.70000004768372, 3.75, 3.79999995231628, 
+3.70000004768372), Industry.Price = c(3.79999995231628, 4, 4.30000019073486, 
+3.70000004768372, 3.84999990463257, 3.79999995231628, 3.75, 3.84999990463257, 
+3.65000009536743, 4, 4.09999990463257, 4, 4.09999990463257, 4.19999980926514, 
+4.09999990463257, 4.09999990463257, 4.19999980926514, 4.30000019073486, 
+4.09999990463257, 3.75, 3.75, 3.65000009536743, 3.90000009536743, 
+3.65000009536743, 4.09999990463257, 4.25, 3.65000009536743, 3.75, 
+3.84999990463257, 4.25), Price.Difference = c(-0.0500000007450581, 
+0.25, 0.600000023841858, 0, 0.25, 0.200000002980232, 0.150000005960464, 
+0.0500000007450581, -0.150000005960464, 0.150000005960464, 0.200000002980232, 
+0.100000001490116, 0.400000005960464, 0.449999988079071, 0.349999994039536, 
+0.300000011920929, 0.5, 0.5, 0.400000005960464, -0.0500000007450581, 
+-0.0500000007450581, -0.100000001490116, 0.200000002980232, 0.100000001490116, 
+0.5, 0.600000023841858, -0.0500000007450581, 0, 0.0500000007450581, 
+0.550000011920929), Advertising.Spending = c(5.5, 6.75, 7.25, 
+5.5, 7, 6.5, 6.75, 5.25, 5.25, 6, 6.5, 6.25, 7, 6.90000009536743, 
+6.80000019073486, 6.80000019073486, 7.09999990463257, 7, 6.80000019073486, 
+6.5, 6.25, 6, 6.5, 7, 6.80000019073486, 6.80000019073486, 6.5, 
+5.75, 5.80000019073486, 6.80000019073486)), class = "data.frame", row.names = c("1", 
+"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", 
+"14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", 
+"25", "26", "27", "28", "29", "30"))
+```
+
+## What Determines Laundry Detergent Purchases?
+
+- Drivers?
+- What is under Managerial/corporate control?
+- Simple vs. complicated?
+
+## A Look at the Data
+
+```{r ddf2, echo=FALSE}
+hist(fresh.data$Fresh.Demand, xlab="Demand for Fresh (100,000 Large Bottles)", main="Fresh Demand")
+```
+
+
+## Enterprise Industries: Fresh Detergent
+
+Enterprise Industries, owners of Fresh Detergent, want to predict demand for their product.
+In this case, the product is an extra large bottle of Fresh liquid detergent.
+Given a model for demand, Enterprise can:
+
+* Plan a production schedule
+* Estimate production requirements
+* Plan inventory requirements
+* Estimate sales revenue (and profits?)
+
+
+## The Data to Work With
+
+Four indicators for 30 sales periods (4 weeks):
+
+- The demand for the extra large sized bottle of Fresh (in 100,000s of bottles) in a sales period
+- The price of Fresh in the sales period (in dollars)
+- The average competitor price for similar products in the sales period (in dollars)
+- Enterprise Industries' advertising expenditures (in \$100,000s) targeted toward Fresh in the sales period.
+- Later we might incorporate data on the advertising campaigns.
+
+## Data
+
+```{r DataM, echo=FALSE}
+fresh.data[c(1:20),c(1,2,3,5)]
+```
+
+## Summaries
+
+```{r DataSum, results='asis', echo=FALSE}
+sum.stats.disp <- cbind(apply(fresh.data, 2, mean, na.rm=TRUE),apply(fresh.data, 2, sd, na.rm=TRUE),apply(fresh.data, 2, min, na.rm=TRUE),apply(fresh.data, 2, max, na.rm=TRUE),as.numeric(lapply(apply(fresh.data, 2, table), length)))
+colnames(sum.stats.disp) <- c("Mean","Std. Dev.","Minimum","Maximum","Atoms")
+print(xtable(sum.stats.disp[c(1,2,3,5),]), type="html")
+print(xtable(cor(fresh.data[,c(1,2,3,5)])), type="html")
+```
+
+## How does Fresh Compare?
+
+Is the Industry More or Less Expensive?  
+**This is industry minus fresh.**
+
+```{r}
+# Is the Industry More or Less Expensive?  This is industry minus fresh.  
+t.test(fresh.data$Price.Difference)
+```
+
+Yes, Fresh is $0.13 to $0.30 cheaper.
+
+# A Base Visualization
+
+```{r}
+library(patchwork)
+fresh.data$obs <- seq(1:30)
+ggplot(fresh.data) + aes(x=obs) + geom_line(aes(y=Fresh.Price), color = "blue", alpha = 0.2) + geom_line(aes(y=Industry.Price), color = "red", alpha = 0.2) + labs(title="Prices", x = "Period", y="Fresh/Blue Industry/Red") + ggplot(fresh.data, aes(x=obs, y=Price.Difference)) + geom_line() + labs(title="Price Differences", x = "Period")
+```
+
+
+## Some Simple Graphics
+
+- Prices act as we might expect.
+- Own Price and Industry Price appear to work opposing.
+- Advertising Spending could be a line or a non-line.
+
+```{r Fig1, echo=FALSE,message=FALSE,results='hide'}
+par(mfrow=c(2,2), mar=c(4,4,2,2), oma=c(0,0,2,0))
+with(fresh.data, plot(Fresh.Price,Fresh.Demand))
+with(fresh.data, (abline(lm(Fresh.Demand ~ Fresh.Price), col="red")))
+with(fresh.data, plot(Industry.Price,Fresh.Demand))
+with(fresh.data, (abline(lm(Fresh.Demand ~ Industry.Price), col="red")))
+frame()
+with(fresh.data, plot(Advertising.Spending,Fresh.Demand))
+with(fresh.data, (abline(lm(Fresh.Demand ~ Advertising.Spending), col="red")))
+title(main="The Fresh Data: Demand, Prices, and Advertising Spending", outer=TRUE)
+```
+
+## Three Dimensions
+
+Let's have a look at the 3-D.
+
+## Code
+
+`Requires(rgl)`  Warnings apply.
+
+```
+plot3d(z=fresh.data$Fresh.Demand, y=fresh.data$Advertising.Spending, x=fresh.data$Price.Difference, surface=FALSE, residuals=TRUE, bg="white", 
+  axis.scales=TRUE, grid=TRUE, ellipsoid=FALSE)
+```
+
+## Plotly
+
+```{r Plotly1, results='markup', echo =FALSE, message=FALSE, warning=FALSE}
+library(plotly)
+p <- plot_ly(fresh.data, x = ~Price.Difference, y = ~Advertising.Spending, size=~Fresh.Demand, text=~Fresh.Demand, type = 'scatter', mode = 'markers', color = ~Fresh.Demand, colors = 'Reds', sizes=c(10,50), marker = list(sizemode = 'diameter', opacity = 0.7)) %>%
+  layout(title = 'Demand for Fresh')
+p
+```
+
+
+## Naive Regession Model
+
+```{r datatab1,eval=TRUE,echo=FALSE,results='asis'}
+fresh.model <- lm(Fresh.Demand ~ Fresh.Price+Industry.Price+Advertising.Spending, data=fresh.data)
+stargazer(fresh.model, type="html")
+```
+
+## Interpretation
+
+Conforms to intuition:
+
++ Demand is inversely related to own price. 
++ Demand is positively related to industry price. 
++ Advertising enhances demand.
+
+## Intervals
+
+Constructing na\"ive confidence intervals: 
+
++ Own price and industry price may cancel out. 
++ -2.36 $\pm t_{.975, 30-4}$*0.64={-1.04,-3.68}
++ 1.61 $\pm t_{.025, 30-4}$*0.30={0.99,2.23}. 
+
+How could we test this?
+
+## Testing
+
++ We can either test a negative equality constraint ($\beta_{1} = -\beta_{2}$) or estimate a single parameter for a variable measuring the price difference. 
+- The former imposes a constraint. 
+- The latter involves a simple manipulation of the data.  $Fresh.Price - Industry.Price$  and then compare the two models. $$ y_{t} = \beta_{0} + \beta^{*}_{D}(F.P._{t} - I.P._{t}) + \beta_{3}Ad.Spend_{t} + \epsilon_{t} $$
+
+## Result
+
+```{r DiffR, results='asis',echo=FALSE}
+fresh.model.diff <- lm(Fresh.Demand ~ Price.Difference+Advertising.Spending, data=fresh.data)
+stargazer(fresh.model,fresh.model.diff, type="html")
+print(xtable(anova(fresh.model.diff,fresh.model)), type="html")
+```
+
+## Recreating F
+
+Let's solve for F in terms of r-squared.
+
+- What is the difference in r-squared across the two models?  
+`r summary(fresh.model)$r.squared-summary(fresh.model.diff)$r.squared`.
+
+- What is the average unexplained variance for the biggest model?
+`r (1-summary(fresh.model.diff)$r.squared)/26`
+
+- Which yields the following F.
+`r (summary(fresh.model)$r.squared-summary(fresh.model.diff)$r.squared)/((1-summary(fresh.model)$r.squared)/26)` 
+
+## Difference in Predictions?
+
+```{r diffplot,eval=TRUE,echo=FALSE, message=FALSE}
+par(mfrow=c(1,1))
+with(fresh.data, plot(seq(1:30), Fresh.Demand, type="l", main="Actual vs. Predicted Values", xlab="Sales Period"))
+lines(seq(1:30), fresh.model$fitted.values, col="red", lty=2)
+lines(seq(1:30), fresh.model.diff$fitted.values, col="blue", lty=2)
+legend(12, 7.5, legend=c("Actual","Both Prices","Price Difference"), lty=c(1,2,2), col=c("black","red","blue"), bty="n")
+```
+
+## Basic Scatterplots Revisited
+
+```{r fig1, echo=FALSE, message=FALSE, results='hide'}
+par(mfrow=c(2,2), mar=c(4,4,2,2), oma=c(0,0,2,0))
+with(fresh.data, plot(Fresh.Price,Fresh.Demand))
+with(fresh.data, (abline(lm(Fresh.Demand ~ Fresh.Price), col="red")))
+with(fresh.data, plot(Industry.Price,Fresh.Demand))
+with(fresh.data, (abline(lm(Fresh.Demand ~ Industry.Price), col="red")))
+with(fresh.data, plot(Price.Difference,Fresh.Demand))
+with(fresh.data, (abline(lm(Fresh.Demand ~ Price.Difference), col="red")))
+with(fresh.data, plot(Advertising.Spending,Fresh.Demand))
+with(fresh.data, (abline(lm(Fresh.Demand ~ Advertising.Spending), col="red")))
+title(main="The Fresh Data: Demand, Prices, and Advertising Spending", outer=TRUE)
+```
+
+
+## Functional Forms
+
+- Though we call it a linear model, the important part about linear is **linear coefficients**.
+- Transformations of data make it possible to incorporate non-linear functions.  *John von Neumann once equated the class of non-linear functions to the class of non-elephant animals.*
+- Caution with overfitting and creating inexplicable functional forms should remain in our minds.  There is a widely employed **saturated** model that fits the data perfectly (with exactly as many parameters as data points).
+
+## How should we use the information?
+
+- We expect demand to be determined by price and by information.
+- How should we use the information that we have?
+   + Relevant characteristics of price(s)
+   + What is the effect of advertising spending and what do we think it should be?
+- For this demand problem, the difference in prices seems sufficient.
+- For this demand problem, advertising expenditures may be subject to nonconstant marginal returns.
+
+
+## Exploring Advertising Spending
+
+```{r fmnoad, echo=FALSE, message=FALSE}
+fresh.model.diff.noad <- lm(Fresh.Demand ~ Price.Difference, data=fresh.data)
+par(mfrow=c(1,1))
+plot(fresh.data$Advertising.Spending, fresh.model.diff.noad$residuals, main="Ad Spending and Residuals", xlab="Advertising Spending", ylab="Residuals from Eq. with only Price Difference")
+abline(h=0, lty=2)
+abline(lm(fresh.model.diff.noad$residuals ~ fresh.data$Advertising.Spending))
+```
+
+## How are Prices and Ads Related?
+
+```{r}
+ggplot(fresh.data, aes(y=Advertising.Spending, x=Price.Difference, size=Fresh.Demand)) + 
+  geom_point() + 
+  labs(title="The Explainers") 
+```
+
+
+## Non-linear fitting
+
+- A line struggles with the points on the right of the graphic.  
+- A quadratic term in Advertising.Spending may be justified given non-constant returns.  
+- We can incorporate this with a model written as, $$ y_{t} = \beta_{0} + \beta^{*}_{D}\textrm{Price.Diff.}_{t} + \beta_{3}\textrm{Ad.Spending}_{t} + \beta_{4}\textrm{Ad.Spending}_{t}^{2} + \epsilon_{t} $$
+- This doesn't violate any assumptions of the regression model as the square is a non-linear transformation.
+
+## Tables
+
+```{r adspend, eval=TRUE, echo=FALSE, results='asis', message=FALSE}
+fresh.model.sq <- lm(Fresh.Demand ~ Price.Difference + Advertising.Spending + I(Advertising.Spending^2), data=fresh.data)
+stargazer(fresh.model,fresh.model.diff, fresh.model.sq, type="html")
+```
+
+## What does the model say?
+
+- All else equal, the price difference effect changes a little 
+- Before, a \$0.10 price differential in favor of fresh implied 15,900 more sales [\$(1.59x0.1)100,000$] 
+- Now the effect is about 13,100 [$(1.31x0.1)x100,000$].
+
+## Model Comparisons
+- Does *Advertising.Spending* have an effect?  Test the hypothesis that both the linear term and the squared term are jointly zero against the alternative that at least one is not. $F = \frac{\frac{2.8059-1.2733}{(3-1)}}{\frac{1.2733}{26}} = 15.65$.
+- From the standpoint of model comparison, the regression $F$ statistic does not reject the inclusion of the quadratic term, $F^{E}=t^{2}=5.3176, Pr(F^{E} > F)=0.02934$.
+- All else equal, as Advertising.Spending increases, sales increase at an increasing rate.  Let's look at a picture of the effect. 
+- We could use the tools of calculus to figure this out.  Simply take $\frac{\partial \hat{y}}{\partial \textrm{Ad. Spending}} = -3.6956 + 0.3486*2*\textrm{Ad.Spending}$.  If we set it equal to zero and solve, we get that the effect switches from negative to positive when Ad.Spending is greater than 5.30 [$100,000].
+
+
+## The Picture
+
+```{r adspend2, eval=TRUE, echo=FALSE, message=FALSE}
+ad.spend.hypothetical <- seq(min(fresh.data$Advertising.Spending), max(fresh.data$Advertising.Spending), by=0.01)
+new.df <- data.frame(Price.Difference=rep(mean(fresh.data$Price.Difference), length(ad.spend.hypothetical)),Advertising.Spending=ad.spend.hypothetical)
+new.df$pv1 <- predict(fresh.model.diff, newdata=new.df, interval="prediction")
+new.df$pv2 <- predict(fresh.model.sq, newdata=new.df, interval="prediction")
+plot(fresh.data$Advertising.Spending, fresh.data$Fresh.Demand, xlab="Advertising Spending",ylab="Actual/Predicted Value")
+lines(ad.spend.hypothetical, new.df$pv1[,1], col="red", lty=2)
+lines(ad.spend.hypothetical, new.df$pv2[,1], col="blue", lty=2)
+legend(5.5, 9, legend=c("Linear","Quadratic"), lty=c(2,2), col=c("red","blue"), bty="n")
+```
+
+## The Effect of a Quadratic on the Regression Plane
+
+- Instead of a constant slope plane for the regression, we have a non-linear function on one dimension.  
+- what remains are (partial) lines, we are simply shifting this non-linear function. 
+- Let's have a look at the plane implied by this addition to our case.
+
+## The Plane
+
+```{r fresh3d, eval=TRUE, echo=FALSE, results='hide', message=FALSE}
+fresh.diff.pred.x <- seq(min(fresh.data$Price.Difference),max(fresh.data$Price.Difference), by=0.05)
+fresh.ad.pred.x <- seq(min(fresh.data$Advertising.Spending), max(fresh.data$Advertising.Spending), by=0.05)
+pred.val.3d <- matrix(data=NA, nrow=length(fresh.diff.pred.x), ncol=length(fresh.ad.pred.x))
+for (i in 1:nrow(pred.val.3d)) {
+for (j in 1:ncol(pred.val.3d)) {
+pred.val.3d[i,j] <- predict(fresh.model.sq, newdata=data.frame(Price.Difference=fresh.diff.pred.x[i], Advertising.Spending=fresh.ad.pred.x[j])) } }
+par(mfrow=c(1,1))
+drape.plot(x=fresh.diff.pred.x, y=fresh.ad.pred.x, z=pred.val.3d, xlab="Price.Difference", ylab="Advertising.Spending", zlab="Predicted Value", theta=-45, col=heat.colors(128), ticktype="detailed", main="Regression Plane with Quadratic Term", add.legend=FALSE)
+```
+
+## Some Residual Diagnostics
+
+- The key model diagnostics suggest a reasonable fit and relevant predictors.
+- That is not all that we want to justify inference.
+- Examine key assumptions that undergird the linear model before supplying Enterprise with their forecast.
+
+
+## The Forecasts
+
+```{r Resid, echo=FALSE, message=FALSE}
+par(mfrow=c(2,2))
+hist(fresh.model.sq$residuals, breaks=30, main="Quadratic")
+hist(fresh.model.diff$residuals, breaks=30, main="Linear")
+plot(seq(1:30), fresh.model.sq$residuals, xlab="Sales Period", ylab="Residuals", main="Quadratic")
+plot(seq(1:30), fresh.model.diff$residuals, xlab="Sales Period", ylab="Residuals", main="Linear")
+```
+
+## Normal Residuals?
+```{r Resid2}
+par(mfrow=c(2,2))
+qqnorm(fresh.model.diff$residuals, main="QQ-Normal: Linear Ad.Spending", datax=TRUE)
+qqnorm(fresh.model.sq$residuals, main="QQ-Normal: Quadratic Ad.Spending", datax=TRUE)
+plot(fresh.data$Price.Difference,fresh.model.sq$residuals, xlab="Price.Difference")
+plot(fresh.data$Price.Difference,fresh.model.diff$residuals, xlab="Price.Difference")
+```
+
+## Residual Plots
+```{r Resid1, echo=FALSE, message=FALSE}
+par(mfrow=c(2,2))
+plot(fresh.data$Advertising.Spending,fresh.model.sq$residuals, xlab="Advertising.Spending", ylab="Residuals", main="Quadratic")
+plot(fresh.data$Advertising.Spending,fresh.model.diff$residuals, xlab="Advertising.Spending", ylab="Residuals", main="Linear")
+plot(fresh.model.sq$fitted.values,fresh.model.sq$residuals, xlab="Prediction", ylab="Residuals", main="Quadratic")
+plot(fresh.model.diff$fitted.values,fresh.model.diff$residuals, xlab="Prediction", ylab="Residuals", main="Linear")
+```
+
+## Putting Together the Forecast
+Once we decide on a model, we can come up with at least two very valuable quantities.
+
+- The upper bound of the prediction interval [Recall that the prediction interval is $$ \hat{y} \pm t_{\frac{\alpha}{2}}s\sqrt{1 + \frac{1}{n} + \frac{(x_{0} - \overline{x})^{2}}{SS_{xx}}}$$] can be used to bound necessary inventory.
+- The lower bound of the prediction interval can be used to bound a revenue forecast.
+
+Let's characterize the \emph{real decision problem} in choosing among these models.
+
+## Picture
+
+```{r RDP, echo=FALSE, message=FALSE}
+ad.spend.hypothetical <- seq(min(fresh.data$Advertising.Spending), max(fresh.data$Advertising.Spending), by=0.01)
+new.df <- data.frame(Price.Difference=rep(mean(fresh.data$Price.Difference), length(ad.spend.hypothetical)),Advertising.Spending=ad.spend.hypothetical)
+par(mfrow=c(1,1))
+plot(ad.spend.hypothetical, predict(fresh.model.sq, newdata=new.df, interval="prediction")[,1], lty=1, xlab="Advertising Spending",ylab="Predicted Value (with Prediction Interval)", type="l", main="Forecasting Tradeoffs and Model Comparison", sub="Price.Difference at sample mean.")
+lines(ad.spend.hypothetical, predict(fresh.model.diff, newdata=new.df, interval="prediction")[,1], lty=2)
+lines(ad.spend.hypothetical, predict(fresh.model.diff, newdata=new.df, interval="prediction")[,3], lty=2, col="red")
+lines(ad.spend.hypothetical, predict(fresh.model.diff, newdata=new.df, interval="prediction")[,2], lty=2, col="red")
+lines(ad.spend.hypothetical, predict(fresh.model.sq, newdata=new.df, interval="prediction")[,3], col="red")
+lines(ad.spend.hypothetical, predict(fresh.model.sq, newdata=new.df, interval="prediction")[,2], col="red")
+text(6, 8.7, "Inventory Forecasting Danger Zone", cex=0.7)
+text(6.7, 8, "Revenue Forecasting Danger Zone", cex=0.7)
+rug(fresh.data$Advertising.Spending, side=3)
+```
+
+
+## Picture 2
+
+```{r accuracy,eval=TRUE,echo=FALSE,fig=TRUE, message=FALSE}
+par(mfrow=c(1,1))
+with(fresh.data, plot(seq(1:30), Fresh.Demand, type="l", main="Actual vs. Predicted Values", xlab="Sales Period"))
+lines(seq(1:30), fresh.model$fitted.values, col="red", lty=2)
+lines(seq(1:30), fresh.model.diff$fitted.values, col="blue", lty=2)
+lines(seq(1:30), fresh.model.sq$fitted.values, col="green", lty=2)
+legend(12, 7.5, legend=c("Actual","Both Prices","Price Difference","Quadratic"), lty=c(1,2,2,2), col=c("black","red","blue","green"), bty="n")
+```
+
+## What Warnings?
+
+- It seems reasonable to expect a further kink in the right of the Advertising Spending graphic were Advertising Spending to increase further. **The marginal dollar cannot reasonably be thought to imply such returns.** 
+- The general problem this raises is **extrapolation**. 
+- How do we predict outcomes that are outside of the realm of things we have observed? 
+- More generally, this is where fitting functions to data and being able to generalize functions come to sharp disagreement.
+
+## Scaling Regression
+
+We will take regression models in three directions.  
+
++ Richening the set of $X$ with more and more variation in the types of predictors.  This will require paying attention the interrelationships among elements of $X$.  
+
++ Automating `feature selection` using defined criteria.
+
++ Expanding the data types we model as outcome to binary choices.
+
