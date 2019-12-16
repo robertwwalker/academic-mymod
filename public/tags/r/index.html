@@ -295,6 +295,17 @@ tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here() st
   </div>
   
   <div>
+    <h2><a href="/post/trying-out-leaflet/">Trying out Leaflet</a></h2>
+    <div class="article-style">
+      
+      International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
+library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &lt;- tt_load(2019, week = 50) murders &lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier.
+l &lt;- leaflet() %&gt;% setView(0,0,2) esri &lt;- grep(&quot;^Esri&quot;, providers, value = TRUE) for (provider in esri) { l &lt;- l %&gt;% addProviderTiles(provider, group = provider) } l %&gt;% addLayersControl(baseGroups = names(esri), options = layersControlOptions(collapsed = FALSE)) %&gt;% addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE, position = &quot;bottomleft&quot;) %&gt;% htmlwidgets::onRender(&quot; function(el, x) { var myMap = this; myMap.
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/philaselphia-parking-tickets-a-tidytuesday/">Philaselphia Parking Tickets: a tidyTuesday</a></h2>
     <div class="article-style">
       
@@ -373,16 +384,6 @@ pizza_jared &lt;- readr::read_csv(&quot;<a href="https://raw.githubusercontent.c
       So this Robert Mueller guy wrote a report I may as well analyse it a bit.
 First, let me see if I can get a hold of the data. I grabbed the report directly from the Department of Justice website. You can follow this link.
 library(tidyverse) library(pdftools) # Download report from link above mueller_report_txt &lt;- pdf_text(&quot;../data/report.pdf&quot;) # Create a tibble of the text with line numbers and pages mueller_report &lt;- tibble( page = 1:length(mueller_report_txt), text = mueller_report_txt) %&gt;% separate_rows(text, sep = &quot;\n&quot;) %&gt;% group_by(page) %&gt;% mutate(line = row_number()) %&gt;% ungroup() %&gt;% select(page, line, text) write_csv(mueller_report, &quot;data/mueller_report.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/nflscrapr-is-amazing/">nflscrapR is amazing</a></h2>
-    <div class="article-style">
-      
-      Scraping NFL data Note: An original version of this post had issues induced by overtime games. There is a better way to handle all of this that I learned from a brief analysis of a tie game between Cleveland and Pittsburgh in Week One.
-The nflscrapR package is designed to make data on NFL games more easily available. To install the package, we need to grab it from github.
       
     </div>
   </div>

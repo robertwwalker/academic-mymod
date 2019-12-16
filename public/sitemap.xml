@@ -31,6 +31,15 @@
     
     <url>
     
+      <loc>/categories/r/</loc>
+      <lastmod>2019-12-16T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/r/</loc>
       <lastmod>2019-12-16T00:00:00+00:00</lastmod>
     </url>
@@ -40,7 +49,7 @@
     
     <url>
     
-      <loc>/categories/r/</loc>
+      <loc>/tags/r-markdown/</loc>
       <lastmod>2019-12-16T00:00:00+00:00</lastmod>
     </url>
     
@@ -86,6 +95,15 @@
     <url>
     
       <loc>/categories/tidyverse/</loc>
+      <lastmod>2019-12-16T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/post/trying-out-leaflet/</loc>
       <lastmod>2019-12-16T00:00:00+00:00</lastmod>
     </url>
     
@@ -292,15 +310,6 @@
     
     <url>
     
-      <loc>/tags/r-markdown/</loc>
-      <lastmod>2019-10-09T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/post/simple-oregon-county-mapping/</loc>
       <lastmod>2019-10-09T00:00:00+00:00</lastmod>
     </url>
@@ -373,7 +382,7 @@
     
     <url>
     
-      <loc>/tags/tidytext/</loc>
+      <loc>/categories/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -382,7 +391,7 @@
     
     <url>
     
-      <loc>/categories/tidytext/</loc>
+      <loc>/tags/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
