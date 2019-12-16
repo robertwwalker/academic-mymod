@@ -79,7 +79,7 @@
   <meta property="og:description" content="Associate Professor of Quantitative Methods">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2019-11-16T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2019-12-16T00:00:00&#43;00:00">
   
 
   
@@ -285,6 +285,16 @@
   
   
   <div>
+    <h2><a href="/post/stocks-and-gganimate/">Stocks and gganimate</a></h2>
+    <div class="article-style">
+      
+      tidyquant Automates a lot of equity research and calculation using tidy concepts. Here, I will first use it to get the components of the S and P 500 and pick out those with weights over 1.25 percent. In the next step, I download the data and finally calculate daily returns and a cumulative wealth index.
+library(tidyquant) library(tidyverse) tq_index(&quot;SP500&quot;) %&gt;% filter(weight &gt; 0.0125) %&gt;% select(symbol,company) -&gt; Tickers Tickers &lt;- Tickers %&gt;% filter(symbol!
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/trump-s-tweets-part-ii/">Trump&#39;s Tweets, Part II</a></h2>
     <div class="article-style">
       
@@ -374,15 +384,6 @@ With a source in hand, the key tool is the SelectorGadget. SelectorGadget is a b
     </div>
   </div>
   
-  <div>
-    <h2><a href="/post/correlation-function/">Correlation Function</a></h2>
-    <div class="article-style">
-      
-      Correlations and the Impact on Sums and Differences I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.
-      
-    </div>
-  </div>
-  
 
   
 <nav>
@@ -390,6 +391,8 @@ With a source in hand, the key tool is the SelectorGadget. SelectorGadget is a b
     
     <li><a href="/categories/r/">&lt;</a></li>
     
+    
+    <li><a href="/categories/r/page/3/">&gt;</a></li>
     
   </ul>
 </nav>

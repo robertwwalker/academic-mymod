@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Thu, 10 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/gganimate/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>tidyTuesday Measles</title>
+      <link>/post/tidytuesday-measles/</link>
+      <pubDate>Mon, 16 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-measles/</guid>
+      <description>tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github.
+tuesdata &amp;lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here() starts at /home/rob/Sandbox/academic-mymod/academic-mymod library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.8.3 ## ✓ tidyr 1.</description>
+    </item>
     
     <item>
       <title>Fariss Human Rights Data with Animation</title>

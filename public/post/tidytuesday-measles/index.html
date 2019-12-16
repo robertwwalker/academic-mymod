@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.59.0" />
+  <meta name="author" content="Robert W. Walker">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github.
+tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here() starts at /home/rob/Sandbox/academic-mymod/academic-mymod library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.8.3 ## ✓ tidyr 1.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/tidytuesday-measles/">
+
+  
+
+
+
+  
+  
+  <meta name="theme-color" content="">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js//styles/dracula.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/css/bootstrap.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/%!s(<nil>)/css/academicons.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/%!s(<nil>)/css/font-awesome.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/tidytuesday-measles/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@PieRatio">
+  <meta property="twitter:creator" content="@PieRatio">
+  
+  <meta property="og:site_name" content="Robert W. Walker">
+  <meta property="og:url" content="/post/tidytuesday-measles/">
+  <meta property="og:title" content="tidyTuesday Measles | Robert W. Walker">
+  <meta property="og:description" content="tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github.
+tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here() starts at /home/rob/Sandbox/academic-mymod/academic-mymod library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.8.3 ## ✓ tidyr 1.">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2019-12-16T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2019-12-16T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>tidyTuesday Measles | Robert W. Walker</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/"><img src="/img/headers/wuagsm.jpg" alt="Robert W. Walker"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#publications_selected">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/img/vita.pdf">
+            
+            <span>Curriculum Vitae</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a href="/r">
+            
+            <span>R Stuff</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">tidyTuesday Measles</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-12-16 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2019-12-16
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    4 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/tidyverse">tidyverse</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/animation">animation</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=tidyTuesday%20Measles&amp;url=%2fpost%2ftidytuesday-measles%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2ftidytuesday-measles%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ftidytuesday-measles%2f&amp;title=tidyTuesday%20Measles"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2ftidytuesday-measles%2f&amp;title=tidyTuesday%20Measles"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=tidyTuesday%20Measles&amp;body=%2fpost%2ftidytuesday-measles%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+
+<div id="tidytuesday-december-10-2019" class="section level2">
+<h2>tidyTuesday: December 10, 2019</h2>
+<p>Replicating plots from <a href="https://simplystatistics.org/2019/08/28/you-can-replicate-almost-any-plot-with-ggplot2/">simplystatistics</a>. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github.</p>
+<pre class="r"><code>tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50)</code></pre>
+<pre class="r"><code>library(here)</code></pre>
+<pre><code>## here() starts at /home/rob/Sandbox/academic-mymod/academic-mymod</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
+## ✓ tibble  2.1.3     ✓ dplyr   0.8.3
+## ✓ tidyr   1.0.0     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.4.0</code></pre>
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(ggflags)
+library(countrycode)
+
+dat &lt;- tibble(country = toupper(c(&quot;US&quot;, &quot;Italy&quot;, &quot;Canada&quot;, &quot;UK&quot;, &quot;Japan&quot;, &quot;Germany&quot;, &quot;France&quot;, &quot;Russia&quot;)),
+              count = c(3.2, 0.71, 0.5, 0.1, 0, 0.2, 0.1, 0),
+              label = c(as.character(c(3.2, 0.71, 0.5, 0.1, 0, 0.2, 0.1)), &quot;No Data&quot;),
+              code = c(&quot;us&quot;, &quot;it&quot;, &quot;ca&quot;, &quot;gb&quot;, &quot;jp&quot;, &quot;de&quot;, &quot;fr&quot;, &quot;ru&quot;))
+
+dat %&gt;% mutate(country = reorder(country, -count)) %&gt;%
+  ggplot(aes(country, count, label = label)) +
+  geom_bar(stat = &quot;identity&quot;, fill = &quot;darkred&quot;) +
+  geom_text(nudge_y = 0.2, color = &quot;darkred&quot;, size = 5) +
+  geom_flag(y = -.5, aes(country = code), size = 12) +
+  scale_y_continuous(breaks = c(0, 1, 2, 3, 4), limits = c(0,4)) +   
+  geom_text(aes(6.25, 3.8, label = &quot;Source UNODC Homicide Statistics&quot;)) + 
+  ggtitle(toupper(&quot;Homicide Per 100,000 in G-8 Countries&quot;)) + 
+  xlab(&quot;&quot;) + 
+  ylab(&quot;# of gun-related homicides\nper 100,000 people&quot;) +
+  ggthemes::theme_economist() +
+  theme(axis.text.x = element_text(size = 8, vjust = -16),
+        axis.ticks.x = element_blank(),
+        axis.line.x = element_blank(),
+        plot.margin = unit(c(1,1,1,1), &quot;cm&quot;)) -&gt; plot2
+library(gganimate)
+plot2 + transition_manual(code, cumulative=TRUE)</code></pre>
+<pre><code>## nframes and fps adjusted to match transition</code></pre>
+<p><img src="/post/2019-12-16-tidytuesday-measles_files/figure-html/cars-1.gif" /><!-- --></p>
+<p>Just an animation of the original. The next one took some playing but ended up exactly how I wanted it.</p>
+</div>
+<div id="diseases" class="section level1">
+<h1>Diseases</h1>
+<pre class="r"><code>the_disease &lt;- &quot;Measles&quot;
+dat &lt;- tuesdata$diseases %&gt;%
+  filter(disease == the_disease) %&gt;%
+  mutate(rate = count / population * 10000 * 52 / weeks_reporting) 
+jet.colors &lt;- colorRampPalette(c(&quot;#F0FFFF&quot;, &quot;cyan&quot;, &quot;#007FFF&quot;, &quot;yellow&quot;, &quot;#FFBF00&quot;, &quot;orange&quot;, &quot;red&quot;, &quot;#7F0000&quot;), bias = 2.25)
+my.dat1 &lt;- dat %&gt;% mutate(state = reorder(state, desc(state)))
+my.dat2 &lt;- dat %&gt;% mutate(state = reorder(state, desc(state)), year2 = year)
+  ggplot(my.dat1, aes(x=year, y=state, fill = rate)) +
+  geom_tile(color = &quot;white&quot;, size = 0.35, alpha = 0.2) +
+  scale_x_continuous(expand = c(0,0)) +
+  scale_fill_gradientn(colors = jet.colors(16), na.value = &#39;white&#39;) +
+  theme_minimal() + guides(alpha=FALSE, rate=FALSE) +
+  theme(panel.grid = element_blank()) +
+        coord_cartesian(clip = &#39;off&#39;) +
+        ggtitle(the_disease, subtitle = &quot;{current_frame}&quot;) +
+        ylab(&quot;&quot;) +
+        xlab(&quot;&quot;) +  
+        theme(legend.position = &quot;bottom&quot;, text = element_text(size = 8)) + 
+        annotate(geom = &quot;text&quot;, x = 1963, y = 50.5, label = &quot;Vaccine introduced&quot;, size = 3, hjust = 0) +
+  geom_tile(data = my.dat2, aes(x=year, y=state, fill = rate)) + geom_vline(xintercept = 1963, col = &quot;black&quot;) -&gt; plotD
+library(gganimate)
+plotD &lt;- plotD + transition_manual(year2, cumulative=TRUE)
+# anim_save(here(&quot;static&quot;,&quot;img&quot;,&quot;tidyTuesday.gif&quot;), animation = plotD)
+plotD</code></pre>
+<pre><code>## nframes and fps adjusted to match transition</code></pre>
+<p><img src="/post/2019-12-16-tidytuesday-measles_files/figure-html/unnamed-chunk-2-1.gif" /><!-- --></p>
+</div>
+<div id="now-a-map" class="section level1">
+<h1>Now a map</h1>
+<pre class="r"><code>library(fiftystater)
+data(&quot;fifty_states&quot;) # this line is optional due to lazy data loading
+head(fifty_states)</code></pre>
+<pre><code>##        long      lat order  hole piece      id     group
+## 1 -85.07007 31.98070     1 FALSE     1 alabama Alabama.1
+## 2 -85.11515 31.90742     2 FALSE     1 alabama Alabama.1
+## 3 -85.13557 31.85488     3 FALSE     1 alabama Alabama.1
+## 4 -85.13156 31.78381     4 FALSE     1 alabama Alabama.1
+## 5 -85.13017 31.77885     5 FALSE     1 alabama Alabama.1
+## 6 -85.11529 31.73157     6 FALSE     1 alabama Alabama.1</code></pre>
+<pre class="r"><code>my.dat1 &lt;- dat &lt;- tuesdata$diseases %&gt;%
+  filter(disease == the_disease) %&gt;%
+  mutate(rate = count / population * 10000 * 52 / weeks_reporting) %&gt;% mutate(state = tolower(state))
+data(&quot;fifty_states&quot;) # this line is optional due to lazy data loading
+crimes &lt;- data.frame(state = tolower(rownames(USArrests)), USArrests)
+crimes2 &lt;- left_join(crimes, my.dat1)</code></pre>
+<pre><code>## Joining, by = &quot;state&quot;</code></pre>
+<pre><code>## Warning: Column `state` joining factor and character vector, coercing into
+## character vector</code></pre>
+<pre class="r"><code># map_id creates the aesthetic mapping to the state name column in your data
+p &lt;- ggplot(crimes2, aes(map_id = state)) + 
+  # map points to the fifty_states shape data
+  geom_map(aes(fill = rate), map = fifty_states) + 
+  expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+  coord_map() +
+  scale_x_continuous(breaks = NULL) + 
+  scale_y_continuous(breaks = NULL) +
+  scale_fill_gradientn(colors = jet.colors(16), na.value = &#39;white&#39;) +
+  labs(x = &quot;&quot;, y = &quot;&quot;, title = the_disease, subtitle = &quot;{current_frame}&quot;) +
+  theme(legend.position = &quot;bottom&quot;, 
+        panel.background = element_blank())
+p1 &lt;- p + transition_manual(year, cumulative = FALSE)
+# anim_save(here(&quot;static&quot;,&quot;img&quot;,&quot;animMap.gif&quot;), animation = p1)
+p1</code></pre>
+<pre><code>## nframes and fps adjusted to match transition</code></pre>
+<p><img src="/post/2019-12-16-tidytuesday-measles_files/figure-html/unnamed-chunk-3-1.gif" /><!-- --></p>
+<p>I found a post on <a href="https://stackoverflow.com/questions/55967894/combining-two-animated-plot-into-one-gif-mp4">stackoverflow</a> to assist in putting them together.</p>
+<pre class="r"><code>appendGIFs &lt;- function(gif1, gif2, gifout=&quot;result.gif&quot;, vertically=FALSE, 
+                       delay=20, convert = &quot;/usr/bin/convert&quot;){
+  currentdir &lt;- getwd()
+  on.exit(setwd(currentdir))
+  tmpdir &lt;- tempdir()
+  invisible(file.remove(list.files(tmpdir, full.names = TRUE, pattern = &quot;*.gif$&quot;)))
+  file.copy(gif1, to = file.path(tmpdir, &quot;gif1.gif&quot;))
+  file.copy(gif2, to = file.path(tmpdir, &quot;gif2.gif&quot;))
+  setwd(tmpdir)
+  command &lt;- sprintf(&quot;%s gif1.gif -coalesce gif1-%%05d.gif&quot;, convert)
+  system(command)
+  command &lt;- sprintf(&quot;%s gif2.gif -coalesce gif2-%%05d.gif&quot;, convert)
+  system(command)
+  nframes &lt;- length(list.files(tmpdir, pattern = &quot;^gif1-.*gif$&quot;))
+  for(i in 1:nframes){
+    command &lt;- sprintf(&quot;%s gif1-%05d.gif gif2-%05d.gif %sappend gif-%05d.gif&quot;, 
+                       convert, i-1, i-1, ifelse(vertically, &quot;-&quot;, &quot;+&quot;), i)
+    system(command)
+  }
+  command &lt;- sprintf(&quot;%s -loop 0 -delay %d gif-*.gif result.gif&quot;, convert, delay)
+  system(command)
+  file.copy(&quot;result.gif&quot;, file.path(currentdir, gifout), overwrite=TRUE)
+}
+# appendGIFs(here(&quot;static&quot;,&quot;img&quot;,&quot;tidyTuesday.gif&quot;),here(&quot;static&quot;,&quot;img&quot;,&quot;mapAnim.gif&quot;), gifout = here(&quot;static&quot;,&quot;img&quot;,&quot;result.gif&quot;))</code></pre>
+<blockquote class="twitter-tweet">
+<p lang="en" dir="ltr">
+Wow, you can side-by-side gganimates with imagemagick. That was fun to put together. <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/tidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#tidyTuesday</a> An adaptation of measles and a map… <a href="https://t.co/FPOgAOQS84">pic.twitter.com/FPOgAOQS84</a>
+</p>
+— Robert Walker (<span class="citation">@PieRatio</span>) <a href="https://twitter.com/PieRatio/status/1206508341750456320?ref_src=twsrc%5Etfw">December 16, 2019</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/tidytuesday">tidyTuesday</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/gganimate">gganimate</a>
+  
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/fariss-human-rights-data-with-animation/">Fariss Human Rights Data with Animation</a></li>
+        
+        <li><a href="/post/the-economist-s-visualization-errors/">The Economist&#39;s Visualization Errors</a></li>
+        
+        <li><a href="/post/tidytuesday-does-pizza/">tidyTuesday does Pizza</a></li>
+        
+        <li><a href="/post/visualisation-with-archigos-leaders-of-the-world/">Visualisation with Archigos: Leaders of the World</a></li>
+        
+        <li><a href="/post/tidytuesday-coffee-chains/">tidyTuesday: coffee chains</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/%!s(<nil>)/jquery.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/%!s(<nil>)/imagesloaded.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/js/bootstrap.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/%!s(<nil>)/isotope.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/%!s(<nil>)/highlight.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/%!s(<nil>)/MathJax.js?config=TeX-AMS_CHTML" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+
