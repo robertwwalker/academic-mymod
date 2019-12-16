@@ -299,7 +299,7 @@ tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here() st
     <div class="article-style">
       
       International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
-library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &lt;- tt_load(2019, week = 50) murders &lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier.
+library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &lt;- tt_load(2019, week = 50) murders &lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier.
 l &lt;- leaflet() %&gt;% setView(0,0,2) esri &lt;- grep(&quot;^Esri&quot;, providers, value = TRUE) for (provider in esri) { l &lt;- l %&gt;% addProviderTiles(provider, group = provider) } l %&gt;% addLayersControl(baseGroups = names(esri), options = layersControlOptions(collapsed = FALSE)) %&gt;% addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE, position = &quot;bottomleft&quot;) %&gt;% htmlwidgets::onRender(&quot; function(el, x) { var myMap = this; myMap.
       
     </div>

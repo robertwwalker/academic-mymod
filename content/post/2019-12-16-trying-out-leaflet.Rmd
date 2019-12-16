@@ -31,6 +31,8 @@ library(stringr)
 library(sf)
 library(here)
 library(widgetframe)
+library(htmlwidgets)
+library(htmltools)
 options(digits = 3)
 set.seed(1234)
 theme_set(theme_minimal())
@@ -61,8 +63,10 @@ l %>%
           myMap.minimap.changeLayer(L.tileLayer.provider(e.name));
         })
     }")
-l
+saveWidget(l, here("static","img","leafMap1.html"))
 ```
+
+<iframe src='/img/leafMap1.html'></iframe>
 
 Now for some data.  As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame.  There is one in the package `tmap`.  First, to load it.
 
@@ -77,7 +81,7 @@ tmap_mode("view")
 my.map <- tm_shape(World.M) +
     tm_polygons("Murders", title="", palette = "viridis") + tm_layout(panel.labels = "Gun Murders")
 lf <- tmap_leaflet(my.map)
-lf
+saveWidget(lf, here("static","img","leafMap.html"))
 ```
 
-
+<iframe src='/img/leafMap.html'></iframe>
