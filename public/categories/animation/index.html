@@ -295,6 +295,27 @@ tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here() st
   </div>
   
   <div>
+    <h2><a href="/post/philaselphia-parking-tickets-a-tidytuesday/">Philaselphia Parking Tickets: a tidyTuesday</a></h2>
+    <div class="article-style">
+      
+      Philadelphia Map Use ggmap for the base layer.
+library(ggmap); library(osmdata); library(tidyverse) PHI &lt;- get_map(getbb(&quot;Philadelphia, PA&quot;), maptype = &quot;stamen&quot;, zoom=12)  Get the Tickets Data TidyTuesday covers 1.26 million parking tickets in Philadelphia.
+tickets &lt;- readr::read_csv(&quot;<a href="https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-03/tickets.csv&quot;" target="_blank">https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-03/tickets.csv&quot;</a>) ## Parsed with column specification: ## cols( ## violation_desc = col_character(), ## issue_datetime = col_datetime(format = &quot;&quot;), ## fine = col_double(), ## issuing_agency = col_character(), ## lat = col_double(), ## lon = col_double(), ## zip_code = col_double() ## )  Two Lines of Code Left library(lubridate); library(ggthemes) tickets &lt;- tickets %&gt;% mutate(Day = wday(issue_datetime, label=TRUE)) # use lubridate to extract the day of the month.
+      
+    </div>
+  </div>
+  
+  <div>
+    <h2><a href="/post/uscensus-mapping/">US Census Mapping</a></h2>
+    <div class="article-style">
+      
+      Searching and Mapping the Census  Searching for the Asian Population via the Census To use tidycensus, there are limitations imposed by the available tables. There is ACS – a survey of about 3 million people – and the two main decennial census files [SF1] and [SF2]. I will search SF1 for the Asian population.
+library(tidycensus); library(kableExtra) library(tidyverse); library(stringr) v10 &lt;- load_variables(2010, &quot;sf1&quot;, cache = TRUE) v10 %&gt;% filter(str_detect(concept, &quot;ASIAN&quot;)) %&gt;% filter(str_detect(label, &quot;Female&quot;)) %&gt;% kable() %&gt;% scroll_box(width = &quot;100%&quot;)    name  label  concept      P012D026  Total!
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/fariss-human-rights-data-with-animation/">Fariss Human Rights Data with Animation</a></h2>
     <div class="article-style">
       

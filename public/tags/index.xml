@@ -40,6 +40,15 @@
     </item>
     
     <item>
+      <title>Maps</title>
+      <link>/tags/maps/</link>
+      <pubDate>Mon, 09 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/maps/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>tidyverse</title>
       <link>/tags/tidyverse/</link>
       <pubDate>Sat, 16 Nov 2019 00:00:00 +0000</pubDate>
@@ -90,15 +99,6 @@
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/plot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Maps</title>
-      <link>/tags/maps/</link>
-      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/maps/</guid>
       <description></description>
     </item>
     

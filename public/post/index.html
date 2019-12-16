@@ -357,6 +357,151 @@ tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here() st
 
   <span class="article-date">
     
+    <time datetime="2019-12-09 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2019-12-09
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    2 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/animation">animation</a
+    >, 
+    
+    <a href="/categories/tidyverse">tidyverse</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="/post/philaselphia-parking-tickets-a-tidytuesday/" itemprop="url">Philaselphia Parking Tickets: a tidyTuesday</a>
+  </h3>
+  <div class="article-style" itemprop="articleBody">
+    
+    Philadelphia Map Use ggmap for the base layer.
+library(ggmap); library(osmdata); library(tidyverse) PHI &lt;- get_map(getbb(&quot;Philadelphia, PA&quot;), maptype = &quot;stamen&quot;, zoom=12)  Get the Tickets Data TidyTuesday covers 1.26 million parking tickets in Philadelphia.
+tickets &lt;- readr::read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-03/tickets.csv&quot;) ## Parsed with column specification: ## cols( ## violation_desc = col_character(), ## issue_datetime = col_datetime(format = &quot;&quot;), ## fine = col_double(), ## issuing_agency = col_character(), ## lat = col_double(), ## lon = col_double(), ## zip_code = col_double() ## )  Two Lines of Code Left library(lubridate); library(ggthemes) tickets &lt;- tickets %&gt;% mutate(Day = wday(issue_datetime, label=TRUE)) # use lubridate to extract the day of the month.
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="/post/philaselphia-parking-tickets-a-tidytuesday/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+  
+    
+    
+
+<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-12-09 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2019-12-09
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1643 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/animation">animation</a
+    >, 
+    
+    <a href="/categories/tidyverse">tidyverse</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="/post/uscensus-mapping/" itemprop="url">US Census Mapping</a>
+  </h3>
+  <div class="article-style" itemprop="articleBody">
+    
+    Searching and Mapping the Census  Searching for the Asian Population via the Census To use tidycensus, there are limitations imposed by the available tables. There is ACS – a survey of about 3 million people – and the two main decennial census files [SF1] and [SF2]. I will search SF1 for the Asian population.
+library(tidycensus); library(kableExtra) library(tidyverse); library(stringr) v10 &lt;- load_variables(2010, &quot;sf1&quot;, cache = TRUE) v10 %&gt;% filter(str_detect(concept, &quot;ASIAN&quot;)) %&gt;% filter(str_detect(label, &quot;Female&quot;)) %&gt;% kable() %&gt;% scroll_box(width = &quot;100%&quot;)    name  label  concept      P012D026  Total!
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="/post/uscensus-mapping/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+  
+    
+    
+
+<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
     <time datetime="2019-11-16 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
       2019-11-16
     </time>
@@ -798,148 +943,6 @@ I have drawn the following example from a #tidyTuesday earlier this year that ex
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
     <a href="/post/the-economist-s-visualization-errors/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-  
-    
-    
-
-<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2019-10-09 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      2019-10-09
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Robert W. Walker">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    13 min read
-  </span>
-  
-
-  
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/tidyverse">tidyverse</a
-    >, 
-    
-    <a href="/categories/r">R</a
-    >, 
-    
-    <a href="/categories/maps">Maps</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="/post/tidytuesday-does-pizza/" itemprop="url">tidyTuesday does Pizza</a>
-  </h3>
-  <div class="article-style" itemprop="articleBody">
-    
-    Pizza Ratings The #tidyTuesday for this week involves pizza shop ratings data. Let’s see what we have.
-pizza_jared &lt;- readr::read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_jared.csv&quot;) ## Parsed with column specification: ## cols( ## polla_qid = col_double(), ## answer = col_character(), ## votes = col_double(), ## pollq_id = col_double(), ## question = col_character(), ## place = col_character(), ## time = col_double(), ## total_votes = col_double(), ## percent = col_double() ## ) pizza_barstool &lt;- readr::read_csv(&quot;https://raw.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/tidytuesday-does-pizza/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-  
-    
-    
-
-<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2019-05-22 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      2019-05-22
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Robert W. Walker">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    3 min read
-  </span>
-  
-
-  
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/tidyverse">tidyverse</a
-    >, 
-    
-    <a href="/categories/tidytext">tidytext</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="/post/some-basic-text-on-the-mueller-report/" itemprop="url">Some Basic Text on the Mueller Report</a>
-  </h3>
-  <div class="article-style" itemprop="articleBody">
-    
-    So this Robert Mueller guy wrote a report I may as well analyse it a bit.
-First, let me see if I can get a hold of the data. I grabbed the report directly from the Department of Justice website. You can follow this link.
-library(tidyverse) library(pdftools) # Download report from link above mueller_report_txt &lt;- pdf_text(&quot;../data/report.pdf&quot;) # Create a tibble of the text with line numbers and pages mueller_report &lt;- tibble( page = 1:length(mueller_report_txt), text = mueller_report_txt) %&gt;% separate_rows(text, sep = &quot;\n&quot;) %&gt;% group_by(page) %&gt;% mutate(line = row_number()) %&gt;% ungroup() %&gt;% select(page, line, text) write_csv(mueller_report, &quot;data/mueller_report.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/some-basic-text-on-the-mueller-report/" class="btn btn-primary btn-outline">
       CONTINUE READING
     </a>
   </p>

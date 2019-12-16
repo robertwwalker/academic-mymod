@@ -23,6 +23,27 @@ tuesdata &amp;lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here(
     </item>
     
     <item>
+      <title>Philaselphia Parking Tickets: a tidyTuesday</title>
+      <link>/post/philaselphia-parking-tickets-a-tidytuesday/</link>
+      <pubDate>Mon, 09 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/philaselphia-parking-tickets-a-tidytuesday/</guid>
+      <description>Philadelphia Map Use ggmap for the base layer.
+library(ggmap); library(osmdata); library(tidyverse) PHI &amp;lt;- get_map(getbb(&amp;quot;Philadelphia, PA&amp;quot;), maptype = &amp;quot;stamen&amp;quot;, zoom=12)  Get the Tickets Data TidyTuesday covers 1.26 million parking tickets in Philadelphia.
+tickets &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-03/tickets.csv&amp;quot;) ## Parsed with column specification: ## cols( ## violation_desc = col_character(), ## issue_datetime = col_datetime(format = &amp;quot;&amp;quot;), ## fine = col_double(), ## issuing_agency = col_character(), ## lat = col_double(), ## lon = col_double(), ## zip_code = col_double() ## )  Two Lines of Code Left library(lubridate); library(ggthemes) tickets &amp;lt;- tickets %&amp;gt;% mutate(Day = wday(issue_datetime, label=TRUE)) # use lubridate to extract the day of the month.</description>
+    </item>
+    
+    <item>
+      <title>US Census Mapping</title>
+      <link>/post/uscensus-mapping/</link>
+      <pubDate>Mon, 09 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/uscensus-mapping/</guid>
+      <description>Searching and Mapping the Census  Searching for the Asian Population via the Census To use tidycensus, there are limitations imposed by the available tables. There is ACS – a survey of about 3 million people – and the two main decennial census files [SF1] and [SF2]. I will search SF1 for the Asian population.
+library(tidycensus); library(kableExtra) library(tidyverse); library(stringr) v10 &amp;lt;- load_variables(2010, &amp;quot;sf1&amp;quot;, cache = TRUE) v10 %&amp;gt;% filter(str_detect(concept, &amp;quot;ASIAN&amp;quot;)) %&amp;gt;% filter(str_detect(label, &amp;quot;Female&amp;quot;)) %&amp;gt;% kable() %&amp;gt;% scroll_box(width = &amp;quot;100%&amp;quot;)    name  label  concept      P012D026  Total!</description>
+    </item>
+    
+    <item>
       <title>The Generation Squeeze</title>
       <link>/post/the-generation-squeeze/</link>
       <pubDate>Sat, 16 Nov 2019 00:00:00 +0000</pubDate>

@@ -285,6 +285,148 @@
 
   <span class="article-date">
     
+    <time datetime="2019-10-09 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2019-10-09
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    13 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/tidyverse">tidyverse</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/maps">Maps</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="/post/tidytuesday-does-pizza/" itemprop="url">tidyTuesday does Pizza</a>
+  </h3>
+  <div class="article-style" itemprop="articleBody">
+    
+    Pizza Ratings The #tidyTuesday for this week involves pizza shop ratings data. Let’s see what we have.
+pizza_jared &lt;- readr::read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_jared.csv&quot;) ## Parsed with column specification: ## cols( ## polla_qid = col_double(), ## answer = col_character(), ## votes = col_double(), ## pollq_id = col_double(), ## question = col_character(), ## place = col_character(), ## time = col_double(), ## total_votes = col_double(), ## percent = col_double() ## ) pizza_barstool &lt;- readr::read_csv(&quot;https://raw.
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="/post/tidytuesday-does-pizza/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+  
+    
+    
+
+<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-05-22 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2019-05-22
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    3 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/tidyverse">tidyverse</a
+    >, 
+    
+    <a href="/categories/tidytext">tidytext</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="/post/some-basic-text-on-the-mueller-report/" itemprop="url">Some Basic Text on the Mueller Report</a>
+  </h3>
+  <div class="article-style" itemprop="articleBody">
+    
+    So this Robert Mueller guy wrote a report I may as well analyse it a bit.
+First, let me see if I can get a hold of the data. I grabbed the report directly from the Department of Justice website. You can follow this link.
+library(tidyverse) library(pdftools) # Download report from link above mueller_report_txt &lt;- pdf_text(&quot;../data/report.pdf&quot;) # Create a tibble of the text with line numbers and pages mueller_report &lt;- tibble( page = 1:length(mueller_report_txt), text = mueller_report_txt) %&gt;% separate_rows(text, sep = &quot;\n&quot;) %&gt;% group_by(page) %&gt;% mutate(line = row_number()) %&gt;% ungroup() %&gt;% select(page, line, text) write_csv(mueller_report, &quot;data/mueller_report.
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="/post/some-basic-text-on-the-mueller-report/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+  
+    
+    
+
+<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
     <time datetime="2019-04-30 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
       2019-04-30
     </time>
@@ -825,145 +967,6 @@ library(readxl) library(tidyverse) ## ── Attaching packages ─────�
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
     <a href="/post/tidytuesday-coffee-chains/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-  
-    
-    
-
-<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2018-04-18 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      2018-04-18
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Robert W. Walker">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    8 min read
-  </span>
-  
-
-  
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/tidyverse">tidyverse</a
-    >, 
-    
-    <a href="/categories/r">R</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="/post/tidytuesday-takes-on-global-mortality/" itemprop="url">Global mortality tidyTuesday</a>
-  </h3>
-  <div class="article-style" itemprop="articleBody">
-    
-    tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
-Here is this week’s tidyTuesday.
-library(skimr) library(tidyverse) library(rlang) # global_mortality &lt;- readRDS(&quot;../../data/global_mortality.rds&quot;) global_mortality &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/tidytuesday-takes-on-global-mortality/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-  
-    
-    
-
-<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2018-04-08 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      2018-04-08
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Robert W. Walker">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    13 min read
-  </span>
-  
-
-  
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/r">R</a
-    >, 
-    
-    <a href="/categories/web-scraping">web scraping</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="/post/scraping-epl-salary-data/" itemprop="url">Scraping EPL Salary Data</a>
-  </h3>
-  <div class="article-style" itemprop="articleBody">
-    
-    EPL Scraping In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.
-library(rvest) library(tidyverse) base_url &lt;- &quot;http://www.spotrac.com/epl/&quot; read.base &lt;- read_html(base_url) team.URL &lt;- read.base %&gt;% html_nodes(&quot;.team-name&quot;) %&gt;% html_attr(&#39;href&#39;) team.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/scraping-epl-salary-data/" class="btn btn-primary btn-outline">
       CONTINUE READING
     </a>
   </p>
