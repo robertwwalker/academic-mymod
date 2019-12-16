@@ -19,7 +19,7 @@
   
   <meta name="description" content="International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
 library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &lt;- tt_load(2019, week = 50) murders &lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier.
-l &lt;- leaflet() %&gt;% setView(0,0,2) esri &lt;- grep(&quot;^Esri&quot;, providers, value = TRUE) for (provider in esri) { l &lt;- l %&gt;% addProviderTiles(provider, group = provider) } l %&gt;% addLayersControl(baseGroups = names(esri), options = layersControlOptions(collapsed = FALSE)) %&gt;% addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE, position = &quot;bottomleft&quot;) %&gt;% htmlwidgets::onRender(&quot; function(el, x) { var myMap = this; myMap.">
+l &lt;- leaflet() %&gt;% setView(0,0,2) esri &lt;- grep(&quot;^Esri&quot;, providers, value = TRUE) for (provider in esri) { l &lt;- l %&gt;% addProviderTiles(provider, group = provider) } l &lt;- l %&gt;% addLayersControl(baseGroups = names(esri), options = layersControlOptions(collapsed = FALSE)) %&gt;% addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE, position = &quot;bottomleft&quot;) %&gt;% htmlwidgets::onRender(&quot; function(el, x) { var myMap = this; myMap.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/trying-out-leaflet/">
@@ -82,7 +82,7 @@ l &lt;- leaflet() %&gt;% setView(0,0,2) esri &lt;- grep(&quot;^Esri&quot;, provi
   <meta property="og:title" content="Trying out Leaflet | Robert W. Walker">
   <meta property="og:description" content="International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
 library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &lt;- tt_load(2019, week = 50) murders &lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier.
-l &lt;- leaflet() %&gt;% setView(0,0,2) esri &lt;- grep(&quot;^Esri&quot;, providers, value = TRUE) for (provider in esri) { l &lt;- l %&gt;% addProviderTiles(provider, group = provider) } l %&gt;% addLayersControl(baseGroups = names(esri), options = layersControlOptions(collapsed = FALSE)) %&gt;% addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE, position = &quot;bottomleft&quot;) %&gt;% htmlwidgets::onRender(&quot; function(el, x) { var myMap = this; myMap.">
+l &lt;- leaflet() %&gt;% setView(0,0,2) esri &lt;- grep(&quot;^Esri&quot;, providers, value = TRUE) for (provider in esri) { l &lt;- l %&gt;% addProviderTiles(provider, group = provider) } l &lt;- l %&gt;% addLayersControl(baseGroups = names(esri), options = layersControlOptions(collapsed = FALSE)) %&gt;% addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE, position = &quot;bottomleft&quot;) %&gt;% htmlwidgets::onRender(&quot; function(el, x) { var myMap = this; myMap.">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2019-12-16T00:00:00&#43;00:00">
@@ -376,20 +376,6 @@ l &lt;- leaflet() %&gt;% setView(0,0,2) esri &lt;- grep(&quot;^Esri&quot;, provi
 
     <div class="article-style" itemprop="articleBody">
       
-<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
-<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
-<link href="/rmarkdown-libs/leaflet/leaflet.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/leaflet/leaflet.js"></script>
-<link href="/rmarkdown-libs/leafletfix/leafletfix.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/Proj4Leaflet/proj4-compressed.js"></script>
-<script src="/rmarkdown-libs/Proj4Leaflet/proj4leaflet.js"></script>
-<link href="/rmarkdown-libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/leaflet-binding/leaflet.js"></script>
-<script src="/rmarkdown-libs/leaflet-providers/leaflet-providers_1.9.0.js"></script>
-<script src="/rmarkdown-libs/leaflet-providers-plugin/leaflet-providers-plugin.js"></script>
-<link href="/rmarkdown-libs/leaflet-minimap/Control.MiniMap.min.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/leaflet-minimap/Control.MiniMap.min.js"></script>
-<script src="/rmarkdown-libs/leaflet-minimap/Minimap-binding.js"></script>
 
 
 <div id="international-murders" class="section level1">
@@ -416,7 +402,7 @@ for (provider in esri) {
     l &lt;- l %&gt;% addProviderTiles(provider, group = provider)
 }
 
-l %&gt;%
+l &lt;- l %&gt;%
     addLayersControl(baseGroups = names(esri),
                      options = layersControlOptions(collapsed = FALSE)) %&gt;%
     addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE,
@@ -428,12 +414,9 @@ l %&gt;%
         function (e) {
           myMap.minimap.changeLayer(L.tileLayer.provider(e.name));
         })
-    }&quot;)</code></pre>
-<div id="htmlwidget-1" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[0,0],2,[]],"calls":[{"method":"addProviderTiles","args":["Esri",null,"Esri",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldStreetMap",null,"Esri.WorldStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.DeLorme",null,"Esri.DeLorme",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Esri.WorldTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldImagery",null,"Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldTerrain",null,"Esri.WorldTerrain",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldShadedRelief",null,"Esri.WorldShadedRelief",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldPhysical",null,"Esri.WorldPhysical",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.OceanBasemap",null,"Esri.OceanBasemap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,"Esri.NatGeoWorldMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,"Esri.WorldGrayCanvas",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addLayersControl","args":[["Esri","Esri.WorldStreetMap","Esri.DeLorme","Esri.WorldTopoMap","Esri.WorldImagery","Esri.WorldTerrain","Esri.WorldShadedRelief","Esri.WorldPhysical","Esri.OceanBasemap","Esri.NatGeoWorldMap","Esri.WorldGrayCanvas"],[],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addMiniMap","args":[null,"Esri","bottomleft",150,150,19,19,-5,false,false,false,true,false,false,{"color":"#ff7800","weight":1,"clickable":false},{"color":"#000000","weight":1,"clickable":false,"opacity":0,"fillOpacity":0},{"hideText":"Hide MiniMap","showText":"Show MiniMap"},[]]}]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n    function(el, x) {\n      var myMap = this;\n      myMap.on('baselayerchange',\n        function (e) {\n          myMap.minimap.changeLayer(L.tileLayer.provider(e.name));\n        })\n    }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
-<pre class="r"><code>saveWidget(l, here(&quot;static&quot;,&quot;img&quot;,&quot;leafMap1.html&quot;))</code></pre>
-<iframe src="/img/leafMap1.html">
-</iframe>
+    }&quot;)
+saveWidget(l, here(&quot;static&quot;,&quot;img&quot;,&quot;leafMap1.html&quot;))</code></pre>
+<p>&lt;iframe src=‘/img/leafMap1.html’, width=800, height=600&gt;</iframe></p>
 <p>Now for some data. As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame. There is one in the package <code>tmap</code>. First, to load it.</p>
 <pre class="r"><code>library(tmap)
 data(&quot;World&quot;)
@@ -446,8 +429,7 @@ my.map &lt;- tm_shape(World.M) +
     tm_polygons(&quot;Murders&quot;, title=&quot;&quot;, palette = &quot;viridis&quot;) + tm_layout(panel.labels = &quot;Gun Murders&quot;)
 lf &lt;- tmap_leaflet(my.map)
 saveWidget(lf, here(&quot;static&quot;,&quot;img&quot;,&quot;leafMap.html&quot;))</code></pre>
-<iframe src="/img/leafMap.html">
-</iframe>
+<p>&lt;iframe src=‘/img/leafMap.html’, width=800, height=600&gt;</iframe></p>
 </div>
 
     </div>
