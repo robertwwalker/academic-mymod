@@ -63,25 +63,25 @@ l <- l %>%
           myMap.minimap.changeLayer(L.tileLayer.provider(e.name));
         })
     }")
-saveWidget(l, here("static","img","leafMap1.html"))
+frameWidget(l, height = '600')
 ```
 
-<iframe src='/img/leafMap1.html', width=800, height=600></iframe>
 
-Now for some data.  As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame.  There is one in the package `tmap`.  First, to load it.
+Now for some data.  As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame.  There is one in the package `tmap`.  First, to load it.  My names are upper case.
 
 ```{r}
 library(tmap)
 data("World")
 World <- World %>% mutate(name = toupper(name))
-World.M <- World %>% left_join(., tuesdata$gun_murders, by = c( "name" = "country"))
+murders[murders$country=="CZECH REPUBLIC","country"] <- "CZECH REP."
+murders[murders$country=="HUNGRY","country"] <- "HUNGARY"
+murders[murders$country=="REPUBLIC OF KOREA","country"] <- "KOREA"
+World.M <- World %>% left_join(., murders, by = c( "name" = "country"))
 World.M <- World.M %>% mutate(Murders = count)
 tmap_style("white")
 tmap_mode("view")
 my.map <- tm_shape(World.M) +
     tm_polygons("Murders", title="", palette = "viridis") + tm_layout(panel.labels = "Gun Murders")
 lf <- tmap_leaflet(my.map)
-saveWidget(lf, here("static","img","leafMap.html"))
+frameWidget(lf, height='600')
 ```
-
-<iframe src='/img/leafMap.html', width=800, height=600></iframe>
