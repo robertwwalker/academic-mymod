@@ -17,11 +17,11 @@
       
     
   
-  <meta name="description" content="International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
-library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &lt;- tt_load(2019, week = 50) murders &lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier. Now for some data. As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame.">
+  <meta name="description" content="Adoptable Dogs # devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;, force=TRUE) tuesdata51 &lt;- tidytuesdayR::tt_load(2019, week = 51) dog_moves &lt;- tuesdata51$dog_moves library(tidyverse); library(scatterpie) library(rgeos) library(maptools) library(rgdal); library(usmap); library(ggthemes)  The Base Map My.Map &lt;- us_map(regions = &quot;states&quot;) Base.Plot &lt;- ggplot() &#43; geom_polygon(data=My.Map, aes(x=x, y=y, group=group), fill=&quot;white&quot;, color=&quot;black&quot;) &#43; theme_map() Base.Plot A fifty state map to plot this information on.
+New.Dat &lt;- left_join(My.Map, dog_moves, by= c(&quot;full&quot; = &quot;location&quot;)) ggplot() &#43; geom_polygon(data=New.Dat, aes(x=x, y=y, group=group, fill=total), color=&quot;black&quot;) &#43; scale_fill_viridis_c() &#43; labs(title = &quot;Dogs Available for Adoption&quot;) That’s a start.">
 
   
-  <link rel="alternate" hreflang="en-us" href="/post/trying-out-leaflet/">
+  <link rel="alternate" hreflang="en-us" href="/post/dog-movements-a-tidytuesday/">
 
   
 
@@ -69,7 +69,7 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/post/trying-out-leaflet/">
+  <link rel="canonical" href="/post/dog-movements-a-tidytuesday/">
 
   <meta property="twitter:card" content="summary_large_image">
   
@@ -77,20 +77,20 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
   <meta property="twitter:creator" content="@PieRatio">
   
   <meta property="og:site_name" content="Robert W. Walker">
-  <meta property="og:url" content="/post/trying-out-leaflet/">
-  <meta property="og:title" content="Trying out Leaflet | Robert W. Walker">
-  <meta property="og:description" content="International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
-library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &lt;- tt_load(2019, week = 50) murders &lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier. Now for some data. As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame.">
+  <meta property="og:url" content="/post/dog-movements-a-tidytuesday/">
+  <meta property="og:title" content="Dog Movements: a tidyTuesday | Robert W. Walker">
+  <meta property="og:description" content="Adoptable Dogs # devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;, force=TRUE) tuesdata51 &lt;- tidytuesdayR::tt_load(2019, week = 51) dog_moves &lt;- tuesdata51$dog_moves library(tidyverse); library(scatterpie) library(rgeos) library(maptools) library(rgdal); library(usmap); library(ggthemes)  The Base Map My.Map &lt;- us_map(regions = &quot;states&quot;) Base.Plot &lt;- ggplot() &#43; geom_polygon(data=My.Map, aes(x=x, y=y, group=group), fill=&quot;white&quot;, color=&quot;black&quot;) &#43; theme_map() Base.Plot A fifty state map to plot this information on.
+New.Dat &lt;- left_join(My.Map, dog_moves, by= c(&quot;full&quot; = &quot;location&quot;)) ggplot() &#43; geom_polygon(data=New.Dat, aes(x=x, y=y, group=group, fill=total), color=&quot;black&quot;) &#43; scale_fill_viridis_c() &#43; labs(title = &quot;Dogs Available for Adoption&quot;) That’s a start.">
   <meta property="og:locale" content="en-us">
   
-  <meta property="article:published_time" content="2019-12-16T00:00:00&#43;00:00">
+  <meta property="article:published_time" content="2019-12-17T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2019-12-16T00:00:00&#43;00:00">
-  
-
+  <meta property="article:modified_time" content="2019-12-17T00:00:00&#43;00:00">
   
 
-  <title>Trying out Leaflet | Robert W. Walker</title>
+  
+
+  <title>Dog Movements: a tidyTuesday | Robert W. Walker</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
@@ -285,7 +285,7 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
 
 
   <div class="article-container">
-    <h1 itemprop="name">Trying out Leaflet</h1>
+    <h1 itemprop="name">Dog Movements: a tidyTuesday</h1>
 
     
 
@@ -293,8 +293,8 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
 
   <span class="article-date">
     
-    <time datetime="2019-12-16 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      2019-12-16
+    <time datetime="2019-12-17 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2019-12-17
     </time>
   </span>
   <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
@@ -304,7 +304,7 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    1 min read
   </span>
   
 
@@ -318,7 +318,10 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
   <span class="article-categories">
     <i class="fa fa-folder"></i>
     
-    <a href="/categories/r">R</a
+    <a href="/categories/tidyverse">tidyverse</a
+    >, 
+    
+    <a href="/categories/tidytuesday">tidyTuesday</a
     >
     
   </span>
@@ -331,35 +334,35 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
   <ul class="share">
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=Trying%20out%20Leaflet&amp;url=%2fpost%2ftrying-out-leaflet%2f"
+         href="https://twitter.com/intent/tweet?text=Dog%20Movements%3a%20a%20tidyTuesday&amp;url=%2fpost%2fdog-movements-a-tidytuesday%2f"
          target="_blank" rel="noopener">
         <i class="fa fa-twitter"></i>
       </a>
     </li>
     <li>
       <a class="facebook"
-         href="https://www.facebook.com/sharer.php?u=%2fpost%2ftrying-out-leaflet%2f"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fdog-movements-a-tidytuesday%2f"
          target="_blank" rel="noopener">
         <i class="fa fa-facebook"></i>
       </a>
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ftrying-out-leaflet%2f&amp;title=Trying%20out%20Leaflet"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fdog-movements-a-tidytuesday%2f&amp;title=Dog%20Movements%3a%20a%20tidyTuesday"
          target="_blank" rel="noopener">
         <i class="fa fa-linkedin"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=%2fpost%2ftrying-out-leaflet%2f&amp;title=Trying%20out%20Leaflet"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fdog-movements-a-tidytuesday%2f&amp;title=Dog%20Movements%3a%20a%20tidyTuesday"
          target="_blank" rel="noopener">
         <i class="fa fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=Trying%20out%20Leaflet&amp;body=%2fpost%2ftrying-out-leaflet%2f">
+         href="mailto:?subject=Dog%20Movements%3a%20a%20tidyTuesday&amp;body=%2fpost%2fdog-movements-a-tidytuesday%2f">
         <i class="fa fa-envelope"></i>
       </a>
     </li>
@@ -374,73 +377,39 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
 
     <div class="article-style" itemprop="articleBody">
       
-<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
-<script src="/rmarkdown-libs/pymjs/pym.v1.js"></script>
-<script src="/rmarkdown-libs/widgetframe-binding/widgetframe.js"></script>
 
 
-<div id="international-murders" class="section level1">
-<h1>International Murders</h1>
-<p>Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.</p>
-<pre class="r"><code>library(tidyverse)
-library(leaflet)
-library(stringr)
-library(sf)
-library(here)
-library(widgetframe)
-library(htmlwidgets)
-library(htmltools)
-options(digits = 3)
-set.seed(1234)
-theme_set(theme_minimal())
-library(tidytuesdayR)
-tuesdata &lt;- tt_load(2019, week = 50)
-murders &lt;- tuesdata$gun_murders</code></pre>
-<p>There isn’t much data so it should make this a bit easier. Now for some data. As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame. There is one in the package <code>tmap</code>. First, to load it. My names are upper case.</p>
-<pre class="r"><code>library(tmap)
-data(&quot;World&quot;)
-World &lt;- World %&gt;% mutate(name = toupper(name))
-murders[murders$country==&quot;CZECH REPUBLIC&quot;,&quot;country&quot;] &lt;- &quot;CZECH REP.&quot;
-murders[murders$country==&quot;HUNGRY&quot;,&quot;country&quot;] &lt;- &quot;HUNGARY&quot;
-murders[murders$country==&quot;REPUBLIC OF KOREA&quot;,&quot;country&quot;] &lt;- &quot;KOREA&quot;
-World.M &lt;- World %&gt;% left_join(., murders, by = c( &quot;name&quot; = &quot;country&quot;))
-World.M &lt;- World.M %&gt;% mutate(Murders = count)
-tmap_style(&quot;white&quot;)
-tmap_mode(&quot;view&quot;)
-my.map &lt;- tm_shape(World.M) +
-    tm_polygons(&quot;Murders&quot;, title=&quot;&quot;, palette = &quot;viridis&quot;) + tm_layout(panel.labels = &quot;Gun Murders&quot;)
-lf &lt;- tmap_leaflet(my.map)
-frameWidget(lf, height=&#39;600&#39;)</code></pre>
-<div id="htmlwidget-1" style="width:100%;height:600px;" class="widgetframe html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1">{"x":{"url":"/post/2019-12-16-trying-out-leaflet_files/figure-html//widgets/widget_unnamed-chunk-2.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
-<p>That’s convenient because I think I can also modify this for something else.</p>
-<pre class="r"><code>World.M.SF &lt;- sf::as_Spatial(World.M)
-l &lt;- leaflet(World.M.SF) %&gt;% setView(0,0,2) %&gt;% addPolygons(weight = 1, smoothFactor = 0.5,
-    opacity = 1.0, fillOpacity = 0.5,
-    fillColor = ~colorQuantile(&quot;YlOrRd&quot;, Murders)(Murders),
-    highlightOptions = highlightOptions(color = &quot;white&quot;, weight = 2,
-      bringToFront = TRUE))
-esri &lt;- grep(&quot;^Esri&quot;, providers, value = TRUE)
-for (provider in esri) {
-    l &lt;- l %&gt;% addProviderTiles(provider, group = provider)
-}
-l &lt;- l %&gt;%
-    addLayersControl(baseGroups = names(esri),
-                     options = layersControlOptions(collapsed = FALSE)) %&gt;%
-    addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE,
-               position = &quot;bottomleft&quot;) %&gt;%
-    htmlwidgets::onRender(&quot;
-    function(el, x) {
-      var myMap = this;
-      myMap.on(&#39;baselayerchange&#39;,
-        function (e) {
-          myMap.minimap.changeLayer(L.tileLayer.provider(e.name));
-        })
-    }&quot;)
-# sf:::as_Spatial()
-frameWidget(l, height = &#39;600&#39;)</code></pre>
-<div id="htmlwidget-2" style="width:100%;height:600px;" class="widgetframe html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2">{"x":{"url":"/post/2019-12-16-trying-out-leaflet_files/figure-html//widgets/widget_unnamed-chunk-3.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+<div id="adoptable-dogs" class="section level1">
+<h1>Adoptable Dogs</h1>
+<pre class="r"><code># devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;, force=TRUE)
+tuesdata51 &lt;- tidytuesdayR::tt_load(2019, week = 51)
+dog_moves &lt;- tuesdata51$dog_moves
+library(tidyverse); library(scatterpie)
+library(rgeos)
+library(maptools)
+library(rgdal); library(usmap); library(ggthemes)</code></pre>
+</div>
+<div id="the-base-map" class="section level1">
+<h1>The Base Map</h1>
+<pre class="r"><code>My.Map &lt;- us_map(regions = &quot;states&quot;)
+Base.Plot &lt;- ggplot() + geom_polygon(data=My.Map, aes(x=x, y=y, group=group), fill=&quot;white&quot;, color=&quot;black&quot;) + theme_map()
+Base.Plot</code></pre>
+<p><img src="/post/2019-12-17-dog-movements-a-tidytuesday_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>A fifty state map to plot this information on.</p>
+<pre class="r"><code>New.Dat &lt;- left_join(My.Map, dog_moves, by= c(&quot;full&quot; = &quot;location&quot;))
+ggplot() + geom_polygon(data=New.Dat, aes(x=x, y=y, group=group, fill=total), color=&quot;black&quot;) + scale_fill_viridis_c() + labs(title = &quot;Dogs Available for Adoption&quot;)</code></pre>
+<p><img src="/post/2019-12-17-dog-movements-a-tidytuesday_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>That’s a start. Now for the scatterpie. After a bit of work, I needed to translate the coordinates from most common maps. So I started with a ggmap for easier to work with coordinates.</p>
+<pre class="r"><code>library(sf); library(ggmap)
+states &lt;- maps::map(&quot;state&quot;, plot = FALSE, fill=TRUE)
+states &lt;- st_as_sf(states)
+statesC &lt;- cbind(states, st_coordinates(st_centroid(states)))
+dog_moves &lt;-dog_moves %&gt;% mutate(ID = tolower(location))
+statesC &lt;- left_join(statesC, dog_moves)
+statesC %&gt;% filter(!is.na(imported) &amp; !is.na(exported) &amp; !is.na(total)) %&gt;% select(X, Y, exported, imported, total) %&gt;% data.frame() -&gt; ShortCD
+My.SM &lt;- get_map(c(-124.6813, 25.12993, -67.00742, 49.00508), source=&quot;osm&quot;)
+ggmap(My.SM) + geom_scatterpie(data=ShortCD, aes(x=X, y=Y, r=total/3000), cols=c(&quot;exported&quot;,&quot;imported&quot;)) + labs(fill=&quot;Dog Movements&quot;) + theme_map()</code></pre>
+<p><img src="/post/2019-12-17-dog-movements-a-tidytuesday_files/figure-html/F2-1.png" width="672" /></p>
 </div>
 
     </div>
@@ -456,6 +425,10 @@ frameWidget(l, height = &#39;600&#39;)</code></pre>
   
   <a class="btn btn-primary btn-outline" href="/tags/tidytuesday">tidyTuesday</a>
   
+  <a class="btn btn-primary btn-outline" href="/tags/tidyverse">tidyverse</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/maps">Maps</a>
+  
 </div>
 
 
@@ -470,7 +443,7 @@ frameWidget(l, height = &#39;600&#39;)</code></pre>
         
         <li><a href="/post/the-economist-s-visualization-errors/">The Economist&#39;s Visualization Errors</a></li>
         
-        <li><a href="/post/tidytuesday-measles/">tidyTuesday Measles</a></li>
+        <li><a href="/post/trying-out-leaflet/">Trying out Leaflet</a></li>
         
         <li><a href="/post/philaselphia-parking-tickets-a-tidytuesday/">Philaselphia Parking Tickets: a tidyTuesday</a></li>
         

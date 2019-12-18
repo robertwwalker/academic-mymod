@@ -1,0 +1,54 @@
+---
+title: 'Dog Movements: a tidyTuesday'
+author: RWW
+date: '2019-12-17'
+slug: dog-movements-a-tidytuesday
+categories:
+  - tidyverse
+  - tidyTuesday
+tags:
+  - R
+  - R Markdown
+  - tidyTuesday
+  - tidyverse
+  - Maps
+header:
+  caption: ''
+  image: ''
+  preview: yes
+---
+
+
+
+<div id="adoptable-dogs" class="section level1">
+<h1>Adoptable Dogs</h1>
+<pre class="r"><code># devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;, force=TRUE)
+tuesdata51 &lt;- tidytuesdayR::tt_load(2019, week = 51)
+dog_moves &lt;- tuesdata51$dog_moves
+library(tidyverse); library(scatterpie)
+library(rgeos)
+library(maptools)
+library(rgdal); library(usmap); library(ggthemes)</code></pre>
+</div>
+<div id="the-base-map" class="section level1">
+<h1>The Base Map</h1>
+<pre class="r"><code>My.Map &lt;- us_map(regions = &quot;states&quot;)
+Base.Plot &lt;- ggplot() + geom_polygon(data=My.Map, aes(x=x, y=y, group=group), fill=&quot;white&quot;, color=&quot;black&quot;) + theme_map()
+Base.Plot</code></pre>
+<p><img src="/post/2019-12-17-dog-movements-a-tidytuesday_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>A fifty state map to plot this information on.</p>
+<pre class="r"><code>New.Dat &lt;- left_join(My.Map, dog_moves, by= c(&quot;full&quot; = &quot;location&quot;))
+ggplot() + geom_polygon(data=New.Dat, aes(x=x, y=y, group=group, fill=total), color=&quot;black&quot;) + scale_fill_viridis_c() + labs(title = &quot;Dogs Available for Adoption&quot;)</code></pre>
+<p><img src="/post/2019-12-17-dog-movements-a-tidytuesday_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>That’s a start. Now for the scatterpie. After a bit of work, I needed to translate the coordinates from most common maps. So I started with a ggmap for easier to work with coordinates.</p>
+<pre class="r"><code>library(sf); library(ggmap)
+states &lt;- maps::map(&quot;state&quot;, plot = FALSE, fill=TRUE)
+states &lt;- st_as_sf(states)
+statesC &lt;- cbind(states, st_coordinates(st_centroid(states)))
+dog_moves &lt;-dog_moves %&gt;% mutate(ID = tolower(location))
+statesC &lt;- left_join(statesC, dog_moves)
+statesC %&gt;% filter(!is.na(imported) &amp; !is.na(exported) &amp; !is.na(total)) %&gt;% select(X, Y, exported, imported, total) %&gt;% data.frame() -&gt; ShortCD
+My.SM &lt;- get_map(c(-124.6813, 25.12993, -67.00742, 49.00508), source=&quot;osm&quot;)
+ggmap(My.SM) + geom_scatterpie(data=ShortCD, aes(x=X, y=Y, r=total/3000), cols=c(&quot;exported&quot;,&quot;imported&quot;)) + labs(fill=&quot;Dog Movements&quot;) + theme_map()</code></pre>
+<p><img src="/post/2019-12-17-dog-movements-a-tidytuesday_files/figure-html/F2-1.png" width="672" /></p>
+</div>

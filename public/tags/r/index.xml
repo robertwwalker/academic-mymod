@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Mon, 16 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Dog Movements: a tidyTuesday</title>
+      <link>/post/dog-movements-a-tidytuesday/</link>
+      <pubDate>Tue, 17 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/dog-movements-a-tidytuesday/</guid>
+      <description>Adoptable Dogs # devtools::install_github(&amp;quot;thebioengineer/tidytuesdayR&amp;quot;, force=TRUE) tuesdata51 &amp;lt;- tidytuesdayR::tt_load(2019, week = 51) dog_moves &amp;lt;- tuesdata51$dog_moves library(tidyverse); library(scatterpie) library(rgeos) library(maptools) library(rgdal); library(usmap); library(ggthemes)  The Base Map My.Map &amp;lt;- us_map(regions = &amp;quot;states&amp;quot;) Base.Plot &amp;lt;- ggplot() + geom_polygon(data=My.Map, aes(x=x, y=y, group=group), fill=&amp;quot;white&amp;quot;, color=&amp;quot;black&amp;quot;) + theme_map() Base.Plot A fifty state map to plot this information on.
+New.Dat &amp;lt;- left_join(My.Map, dog_moves, by= c(&amp;quot;full&amp;quot; = &amp;quot;location&amp;quot;)) ggplot() + geom_polygon(data=New.Dat, aes(x=x, y=y, group=group, fill=total), color=&amp;quot;black&amp;quot;) + scale_fill_viridis_c() + labs(title = &amp;quot;Dogs Available for Adoption&amp;quot;) That’s a start.</description>
+    </item>
     
     <item>
       <title>tidyTuesday Measles</title>
@@ -29,8 +39,7 @@ tuesdata &amp;lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here(
       
       <guid>/post/trying-out-leaflet/</guid>
       <description>International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
-library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &amp;lt;- tt_load(2019, week = 50) murders &amp;lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier.
-l &amp;lt;- leaflet() %&amp;gt;% setView(0,0,2) esri &amp;lt;- grep(&amp;quot;^Esri&amp;quot;, providers, value = TRUE) for (provider in esri) { l &amp;lt;- l %&amp;gt;% addProviderTiles(provider, group = provider) } l &amp;lt;- l %&amp;gt;% addLayersControl(baseGroups = names(esri), options = layersControlOptions(collapsed = FALSE)) %&amp;gt;% addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE, position = &amp;quot;bottomleft&amp;quot;) %&amp;gt;% htmlwidgets::onRender(&amp;quot; function(el, x) { var myMap = this; myMap.</description>
+library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &amp;lt;- tt_load(2019, week = 50) murders &amp;lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier. Now for some data. As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame.</description>
     </item>
     
     <item>

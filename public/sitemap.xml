@@ -4,8 +4,8 @@
     
     <url>
     
-      <loc>/categories/animation/</loc>
-      <lastmod>2019-12-16T00:00:00+00:00</lastmod>
+      <loc>/categories/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -13,7 +13,97 @@
     
     <url>
     
-      <loc>/categories/</loc>
+      <loc>/post/dog-movements-a-tidytuesday/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/maps/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/r/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/r-markdown/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/tidytuesday/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/tidytuesday/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/tidyverse/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/tidyverse/</loc>
+      <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/animation/</loc>
       <lastmod>2019-12-16T00:00:00+00:00</lastmod>
     </url>
     
@@ -40,61 +130,7 @@
     
     <url>
     
-      <loc>/tags/r/</loc>
-      <lastmod>2019-12-16T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/r-markdown/</loc>
-      <lastmod>2019-12-16T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/</loc>
-      <lastmod>2019-12-16T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/</loc>
-      <lastmod>2019-12-16T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/tidytuesday/</loc>
-      <lastmod>2019-12-16T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/post/tidytuesday-measles/</loc>
-      <lastmod>2019-12-16T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/categories/tidyverse/</loc>
       <lastmod>2019-12-16T00:00:00+00:00</lastmod>
     </url>
     
@@ -105,15 +141,6 @@
     
       <loc>/post/trying-out-leaflet/</loc>
       <lastmod>2019-12-16T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/maps/</loc>
-      <lastmod>2019-12-09T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -140,15 +167,6 @@
     <url>
     
       <loc>/post/the-generation-squeeze/</loc>
-      <lastmod>2019-11-16T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/tidyverse/</loc>
       <lastmod>2019-11-16T00:00:00+00:00</lastmod>
     </url>
     
@@ -589,15 +607,6 @@
     
     <url>
     
-      <loc>/categories/python/</loc>
-      <lastmod>2018-04-04T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/tags/python/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
@@ -607,7 +616,7 @@
     
     <url>
     
-      <loc>/categories/reticulate/</loc>
+      <loc>/categories/python/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     
@@ -617,6 +626,15 @@
     <url>
     
       <loc>/tags/reticulate/</loc>
+      <lastmod>2018-04-04T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/reticulate/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     

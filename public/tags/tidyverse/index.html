@@ -79,7 +79,7 @@
   <meta property="og:description" content="Associate Professor of Quantitative Methods">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2019-11-16T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2019-12-17T00:00:00&#43;00:00">
   
 
   
@@ -285,6 +285,16 @@
   
   
   <div>
+    <h2><a href="/post/dog-movements-a-tidytuesday/">Dog Movements: a tidyTuesday</a></h2>
+    <div class="article-style">
+      
+      Adoptable Dogs # devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;, force=TRUE) tuesdata51 &lt;- tidytuesdayR::tt_load(2019, week = 51) dog_moves &lt;- tuesdata51$dog_moves library(tidyverse); library(scatterpie) library(rgeos) library(maptools) library(rgdal); library(usmap); library(ggthemes)  The Base Map My.Map &lt;- us_map(regions = &quot;states&quot;) Base.Plot &lt;- ggplot() + geom_polygon(data=My.Map, aes(x=x, y=y, group=group), fill=&quot;white&quot;, color=&quot;black&quot;) + theme_map() Base.Plot A fifty state map to plot this information on.
+New.Dat &lt;- left_join(My.Map, dog_moves, by= c(&quot;full&quot; = &quot;location&quot;)) ggplot() + geom_polygon(data=New.Dat, aes(x=x, y=y, group=group, fill=total), color=&quot;black&quot;) + scale_fill_viridis_c() + labs(title = &quot;Dogs Available for Adoption&quot;) That’s a start.
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/the-generation-squeeze/">The Generation Squeeze</a></h2>
     <div class="article-style">
       
@@ -369,16 +379,6 @@ library(readxl) library(tidyverse) ## ── Attaching packages ─────�
       tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
 Here is this week’s tidyTuesday.
 library(skimr) library(tidyverse) library(rlang) # global_mortality &lt;- readRDS(&quot;../../data/global_mortality.rds&quot;) global_mortality &lt;- readRDS(url(&quot;<a href="https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)" target="_blank">https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)</a>) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/scraping-the-nfl-salary-cap-data-with-python-and-r/">Scraping the NFL Salary Cap Data with Python and R</a></h2>
-    <div class="article-style">
-      
-      The NFL Data [SporTrac](<a href="http://www.sportrac.com]" target="_blank">http://www.sportrac.com]</a> has a wonderful array of financial data on sports. A student going to work for the Seattle Seahawks wanted the NFL salary cap data and I also found data on the English Premier League there. Now I have a source to scrape the data from.
-With a source in hand, the key tool is the SelectorGadget. SelectorGadget is a browser add-in for Chrome that allows us to select text and identify the css or xpath selector to scrape the data.
       
     </div>
   </div>

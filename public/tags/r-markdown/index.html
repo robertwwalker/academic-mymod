@@ -79,7 +79,7 @@
   <meta property="og:description" content="Associate Professor of Quantitative Methods">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2019-12-16T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2019-12-17T00:00:00&#43;00:00">
   
 
   
@@ -285,12 +285,21 @@
   
   
   <div>
+    <h2><a href="/post/dog-movements-a-tidytuesday/">Dog Movements: a tidyTuesday</a></h2>
+    <div class="article-style">
+      
+      Adoptable Dogs # devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;, force=TRUE) tuesdata51 &lt;- tidytuesdayR::tt_load(2019, week = 51) dog_moves &lt;- tuesdata51$dog_moves library(tidyverse); library(scatterpie) library(rgeos) library(maptools) library(rgdal); library(usmap); library(ggthemes)  The Base Map My.Map &lt;- us_map(regions = &quot;states&quot;) Base.Plot &lt;- ggplot() + geom_polygon(data=My.Map, aes(x=x, y=y, group=group), fill=&quot;white&quot;, color=&quot;black&quot;) + theme_map() Base.Plot A fifty state map to plot this information on.
+New.Dat &lt;- left_join(My.Map, dog_moves, by= c(&quot;full&quot; = &quot;location&quot;)) ggplot() + geom_polygon(data=New.Dat, aes(x=x, y=y, group=group, fill=total), color=&quot;black&quot;) + scale_fill_viridis_c() + labs(title = &quot;Dogs Available for Adoption&quot;) That’s a start.
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/trying-out-leaflet/">Trying out Leaflet</a></h2>
     <div class="article-style">
       
       International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
-library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &lt;- tt_load(2019, week = 50) murders &lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier.
-l &lt;- leaflet() %&gt;% setView(0,0,2) esri &lt;- grep(&quot;^Esri&quot;, providers, value = TRUE) for (provider in esri) { l &lt;- l %&gt;% addProviderTiles(provider, group = provider) } l &lt;- l %&gt;% addLayersControl(baseGroups = names(esri), options = layersControlOptions(collapsed = FALSE)) %&gt;% addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE, position = &quot;bottomleft&quot;) %&gt;% htmlwidgets::onRender(&quot; function(el, x) { var myMap = this; myMap.
+library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &lt;- tt_load(2019, week = 50) murders &lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier. Now for some data. As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame.
       
     </div>
   </div>
@@ -370,15 +379,6 @@ library(tidyverse) library(tidytext) library(SnowballC) library&trade; library(s
       
       EPL Scraping In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.
 library(rvest) library(tidyverse) base_url &lt;- &quot;<a href="http://www.spotrac.com/epl/&quot;" target="_blank">http://www.spotrac.com/epl/&quot;</a> read.base &lt;- read_html(base_url) team.URL &lt;- read.base %&gt;% html_nodes(&quot;.team-name&quot;) %&gt;% html_attr(&#39;href&#39;) team.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/black-boxes-a-gender-gap-example/">Black Boxes: A Gender Gap Example</a></h2>
-    <div class="article-style">
-      
-      Variance in the Outcome: The Black Box Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained.
       
     </div>
   </div>
