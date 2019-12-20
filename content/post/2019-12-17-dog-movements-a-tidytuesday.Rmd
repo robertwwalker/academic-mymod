@@ -80,7 +80,21 @@ That's not right.  Let's try something else.
 
 ```{r}
 library(leaflet)
-map.l <- leaflet() %>% addTiles() %>% addCircles(., data=Plot.Zips, lng=~Longitude, lat=~Latitude, radius = ~Total/5000, popup = ~contact_zip)
+
+mybins <- seq(0, 600, by=100)
+mypalette <- colorBin( palette="YlOrBr", domain=Plot.Zips$Total, na.color="transparent", bins=mybins)
+
+# Prepare the text for the tooltip:
+mytext <- paste(
+   "Total: ", Plot.Zips$Total, "<br/>", 
+   "Zip: ", Plot.Zips$Zip, "<br/>", sep="") %>%
+  lapply(htmltools::HTML)
+
+Plot.Zips <- Plot.Zips %>% filter(!is.na(Latitude))
+# Final Map
+map.l <- leaflet(Plot.Zips) %>% 
+  addTiles() %>% 
+  addCircleMarkers(lng=~Longitude, lat=~Latitude, fillColor = ~mypalette(Total), fillOpacity = 0.7, color="white", radius=~Total/100, stroke=FALSE, label = mytext, labelOptions = labelOptions( style = list("font-weight" = "normal", padding = "3px 8px"), textsize = "13px", direction = "auto")) %>% addLegend( pal=mypalette, values=~Total, opacity=0.9, title = "Pets Listed", position = "bottomright" )
 map.l
 ```
 
