@@ -82,7 +82,7 @@ That's not right.  Let's try something else.
 library(leaflet)
 
 mybins <- seq(0, 600, by=100)
-mypalette <- colorBin( palette="YlOrBr", domain=Plot.Zips$Total, na.color="transparent", bins=mybins)
+mypalette <- colorBin( palette="viridis", domain=Plot.Zips$Total, na.color="transparent", bins=mybins)
 
 # Prepare the text for the tooltip:
 mytext <- paste(
