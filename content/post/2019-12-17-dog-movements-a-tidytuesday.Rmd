@@ -70,10 +70,17 @@ ggmap(My.SM) + geom_scatterpie(data=ShortCD, aes(x=X, y=Y, r=total/3000), cols=c
 
 ```{r}
 library(readr)
-USZCLL <- read_delim("~/Downloads/us-zip-code-latitude-and-longitude.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+USZCLL <- read_delim("../../data/us-zip-code-latitude-and-longitude.csv", ";", escape_double = FALSE, trim_ws = TRUE)
 dog_des %>% group_by(contact_zip) %>% summarise(Total = n()) %>% mutate(zip = contact_zip) -> Dog.zips
 Dog.zips <- Dog.zips %>% mutate(Zip = contact_zip)
 Plot.Zips <- left_join(Dog.zips, USZCLL)
 ggmap(My.SM) + geom_point(data=Plot.Zips, aes(x=Longitude, y=Latitude, color=Total), alpha = 0.5)
 ```
 That's not right.  Let's try something else.
+
+```{r}
+library(leaflet)
+map.l <- leaflet() %>% addTiles() %>% addCircles(., data=Plot.Zips, lng=~Longitude, lat=~Latitude, radius = ~Total/5000, popup = ~contact_zip)
+map.l
+```
+

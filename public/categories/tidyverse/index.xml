@@ -19,7 +19,7 @@
       
       <guid>/post/dog-movements-a-tidytuesday/</guid>
       <description>Adoptable Dogs # devtools::install_github(&amp;quot;thebioengineer/tidytuesdayR&amp;quot;, force=TRUE) tuesdata51 &amp;lt;- tidytuesdayR::tt_load(2019, week = 51) dog_moves &amp;lt;- tuesdata51$dog_moves dog_des &amp;lt;- readr::read_csv(&amp;#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-17/dog_descriptions.csv&amp;#39;) library(tidyverse); library(scatterpie) library(rgeos) library(maptools) library(rgdal); library(usmap); library(ggthemes)  The Base Map My.Map &amp;lt;- us_map(regions = &amp;quot;states&amp;quot;) Base.Plot &amp;lt;- ggplot() + geom_polygon(data=My.Map, aes(x=x, y=y, group=group), fill=&amp;quot;white&amp;quot;, color=&amp;quot;black&amp;quot;) + theme_map() Base.Plot A fifty state map to plot this information on.
-New.Dat &amp;lt;- left_join(My.Map, dog_moves, by= c(&amp;quot;full&amp;quot; = &amp;quot;location&amp;quot;)) ggplot() + geom_polygon(data=New.Dat, aes(x=x, y=y, group=group, fill=total), color=&amp;quot;black&amp;quot;) + scale_fill_viridis_c() + labs(title = &amp;quot;Dogs Available for Adoption&amp;quot;) That’s a start.</description>
+New.Dat &amp;lt;- left_join(My.Map, dog_moves, by= c(&amp;quot;full&amp;quot; = &amp;quot;location&amp;quot;)) ggplot() + geom_polygon(data=New.</description>
     </item>
     
     <item>
