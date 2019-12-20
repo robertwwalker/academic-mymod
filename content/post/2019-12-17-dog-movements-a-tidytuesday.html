@@ -25,6 +25,7 @@ header:
 <pre class="r"><code># devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;, force=TRUE)
 tuesdata51 &lt;- tidytuesdayR::tt_load(2019, week = 51)
 dog_moves &lt;- tuesdata51$dog_moves
+dog_des &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-17/dog_descriptions.csv&#39;)
 library(tidyverse); library(scatterpie)
 library(rgeos)
 library(maptools)
@@ -51,4 +52,28 @@ statesC %&gt;% filter(!is.na(imported) &amp; !is.na(exported) &amp; !is.na(total
 My.SM &lt;- get_map(c(-124.6813, 25.12993, -67.00742, 49.00508), source=&quot;osm&quot;)
 ggmap(My.SM) + geom_scatterpie(data=ShortCD, aes(x=X, y=Y, r=total/3000), cols=c(&quot;exported&quot;,&quot;imported&quot;)) + labs(fill=&quot;Dog Movements&quot;) + theme_map()</code></pre>
 <p><img src="/post/2019-12-17-dog-movements-a-tidytuesday_files/figure-html/F2-1.png" width="672" /></p>
+<div id="dogs" class="section level2">
+<h2>Dogs</h2>
+<pre class="r"><code>library(readr)
+USZCLL &lt;- read_delim(&quot;~/Downloads/us-zip-code-latitude-and-longitude.csv&quot;, &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Zip = col_character(),
+##   City = col_character(),
+##   State = col_character(),
+##   Latitude = col_double(),
+##   Longitude = col_double(),
+##   Timezone = col_double(),
+##   `Daylight savings time flag` = col_double(),
+##   geopoint = col_character()
+## )</code></pre>
+<pre class="r"><code>dog_des %&gt;% group_by(contact_zip) %&gt;% summarise(Total = n()) %&gt;% mutate(zip = contact_zip) -&gt; Dog.zips
+Dog.zips &lt;- Dog.zips %&gt;% mutate(Zip = contact_zip)
+Plot.Zips &lt;- left_join(Dog.zips, USZCLL)</code></pre>
+<pre><code>## Joining, by = &quot;Zip&quot;</code></pre>
+<pre class="r"><code>ggmap(My.SM) + geom_point(data=Plot.Zips, aes(x=Longitude, y=Latitude, color=Total), alpha = 0.5)</code></pre>
+<pre><code>## Warning: Removed 40 rows containing missing values (geom_point).</code></pre>
+<p><img src="/post/2019-12-17-dog-movements-a-tidytuesday_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+That’s not right. Let’s try something else.</p>
+</div>
 </div>

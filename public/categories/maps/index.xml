@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Wed, 09 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/maps/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Simple Point Maps in R</title>
+      <link>/post/simple-point-maps-in-r/</link>
+      <pubDate>Thu, 19 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/simple-point-maps-in-r/</guid>
+      <description>Mapping Points in R My goal is a streamlined and self-contained freeware map maker with points denoting addresses. It is a three step process that involves:
+Get a map.
+ Geocode the addresses into latitude and longitude.
+ Combine the the two with a first map layer and a second layer on top that contains the points.  From there, it is pretty easy to get fancy using ggplotly to put relevant text hovers into place.</description>
+    </item>
     
     <item>
       <title>Simple Oregon County Mapping</title>
