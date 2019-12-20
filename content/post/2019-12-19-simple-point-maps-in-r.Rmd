@@ -61,3 +61,23 @@ Because they are same source geocodings, this works directly.
 ggmap(pdx_map) + geom_point(data=Portland.Center, aes(x=lon, y=lat), size=3, color="magenta")
 ```
 
+# Now to Try Without Google
+
+First, an open source map.
+
+```{r}
+pdx.map <- get_stamenmap(getbb("portland oregon"), 
+                         zoom = 14)
+ggmap(pdx.map)
+```
+
+# Free Geocode
+
+```{r}
+library(tmaptools)
+Geocoded.PDX <- geocode_OSM(Portland.Center$address, as.data.frame = TRUE)
+p1 <- ggmap(pdx.map) + geom_point(data=Geocoded.PDX, aes(x=lon, y=lat, text=query), size=3, color="magenta")
+library(plotly)
+ggplotly(p1)
+```
+
