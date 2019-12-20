@@ -65,7 +65,7 @@ ggmap(pdx_map) + geom_point(data=Portland.Center, aes(x=lon, y=lat), size=3, col
 
 First, an open source map.
 
-```{r}
+```{r PDXMap, cache=TRUE}
 pdx.map <- get_stamenmap(getbb("portland oregon"), 
                          zoom = 14)
 ggmap(pdx.map)
@@ -75,9 +75,20 @@ ggmap(pdx.map)
 
 ```{r}
 library(tmaptools)
-Geocoded.PDX <- geocode_OSM(Portland.Center$address, as.data.frame = TRUE)
+Geocoded.PDX <- geocode_OSM(Portland.Center$address, as.data.frame = TRUE) %>% select(query, lat, lon)
 p1 <- ggmap(pdx.map) + geom_point(data=Geocoded.PDX, aes(x=lon, y=lat, text=query), size=3, color="magenta")
 library(plotly)
 ggplotly(p1)
+```
+
+# Leaflet
+
+A very cool toy is leaflet.  The markers work the way as geom_point but hovers can be replaced with popups of various forms.  I really like this.
+
+```{r}
+library(leaflet)
+Geocoded.PDX
+m <- leaflet() %>% addTiles() %>% addMarkers(., data=Geocoded.PDX, lng=~lon, lat=~lat, popup = ~query)
+m
 ```
 
