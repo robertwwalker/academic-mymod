@@ -33,9 +33,9 @@ highlight = true
 # Featured image
 # Place your image in the `static/img/` folder and reference its filename below, e.g. `image = "example.jpg"`.
 [header]
-image = "headers/bubbles-wide.jpg"
-caption = "My caption :smile:"
+image = "headers/wuagsm.jpg"
+caption = ":smile:"
 
 +++
 
-Slides in [xaringan](rww.science/talk/gscc/)
+Slides in [xaringan](https://rww.science/talk/gscc/)
