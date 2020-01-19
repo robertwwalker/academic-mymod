@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Sun, 08 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/web-scraping/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>a quick tidyTuesday on Passwords</title>
+      <link>/post/a-quick-tidytuesday-on-passwords/</link>
+      <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/a-quick-tidytuesday-on-passwords/</guid>
+      <description>First, I wanted to acquire the distribution of letters and then play with that. I embedded the result here. The second step is to import the tidyTuesday data.
+library(tidyverse) Letter.Freq &amp;lt;- data.frame(stringsAsFactors=FALSE, Letter = c(&amp;quot;E&amp;quot;, &amp;quot;T&amp;quot;, &amp;quot;A&amp;quot;, &amp;quot;O&amp;quot;, &amp;quot;I&amp;quot;, &amp;quot;N&amp;quot;, &amp;quot;S&amp;quot;, &amp;quot;R&amp;quot;, &amp;quot;H&amp;quot;, &amp;quot;D&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;U&amp;quot;, &amp;quot;C&amp;quot;, &amp;quot;M&amp;quot;, &amp;quot;F&amp;quot;, &amp;quot;Y&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;G&amp;quot;, &amp;quot;P&amp;quot;, &amp;quot;B&amp;quot;, &amp;quot;V&amp;quot;, &amp;quot;K&amp;quot;, &amp;quot;X&amp;quot;, &amp;quot;Q&amp;quot;, &amp;quot;J&amp;quot;, &amp;quot;Z&amp;quot;), Frequency = c(12.02, 9.1, 8.12, 7.68, 7.31, 6.95, 6.28, 6.</description>
+    </item>
     
     <item>
       <title>Scraping EPL Salary Data</title>

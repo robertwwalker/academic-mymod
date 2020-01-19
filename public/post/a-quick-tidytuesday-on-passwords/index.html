@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.59.0" />
+  <meta name="author" content="Robert W. Walker">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="First, I wanted to acquire the distribution of letters and then play with that. I embedded the result here. The second step is to import the tidyTuesday data.
+library(tidyverse) Letter.Freq &lt;- data.frame(stringsAsFactors=FALSE, Letter = c(&quot;E&quot;, &quot;T&quot;, &quot;A&quot;, &quot;O&quot;, &quot;I&quot;, &quot;N&quot;, &quot;S&quot;, &quot;R&quot;, &quot;H&quot;, &quot;D&quot;, &quot;L&quot;, &quot;U&quot;, &quot;C&quot;, &quot;M&quot;, &quot;F&quot;, &quot;Y&quot;, &quot;W&quot;, &quot;G&quot;, &quot;P&quot;, &quot;B&quot;, &quot;V&quot;, &quot;K&quot;, &quot;X&quot;, &quot;Q&quot;, &quot;J&quot;, &quot;Z&quot;), Frequency = c(12.02, 9.1, 8.12, 7.68, 7.31, 6.95, 6.28, 6.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/a-quick-tidytuesday-on-passwords/">
+
+  
+
+
+
+  
+  
+  <meta name="theme-color" content="">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js//styles/dracula.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/css/bootstrap.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/%!s(<nil>)/css/academicons.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/%!s(<nil>)/css/font-awesome.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.css" integrity="%!s(<nil>)" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/a-quick-tidytuesday-on-passwords/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@PieRatio">
+  <meta property="twitter:creator" content="@PieRatio">
+  
+  <meta property="og:site_name" content="Robert W. Walker">
+  <meta property="og:url" content="/post/a-quick-tidytuesday-on-passwords/">
+  <meta property="og:title" content="a quick tidyTuesday on Passwords | Robert W. Walker">
+  <meta property="og:description" content="First, I wanted to acquire the distribution of letters and then play with that. I embedded the result here. The second step is to import the tidyTuesday data.
+library(tidyverse) Letter.Freq &lt;- data.frame(stringsAsFactors=FALSE, Letter = c(&quot;E&quot;, &quot;T&quot;, &quot;A&quot;, &quot;O&quot;, &quot;I&quot;, &quot;N&quot;, &quot;S&quot;, &quot;R&quot;, &quot;H&quot;, &quot;D&quot;, &quot;L&quot;, &quot;U&quot;, &quot;C&quot;, &quot;M&quot;, &quot;F&quot;, &quot;Y&quot;, &quot;W&quot;, &quot;G&quot;, &quot;P&quot;, &quot;B&quot;, &quot;V&quot;, &quot;K&quot;, &quot;X&quot;, &quot;Q&quot;, &quot;J&quot;, &quot;Z&quot;), Frequency = c(12.02, 9.1, 8.12, 7.68, 7.31, 6.95, 6.28, 6.">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2020-01-18T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2020-01-18T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>a quick tidyTuesday on Passwords | Robert W. Walker</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/"><img src="/img/headers/wuagsm.jpg" alt="Robert W. Walker"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#publications_selected">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/img/vita.pdf">
+            
+            <span>Curriculum Vitae</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a href="/r">
+            
+            <span>R Stuff</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">a quick tidyTuesday on Passwords</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2020-01-18 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2020-01-18
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert W. Walker">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    3 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/tidytuesday">tidyTuesday</a
+    >, 
+    
+    <a href="/categories/tidyverse">tidyverse</a
+    >, 
+    
+    <a href="/categories/web-scraping">web scraping</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=a%20quick%20tidyTuesday%20on%20Passwords&amp;url=%2fpost%2fa-quick-tidytuesday-on-passwords%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fa-quick-tidytuesday-on-passwords%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fa-quick-tidytuesday-on-passwords%2f&amp;title=a%20quick%20tidyTuesday%20on%20Passwords"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fa-quick-tidytuesday-on-passwords%2f&amp;title=a%20quick%20tidyTuesday%20on%20Passwords"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=a%20quick%20tidyTuesday%20on%20Passwords&amp;body=%2fpost%2fa-quick-tidytuesday-on-passwords%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+
+<p>First, I wanted to acquire the distribution of letters and then play with that. I embedded the result here. The second step is to import the tidyTuesday data.</p>
+<pre class="r"><code>library(tidyverse)
+Letter.Freq &lt;- data.frame(stringsAsFactors=FALSE,
+                     Letter = c(&quot;E&quot;, &quot;T&quot;, &quot;A&quot;, &quot;O&quot;, &quot;I&quot;, &quot;N&quot;, &quot;S&quot;, &quot;R&quot;, &quot;H&quot;, &quot;D&quot;, &quot;L&quot;, &quot;U&quot;,
+                                &quot;C&quot;, &quot;M&quot;, &quot;F&quot;, &quot;Y&quot;, &quot;W&quot;, &quot;G&quot;, &quot;P&quot;, &quot;B&quot;, &quot;V&quot;,
+                                &quot;K&quot;, &quot;X&quot;, &quot;Q&quot;, &quot;J&quot;, &quot;Z&quot;),
+                  Frequency = c(12.02, 9.1, 8.12, 7.68, 7.31, 6.95, 6.28, 6.02, 5.92, 4.32,
+                                3.98, 2.88, 2.71, 2.61, 2.3, 2.11, 2.09, 2.03,
+                                1.82, 1.49, 1.11, 0.69, 0.17, 0.11, 0.1, 0.07)
+               )
+Letter.Freq &lt;- Letter.Freq %&gt;% mutate(Frequency = Frequency / 100, Letter = tolower(Letter))
+passwords &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-14/passwords.csv&#39;)</code></pre>
+<p>Let me visualize the distribution of letters.</p>
+<pre class="r"><code>library(ggthemes)
+ggplot(Letter.Freq) + aes(x=reorder(Letter, desc(Letter)), y=Frequency) + geom_col() + coord_flip() + theme_economist() + labs(x=&quot;&quot;)</code></pre>
+<p><img src="/post/2020-01-18-a-quick-tidytuesday-on-passwords_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>I want to use the <code>tm</code> library for topic models to extract out the numbers and only work with letters. There is something probably worthwhile to do with Zipf’s law or the like on that.</p>
+<pre class="r"><code>library(tm)</code></pre>
+<pre><code>## Loading required package: NLP</code></pre>
+<pre><code>## 
+## Attaching package: &#39;NLP&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     annotate</code></pre>
+<pre class="r"><code># Remove numbers
+passwords &lt;- passwords %&gt;% mutate(PasswordNN = removeNumbers(password))
+# Split each string into the letters; here I am repurposing a word count function
+freq &lt;- function(x,y) {
+     word &lt;- tolower(unlist(strsplit(x,&quot;&quot;)))
+     word_table &lt;- table(word)
+     ans &lt;- word_table[names(word_table)==y]
+     return(ans)
+}
+# Use sapply to apply the function.  This is not tidy but I have never sat down with map
+Letter.FreqPW &lt;- sapply(letters,function(x) { freq(passwords$PasswordNN, x) } )
+# Rename the resulting vector with proper labels
+names(Letter.FreqPW) &lt;- letters
+# Clean up the names and metrics
+LFPW &lt;- data.frame(Letter.FreqPW)
+LFPW$Letter &lt;- row.names(LFPW)
+LFPW &lt;- LFPW %&gt;% mutate(Freq = Letter.FreqPW)
+# Join a result
+Res &lt;- left_join(Letter.Freq, LFPW)</code></pre>
+<pre><code>## Joining, by = &quot;Letter&quot;</code></pre>
+<pre class="r"><code>Res</code></pre>
+<pre><code>##    Letter Frequency Letter.FreqPW Freq
+## 1       e    0.1202           327  327
+## 2       t    0.0910           144  144
+## 3       a    0.0812           271  271
+## 4       o    0.0768           191  191
+## 5       i    0.0731           178  178
+## 6       n    0.0695           197  197
+## 7       s    0.0628           176  176
+## 8       r    0.0602           233  233
+## 9       h    0.0592            82   82
+## 10      d    0.0432            96   96
+## 11      l    0.0398           144  144
+## 12      u    0.0288            59   59
+## 13      c    0.0271           115  115
+## 14      m    0.0261            86   86
+## 15      f    0.0230            38   38
+## 16      y    0.0211            64   64
+## 17      w    0.0209            42   42
+## 18      g    0.0203            75   75
+## 19      p    0.0182            71   71
+## 20      b    0.0149            77   77
+## 21      v    0.0111            37   37
+## 22      k    0.0069            50   50
+## 23      x    0.0017            36   36
+## 24      q    0.0011             5    5
+## 25      j    0.0010            26   26
+## 26      z    0.0007            12   12</code></pre>
+<p>Turn it to a proportion.</p>
+<pre class="r"><code># Create a proportion
+Res &lt;- Res %&gt;% mutate(LF = Freq / sum(Freq))</code></pre>
+<p>Let me plot the result.</p>
+<pre class="r"><code>library(ggrepel)
+gg1 &lt;- ggplot(Res) + aes(x=Frequency, y=LF, label=Letter) + geom_label_repel(fill=&quot;white&quot;) + labs(x=&quot;Language Frequency&quot;, y=&quot;Frequency in Password&quot;, title=&quot;Password Letters vs. English Letter Frequency&quot;) + coord_equal() + geom_abline(slope=1, intercept=0) + ggthemes::theme_economist() 
+gg1</code></pre>
+<p><img src="/post/2020-01-18-a-quick-tidytuesday-on-passwords_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/tidytuesday">tidyTuesday</a>
+  
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/dog-movements-a-tidytuesday/">Dog Movements: a tidyTuesday</a></li>
+        
+        <li><a href="/post/trying-out-leaflet/">Trying out Leaflet</a></li>
+        
+        <li><a href="/post/tidytuesday-measles/">tidyTuesday Measles</a></li>
+        
+        <li><a href="/post/philaselphia-parking-tickets-a-tidytuesday/">Philaselphia Parking Tickets: a tidyTuesday</a></li>
+        
+        <li><a href="/post/uscensus-mapping/">US Census Mapping</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/%!s(<nil>)/jquery.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/%!s(<nil>)/imagesloaded.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/%!s(<nil>)/js/bootstrap.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/%!s(<nil>)/isotope.pkgd.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/%!s(<nil>)/jquery.fancybox.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/%!s(<nil>)/leaflet.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/%!s(<nil>)/highlight.min.js" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/%!s(<nil>)/MathJax.js?config=TeX-AMS_CHTML" integrity="%!s(<nil>)" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

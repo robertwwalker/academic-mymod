@@ -79,7 +79,7 @@
   <meta property="og:description" content="Associate Professor of Quantitative Methods">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2019-12-17T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2020-01-18T00:00:00&#43;00:00">
   
 
   
@@ -285,6 +285,16 @@
   
   
   <div>
+    <h2><a href="/post/a-quick-tidytuesday-on-passwords/">a quick tidyTuesday on Passwords</a></h2>
+    <div class="article-style">
+      
+      First, I wanted to acquire the distribution of letters and then play with that. I embedded the result here. The second step is to import the tidyTuesday data.
+library(tidyverse) Letter.Freq &lt;- data.frame(stringsAsFactors=FALSE, Letter = c(&quot;E&quot;, &quot;T&quot;, &quot;A&quot;, &quot;O&quot;, &quot;I&quot;, &quot;N&quot;, &quot;S&quot;, &quot;R&quot;, &quot;H&quot;, &quot;D&quot;, &quot;L&quot;, &quot;U&quot;, &quot;C&quot;, &quot;M&quot;, &quot;F&quot;, &quot;Y&quot;, &quot;W&quot;, &quot;G&quot;, &quot;P&quot;, &quot;B&quot;, &quot;V&quot;, &quot;K&quot;, &quot;X&quot;, &quot;Q&quot;, &quot;J&quot;, &quot;Z&quot;), Frequency = c(12.02, 9.1, 8.12, 7.68, 7.31, 6.95, 6.28, 6.
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/dog-movements-a-tidytuesday/">Dog Movements: a tidyTuesday</a></h2>
     <div class="article-style">
       
@@ -372,17 +382,6 @@ library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importi
       The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
 library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/tidytuesday-takes-on-global-mortality/">Global mortality tidyTuesday</a></h2>
-    <div class="article-style">
-      
-      tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
-Here is this week’s tidyTuesday.
-library(skimr) library(tidyverse) library(rlang) # global_mortality &lt;- readRDS(&quot;../../data/global_mortality.rds&quot;) global_mortality &lt;- readRDS(url(&quot;<a href="https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)" target="_blank">https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)</a>) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.
       
     </div>
   </div>

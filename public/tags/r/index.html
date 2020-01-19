@@ -79,7 +79,7 @@
   <meta property="og:description" content="Associate Professor of Quantitative Methods">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2019-12-17T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2020-01-18T00:00:00&#43;00:00">
   
 
   
@@ -285,6 +285,16 @@
   
   
   <div>
+    <h2><a href="/post/a-quick-tidytuesday-on-passwords/">a quick tidyTuesday on Passwords</a></h2>
+    <div class="article-style">
+      
+      First, I wanted to acquire the distribution of letters and then play with that. I embedded the result here. The second step is to import the tidyTuesday data.
+library(tidyverse) Letter.Freq &lt;- data.frame(stringsAsFactors=FALSE, Letter = c(&quot;E&quot;, &quot;T&quot;, &quot;A&quot;, &quot;O&quot;, &quot;I&quot;, &quot;N&quot;, &quot;S&quot;, &quot;R&quot;, &quot;H&quot;, &quot;D&quot;, &quot;L&quot;, &quot;U&quot;, &quot;C&quot;, &quot;M&quot;, &quot;F&quot;, &quot;Y&quot;, &quot;W&quot;, &quot;G&quot;, &quot;P&quot;, &quot;B&quot;, &quot;V&quot;, &quot;K&quot;, &quot;X&quot;, &quot;Q&quot;, &quot;J&quot;, &quot;Z&quot;), Frequency = c(12.02, 9.1, 8.12, 7.68, 7.31, 6.95, 6.28, 6.
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/dog-movements-a-tidytuesday/">Dog Movements: a tidyTuesday</a></h2>
     <div class="article-style">
       
@@ -372,16 +382,6 @@ library(tidyverse) ## ── Attaching packages ──────────�
       
       The Economist’s Errors and Credit Where Credit is Due The Economist is serious about their use of data visualization and they have occasionally owned up to errors in their visualizations. They can be deceptive, uninformative, confusing, excessively busy, and present a host of other barriers to clean communication. Their blog post on their errors is great.
 I have drawn the following example from a #tidyTuesday earlier this year that explores this.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/tidytuesday-does-pizza/">tidyTuesday does Pizza</a></h2>
-    <div class="article-style">
-      
-      Pizza Ratings The #tidyTuesday for this week involves pizza shop ratings data. Let’s see what we have.
-pizza_jared &lt;- readr::read_csv(&quot;<a href="https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_jared.csv&quot;" target="_blank">https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_jared.csv&quot;</a>) ## Parsed with column specification: ## cols( ## polla_qid = col_double(), ## answer = col_character(), ## votes = col_double(), ## pollq_id = col_double(), ## question = col_character(), ## place = col_character(), ## time = col_double(), ## total_votes = col_double(), ## percent = col_double() ## ) pizza_barstool &lt;- readr::read_csv(&quot;<a href="https://raw" target="_blank">https://raw</a>.
       
     </div>
   </div>
