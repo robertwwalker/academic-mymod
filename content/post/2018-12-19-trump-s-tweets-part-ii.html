@@ -32,6 +32,7 @@ library(SnowballC)
 library(tm)
 library(syuzhet)
 library(rtweet)
+library(here)
 load(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&quot;))
 names(tml.djt)</code></pre>
 <pre><code>##  [1] &quot;user_id&quot;                 &quot;status_id&quot;              
@@ -133,20 +134,13 @@ Trumps.Sent.Words &lt;- clean_tweets %&gt;% unnest_tokens(., word, text) %&gt;% 
 SNTR1 &lt;- apply(TDF, 1, function(x) {get_nrc_sentiment(x)})
 Sent.Res &lt;- bind_rows(SNTR1)
 head(Sent.Res)</code></pre>
-<pre><code>##   anger anticipation disgust fear joy sadness surprise trust negative
-## 1     1            1       0    2   2       0        1     4        3
-## 2     0            2       0    0   2       0        1     2        0
-## 3     0            1       0    1   1       0        0     1        1
-## 4     1            1       0    1   0       1        1     0        1
-## 5     4            1       4    3   0       3        1     1        4
-## 6     3            0       4    2   0       3        1     1        4
-##   positive
-## 1        4
-## 2        3
-## 3        2
-## 4        3
-## 5        0
-## 6        1</code></pre>
+<pre><code>##   anger anticipation disgust fear joy sadness surprise trust negative positive
+## 1     1            1       0    2   2       0        1     4        3        4
+## 2     0            2       0    0   2       0        1     2        0        3
+## 3     0            1       0    1   1       0        0     1        1        2
+## 4     1            1       0    1   0       1        1     0        1        3
+## 5     4            1       4    3   0       3        1     1        4        0
+## 6     3            0       4    2   0       3        1     1        4        1</code></pre>
 </div>
 </div>
 <div id="a-single-number-sentiment" class="section level1">
@@ -206,7 +200,7 @@ My.Res &lt;- SME_tbl_time_d %&gt;% group_by(method) %&gt;%
     dplyr::group_by(created_at, method) %&gt;%
     dplyr::summarise_if(is.numeric, mean) %&gt;% ungroup()
 save(Sents.Me,SME_tbl_time_d,My.Res,bing_and_nrc,tidy.tweets, file=&quot;~/TrumpTweets.RData&quot;)</code></pre>
-<pre class="r"><code>load(&quot;~/TrumpTweets.RData&quot;)
+<pre class="r"><code>load(here(&quot;data&quot;,&quot;TrumpTweets.RData&quot;))
 ggplot(data = My.Res) +
   aes(x = created_at, y = sentiment, color = method) +
   geom_line() +

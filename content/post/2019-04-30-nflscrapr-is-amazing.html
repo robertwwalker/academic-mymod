@@ -8290,31 +8290,29 @@ saveRDS(full_season_2018, file=&quot;../../../data/2018NFLSeason.rds&quot;)</cod
 <pre class="r"><code>dal_season &lt;- full_season_2018 %&gt;% filter(home_team==&quot;DAL&quot; | away_team==&quot;DAL&quot;)
 dal_season %&gt;%  head()</code></pre>
 <pre><code>## # A tibble: 6 x 256
-##   play_id game_id home_team away_team posteam posteam_type defteam
-##   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;  
-## 1 36      201809… CAR       DAL       DAL     away         CAR    
-## 2 51      201809… CAR       DAL       DAL     away         CAR    
-## 3 72      201809… CAR       DAL       DAL     away         CAR    
-## 4 107     201809… CAR       DAL       DAL     away         CAR    
-## 5 128     201809… CAR       DAL       DAL     away         CAR    
-## 6 151     201809… CAR       DAL       DAL     away         CAR    
-## # … with 249 more variables: side_of_field &lt;chr&gt;, yardline_100 &lt;dbl&gt;,
-## #   game_date &lt;date&gt;, quarter_seconds_remaining &lt;dbl&gt;,
-## #   half_seconds_remaining &lt;dbl&gt;, game_seconds_remaining &lt;dbl&gt;,
-## #   game_half &lt;chr&gt;, quarter_end &lt;dbl&gt;, drive &lt;int&gt;, sp &lt;dbl&gt;, qtr &lt;dbl&gt;,
-## #   down &lt;fct&gt;, goal_to_go &lt;dbl&gt;, time &lt;chr&gt;, yrdln &lt;chr&gt;, ydstogo &lt;dbl&gt;,
-## #   ydsnet &lt;dbl&gt;, desc &lt;chr&gt;, play_type &lt;chr&gt;, yards_gained &lt;dbl&gt;,
-## #   shotgun &lt;dbl&gt;, no_huddle &lt;dbl&gt;, qb_dropback &lt;dbl&gt;, qb_kneel &lt;dbl&gt;,
-## #   qb_spike &lt;dbl&gt;, qb_scramble &lt;dbl&gt;, pass_length &lt;chr&gt;,
+##   play_id game_id home_team away_team posteam posteam_type defteam side_of_field
+##   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;   &lt;chr&gt;        
+## 1 36      201809… CAR       DAL       DAL     away         CAR     CAR          
+## 2 51      201809… CAR       DAL       DAL     away         CAR     DAL          
+## 3 72      201809… CAR       DAL       DAL     away         CAR     DAL          
+## 4 107     201809… CAR       DAL       DAL     away         CAR     DAL          
+## 5 128     201809… CAR       DAL       DAL     away         CAR     DAL          
+## 6 151     201809… CAR       DAL       DAL     away         CAR     DAL          
+## # … with 248 more variables: yardline_100 &lt;dbl&gt;, game_date &lt;date&gt;,
+## #   quarter_seconds_remaining &lt;dbl&gt;, half_seconds_remaining &lt;dbl&gt;,
+## #   game_seconds_remaining &lt;dbl&gt;, game_half &lt;chr&gt;, quarter_end &lt;dbl&gt;,
+## #   drive &lt;int&gt;, sp &lt;dbl&gt;, qtr &lt;dbl&gt;, down &lt;fct&gt;, goal_to_go &lt;dbl&gt;, time &lt;chr&gt;,
+## #   yrdln &lt;chr&gt;, ydstogo &lt;dbl&gt;, ydsnet &lt;dbl&gt;, desc &lt;chr&gt;, play_type &lt;chr&gt;,
+## #   yards_gained &lt;dbl&gt;, shotgun &lt;dbl&gt;, no_huddle &lt;dbl&gt;, qb_dropback &lt;dbl&gt;,
+## #   qb_kneel &lt;dbl&gt;, qb_spike &lt;dbl&gt;, qb_scramble &lt;dbl&gt;, pass_length &lt;chr&gt;,
 ## #   pass_location &lt;chr&gt;, air_yards &lt;dbl&gt;, yards_after_catch &lt;dbl&gt;,
 ## #   run_location &lt;chr&gt;, run_gap &lt;chr&gt;, field_goal_result &lt;chr&gt;,
-## #   kick_distance &lt;dbl&gt;, extra_point_result &lt;chr&gt;,
-## #   two_point_conv_result &lt;chr&gt;, home_timeouts_remaining &lt;dbl&gt;,
-## #   away_timeouts_remaining &lt;dbl&gt;, timeout &lt;dbl&gt;, timeout_team &lt;chr&gt;,
-## #   td_team &lt;chr&gt;, posteam_timeouts_remaining &lt;dbl&gt;,
-## #   defteam_timeouts_remaining &lt;dbl&gt;, total_home_score &lt;dbl&gt;,
-## #   total_away_score &lt;dbl&gt;, posteam_score &lt;dbl&gt;, defteam_score &lt;dbl&gt;,
-## #   score_differential &lt;dbl&gt;, posteam_score_post &lt;dbl&gt;,
+## #   kick_distance &lt;dbl&gt;, extra_point_result &lt;chr&gt;, two_point_conv_result &lt;chr&gt;,
+## #   home_timeouts_remaining &lt;dbl&gt;, away_timeouts_remaining &lt;dbl&gt;,
+## #   timeout &lt;dbl&gt;, timeout_team &lt;chr&gt;, td_team &lt;chr&gt;,
+## #   posteam_timeouts_remaining &lt;dbl&gt;, defteam_timeouts_remaining &lt;dbl&gt;,
+## #   total_home_score &lt;dbl&gt;, total_away_score &lt;dbl&gt;, posteam_score &lt;dbl&gt;,
+## #   defteam_score &lt;dbl&gt;, score_differential &lt;dbl&gt;, posteam_score_post &lt;dbl&gt;,
 ## #   defteam_score_post &lt;dbl&gt;, score_differential_post &lt;dbl&gt;,
 ## #   no_score_prob &lt;dbl&gt;, opp_fg_prob &lt;dbl&gt;, opp_safety_prob &lt;dbl&gt;,
 ## #   opp_td_prob &lt;dbl&gt;, fg_prob &lt;dbl&gt;, safety_prob &lt;dbl&gt;, td_prob &lt;dbl&gt;,
@@ -8327,13 +8325,13 @@ dal_season %&gt;%  head()</code></pre>
 ## #   total_home_comp_yac_epa &lt;dbl&gt;, total_away_comp_yac_epa &lt;dbl&gt;,
 ## #   total_home_raw_air_epa &lt;dbl&gt;, total_away_raw_air_epa &lt;dbl&gt;,
 ## #   total_home_raw_yac_epa &lt;dbl&gt;, total_away_raw_yac_epa &lt;dbl&gt;, wp &lt;dbl&gt;,
-## #   def_wp &lt;dbl&gt;, home_wp &lt;dbl&gt;, away_wp &lt;dbl&gt;, wpa &lt;dbl&gt;,
-## #   home_wp_post &lt;dbl&gt;, away_wp_post &lt;dbl&gt;, total_home_rush_wpa &lt;dbl&gt;,
-## #   total_away_rush_wpa &lt;dbl&gt;, total_home_pass_wpa &lt;dbl&gt;,
-## #   total_away_pass_wpa &lt;dbl&gt;, air_wpa &lt;dbl&gt;, yac_wpa &lt;dbl&gt;,
-## #   comp_air_wpa &lt;dbl&gt;, comp_yac_wpa &lt;dbl&gt;, total_home_comp_air_wpa &lt;dbl&gt;,
-## #   total_away_comp_air_wpa &lt;dbl&gt;, total_home_comp_yac_wpa &lt;dbl&gt;,
-## #   total_away_comp_yac_wpa &lt;dbl&gt;, total_home_raw_air_wpa &lt;dbl&gt;, …</code></pre>
+## #   def_wp &lt;dbl&gt;, home_wp &lt;dbl&gt;, away_wp &lt;dbl&gt;, wpa &lt;dbl&gt;, home_wp_post &lt;dbl&gt;,
+## #   away_wp_post &lt;dbl&gt;, total_home_rush_wpa &lt;dbl&gt;, total_away_rush_wpa &lt;dbl&gt;,
+## #   total_home_pass_wpa &lt;dbl&gt;, total_away_pass_wpa &lt;dbl&gt;, air_wpa &lt;dbl&gt;,
+## #   yac_wpa &lt;dbl&gt;, comp_air_wpa &lt;dbl&gt;, comp_yac_wpa &lt;dbl&gt;,
+## #   total_home_comp_air_wpa &lt;dbl&gt;, total_away_comp_air_wpa &lt;dbl&gt;,
+## #   total_home_comp_yac_wpa &lt;dbl&gt;, total_away_comp_yac_wpa &lt;dbl&gt;,
+## #   total_home_raw_air_wpa &lt;dbl&gt;, total_away_raw_air_wpa &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>#  kable()  %&gt;%
 #  kable_styling() %&gt;%
 #  scroll_box(width = &quot;100%&quot;, height = &quot;200px&quot;)</code></pre>
@@ -8365,34 +8363,34 @@ My.NFL.Table &lt;- ntableH %&gt;% inner_join(ntableA)</code></pre>
 <pre><code>## Joining, by = c(&quot;game_id&quot;, &quot;home_team&quot;, &quot;away_team&quot;)</code></pre>
 <pre class="r"><code>Dallas.Table &lt;- My.NFL.Table %&gt;% filter(home_team==&quot;DAL&quot; | away_team==&quot;DAL&quot;)
 Dallas.Table %&gt;% head()</code></pre>
-<pre><code>##      game_id home_team away_team         Home_team Home_primary
-## 1 2018090910       CAR       DAL Carolina Panthers      #0085ca
-## 2 2018091613       DAL       NYG    Dallas Cowboys      #002244
-## 3 2018092312       SEA       DAL  Seattle Seahawks      #002244
-## 4 2018093002       DAL       DET    Dallas Cowboys      #002244
-## 5 2018100712       HOU       DAL    Houston Texans      #03202f
-## 6 2018101410       DAL       JAX    Dallas Cowboys      #002244
-##   Home_secondary Home_tertiary Home_quaternary Home_division
-## 1        #000000       #bfc0bf         #0085ca     NFC South
-## 2        #b0b7bc       #acc0c6         #a5acaf      NFC East
-## 3        #69be28       #a5acaf         #001532      NFC West
-## 4        #b0b7bc       #acc0c6         #a5acaf      NFC East
-## 5        #a71930       #00071c         #a30d2d     AFC South
-## 6        #b0b7bc       #acc0c6         #a5acaf      NFC East
-##              Away_team Away_primary Away_secondary Away_tertiary
-## 1       Dallas Cowboys      #002244        #b0b7bc       #acc0c6
-## 2      New York Giants      #0b2265        #a71930       #a5acaf
-## 3       Dallas Cowboys      #002244        #b0b7bc       #acc0c6
-## 4        Detroit Lions      #005a8b        #b0b7bc       #000000
-## 5       Dallas Cowboys      #002244        #b0b7bc       #acc0c6
-## 6 Jacksonville Jaguars      #000000        #006778       #9f792c
-##   Away_quaternary Away_division type week season state_of_game
-## 1         #a5acaf      NFC East  reg    1   2018          POST
-## 2         #012352      NFC East  reg    2   2018          POST
-## 3         #a5acaf      NFC East  reg    3   2018          POST
-## 4         #004e89     NFC North  reg    4   2018          POST
-## 5         #a5acaf      NFC East  reg    5   2018          POST
-## 6         #d7a22a     AFC South  reg    6   2018          POST
+<pre><code>##      game_id home_team away_team         Home_team Home_primary Home_secondary
+## 1 2018090910       CAR       DAL Carolina Panthers      #0085ca        #000000
+## 2 2018091613       DAL       NYG    Dallas Cowboys      #002244        #b0b7bc
+## 3 2018092312       SEA       DAL  Seattle Seahawks      #002244        #69be28
+## 4 2018093002       DAL       DET    Dallas Cowboys      #002244        #b0b7bc
+## 5 2018100712       HOU       DAL    Houston Texans      #03202f        #a71930
+## 6 2018101410       DAL       JAX    Dallas Cowboys      #002244        #b0b7bc
+##   Home_tertiary Home_quaternary Home_division            Away_team Away_primary
+## 1       #bfc0bf         #0085ca     NFC South       Dallas Cowboys      #002244
+## 2       #acc0c6         #a5acaf      NFC East      New York Giants      #0b2265
+## 3       #a5acaf         #001532      NFC West       Dallas Cowboys      #002244
+## 4       #acc0c6         #a5acaf      NFC East        Detroit Lions      #005a8b
+## 5       #00071c         #a30d2d     AFC South       Dallas Cowboys      #002244
+## 6       #acc0c6         #a5acaf      NFC East Jacksonville Jaguars      #000000
+##   Away_secondary Away_tertiary Away_quaternary Away_division type week season
+## 1        #b0b7bc       #acc0c6         #a5acaf      NFC East  reg    1   2018
+## 2        #a71930       #a5acaf         #012352      NFC East  reg    2   2018
+## 3        #b0b7bc       #acc0c6         #a5acaf      NFC East  reg    3   2018
+## 4        #b0b7bc       #000000         #004e89     NFC North  reg    4   2018
+## 5        #b0b7bc       #acc0c6         #a5acaf      NFC East  reg    5   2018
+## 6        #006778       #9f792c         #d7a22a     AFC South  reg    6   2018
+##   state_of_game
+## 1          POST
+## 2          POST
+## 3          POST
+## 4          POST
+## 5          POST
+## 6          POST
 ##                                                                   game_url
 ## 1 http://www.nfl.com/liveupdate/game-center/2018090910/2018090910_gtd.json
 ## 2 http://www.nfl.com/liveupdate/game-center/2018091613/2018091613_gtd.json
@@ -8409,40 +8407,23 @@ Dallas.Table %&gt;% head()</code></pre>
 ## 6         40          7</code></pre>
 <p>One nice little bit of data recovery here, the season schedule and Dallas’s result can be seen below.</p>
 <pre class="r"><code>Dallas.Table %&gt;% select(game_id,Home_team,home_score, Away_team, away_score)</code></pre>
-<pre><code>##       game_id           Home_team home_score            Away_team
-## 1  2018090910   Carolina Panthers         16       Dallas Cowboys
-## 2  2018091613      Dallas Cowboys         20      New York Giants
-## 3  2018092312    Seattle Seahawks         24       Dallas Cowboys
-## 4  2018093002      Dallas Cowboys         26        Detroit Lions
-## 5  2018100712      Houston Texans         19       Dallas Cowboys
-## 6  2018101410      Dallas Cowboys         40 Jacksonville Jaguars
-## 7  2018102110 Washington Redskins         20       Dallas Cowboys
-## 8  2018110500      Dallas Cowboys         14     Tennessee Titans
-## 9  2018111111 Philadelphia Eagles         20       Dallas Cowboys
-## 10 2018111800     Atlanta Falcons         19       Dallas Cowboys
-## 11 2018112201      Dallas Cowboys         31  Washington Redskins
-## 12 2018112900      Dallas Cowboys         13   New Orleans Saints
-## 13 2018120912      Dallas Cowboys         29  Philadelphia Eagles
-## 14 2018121605  Indianapolis Colts         23       Dallas Cowboys
-## 15 2018122306      Dallas Cowboys         27 Tampa Bay Buccaneers
-## 16 2018123008     New York Giants         35       Dallas Cowboys
-##    away_score
-## 1           8
-## 2          13
-## 3          13
-## 4          24
-## 5          16
-## 6           7
-## 7          17
-## 8          28
-## 9          27
-## 10         22
-## 11         23
-## 12         10
-## 13         23
-## 14          0
-## 15         20
-## 16         36</code></pre>
+<pre><code>##       game_id           Home_team home_score            Away_team away_score
+## 1  2018090910   Carolina Panthers         16       Dallas Cowboys          8
+## 2  2018091613      Dallas Cowboys         20      New York Giants         13
+## 3  2018092312    Seattle Seahawks         24       Dallas Cowboys         13
+## 4  2018093002      Dallas Cowboys         26        Detroit Lions         24
+## 5  2018100712      Houston Texans         19       Dallas Cowboys         16
+## 6  2018101410      Dallas Cowboys         40 Jacksonville Jaguars          7
+## 7  2018102110 Washington Redskins         20       Dallas Cowboys         17
+## 8  2018110500      Dallas Cowboys         14     Tennessee Titans         28
+## 9  2018111111 Philadelphia Eagles         20       Dallas Cowboys         27
+## 10 2018111800     Atlanta Falcons         19       Dallas Cowboys         22
+## 11 2018112201      Dallas Cowboys         31  Washington Redskins         23
+## 12 2018112900      Dallas Cowboys         13   New Orleans Saints         10
+## 13 2018120912      Dallas Cowboys         29  Philadelphia Eagles         23
+## 14 2018121605  Indianapolis Colts         23       Dallas Cowboys          0
+## 15 2018122306      Dallas Cowboys         27 Tampa Bay Buccaneers         20
+## 16 2018123008     New York Giants         35       Dallas Cowboys         36</code></pre>
 <div id="season-won-loss-records" class="section level3">
 <h3>Season Won-Loss Records</h3>
 <p>To derive a season won-loss record for each team, I need to first declare the outcome of each game using the scores and then summarise them over teams. I will also have to pass them on because they do not have this in the <code>nflteams</code> data in <code>nflscrapR</code>.</p>

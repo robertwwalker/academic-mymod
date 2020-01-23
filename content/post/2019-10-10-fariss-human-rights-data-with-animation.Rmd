@@ -23,6 +23,7 @@ library(tidyverse)
 library(ggthemes)
 library(gganimate)
 library(ggrepel)
+library(here)
 ```
 
 ## Fariss Data
@@ -30,7 +31,7 @@ library(ggrepel)
 Is neat and complete.
 
 ```{r cars}
-load("~/FarissHRData.RData")
+load(here("data","FarissHRData.RData"))
 skimr::skim(HR.Data)
 # HR.Data$year <- as.Date(HR.Data$YEAR, format = "%Y")
 ```
@@ -49,7 +50,7 @@ animate(p1, nframes = 200)
 ```
 
 ```{r}
-COW.Codes <- read.csv("~/Downloads/COW country codes.csv", stringsAsFactors = FALSE)
+COW.Codes <- read.csv(here("data","COW country codes.csv"), stringsAsFactors = FALSE)
 COW.Codes <- distinct(COW.Codes) # Duplicates exist in the COW Code master file
 COW.Codes$Continent <- cut(COW.Codes$CCode, breaks = c(0, 100, 200, 400, 600, 700, 900,1000), labels = c("N. America", "S. America", "Europe", "Africa", "Med/Mid", "Asia", "Oceania"), right = FALSE)
 HR.Data.Named <- left_join(HR.Data, COW.Codes, by = c("COW" = "CCode"))

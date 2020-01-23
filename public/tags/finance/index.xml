@@ -20,7 +20,7 @@
       <guid>/r/finreportr-is-awesome/</guid>
       <description>The Package: finreport The key tool to facilitate the financial analysis of companies that file regular SEC reports of certain forms is finreportr. To make use of it, we must first have R install it and dependencies. To install it, install.packages(&amp;quot;finreportr&amp;quot;, dependencies=TRUE).
  The Commands The first command is CompanyInfo().
-library(finreportr) CompanyInfo(&amp;quot;JPM&amp;quot;) ## company CIK SIC state state.inc FY.end ## 1 JPMORGAN CHASE &amp;amp; CO 0000019617 6021 NY DE 1231 ## street.</description>
+library(finreportr) CompanyInfo(&amp;quot;JPM&amp;quot;) ## company CIK SIC state state.inc FY.end street.address ## 1 JPMORGAN CHASE &amp;amp; CO 0000019617 6021 NY DE 1231 383 MADISON AVENUE ## city.</description>
     </item>
     
   </channel>

@@ -15,21 +15,91 @@ output: html_document
 <div id="an-hypothesis-test" class="section level2">
 <h2>An Hypothesis Test</h2>
 <p>I will work with the speed variable. The hypothesis to advance is that 17 or greater is the true average speed. The alternative must then be that the average speed is less than 17. Knowing only the sample size, I can figure out what <span class="math inline">\(t\)</span> must be to reject 17 or greater and conclude that the true average must be less with 90% probability. The sample mean would have to be at least <code>qt(0.1, 49)</code> standard errors below 17 to rule out a mean of 17 or greater. Now let’s see what we have. Let me skim the data for the relevant information.</p>
-<pre class="r"><code>library(skimr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;skimr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     filter</code></pre>
-<pre class="r"><code>skim(cars)</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 50 
-##  n variables: 2 
-## 
-## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────
-##  variable missing complete  n  mean    sd p0 p25 p50 p75 p100     hist
-##      dist       0       50 50 42.98 25.77  2  26  36  56  120 ▃▇▇▅▂▂▁▁
-##     speed       0       50 50 15.4   5.29  4  12  15  19   25 ▁▂▃▇▅▅▃▃</code></pre>
+<pre class="r"><code>library(skimr)
+skim(cars)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">cars</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">50</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">numeric</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">speed</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">15.40</td>
+<td align="right">5.29</td>
+<td align="right">4</td>
+<td align="right">12</td>
+<td align="right">15</td>
+<td align="right">19</td>
+<td align="right">25</td>
+<td align="left">▂▅▇▇▃</td>
+</tr>
+<tr class="even">
+<td align="left">dist</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">42.98</td>
+<td align="right">25.77</td>
+<td align="right">2</td>
+<td align="right">26</td>
+<td align="right">36</td>
+<td align="right">56</td>
+<td align="right">120</td>
+<td align="left">▅▇▅▂▁</td>
+</tr>
+</tbody>
+</table>
 <p>Doing the math by hand, I get:</p>
 <p><span class="math display">\[ t = \frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}} = \frac{15.4 - 17}{\frac{5.29}{\sqrt{50}}} = -2.14 \]</span></p>
 <p>Interpreting the result, the sample mean is 2.14 standard errors below the hypothetical mean of 17. The probability of a sample mean of 15.4 [or smaller] given a true average of 17, this standard deviation and sample size is <code>pt(-2.14, 49)</code> = 0.0186798. Notice that probability is less than 0.1; thus with at least 90% confidence, the true mean is not 17 or greater and thus must be smaller. Assuming the hypothetical mean [17 or greater] is true, the likelihood of generating a sample mean of 15.4 is only 0.0187 and this is far less than the 10% permissible outside of 90% confidence. Indeed, any sample mean more than 1.299 standard errors below 17 would be too small to sustain the belief that the true mean is 17 or greater because <code>qt(0.1, 49)</code> is -1.299. Put in the original metric, any sample mean below 16.0285747 would require a rejection of the claim that the true mean is 17 or greater with 90% confidence.</p>

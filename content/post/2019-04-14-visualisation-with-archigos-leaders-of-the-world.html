@@ -34,20 +34,19 @@ library(haven)
 Archigos &lt;- read_dta(url(&quot;http://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta&quot;))
 head(Archigos)</code></pre>
 <pre><code>## # A tibble: 6 x 28
-##   obsid leadid ccode idacr leader startdate eindate    enddate eoutdate  
-##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;   &lt;date&gt;    
-## 1 USA-… 81dcc…     2 USA   Grant  1869-03-… 1869-03-04 1877-0… 1877-03-04
-## 2 USA-… 81dcc…     2 USA   Hayes  1877-03-… 1877-03-04 1881-0… 1881-03-04
-## 3 USA-… 81dcf…     2 USA   Garfi… 1881-03-… 1881-03-04 1881-0… 1881-09-19
-## 4 USA-… 81dcf…     2 USA   Arthur 1881-09-… 1881-09-19 1885-0… 1885-03-04
-## 5 USA-… 34fb1…     2 USA   Cleve… 1885-03-… 1885-03-04 1889-0… 1889-03-04
-## 6 USA-… 81dcf…     2 USA   Harri… 1889-03-… 1889-03-04 1893-0… 1893-03-04
-## # … with 19 more variables: entry &lt;chr&gt;, exit &lt;chr&gt;, exitcode &lt;chr&gt;,
-## #   prevtimesinoffice &lt;dbl&gt;, posttenurefate &lt;chr&gt;, gender &lt;chr&gt;,
-## #   yrborn &lt;dbl&gt;, yrdied &lt;dbl&gt;, borndate &lt;chr&gt;, ebirthdate &lt;date&gt;,
-## #   deathdate &lt;chr&gt;, edeathdate &lt;date&gt;, dbpediauri &lt;chr&gt;, numentry &lt;dbl&gt;,
-## #   numexit &lt;dbl&gt;, numexitcode &lt;dbl&gt;, numposttenurefate &lt;dbl&gt;,
-## #   fties &lt;chr&gt;, ftcur &lt;chr&gt;</code></pre>
+##   obsid leadid ccode idacr leader startdate eindate    enddate eoutdate   entry
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;   &lt;date&gt;     &lt;chr&gt;
+## 1 USA-… 81dcc…     2 USA   Grant  1869-03-… 1869-03-04 1877-0… 1877-03-04 Regu…
+## 2 USA-… 81dcc…     2 USA   Hayes  1877-03-… 1877-03-04 1881-0… 1881-03-04 Regu…
+## 3 USA-… 81dcf…     2 USA   Garfi… 1881-03-… 1881-03-04 1881-0… 1881-09-19 Regu…
+## 4 USA-… 81dcf…     2 USA   Arthur 1881-09-… 1881-09-19 1885-0… 1885-03-04 Regu…
+## 5 USA-… 34fb1…     2 USA   Cleve… 1885-03-… 1885-03-04 1889-0… 1889-03-04 Regu…
+## 6 USA-… 81dcf…     2 USA   Harri… 1889-03-… 1889-03-04 1893-0… 1893-03-04 Regu…
+## # … with 18 more variables: exit &lt;chr&gt;, exitcode &lt;chr&gt;,
+## #   prevtimesinoffice &lt;dbl&gt;, posttenurefate &lt;chr&gt;, gender &lt;chr&gt;, yrborn &lt;dbl&gt;,
+## #   yrdied &lt;dbl&gt;, borndate &lt;chr&gt;, ebirthdate &lt;date&gt;, deathdate &lt;chr&gt;,
+## #   edeathdate &lt;date&gt;, dbpediauri &lt;chr&gt;, numentry &lt;dbl&gt;, numexit &lt;dbl&gt;,
+## #   numexitcode &lt;dbl&gt;, numposttenurefate &lt;dbl&gt;, fties &lt;chr&gt;, ftcur &lt;chr&gt;</code></pre>
 <p>That’s a pretty impressive span of leaders. Let me obtain a list of the countries. This is a link from the Archigos website to the work of Gleditsch and Ward. The dates that they store are colon rather than dash separated so that needs to be fixed, then I convert the dates to valid date format. There is also a problem with the text encoding [at least on this Linux workstation] for the Ivory Coast. I suspect it is an accent mark.</p>
 </div>
 <div id="history-of-countries-gleditsch-and-ward" class="section level2">
@@ -103,180 +102,151 @@ Full.LTS %&gt;% group_by(leadid.x) %&gt;% summarise(CC.sd = sd(ccode)) %&gt;% ar
 ## 2 821be4de-1e42-11e4-b4cd-db5882bf8def  2.67</code></pre>
 <pre class="r"><code># If countries are a proper nesting operator, then things can be made much easier.  They 
 Full.LTS %&gt;% filter(leadid.x == &quot;81de4823-1e42-11e4-b4cd-db5882bf8def&quot;) # This one seems to be an error with implications</code></pre>
-<pre><code>##         obsid          leader.x                             leadid.x
-## 1    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 2    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 3    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 4    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 5    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 6    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 7  CAN-1926-2              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 8  CAN-1926-2              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 9  CAN-1926-2              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 10 CAN-1926-2              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 11 CAN-1926-2              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 12   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 13   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 14   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 15   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 16   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 17   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 18   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 19   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 20   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 21   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 22   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 23   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 24   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 25   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 26 DOM-1876-4 Buenaventura Baez 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 27 DOM-1876-4 Buenaventura Baez 81de4823-1e42-11e4-b4cd-db5882bf8def
-## 28 DOM-1876-4 Buenaventura Baez 81de4823-1e42-11e4-b4cd-db5882bf8def
-##    idacr.x year  LSY  LEY                             leadid.y ccode
-## 1      CAN 1921 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 2      CAN 1922 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 3      CAN 1923 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 4      CAN 1924 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 5      CAN 1925 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 6      CAN 1926 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 7      CAN 1926 1926 1930 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 8      CAN 1927 1926 1930 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 9      CAN 1928 1926 1930 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 10     CAN 1929 1926 1930 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 11     CAN 1930 1926 1930 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 12     CAN 1935 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 13     CAN 1936 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 14     CAN 1937 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 15     CAN 1938 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 16     CAN 1939 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 17     CAN 1940 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 18     CAN 1941 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 19     CAN 1942 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 20     CAN 1943 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 21     CAN 1944 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 22     CAN 1945 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 23     CAN 1946 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 24     CAN 1947 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 25     CAN 1948 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20
-## 26     DOM 1876 1876 1878 81de4823-1e42-11e4-b4cd-db5882bf8def    42
-## 27     DOM 1877 1876 1878 81de4823-1e42-11e4-b4cd-db5882bf8def    42
-## 28     DOM 1878 1876 1878 81de4823-1e42-11e4-b4cd-db5882bf8def    42
-##    idacr.y          leader.y  startdate    eindate    enddate   eoutdate
-## 1      CAN              King 1921-12-29 1921-12-29 1926-06-28 1926-06-28
-## 2      CAN              King 1921-12-29 1921-12-29 1926-06-28 1926-06-28
-## 3      CAN              King 1921-12-29 1921-12-29 1926-06-28 1926-06-28
-## 4      CAN              King 1921-12-29 1921-12-29 1926-06-28 1926-06-28
-## 5      CAN              King 1921-12-29 1921-12-29 1926-06-28 1926-06-28
-## 6      CAN              King 1921-12-29 1921-12-29 1926-06-28 1926-06-28
-## 7      CAN              King 1926-09-25 1926-09-25 1930-08-07 1930-08-07
-## 8      CAN              King 1926-09-25 1926-09-25 1930-08-07 1930-08-07
-## 9      CAN              King 1926-09-25 1926-09-25 1930-08-07 1930-08-07
-## 10     CAN              King 1926-09-25 1926-09-25 1930-08-07 1930-08-07
-## 11     CAN              King 1926-09-25 1926-09-25 1930-08-07 1930-08-07
-## 12     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 13     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 14     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 15     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 16     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 17     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 18     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 19     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 20     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 21     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 22     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 23     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 24     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 25     CAN              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15
-## 26     DOM Buenaventura Baez 1876-12-26 1876-12-26 1878-03-02 1878-03-02
-## 27     DOM Buenaventura Baez 1876-12-26 1876-12-26 1878-03-02 1878-03-02
-## 28     DOM Buenaventura Baez 1876-12-26 1876-12-26 1878-03-02 1878-03-02
-##        entry                      exit exitcode prevtimesinoffice
-## 1    Regular                   Regular  Regular                 0
-## 2    Regular                   Regular  Regular                 0
-## 3    Regular                   Regular  Regular                 0
-## 4    Regular                   Regular  Regular                 0
-## 5    Regular                   Regular  Regular                 0
-## 6    Regular                   Regular  Regular                 0
-## 7    Regular                   Regular  Regular                 1
-## 8    Regular                   Regular  Regular                 1
-## 9    Regular                   Regular  Regular                 1
-## 10   Regular                   Regular  Regular                 1
-## 11   Regular                   Regular  Regular                 1
-## 12   Regular Retired Due to Ill Health  Regular                 2
-## 13   Regular Retired Due to Ill Health  Regular                 2
-## 14   Regular Retired Due to Ill Health  Regular                 2
-## 15   Regular Retired Due to Ill Health  Regular                 2
-## 16   Regular Retired Due to Ill Health  Regular                 2
-## 17   Regular Retired Due to Ill Health  Regular                 2
-## 18   Regular Retired Due to Ill Health  Regular                 2
-## 19   Regular Retired Due to Ill Health  Regular                 2
-## 20   Regular Retired Due to Ill Health  Regular                 2
-## 21   Regular Retired Due to Ill Health  Regular                 2
-## 22   Regular Retired Due to Ill Health  Regular                 2
-## 23   Regular Retired Due to Ill Health  Regular                 2
-## 24   Regular Retired Due to Ill Health  Regular                 2
-## 25   Regular Retired Due to Ill Health  Regular                 2
-## 26 Irregular                 Irregular  Unknown                 4
-## 27 Irregular                 Irregular  Unknown                 4
-## 28 Irregular                 Irregular  Unknown                 4
-##    posttenurefate gender yrborn yrdied   borndate ebirthdate  deathdate
-## 1              OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 2              OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 3              OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 4              OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 5              OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 6              OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 7              OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 8              OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 9              OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 10             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 11             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 12             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 13             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 14             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 15             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 16             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 17             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 18             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 19             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 20             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 21             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 22             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 23             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 24             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 25             OK      M   1874   1951         NA       &lt;NA&gt;         NA
-## 26          Exile      M   1812   1884 1812-07-14 1812-07-14 1884-03-14
-## 27          Exile      M   1812   1884 1812-07-14 1812-07-14 1884-03-14
-## 28          Exile      M   1812   1884 1812-07-14 1812-07-14 1884-03-14
-##    edeathdate
-## 1        &lt;NA&gt;
-## 2        &lt;NA&gt;
-## 3        &lt;NA&gt;
-## 4        &lt;NA&gt;
-## 5        &lt;NA&gt;
-## 6        &lt;NA&gt;
-## 7        &lt;NA&gt;
-## 8        &lt;NA&gt;
-## 9        &lt;NA&gt;
-## 10       &lt;NA&gt;
-## 11       &lt;NA&gt;
-## 12       &lt;NA&gt;
-## 13       &lt;NA&gt;
-## 14       &lt;NA&gt;
-## 15       &lt;NA&gt;
-## 16       &lt;NA&gt;
-## 17       &lt;NA&gt;
-## 18       &lt;NA&gt;
-## 19       &lt;NA&gt;
-## 20       &lt;NA&gt;
-## 21       &lt;NA&gt;
-## 22       &lt;NA&gt;
-## 23       &lt;NA&gt;
-## 24       &lt;NA&gt;
-## 25       &lt;NA&gt;
-## 26 1884-03-14
-## 27 1884-03-14
-## 28 1884-03-14
+<pre><code>##         obsid          leader.x                             leadid.x idacr.x
+## 1    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 2    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 3    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 4    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 5    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 6    CAN-1921              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 7  CAN-1926-2              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 8  CAN-1926-2              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 9  CAN-1926-2              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 10 CAN-1926-2              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 11 CAN-1926-2              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 12   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 13   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 14   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 15   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 16   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 17   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 18   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 19   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 20   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 21   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 22   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 23   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 24   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 25   CAN-1935              King 81de4823-1e42-11e4-b4cd-db5882bf8def     CAN
+## 26 DOM-1876-4 Buenaventura Baez 81de4823-1e42-11e4-b4cd-db5882bf8def     DOM
+## 27 DOM-1876-4 Buenaventura Baez 81de4823-1e42-11e4-b4cd-db5882bf8def     DOM
+## 28 DOM-1876-4 Buenaventura Baez 81de4823-1e42-11e4-b4cd-db5882bf8def     DOM
+##    year  LSY  LEY                             leadid.y ccode idacr.y
+## 1  1921 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 2  1922 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 3  1923 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 4  1924 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 5  1925 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 6  1926 1921 1926 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 7  1926 1926 1930 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 8  1927 1926 1930 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 9  1928 1926 1930 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 10 1929 1926 1930 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 11 1930 1926 1930 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 12 1935 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 13 1936 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 14 1937 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 15 1938 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 16 1939 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 17 1940 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 18 1941 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 19 1942 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 20 1943 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 21 1944 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 22 1945 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 23 1946 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 24 1947 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 25 1948 1935 1948 81de4823-1e42-11e4-b4cd-db5882bf8def    20     CAN
+## 26 1876 1876 1878 81de4823-1e42-11e4-b4cd-db5882bf8def    42     DOM
+## 27 1877 1876 1878 81de4823-1e42-11e4-b4cd-db5882bf8def    42     DOM
+## 28 1878 1876 1878 81de4823-1e42-11e4-b4cd-db5882bf8def    42     DOM
+##             leader.y  startdate    eindate    enddate   eoutdate     entry
+## 1               King 1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 2               King 1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 3               King 1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 4               King 1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 5               King 1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 6               King 1921-12-29 1921-12-29 1926-06-28 1926-06-28   Regular
+## 7               King 1926-09-25 1926-09-25 1930-08-07 1930-08-07   Regular
+## 8               King 1926-09-25 1926-09-25 1930-08-07 1930-08-07   Regular
+## 9               King 1926-09-25 1926-09-25 1930-08-07 1930-08-07   Regular
+## 10              King 1926-09-25 1926-09-25 1930-08-07 1930-08-07   Regular
+## 11              King 1926-09-25 1926-09-25 1930-08-07 1930-08-07   Regular
+## 12              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 13              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 14              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 15              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 16              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 17              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 18              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 19              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 20              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 21              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 22              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 23              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 24              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 25              King 1935-10-23 1935-10-23 1948-11-15 1948-11-15   Regular
+## 26 Buenaventura Baez 1876-12-26 1876-12-26 1878-03-02 1878-03-02 Irregular
+## 27 Buenaventura Baez 1876-12-26 1876-12-26 1878-03-02 1878-03-02 Irregular
+## 28 Buenaventura Baez 1876-12-26 1876-12-26 1878-03-02 1878-03-02 Irregular
+##                         exit exitcode prevtimesinoffice posttenurefate gender
+## 1                    Regular  Regular                 0             OK      M
+## 2                    Regular  Regular                 0             OK      M
+## 3                    Regular  Regular                 0             OK      M
+## 4                    Regular  Regular                 0             OK      M
+## 5                    Regular  Regular                 0             OK      M
+## 6                    Regular  Regular                 0             OK      M
+## 7                    Regular  Regular                 1             OK      M
+## 8                    Regular  Regular                 1             OK      M
+## 9                    Regular  Regular                 1             OK      M
+## 10                   Regular  Regular                 1             OK      M
+## 11                   Regular  Regular                 1             OK      M
+## 12 Retired Due to Ill Health  Regular                 2             OK      M
+## 13 Retired Due to Ill Health  Regular                 2             OK      M
+## 14 Retired Due to Ill Health  Regular                 2             OK      M
+## 15 Retired Due to Ill Health  Regular                 2             OK      M
+## 16 Retired Due to Ill Health  Regular                 2             OK      M
+## 17 Retired Due to Ill Health  Regular                 2             OK      M
+## 18 Retired Due to Ill Health  Regular                 2             OK      M
+## 19 Retired Due to Ill Health  Regular                 2             OK      M
+## 20 Retired Due to Ill Health  Regular                 2             OK      M
+## 21 Retired Due to Ill Health  Regular                 2             OK      M
+## 22 Retired Due to Ill Health  Regular                 2             OK      M
+## 23 Retired Due to Ill Health  Regular                 2             OK      M
+## 24 Retired Due to Ill Health  Regular                 2             OK      M
+## 25 Retired Due to Ill Health  Regular                 2             OK      M
+## 26                 Irregular  Unknown                 4          Exile      M
+## 27                 Irregular  Unknown                 4          Exile      M
+## 28                 Irregular  Unknown                 4          Exile      M
+##    yrborn yrdied   borndate ebirthdate  deathdate edeathdate
+## 1    1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 2    1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 3    1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 4    1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 5    1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 6    1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 7    1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 8    1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 9    1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 10   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 11   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 12   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 13   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 14   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 15   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 16   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 17   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 18   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 19   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 20   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 21   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 22   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 23   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 24   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 25   1874   1951         NA       &lt;NA&gt;         NA       &lt;NA&gt;
+## 26   1812   1884 1812-07-14 1812-07-14 1884-03-14 1884-03-14
+## 27   1812   1884 1812-07-14 1812-07-14 1884-03-14 1884-03-14
+## 28   1812   1884 1812-07-14 1812-07-14 1884-03-14 1884-03-14
 ##                                                                                                                                                                                                                                                                                                   dbpediauri
 ## 1                                                                                                                                                                                                                                                                                                         NA
 ## 2                                                                                                                                                                                                                                                                                                         NA
@@ -335,105 +305,105 @@ Full.LTS %&gt;% filter(leadid.x == &quot;81de4823-1e42-11e4-b4cd-db5882bf8def&qu
 ## 26        1     3.0        -999                 1
 ## 27        1     3.0        -999                 1
 ## 28        1     3.0        -999                 1
-##                                                        fties ftcur
-## 1  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 2  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 3  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 4  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 5  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 6  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 7  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 8  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 9  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 10 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 11 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 12 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 13 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 14 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 15 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 16 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 17 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 18 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 19 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 20 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 21 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 22 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 23 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 24 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 25 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1
-## 26 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     0
-## 27 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     0
-## 28 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     0
-##    startYear endYear
-## 1       1921    1926
-## 2       1921    1926
-## 3       1921    1926
-## 4       1921    1926
-## 5       1921    1926
-## 6       1921    1926
-## 7       1926    1930
-## 8       1926    1930
-## 9       1926    1930
-## 10      1926    1930
-## 11      1926    1930
-## 12      1935    1948
-## 13      1935    1948
-## 14      1935    1948
-## 15      1935    1948
-## 16      1935    1948
-## 17      1935    1948
-## 18      1935    1948
-## 19      1935    1948
-## 20      1935    1948
-## 21      1935    1948
-## 22      1935    1948
-## 23      1935    1948
-## 24      1935    1948
-## 25      1935    1948
-## 26      1876    1878
-## 27      1876    1878
-## 28      1876    1878</code></pre>
+##                                                        fties ftcur startYear
+## 1  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1921
+## 2  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1921
+## 3  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1921
+## 4  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1921
+## 5  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1921
+## 6  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1921
+## 7  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1926
+## 8  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1926
+## 9  Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1926
+## 10 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1926
+## 11 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1926
+## 12 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 13 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 14 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 15 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 16 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 17 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 18 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 19 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 20 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 21 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 22 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 23 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 24 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 25 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     1      1935
+## 26 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     0      1876
+## 27 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     0      1876
+## 28 Father of Ramon Baez%81e1556e-1e42-11e4-b4cd-db5882bf8def     0      1876
+##    endYear
+## 1     1926
+## 2     1926
+## 3     1926
+## 4     1926
+## 5     1926
+## 6     1926
+## 7     1930
+## 8     1930
+## 9     1930
+## 10    1930
+## 11    1930
+## 12    1948
+## 13    1948
+## 14    1948
+## 15    1948
+## 16    1948
+## 17    1948
+## 18    1948
+## 19    1948
+## 20    1948
+## 21    1948
+## 22    1948
+## 23    1948
+## 24    1948
+## 25    1948
+## 26    1878
+## 27    1878
+## 28    1878</code></pre>
 <pre class="r"><code>Full.LTS %&gt;% filter(leadid.x == &quot;821be4de-1e42-11e4-b4cd-db5882bf8def&quot;) # Cool, someone led two countries.</code></pre>
-<pre><code>##      obsid  leader.x                             leadid.x idacr.x year
-## 1 SER-2006 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER 2006
-## 2 SER-2006 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER 2007
-## 3 SER-2006 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER 2008
-## 4 YUG-2000 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG 2000
-## 5 YUG-2000 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG 2001
-## 6 YUG-2000 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG 2002
-## 7 YUG-2000 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG 2003
-##    LSY  LEY                             leadid.y ccode idacr.y  leader.y
-## 1 2006 2008 821be4de-1e42-11e4-b4cd-db5882bf8def   340     SER Kostunica
-## 2 2006 2008 821be4de-1e42-11e4-b4cd-db5882bf8def   340     SER Kostunica
-## 3 2006 2008 821be4de-1e42-11e4-b4cd-db5882bf8def   340     SER Kostunica
-## 4 2000 2003 821be4de-1e42-11e4-b4cd-db5882bf8def   345     YUG Kostunica
-## 5 2000 2003 821be4de-1e42-11e4-b4cd-db5882bf8def   345     YUG Kostunica
-## 6 2000 2003 821be4de-1e42-11e4-b4cd-db5882bf8def   345     YUG Kostunica
-## 7 2000 2003 821be4de-1e42-11e4-b4cd-db5882bf8def   345     YUG Kostunica
-##    startdate    eindate    enddate   eoutdate   entry    exit exitcode
-## 1 2006-06-04 2006-06-04 2008-07-07 2008-07-07 Regular Regular  Regular
-## 2 2006-06-04 2006-06-04 2008-07-07 2008-07-07 Regular Regular  Regular
-## 3 2006-06-04 2006-06-04 2008-07-07 2008-07-07 Regular Regular  Regular
-## 4 2000-10-08 2000-10-08 2003-03-07 2003-03-07 Regular Regular  Regular
-## 5 2000-10-08 2000-10-08 2003-03-07 2003-03-07 Regular Regular  Regular
-## 6 2000-10-08 2000-10-08 2003-03-07 2003-03-07 Regular Regular  Regular
-## 7 2000-10-08 2000-10-08 2003-03-07 2003-03-07 Regular Regular  Regular
-##   prevtimesinoffice posttenurefate gender yrborn yrdied   borndate
-## 1                 1             OK      M   1944   -777 1944-03-24
-## 2                 1             OK      M   1944   -777 1944-03-24
-## 3                 1             OK      M   1944   -777 1944-03-24
-## 4                 0             OK      M   1944   -777 1944-03-24
-## 5                 0             OK      M   1944   -777 1944-03-24
-## 6                 0             OK      M   1944   -777 1944-03-24
-## 7                 0             OK      M   1944   -777 1944-03-24
-##   ebirthdate deathdate edeathdate
-## 1 1944-03-24        NA       &lt;NA&gt;
-## 2 1944-03-24        NA       &lt;NA&gt;
-## 3 1944-03-24        NA       &lt;NA&gt;
-## 4 1944-03-24        NA       &lt;NA&gt;
-## 5 1944-03-24        NA       &lt;NA&gt;
-## 6 1944-03-24        NA       &lt;NA&gt;
-## 7 1944-03-24        NA       &lt;NA&gt;
+<pre><code>##      obsid  leader.x                             leadid.x idacr.x year  LSY
+## 1 SER-2006 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER 2006 2006
+## 2 SER-2006 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER 2007 2006
+## 3 SER-2006 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     SER 2008 2006
+## 4 YUG-2000 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG 2000 2000
+## 5 YUG-2000 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG 2001 2000
+## 6 YUG-2000 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG 2002 2000
+## 7 YUG-2000 Kostunica 821be4de-1e42-11e4-b4cd-db5882bf8def     YUG 2003 2000
+##    LEY                             leadid.y ccode idacr.y  leader.y  startdate
+## 1 2008 821be4de-1e42-11e4-b4cd-db5882bf8def   340     SER Kostunica 2006-06-04
+## 2 2008 821be4de-1e42-11e4-b4cd-db5882bf8def   340     SER Kostunica 2006-06-04
+## 3 2008 821be4de-1e42-11e4-b4cd-db5882bf8def   340     SER Kostunica 2006-06-04
+## 4 2003 821be4de-1e42-11e4-b4cd-db5882bf8def   345     YUG Kostunica 2000-10-08
+## 5 2003 821be4de-1e42-11e4-b4cd-db5882bf8def   345     YUG Kostunica 2000-10-08
+## 6 2003 821be4de-1e42-11e4-b4cd-db5882bf8def   345     YUG Kostunica 2000-10-08
+## 7 2003 821be4de-1e42-11e4-b4cd-db5882bf8def   345     YUG Kostunica 2000-10-08
+##      eindate    enddate   eoutdate   entry    exit exitcode prevtimesinoffice
+## 1 2006-06-04 2008-07-07 2008-07-07 Regular Regular  Regular                 1
+## 2 2006-06-04 2008-07-07 2008-07-07 Regular Regular  Regular                 1
+## 3 2006-06-04 2008-07-07 2008-07-07 Regular Regular  Regular                 1
+## 4 2000-10-08 2003-03-07 2003-03-07 Regular Regular  Regular                 0
+## 5 2000-10-08 2003-03-07 2003-03-07 Regular Regular  Regular                 0
+## 6 2000-10-08 2003-03-07 2003-03-07 Regular Regular  Regular                 0
+## 7 2000-10-08 2003-03-07 2003-03-07 Regular Regular  Regular                 0
+##   posttenurefate gender yrborn yrdied   borndate ebirthdate deathdate
+## 1             OK      M   1944   -777 1944-03-24 1944-03-24        NA
+## 2             OK      M   1944   -777 1944-03-24 1944-03-24        NA
+## 3             OK      M   1944   -777 1944-03-24 1944-03-24        NA
+## 4             OK      M   1944   -777 1944-03-24 1944-03-24        NA
+## 5             OK      M   1944   -777 1944-03-24 1944-03-24        NA
+## 6             OK      M   1944   -777 1944-03-24 1944-03-24        NA
+## 7             OK      M   1944   -777 1944-03-24 1944-03-24        NA
+##   edeathdate
+## 1       &lt;NA&gt;
+## 2       &lt;NA&gt;
+## 3       &lt;NA&gt;
+## 4       &lt;NA&gt;
+## 5       &lt;NA&gt;
+## 6       &lt;NA&gt;
+## 7       &lt;NA&gt;
 ##                                                                                                                                                                                                                                                                                                   dbpediauri
 ## 1 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
 ## 2 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
@@ -442,22 +412,14 @@ Full.LTS %&gt;% filter(leadid.x == &quot;81de4823-1e42-11e4-b4cd-db5882bf8def&qu
 ## 5 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
 ## 6 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
 ## 7 https://urldefense.proofpoint.com/v2/url?u=http-3A__dbpedia.org_resource_Vojislav-5FKo-25C5-25A1tunica&amp;d=BQID-g&amp;c=kbmfwr1Yojg42sGEpaQh5ofMHBeTl9EI2eaqQZhHbOU&amp;r=ZliGVSRwfirWoETOrKCh2RSnoygzVPWEk95Me9L-Kwo&amp;m=EaKyFx9mpkhPdFxsxzvW_fiM3jbYwM3xYLjVbSFoDAg&amp;s=mT2yDCuPIXn2Eb5KrEt4NY-wAdwyFfCy5PRtU7bwmJk&amp;e=
-##   numentry numexit numexitcode numposttenurefate fties ftcur startYear
-## 1        0       1           0                 0    NA    NA      2006
-## 2        0       1           0                 0    NA    NA      2006
-## 3        0       1           0                 0    NA    NA      2006
-## 4        0       1           0                 0    NA    NA      2000
-## 5        0       1           0                 0    NA    NA      2000
-## 6        0       1           0                 0    NA    NA      2000
-## 7        0       1           0                 0    NA    NA      2000
-##   endYear
-## 1    2008
-## 2    2008
-## 3    2008
-## 4    2003
-## 5    2003
-## 6    2003
-## 7    2003</code></pre>
+##   numentry numexit numexitcode numposttenurefate fties ftcur startYear endYear
+## 1        0       1           0                 0    NA    NA      2006    2008
+## 2        0       1           0                 0    NA    NA      2006    2008
+## 3        0       1           0                 0    NA    NA      2006    2008
+## 4        0       1           0                 0    NA    NA      2000    2003
+## 5        0       1           0                 0    NA    NA      2000    2003
+## 6        0       1           0                 0    NA    NA      2000    2003
+## 7        0       1           0                 0    NA    NA      2000    2003</code></pre>
 <p>There are two leaders that led multiple countries. The rest are nested. One of them makes sense, the other seems to be a bad hash.</p>
 <pre class="r"><code># Not run
 Full.LTS &lt;- Full.LTS %&gt;% mutate(TenureY = endYear - startYear)
@@ -476,18 +438,120 @@ Full.LTS &lt;- read.csv(&quot;https://github.com/robertwwalker/academic-mymod/ra
 <p>The tidyverse will make this workable. The first step is to visualise some features. Using the <code>R</code> equivalent of a pivot table, let’s summarise the frequency of leaders. Because the leader is the basic unit of analysis, we want to group the data by country and then count the number of leaders for each country. The resulting dataset should be collapsed to the number of countries.</p>
 <pre class="r"><code>Shorty &lt;- Archigos %&gt;% group_by(idacr) %&gt;% summarise(count=n())
 skimr::skim(Shorty)</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 189 
-##  n variables: 2 
-## 
-## ── Variable type:character ───────────────────────────────────────────────────────────────
-##  variable missing complete   n min max empty n_unique
-##     idacr       0      189 189   3   3     0      189
-## 
-## ── Variable type:integer ─────────────────────────────────────────────────────────────────
-##  variable missing complete   n  mean    sd p0 p25 p50 p75 p100     hist
-##     count       0      189 189 18.04 20.39  1   6  11  24  141 ▇▂▁▁▁▁▁▁</code></pre>
-<p>Hmm, there are countries that only had one leader. I wonder who they are.</p>
+<table>
+<caption><span id="tab:unnamed-chunk-3">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Shorty</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">189</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">character</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">empty</th>
+<th align="right">n_unique</th>
+<th align="right">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">idacr</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">189</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">count</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">18.04</td>
+<td align="right">20.39</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">11</td>
+<td align="right">24</td>
+<td align="right">141</td>
+<td align="left">▇▂▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Hmm, there are c</td>
+<td align="right">ountries tha</td>
+<td align="right">t only had one l</td>
+<td align="right">eader.</td>
+<td align="right">I wonder</td>
+<td align="right">who</td>
+<td align="right">they a</td>
+<td align="right">re.</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>Shorty %&gt;% filter(count==1)</code></pre>
 <pre><code>## # A tibble: 8 x 2
 ##   idacr count

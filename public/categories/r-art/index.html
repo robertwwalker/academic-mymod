@@ -289,7 +289,7 @@
     <div class="article-style">
       
       mathart A cool package for math generated art that I just discovered. Here is the install code for it
-install.packages(c(&quot;devtools&quot;, &quot;mapproj&quot;, &quot;tidyverse&quot;, &quot;ggforce&quot;, &quot;Rcpp&quot;)) devtools::install_github(&quot;marcusvolz/mathart&quot;) devtools::install_github(&quot;marcusvolz/ggart&quot;) Load some libraries library(mathart) library(ggart) library(ggforce) library(Rcpp) library(tidyverse)  Generate some Art? This is quite fun to do.
+install.packages(c(&quot;devtools&quot;, &quot;mapproj&quot;, &quot;tidyverse&quot;, &quot;ggforce&quot;, &quot;Rcpp&quot;)) devtools::install_github(&quot;marcusvolz/mathart&quot;) devtools::install_github(&quot;marcusvolz/ggart&quot;) devtools::install_github(&quot;gsimchoni/kandinsky&quot;) Load some libraries library(mathart) library(ggart) library(ggforce) library(Rcpp) library(tidyverse)  Generate some Art? This is quite fun to do.
 set.seed(12341) terminals &lt;- data.frame(x = runif(10, 0, 10000), y = runif(10, 0, 10000)) df &lt;- 1:10000 %&gt;% map_df(~weiszfeld(terminals, c(points$x[.], points$y[.])), .id = &quot;id&quot;) p &lt;- ggplot() + geom_point(aes(x, y), points, size = 1, alpha = 0.
       
     </div>

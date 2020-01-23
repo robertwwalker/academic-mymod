@@ -148,7 +148,7 @@ tidy.PA %&gt;%
 <h2>Word Clouds</h2>
 <div id="presidential-actions-1" class="section level3">
 <h3>Presidential Actions</h3>
-<pre class="r"><code>library(wordcloud)
+<pre class="r"><code>library(wordcloud); library(tm)
 set.seed(1234)
 wc &lt;- tidy.PA %&gt;% count(word, sort = TRUE)
 wordcloud(wc$word,  wc$n, min.freq = 1,
@@ -158,12 +158,16 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
 </div>
 <div id="statements-and-briefings-1" class="section level3">
 <h3>Statements and Briefings</h3>
-<pre class="r"><code>set.seed(1234)
+<pre class="r"><code>library(wordcloud2)
 wc &lt;- tidy.SB %&gt;% count(word, sort = TRUE)
-wordcloud(wc$word,  wc$n, min.freq = 1,
-          max.words=200, random.order=FALSE, rot.per=0.35, 
-          colors=brewer.pal(8, &quot;Dark2&quot;))</code></pre>
-<p><img src="/post/2018-02-21-tidytext-is-neat_files/figure-html/WCSB-1.png" width="672" /></p>
+wc$freq &lt;- wc$n
+wc$n &lt;- NULL
+hw &lt;- wordcloud2(wc, size=3)
+library(htmlwidgets)
+saveWidget(hw,&quot;1.html&quot;,selfcontained = F)
+webshot::webshot(&quot;1.html&quot;,&quot;1.png&quot;,vwidth = 700, vheight = 500, delay =10)</code></pre>
+<p><img src="/post/2018-02-21-tidytext-is-neat_files/figure-html/WCSB-1.png" width="672" />
+<img src="1.png" /></p>
 </div>
 </div>
 </div>

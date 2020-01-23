@@ -28,6 +28,7 @@ A cool package for math generated art that I just discovered.  Here is the insta
 install.packages(c("devtools", "mapproj", "tidyverse", "ggforce", "Rcpp"))
 devtools::install_github("marcusvolz/mathart")
 devtools::install_github("marcusvolz/ggart")
+devtools::install_github("gsimchoni/kandinsky")
 ```
 
 ## Load some libraries

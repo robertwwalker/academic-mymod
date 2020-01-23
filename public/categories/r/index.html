@@ -300,8 +300,8 @@ Get a map.
     <h2><a href="/post/tidytuesday-measles/">tidyTuesday Measles</a></h2>
     <div class="article-style">
       
-      tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github.
-tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here() starts at /home/rob/Sandbox/academic-mymod/academic-mymod library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.8.3 ## ✓ tidyr 1.
+      tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github. I will also use fiftystater and ggflags.
+devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;) devtools::install_github(&quot;ellisp/ggflags&quot;) devtools::install_github(&quot;wmurphyrd/fiftystater&quot;) tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) ## &mdash; Downloading #TidyTuesday Information for 2019-12-10 &mdash;- ## &mdash; Identified 4 files available for download &mdash;- ## &mdash; Downloading files &mdash; ## Warning in identify_delim(temp_file): Not able to detect delimiter for the file.
       
     </div>
   </div>
@@ -317,7 +317,7 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
   </div>
   
   <div>
-    <h2><a href="/post/philaselphia-parking-tickets-a-tidytuesday/">Philaselphia Parking Tickets: a tidyTuesday</a></h2>
+    <h2><a href="/post/philadelphia-parking-tickets-a-tidytuesday/">Philadelphia Parking Tickets: a tidyTuesday</a></h2>
     <div class="article-style">
       
       Philadelphia Map Use ggmap for the base layer.
@@ -352,7 +352,7 @@ library(tidycensus); library(kableExtra) library(tidyverse); library(stringr) v1
       
       The Package: finreport The key tool to facilitate the financial analysis of companies that file regular SEC reports of certain forms is finreportr. To make use of it, we must first have R install it and dependencies. To install it, install.packages(&quot;finreportr&quot;, dependencies=TRUE).
  The Commands The first command is CompanyInfo().
-library(finreportr) CompanyInfo(&quot;JPM&quot;) ## company CIK SIC state state.inc FY.end ## 1 JPMORGAN CHASE &amp; CO 0000019617 6021 NY DE 1231 ## street.
+library(finreportr) CompanyInfo(&quot;JPM&quot;) ## company CIK SIC state state.inc FY.end street.address ## 1 JPMORGAN CHASE &amp; CO 0000019617 6021 NY DE 1231 383 MADISON AVENUE ## city.
       
     </div>
   </div>

@@ -338,7 +338,7 @@
     Trump’s Tone A cool post on sentiment analysis can be found here. I will now get at the time series characteristics of his tweets and the sentiment stuff.
 I start by loading the tmls object that I created in the previous post.
 Trump’s Overall Tweeting What does it look like?
-library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuzhet) library(rtweet) load(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&quot;)) names(tml.djt) ## [1] &quot;user_id&quot; &quot;status_id&quot; ## [3] &quot;created_at&quot; &quot;screen_name&quot; ## [5] &quot;text&quot; &quot;source&quot; ## [7] &quot;display_text_width&quot; &quot;reply_to_status_id&quot; ## [9] &quot;reply_to_user_id&quot; &quot;reply_to_screen_name&quot; ## [11] &quot;is_quote&quot; &quot;is_retweet&quot; ## [13] &quot;favorite_count&quot; &quot;retweet_count&quot; ## [15] &quot;hashtags&quot; &quot;symbols&quot; ## [17] &quot;urls_url&quot; &quot;urls_t.
+library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuzhet) library(rtweet) library(here) load(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&quot;)) names(tml.djt) ## [1] &quot;user_id&quot; &quot;status_id&quot; ## [3] &quot;created_at&quot; &quot;screen_name&quot; ## [5] &quot;text&quot; &quot;source&quot; ## [7] &quot;display_text_width&quot; &quot;reply_to_status_id&quot; ## [9] &quot;reply_to_user_id&quot; &quot;reply_to_screen_name&quot; ## [11] &quot;is_quote&quot; &quot;is_retweet&quot; ## [13] &quot;favorite_count&quot; &quot;retweet_count&quot; ## [15] &quot;hashtags&quot; &quot;symbols&quot; ## [17] &quot;urls_url&quot; &quot;urls_t.
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
@@ -370,7 +370,7 @@ library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuz
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    8 min read
+    6 min read
   </span>
   
 
@@ -438,7 +438,7 @@ library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuz
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    4 min read
+    3 min read
   </span>
   
 
@@ -463,7 +463,7 @@ library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuz
   <div class="article-style" itemprop="articleBody">
     
     This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is here.
-library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &lt;- read.csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv&quot;) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.
+library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &lt;- read.csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv&quot;) library(skimr) skim(Major.Employment)  Table 1: Data summary  Name Major.
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
@@ -495,7 +495,7 @@ library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importi
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    5 min read
+    4 min read
   </span>
   
 
@@ -536,7 +536,7 @@ library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importi
     
     The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.
+library(readxl) library(tidyverse) ## ── Attaching packages ────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
@@ -568,7 +568,7 @@ library(readxl) library(tidyverse) ## ── Attaching packages ─────�
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    8 min read
+    7 min read
   </span>
   
 
@@ -606,7 +606,7 @@ library(readxl) library(tidyverse) ## ── Attaching packages ─────�
     
     tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
 Here is this week’s tidyTuesday.
-library(skimr) library(tidyverse) library(rlang) # global_mortality &lt;- readRDS(&quot;../../data/global_mortality.rds&quot;) global_mortality &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)) skim(global_mortality) ## Skim summary statistics ## n obs: 6156 ## n variables: 35 ## ## ── Variable type:character ─────────────────────────────────────────────────────────────── ## variable missing complete n min max empty n_unique ## country 0 6156 6156 4 32 0 228 ## country_code 864 5292 6156 3 8 0 196 ## ## ── Variable type:numeric ───────────────────────────────────────────────────────────────── ## variable missing complete n mean ## Alcohol disorders (%) 0 6156 6156 0.
+library(skimr) library(tidyverse) library(rlang) # global_mortality &lt;- readRDS(&quot;../../data/global_mortality.rds&quot;) global_mortality &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&quot;)) skim(global_mortality)  Table 1: Data summary  Name global_mortality  Number of rows 6156  Number of columns 35  _______________________   Column type frequency:   character 2  numeric 33  ________________________   Group variables None    Variable type: character
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">

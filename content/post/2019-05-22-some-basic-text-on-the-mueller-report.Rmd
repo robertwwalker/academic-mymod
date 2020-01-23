@@ -44,7 +44,8 @@ Now I can use a .csv of the data; reading the .pdf and hacking it up takes time.
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(pdftools)
-mueller_report <- read_csv("../../data/mueller_report.csv")
+library(here)
+mueller_report <- read_csv(here("data","mueller_report.csv"))
 head(mueller_report)
 ```
 
@@ -56,16 +57,20 @@ mueller_report %>% filter(line!=2) -> mueller_ml2
 
 I want to make use of [cleanNLP](https://github.com/statsmaths/cleanNLP) to turn this into something that I can analyze.  The first step is to get rid of the tidyness, of sorts.
 
+```
+Once upon a time, this worked with the linux tools and others.  The spacy and corenlp functionality is not native R and the python interface is currently broken, at least on this server.
+```
+
 ```{r CNLP, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(RCurl)
 library(tokenizers)
 library(cleanNLP)
 MRep <- paste(as.character(mueller_ml2$text), " ")
-cnlp_init_spacy()
-starttime <- Sys.time()
-spacy_annotate <- MRep %>% as.character() %>% cnlp_annotate(as_strings = TRUE, backend = "spaCy") 
-endtime <- Sys.time()
+# cnlp_init_udpipe()
+# starttime <- Sys.time()
+# udpipe_annotate <- MRep %>% as.character() %>% cnlp_annotate(., verbose=FALSE) 
+# endtime <- Sys.time()
 ```
 
 I wanted to find the bigrams while removing stop words.  Apparently, the easiest way to do this is `quanteda`.  I got this from [stack overflow](https://stackoverflow.com/questions/34282370/form-bigrams-without-stopwords-in-r)

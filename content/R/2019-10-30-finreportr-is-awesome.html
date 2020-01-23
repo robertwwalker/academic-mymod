@@ -23,10 +23,10 @@ header:
 <p>The first command is <code>CompanyInfo()</code>.</p>
 <pre class="r"><code>library(finreportr)
 CompanyInfo(&quot;JPM&quot;)</code></pre>
-<pre><code>##               company        CIK  SIC state state.inc FY.end
-## 1 JPMORGAN CHASE &amp; CO 0000019617 6021    NY        DE   1231
-##       street.address        city.state
-## 1 383 MADISON AVENUE NEW YORK NY 10017</code></pre>
+<pre><code>##               company        CIK  SIC state state.inc FY.end     street.address
+## 1 JPMORGAN CHASE &amp; CO 0000019617 6021    NY        DE   1231 383 MADISON AVENUE
+##          city.state
+## 1 NEW YORK NY 10017</code></pre>
 <p><code>CompanyInfo()</code> gives the basics on the company from the SEC including addresses, incorporation details, and numeric codes.</p>
 <p>The next command is <code>AnnualReports()</code>. It returns a list of the reports with the type and the accession number of the actual document.</p>
 </div>

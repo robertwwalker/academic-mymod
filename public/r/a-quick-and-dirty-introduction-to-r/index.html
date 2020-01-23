@@ -395,18 +395,92 @@ Support.Times &lt;- structure(list(Screened = c(26.9, 28.4, 23.9, 21.8, 22.4, 25
 <p>Using the <code>tidyverse</code>, the new data <code>SSTimes</code> will stack the data using pivot longer into two variables that I will name <code>Self.Screen</code> and <code>Call.Time</code> to store the stacked data. The final command drops the missing data. Then I will group them and skim them.</p>
 <pre class="r"><code>SSTimes &lt;- Support.Times %&gt;% pivot_longer(., c(Screened,Not.Screened), names_to = &quot;Self.Screen&quot;, values_to = &quot;Call.Time&quot;) %&gt;% drop_na()
 SSTimes %&gt;% group_by(Self.Screen) %&gt;% skim()</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 61 
-##  n variables: 2 
-##  group variables: Self.Screen 
-## 
-## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────
-##   Self.Screen  variable missing complete  n  mean   sd   p0   p25  p50
-##  Not.Screened Call.Time       0       25 25 22.04 3.11 14.5 20    22.4
-##      Screened Call.Time       0       36 36 24.44 3.08 17.9 22.55 24.9
-##    p75 p100     hist
-##  24.3  29.2 ▁▂▅▅▆▇▁▁
-##  26.92 29.6 ▂▅▁▆▃▇▇▃</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-2">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Piped data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">numeric</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Group variables</td>
+<td align="left">Self.Screen</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="left">Self.Screen</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Call.Time</td>
+<td align="left">Not.Screened</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">22.04</td>
+<td align="right">3.11</td>
+<td align="right">14.5</td>
+<td align="right">20.00</td>
+<td align="right">22.4</td>
+<td align="right">24.30</td>
+<td align="right">29.2</td>
+<td align="left">▁▅▇▇▁</td>
+</tr>
+<tr class="even">
+<td align="left">Call.Time</td>
+<td align="left">Screened</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">24.44</td>
+<td align="right">3.08</td>
+<td align="right">17.9</td>
+<td align="right">22.55</td>
+<td align="right">24.9</td>
+<td align="right">26.92</td>
+<td align="right">29.6</td>
+<td align="left">▃▃▆▇▅</td>
+</tr>
+</tbody>
+</table>
 <p>So I have 25 observations that are not screened and 36 that are screened. What does it look like?</p>
 <pre class="r"><code>ggplot(SSTimes, aes(x=Self.Screen, y=Call.Time, fill=Self.Screen)) + geom_violin(alpha = 0.2) + scale_fill_discrete(guide=FALSE) + labs(title = &quot;Self Screen and Non-Self Screen Call Times&quot;)</code></pre>
 <p><img src="/R/2019-10-25-a-quick-and-dirty-introduction-to-r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
@@ -441,7 +515,7 @@ SSTimes %&gt;% group_by(Self.Screen) %&gt;% skim()</code></pre>
 <p>It is worth noting that R stores a bunch of stuff. For example, it stores the standard error of the difference and that is worth looking at in this case; the standard error that describes the difference in the averages is 0.8065242.</p>
 <pre class="r"><code>Resample.Times &lt;- ResampleProps::ResampleDiffMeans(Support.Times$Screened,Support.Times$Not.Screened)
 sd(Resample.Times)</code></pre>
-<pre><code>## [1] 0.7758375</code></pre>
+<pre><code>## [1] 0.8221917</code></pre>
 </div>
 
     </div>

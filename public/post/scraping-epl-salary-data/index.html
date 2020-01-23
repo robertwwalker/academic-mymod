@@ -517,25 +517,25 @@ EPL.Result %&gt;% group_by(Position) %&gt;% summarise(Mean.Base.Salary=mean(Base
 <pre><code>## # A tibble: 4 x 3
 ##   Position Mean.Base.Salary  sdBS
 ##   &lt;fct&gt;               &lt;dbl&gt; &lt;dbl&gt;
-## 1 D                    26.6  3.80
-## 2 F                    25.4  3.71
-## 3 GK                   29.5  4.62
-## 4 M                    25.5  5.33</code></pre>
+## 1 D                    25.9  3.73
+## 2 F                    24.7  3.75
+## 3 GK                   28.8  4.66
+## 4 M                    24.8  5.25</code></pre>
 <pre class="r"><code>EPL.Result %&gt;% group_by(Position,Team) %&gt;% summarise(Mean.Base.Salary=mean(Base.Num, na.rm=TRUE),sdBS=sd(Base.Num, na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 80 x 4
 ## # Groups:   Position [4]
-##    Position Team                                     Mean.Base.Salary  sdBS
-##    &lt;fct&gt;    &lt;fct&gt;                                               &lt;dbl&gt; &lt;dbl&gt;
-##  1 D        Https:www.spotrac.comeplAFC Bournemouth              25.8  4.60
-##  2 D        Https:www.spotrac.comeplarsenal                      25.7  3.77
-##  3 D        Https:www.spotrac.comeplaston Villa                  25.5  3.12
-##  4 D        Https:www.spotrac.comeplbrighton Hove A…             28.3  2.56
-##  5 D        Https:www.spotrac.comeplburnley                      28.9  2.85
-##  6 D        Https:www.spotrac.comeplchelsea                      26.1  2.41
-##  7 D        Https:www.spotrac.comeplcrystal Palace               28.5  3.06
-##  8 D        Https:www.spotrac.comepleverton                      27.2  3.73
-##  9 D        Https:www.spotrac.comeplleicester City               26.5  5.61
-## 10 D        Https:www.spotrac.comeplliverpool                    25.9  3.67
+##    Position Team                                         Mean.Base.Salary  sdBS
+##    &lt;fct&gt;    &lt;fct&gt;                                                   &lt;dbl&gt; &lt;dbl&gt;
+##  1 D        Https:www.spotrac.comeplAFC Bournemouth                  25    4.38
+##  2 D        Https:www.spotrac.comeplarsenal                          24.8  3.63
+##  3 D        Https:www.spotrac.comeplaston Villa                      24.8  2.87
+##  4 D        Https:www.spotrac.comeplbrighton Hove Albion             27.7  2.14
+##  5 D        Https:www.spotrac.comeplburnley                          28.1  2.75
+##  6 D        Https:www.spotrac.comeplchelsea                          25.4  2.44
+##  7 D        Https:www.spotrac.comeplcrystal Palace                   27.8  3.19
+##  8 D        Https:www.spotrac.comepleverton                          26.9  3.87
+##  9 D        Https:www.spotrac.comeplleicester City                   25.9  5.59
+## 10 D        Https:www.spotrac.comeplliverpool                        25    3.42
 ## # … with 70 more rows</code></pre>
 <p>Finally, a little picture to describe spending on the active roster.</p>
 <pre class="r"><code>fplot &lt;- ggplot(EPL.Result, aes(Base.Num,Team))
@@ -555,31 +555,31 @@ gpl</code></pre>
 ##                  Player (31) Pos. Age
 ## 1         DefoeJermain Defoe    F  37
 ## 2       BegovicAsmir Begovic   GK  32
-## 3       LermaJefferson Lerma    M  24
+## 3       LermaJefferson Lerma    M  25
 ## 4        WilsonCallum Wilson    F  27
-## 5            KingJoshua King    F  27
+## 5            KingJoshua King    F  28
 ## 6              AkeNathan Ake    D  24
 ## 7             CookSteve Cook    D  28
 ## 8        SurmanAndrew Surman    M  33
-## 9           ArterHarry Arter    M  29
-## 10             IbeJordon Ibe    F  23
+## 9           ArterHarry Arter    M  30
+## 10             IbeJordon Ibe    F  24
 ## 11            CookLewis Cook    M  22
 ## 12        GoslingDan Gosling    M  29
 ## 13           SmithAdam Smith    D  28
 ## 14         FraserRyan Fraser    F  25
 ## 15    DanielsCharlie Daniels    D  33
-## 16 StanislasJunior Stanislas    F  29
+## 16 StanislasJunior Stanislas    F  30
 ## 17           SmithBrad Smith    D  25
 ## 18        BrooksDavid Brooks    M  22
 ## 19            RicoDiego Rico    D  26
 ## 20    SolankeDominic Solanke    F  22
 ## 21     BillingPhilip Billing    M  23
 ## 22      FrancisSimon Francis    D  34
-## 23        MephamChris Mepham    D  21
+## 23        MephamChris Mepham    D  22
 ## 24          BorucArtur Boruc   GK  39
 ## 25    RamsdaleAaron Ramsdale   GK  21
-## 26       SimpsonJack Simpson    D  22
-## 27      SurridgeSam Surridge    F  21
+## 26       SimpsonJack Simpson    D  23
+## 27      SurridgeSam Surridge    F  22
 ## 28          KellyLloyd Kelly    D  21
 ## 29         StaceyJack Stacey    D  23
 ## 30       TraversMark Travers   GK  20
@@ -650,10 +650,10 @@ gpl</code></pre>
 ## 31           -  £20,520,000    2024
 ## 
 ## [[2]]
-##    Player (31) Pos. Age                Contract Terms Avg. Salary
-## 1 Harry Wilson    M  22 1 yr\n\t\t\t\t\t\t\t\t\t\t\t-           -
-##   Transfer Fee Expires
-## 1            -       -</code></pre>
+##    Player (31) Pos. Age                Contract Terms Avg. Salary Transfer Fee
+## 1 Harry Wilson    M  21 1 yr\n\t\t\t\t\t\t\t\t\t\t\t-           -            -
+##   Expires
+## 1       -</code></pre>
 <p>The names and the contract year and terms are going to require parsing. I have chosen the first html that corresponds to Bournemouth; other teams are worse because loan players are in a second table. That impacts the wage bill, perhaps, depending on the arrangement in the loan, but the contract details from the player do not have that team as signatory. This has to be fixed. That is easy enough to fix, there are two embedded tables and I can select the first one. When it comes to the names, there is no easy separation for the first column; I will grab them from nodes in the html.</p>
 <pre class="r"><code>data.creator &lt;- function(data) { 
   data %&gt;% html_nodes(&quot;table&quot;) %&gt;% html_table(header=TRUE, fill=TRUE) -&gt; ret.tab
@@ -677,31 +677,31 @@ EPL.Contracts[[1]]</code></pre>
 <pre><code>##                       Player Position Age
 ## 1         DefoeJermain Defoe        F  37
 ## 2       BegovicAsmir Begovic       GK  32
-## 3       LermaJefferson Lerma        M  24
+## 3       LermaJefferson Lerma        M  25
 ## 4        WilsonCallum Wilson        F  27
-## 5            KingJoshua King        F  27
+## 5            KingJoshua King        F  28
 ## 6              AkeNathan Ake        D  24
 ## 7             CookSteve Cook        D  28
 ## 8        SurmanAndrew Surman        M  33
-## 9           ArterHarry Arter        M  29
-## 10             IbeJordon Ibe        F  23
+## 9           ArterHarry Arter        M  30
+## 10             IbeJordon Ibe        F  24
 ## 11            CookLewis Cook        M  22
 ## 12        GoslingDan Gosling        M  29
 ## 13           SmithAdam Smith        D  28
 ## 14         FraserRyan Fraser        F  25
 ## 15    DanielsCharlie Daniels        D  33
-## 16 StanislasJunior Stanislas        F  29
+## 16 StanislasJunior Stanislas        F  30
 ## 17           SmithBrad Smith        D  25
 ## 18        BrooksDavid Brooks        M  22
 ## 19            RicoDiego Rico        D  26
 ## 20    SolankeDominic Solanke        F  22
 ## 21     BillingPhilip Billing        M  23
 ## 22      FrancisSimon Francis        D  34
-## 23        MephamChris Mepham        D  21
+## 23        MephamChris Mepham        D  22
 ## 24          BorucArtur Boruc       GK  39
 ## 25    RamsdaleAaron Ramsdale       GK  21
-## 26       SimpsonJack Simpson        D  22
-## 27      SurridgeSam Surridge        F  21
+## 26       SimpsonJack Simpson        D  23
+## 27      SurridgeSam Surridge        F  22
 ## 28          KellyLloyd Kelly        D  21
 ## 29         StaceyJack Stacey        D  23
 ## 30       TraversMark Travers       GK  20
@@ -738,102 +738,70 @@ EPL.Contracts[[1]]</code></pre>
 ## 29                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
 ## 30                     0\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t\t-
 ## 31                  0\n\t\t\t\t\t\t\t\t\t\t\t5 yr\n\t\t\t\t\t\t\t\t\t\t\t-
-##    Avg..Salary Transfer.Fee Expires    value years   value.pds
-## 1   £5,380,000            -    2020 16140000  3 yr £16,140,000
-## 2   £3,640,000   £9,780,000    2021 14560000  4 yr £14,560,000
-## 3   £2,600,000  £25,125,000    2023 13000000  5 yr £13,000,000
-## 4   £3,120,000   £3,000,000    2023 12480000  4 yr £12,480,000
-## 5   £2,340,000            -    2021 11700000  5 yr £11,700,000
-## 6   £2,080,000  £19,380,000    2022 10400000  5 yr £10,400,000
-## 7   £2,340,000     £150,000    2021  9360000  4 yr  £9,360,000
-## 8   £1,820,000     £536,000    2020  9100000  5 yr  £9,100,000
-## 9   £2,080,000            -    2021  8320000  4 yr  £8,320,000
-## 10  £1,976,000  £15,000,000    2020  7904000  4 yr  £7,904,000
-## 11  £1,820,000   £5,950,000    2022  7280000  4 yr  £7,280,000
-## 12  £1,820,000            -    2021  7280000  4 yr  £7,280,000
-## 13  £1,820,000            -    2021  7280000  4 yr  £7,280,000
-## 14  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000
-## 15  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000
-## 16  £1,820,000            -    2021  5460000  3 yr  £5,460,000
-## 17  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000
-## 18  £1,040,000  £10,125,000    2022  4160000  4 yr  £4,160,000
-## 19  £1,001,000  £10,750,000    2022  4004000  4 yr  £4,004,000
-## 20  £1,300,000  £24,170,000    2022  3900000  3 yr  £3,900,000
-## 21    £780,000  £18,810,000    2024  3900000  5 yr  £3,900,000
-## 22  £1,560,000            -    2020  3120000  2 yr  £3,120,000
-## 23    £607,000  £15,500,000    2023  3035000  5 yr  £3,035,000
-## 24  £2,080,000  £10,000,000    2020  2080000  1 yr  £2,080,000
-## 25    £156,000     £799,000    2021   780000  5 yr    £780,000
-## 26    £156,000            -    2020   468000  3 yr    £468,000
-## 27           -            -    2021        0  3 yr            
-## 28           -  £16,870,000       -        0  3 yr            
-## 29           -   £5,070,000       -        0                  
-## 30           -            -       -        0                  
-## 31           -  £20,520,000    2024        0  5 yr            
-##        Player.Names                                   Player.links
-## 1     Jermain Defoe https://www.spotrac.com/redirect/player/23836/
-## 2     Asmir Begovic https://www.spotrac.com/redirect/player/22625/
-## 3   Jefferson Lerma https://www.spotrac.com/redirect/player/27878/
-## 4     Callum Wilson https://www.spotrac.com/redirect/player/22694/
-## 5       Joshua King https://www.spotrac.com/redirect/player/22685/
-## 6        Nathan Ake https://www.spotrac.com/redirect/player/15521/
-## 7        Steve Cook https://www.spotrac.com/redirect/player/22677/
-## 8     Andrew Surman https://www.spotrac.com/redirect/player/22692/
-## 9       Harry Arter https://www.spotrac.com/redirect/player/22674/
-## 10       Jordon Ibe https://www.spotrac.com/redirect/player/22684/
-## 11       Lewis Cook https://www.spotrac.com/redirect/player/22676/
-## 12      Dan Gosling https://www.spotrac.com/redirect/player/22682/
-## 13       Adam Smith https://www.spotrac.com/redirect/player/22689/
-## 14      Ryan Fraser https://www.spotrac.com/redirect/player/22680/
-## 15  Charlie Daniels https://www.spotrac.com/redirect/player/22678/
-## 16 Junior Stanislas https://www.spotrac.com/redirect/player/22691/
-## 17       Brad Smith https://www.spotrac.com/redirect/player/22690/
-## 18     David Brooks https://www.spotrac.com/redirect/player/27877/
-## 19       Diego Rico https://www.spotrac.com/redirect/player/27879/
-## 20  Dominic Solanke https://www.spotrac.com/redirect/player/22637/
-## 21   Philip Billing https://www.spotrac.com/redirect/player/23192/
-## 22    Simon Francis https://www.spotrac.com/redirect/player/22679/
-## 23     Chris Mepham https://www.spotrac.com/redirect/player/28460/
-## 24      Artur Boruc https://www.spotrac.com/redirect/player/22660/
-## 25   Aaron Ramsdale https://www.spotrac.com/redirect/player/22661/
-## 26     Jack Simpson https://www.spotrac.com/redirect/player/24102/
-## 27     Sam Surridge https://www.spotrac.com/redirect/player/22693/
-## 28      Lloyd Kelly https://www.spotrac.com/redirect/player/30108/
-## 29      Jack Stacey https://www.spotrac.com/redirect/player/32060/
-## 30     Mark Travers https://www.spotrac.com/redirect/player/32306/
-## 31   Arnaut Danjuma https://www.spotrac.com/redirect/player/32702/
-##    Last.Name
-## 1      Defoe
-## 2    Begovic
-## 3      Lerma
-## 4     Wilson
-## 5       King
-## 6        Ake
-## 7       Cook
-## 8     Surman
-## 9      Arter
-## 10       Ibe
-## 11      Cook
-## 12   Gosling
-## 13     Smith
-## 14    Fraser
-## 15   Daniels
-## 16 Stanislas
-## 17     Smith
-## 18    Brooks
-## 19      Rico
-## 20   Solanke
-## 21   Billing
-## 22   Francis
-## 23    Mepham
-## 24     Boruc
-## 25  Ramsdale
-## 26   Simpson
-## 27  Surridge
-## 28     Kelly
-## 29    Stacey
-## 30   Travers
-## 31   Danjuma</code></pre>
+##    Avg..Salary Transfer.Fee Expires    value years   value.pds     Player.Names
+## 1   £5,380,000            -    2020 16140000  3 yr £16,140,000    Jermain Defoe
+## 2   £3,640,000   £9,780,000    2021 14560000  4 yr £14,560,000    Asmir Begovic
+## 3   £2,600,000  £25,125,000    2023 13000000  5 yr £13,000,000  Jefferson Lerma
+## 4   £3,120,000   £3,000,000    2023 12480000  4 yr £12,480,000    Callum Wilson
+## 5   £2,340,000            -    2021 11700000  5 yr £11,700,000      Joshua King
+## 6   £2,080,000  £19,380,000    2022 10400000  5 yr £10,400,000       Nathan Ake
+## 7   £2,340,000     £150,000    2021  9360000  4 yr  £9,360,000       Steve Cook
+## 8   £1,820,000     £536,000    2020  9100000  5 yr  £9,100,000    Andrew Surman
+## 9   £2,080,000            -    2021  8320000  4 yr  £8,320,000      Harry Arter
+## 10  £1,976,000  £15,000,000    2020  7904000  4 yr  £7,904,000       Jordon Ibe
+## 11  £1,820,000   £5,950,000    2022  7280000  4 yr  £7,280,000       Lewis Cook
+## 12  £1,820,000            -    2021  7280000  4 yr  £7,280,000      Dan Gosling
+## 13  £1,820,000            -    2021  7280000  4 yr  £7,280,000       Adam Smith
+## 14  £1,404,000     £400,000    2020  5616000  4 yr  £5,616,000      Ryan Fraser
+## 15  £1,820,000     £191,000    2020  5460000  3 yr  £5,460,000  Charlie Daniels
+## 16  £1,820,000            -    2021  5460000  3 yr  £5,460,000 Junior Stanislas
+## 17  £1,300,000   £3,060,000    2020  5200000  4 yr  £5,200,000       Brad Smith
+## 18  £1,040,000  £10,125,000    2022  4160000  4 yr  £4,160,000     David Brooks
+## 19  £1,001,000  £10,750,000    2022  4004000  4 yr  £4,004,000       Diego Rico
+## 20  £1,300,000  £24,170,000    2022  3900000  3 yr  £3,900,000  Dominic Solanke
+## 21    £780,000  £18,810,000    2024  3900000  5 yr  £3,900,000   Philip Billing
+## 22  £1,560,000            -    2020  3120000  2 yr  £3,120,000    Simon Francis
+## 23    £607,000  £15,500,000    2023  3035000  5 yr  £3,035,000     Chris Mepham
+## 24  £2,080,000  £10,000,000    2020  2080000  1 yr  £2,080,000      Artur Boruc
+## 25    £156,000     £799,000    2021   780000  5 yr    £780,000   Aaron Ramsdale
+## 26    £156,000            -    2020   468000  3 yr    £468,000     Jack Simpson
+## 27           -            -    2021        0  3 yr                 Sam Surridge
+## 28           -  £16,870,000       -        0  3 yr                  Lloyd Kelly
+## 29           -   £5,070,000       -        0                        Jack Stacey
+## 30           -            -       -        0                       Mark Travers
+## 31           -  £20,520,000    2024        0  5 yr               Arnaut Danjuma
+##                                      Player.links Last.Name
+## 1  https://www.spotrac.com/redirect/player/23836/     Defoe
+## 2  https://www.spotrac.com/redirect/player/22625/   Begovic
+## 3  https://www.spotrac.com/redirect/player/27878/     Lerma
+## 4  https://www.spotrac.com/redirect/player/22694/    Wilson
+## 5  https://www.spotrac.com/redirect/player/22685/      King
+## 6  https://www.spotrac.com/redirect/player/15521/       Ake
+## 7  https://www.spotrac.com/redirect/player/22677/      Cook
+## 8  https://www.spotrac.com/redirect/player/22692/    Surman
+## 9  https://www.spotrac.com/redirect/player/22674/     Arter
+## 10 https://www.spotrac.com/redirect/player/22684/       Ibe
+## 11 https://www.spotrac.com/redirect/player/22676/      Cook
+## 12 https://www.spotrac.com/redirect/player/22682/   Gosling
+## 13 https://www.spotrac.com/redirect/player/22689/     Smith
+## 14 https://www.spotrac.com/redirect/player/22680/    Fraser
+## 15 https://www.spotrac.com/redirect/player/22678/   Daniels
+## 16 https://www.spotrac.com/redirect/player/22691/ Stanislas
+## 17 https://www.spotrac.com/redirect/player/22690/     Smith
+## 18 https://www.spotrac.com/redirect/player/27877/    Brooks
+## 19 https://www.spotrac.com/redirect/player/27879/      Rico
+## 20 https://www.spotrac.com/redirect/player/22637/   Solanke
+## 21 https://www.spotrac.com/redirect/player/23192/   Billing
+## 22 https://www.spotrac.com/redirect/player/22679/   Francis
+## 23 https://www.spotrac.com/redirect/player/28460/    Mepham
+## 24 https://www.spotrac.com/redirect/player/22660/     Boruc
+## 25 https://www.spotrac.com/redirect/player/22661/  Ramsdale
+## 26 https://www.spotrac.com/redirect/player/24102/   Simpson
+## 27 https://www.spotrac.com/redirect/player/22693/  Surridge
+## 28 https://www.spotrac.com/redirect/player/30108/     Kelly
+## 29 https://www.spotrac.com/redirect/player/32060/    Stacey
+## 30 https://www.spotrac.com/redirect/player/32306/   Travers
+## 31 https://www.spotrac.com/redirect/player/32702/   Danjuma</code></pre>
 <p>The data now have some junk alongside workable versions of the variables of interest. It is worth noting that the header of the contracts data allows us to verify the size of the table as we picked it up [though I do rename them to allow the rbind to work]. This also suggests a strategy for picking up the rownames that is different than the above method that uses the dimension of the html table. Perhaps I should just gsub the header to recover the integer number of players. To tidy the data, they need to be stacked. A simple do.call and row bind will probably work.</p>
 <pre class="r"><code>Team.Base &lt;- sapply(EPL.Contracts, dim)[1,]
 Team &lt;- rep(as.character(names(Team.Base)),Team.Base)

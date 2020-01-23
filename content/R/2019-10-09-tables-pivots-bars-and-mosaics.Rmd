@@ -259,7 +259,7 @@ We will rely on five.  The *tidyverse* is Hadley Wickham's collection of package
 
 For everything that we want in a summary, there is the *skimr* function *skim*.  For cross-tabulation the easy way, there is *janitor*.  The other two are developmental pieces of software that have yet to deploy into the regular package system of R.  *esquisse* and parts of *that's so random* blog's package for implementing ggmosaic.
 
-```{r EI1, eval=FALSE}
+```{r EI1}
 pkgTest <- function(x)
   {
     if (!require(x,character.only = TRUE))

@@ -508,7 +508,7 @@ New.Dat &lt;- left_join(My.Map, dog_moves, by= c(&quot;full&quot; = &quot;locati
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    4 min read
+    5 min read
   </span>
   
 
@@ -547,8 +547,8 @@ New.Dat &lt;- left_join(My.Map, dog_moves, by= c(&quot;full&quot; = &quot;locati
   </h3>
   <div class="article-style" itemprop="articleBody">
     
-    tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github.
-tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here() starts at /home/rob/Sandbox/academic-mymod/academic-mymod library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.8.3 ## ✓ tidyr 1.
+    tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github. I will also use fiftystater and ggflags.
+devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;) devtools::install_github(&quot;ellisp/ggflags&quot;) devtools::install_github(&quot;wmurphyrd/fiftystater&quot;) tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) ## --- Downloading #TidyTuesday Information for 2019-12-10 ---- ## --- Identified 4 files available for download ---- ## --- Downloading files --- ## Warning in identify_delim(temp_file): Not able to detect delimiter for the file.
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
@@ -681,7 +681,7 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
   
   
   <h3 class="article-title" itemprop="headline">
-    <a href="/post/philaselphia-parking-tickets-a-tidytuesday/" itemprop="url">Philaselphia Parking Tickets: a tidyTuesday</a>
+    <a href="/post/philadelphia-parking-tickets-a-tidytuesday/" itemprop="url">Philadelphia Parking Tickets: a tidyTuesday</a>
   </h3>
   <div class="article-style" itemprop="articleBody">
     
@@ -691,7 +691,7 @@ tickets &lt;- readr::read_csv(&quot;https://raw.githubusercontent.com/rfordatasc
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/philaselphia-parking-tickets-a-tidytuesday/" class="btn btn-primary btn-outline">
+    <a href="/post/philadelphia-parking-tickets-a-tidytuesday/" class="btn btn-primary btn-outline">
       CONTINUE READING
     </a>
   </p>

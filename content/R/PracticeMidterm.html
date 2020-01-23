@@ -55,18 +55,92 @@ data.frame(LogN = rlnorm(1000, 0, 1)) %&gt;% ggplot(., aes(x=LogN)) + geom_densi
 <pre class="r"><code>library(tidyverse)
 library(skimr)
 Newspapers %&gt;% group_by(Location) %&gt;% skim(Price)</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 61 
-##  n variables: 7 
-##  group variables: Location 
-## 
-## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────
-##  Location variable missing complete  n mean    sd   p0  p25  p50  p75 p100
-##  HenryHub    Price       0       36 36 3.8  0.14  3.52 3.69 3.79 3.9  4.07
-##   Tianjin    Price       0       25 25 3.99 0.051 3.88 3.98 4    4.04 4.05
-##      hist
-##  ▃▃▇▅▆▇▁▃
-##  ▂▂▁▁▁▆▃▇</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-4">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Piped data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">7</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">numeric</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Group variables</td>
+<td align="left">Location</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="left">Location</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Price</td>
+<td align="left">HenryHub</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">3.80</td>
+<td align="right">0.14</td>
+<td align="right">3.52</td>
+<td align="right">3.69</td>
+<td align="right">3.8</td>
+<td align="right">3.90</td>
+<td align="right">4.07</td>
+<td align="left">▃▆▇▆▃</td>
+</tr>
+<tr class="even">
+<td align="left">Price</td>
+<td align="left">Tianjin</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">3.99</td>
+<td align="right">0.05</td>
+<td align="right">3.88</td>
+<td align="right">3.98</td>
+<td align="right">4.0</td>
+<td align="right">4.04</td>
+<td align="right">4.05</td>
+<td align="left">▂▂▂▇▇</td>
+</tr>
+</tbody>
+</table>
 <p>The mean of prices at Henry Hub is 3 dollars 80 cents with a standard deviation of 14 cents. Henry Hub is reasonably symmetric; the z-scores are evenly split between plus and minus. Tianjin is not symmetric. Thus, an appropriate summary is that Tianjin prices range from 3.88 to 4.05 dollars with a median of 4, a first quartile of 3.98 and a third quartile of 4.04.</p>
 <ol start="3" style="list-style-type: decimal">
 <li>What is the sample mean and sample standard deviation of natural gas prices in Tianjin?</li>
@@ -157,8 +231,8 @@ sd(Newspapers$TianjinPrice, na.rm=TRUE)</code></pre>
 <li>Graphically and numerically summarize profits by location.</li>
 </ol>
 <pre class="r"><code>names(Forecast)</code></pre>
-<pre><code>## [1] &quot;Period&quot;           &quot;TianjinForecast&quot;  &quot;HenryHubForecast&quot;
-## [4] &quot;Forecast&quot;         &quot;Location&quot;</code></pre>
+<pre><code>## [1] &quot;Period&quot;           &quot;TianjinForecast&quot;  &quot;HenryHubForecast&quot; &quot;Forecast&quot;        
+## [5] &quot;Location&quot;</code></pre>
 <pre class="r"><code>summary(Forecast$TianjinForecast)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
 ## 1525784 2336259 3713691 3860590 5197883 6761850      52</code></pre>

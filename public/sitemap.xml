@@ -184,7 +184,7 @@
     
     <url>
     
-      <loc>/post/philaselphia-parking-tickets-a-tidytuesday/</loc>
+      <loc>/post/philadelphia-parking-tickets-a-tidytuesday/</loc>
       <lastmod>2019-12-09T00:00:00+00:00</lastmod>
     </url>
     
@@ -427,7 +427,7 @@
     
     <url>
     
-      <loc>/categories/tidytext/</loc>
+      <loc>/tags/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -436,7 +436,7 @@
     
     <url>
     
-      <loc>/tags/tidytext/</loc>
+      <loc>/categories/tidytext/</loc>
       <lastmod>2019-05-22T00:00:00+00:00</lastmod>
     </url>
     
@@ -643,7 +643,7 @@
     
     <url>
     
-      <loc>/tags/reticulate/</loc>
+      <loc>/categories/reticulate/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     
@@ -652,7 +652,7 @@
     
     <url>
     
-      <loc>/categories/reticulate/</loc>
+      <loc>/tags/reticulate/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
     </url>
     
@@ -977,6 +977,15 @@
     <url>
     
       <loc>/courses/5103dadm/</loc>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/post/1/</loc>
       <priority>0</priority>
     </url>
     

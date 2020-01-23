@@ -20,7 +20,7 @@
   <meta name="description" content="Trump’s Tone A cool post on sentiment analysis can be found here. I will now get at the time series characteristics of his tweets and the sentiment stuff.
 I start by loading the tmls object that I created in the previous post.
 Trump’s Overall Tweeting What does it look like?
-library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuzhet) library(rtweet) load(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&quot;)) names(tml.djt) ## [1] &quot;user_id&quot; &quot;status_id&quot; ## [3] &quot;created_at&quot; &quot;screen_name&quot; ## [5] &quot;text&quot; &quot;source&quot; ## [7] &quot;display_text_width&quot; &quot;reply_to_status_id&quot; ## [9] &quot;reply_to_user_id&quot; &quot;reply_to_screen_name&quot; ## [11] &quot;is_quote&quot; &quot;is_retweet&quot; ## [13] &quot;favorite_count&quot; &quot;retweet_count&quot; ## [15] &quot;hashtags&quot; &quot;symbols&quot; ## [17] &quot;urls_url&quot; &quot;urls_t.">
+library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuzhet) library(rtweet) library(here) load(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&quot;)) names(tml.djt) ## [1] &quot;user_id&quot; &quot;status_id&quot; ## [3] &quot;created_at&quot; &quot;screen_name&quot; ## [5] &quot;text&quot; &quot;source&quot; ## [7] &quot;display_text_width&quot; &quot;reply_to_status_id&quot; ## [9] &quot;reply_to_user_id&quot; &quot;reply_to_screen_name&quot; ## [11] &quot;is_quote&quot; &quot;is_retweet&quot; ## [13] &quot;favorite_count&quot; &quot;retweet_count&quot; ## [15] &quot;hashtags&quot; &quot;symbols&quot; ## [17] &quot;urls_url&quot; &quot;urls_t.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/trump-s-tweets-part-ii/">
@@ -84,7 +84,7 @@ library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuz
   <meta property="og:description" content="Trump’s Tone A cool post on sentiment analysis can be found here. I will now get at the time series characteristics of his tweets and the sentiment stuff.
 I start by loading the tmls object that I created in the previous post.
 Trump’s Overall Tweeting What does it look like?
-library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuzhet) library(rtweet) load(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&quot;)) names(tml.djt) ## [1] &quot;user_id&quot; &quot;status_id&quot; ## [3] &quot;created_at&quot; &quot;screen_name&quot; ## [5] &quot;text&quot; &quot;source&quot; ## [7] &quot;display_text_width&quot; &quot;reply_to_status_id&quot; ## [9] &quot;reply_to_user_id&quot; &quot;reply_to_screen_name&quot; ## [11] &quot;is_quote&quot; &quot;is_retweet&quot; ## [13] &quot;favorite_count&quot; &quot;retweet_count&quot; ## [15] &quot;hashtags&quot; &quot;symbols&quot; ## [17] &quot;urls_url&quot; &quot;urls_t.">
+library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuzhet) library(rtweet) library(here) load(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&quot;)) names(tml.djt) ## [1] &quot;user_id&quot; &quot;status_id&quot; ## [3] &quot;created_at&quot; &quot;screen_name&quot; ## [5] &quot;text&quot; &quot;source&quot; ## [7] &quot;display_text_width&quot; &quot;reply_to_status_id&quot; ## [9] &quot;reply_to_user_id&quot; &quot;reply_to_screen_name&quot; ## [11] &quot;is_quote&quot; &quot;is_retweet&quot; ## [13] &quot;favorite_count&quot; &quot;retweet_count&quot; ## [15] &quot;hashtags&quot; &quot;symbols&quot; ## [17] &quot;urls_url&quot; &quot;urls_t.">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2018-12-19T00:00:00&#43;00:00">
@@ -399,6 +399,7 @@ library(SnowballC)
 library(tm)
 library(syuzhet)
 library(rtweet)
+library(here)
 load(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData&quot;))
 names(tml.djt)</code></pre>
 <pre><code>##  [1] &quot;user_id&quot;                 &quot;status_id&quot;              
@@ -500,20 +501,13 @@ Trumps.Sent.Words &lt;- clean_tweets %&gt;% unnest_tokens(., word, text) %&gt;% 
 SNTR1 &lt;- apply(TDF, 1, function(x) {get_nrc_sentiment(x)})
 Sent.Res &lt;- bind_rows(SNTR1)
 head(Sent.Res)</code></pre>
-<pre><code>##   anger anticipation disgust fear joy sadness surprise trust negative
-## 1     1            1       0    2   2       0        1     4        3
-## 2     0            2       0    0   2       0        1     2        0
-## 3     0            1       0    1   1       0        0     1        1
-## 4     1            1       0    1   0       1        1     0        1
-## 5     4            1       4    3   0       3        1     1        4
-## 6     3            0       4    2   0       3        1     1        4
-##   positive
-## 1        4
-## 2        3
-## 3        2
-## 4        3
-## 5        0
-## 6        1</code></pre>
+<pre><code>##   anger anticipation disgust fear joy sadness surprise trust negative positive
+## 1     1            1       0    2   2       0        1     4        3        4
+## 2     0            2       0    0   2       0        1     2        0        3
+## 3     0            1       0    1   1       0        0     1        1        2
+## 4     1            1       0    1   0       1        1     0        1        3
+## 5     4            1       4    3   0       3        1     1        4        0
+## 6     3            0       4    2   0       3        1     1        4        1</code></pre>
 </div>
 </div>
 <div id="a-single-number-sentiment" class="section level1">
@@ -573,7 +567,7 @@ My.Res &lt;- SME_tbl_time_d %&gt;% group_by(method) %&gt;%
     dplyr::group_by(created_at, method) %&gt;%
     dplyr::summarise_if(is.numeric, mean) %&gt;% ungroup()
 save(Sents.Me,SME_tbl_time_d,My.Res,bing_and_nrc,tidy.tweets, file=&quot;~/TrumpTweets.RData&quot;)</code></pre>
-<pre class="r"><code>load(&quot;~/TrumpTweets.RData&quot;)
+<pre class="r"><code>load(here(&quot;data&quot;,&quot;TrumpTweets.RData&quot;))
 ggplot(data = My.Res) +
   aes(x = created_at, y = sentiment, color = method) +
   geom_line() +

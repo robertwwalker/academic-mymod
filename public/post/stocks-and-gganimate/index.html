@@ -394,50 +394,277 @@ C.Returns &lt;- Eq.P %&gt;%
   mutate(wealth.index = 100 * cumprod(1 + returns))
 library(skimr)
 Returns %&gt;% skim()</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 2400 
-##  n variables: 3 
-##  group variables: symbol 
-## 
-## ── Variable type:Date ────────────────────────────────────────────────────────────────────
-##  symbol variable missing complete   n        min        max     median
-##    AAPL     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
-##    AMZN     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
-##      FB     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
-##    GOOG     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
-##     JNJ     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
-##     JPM     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
-##    MSFT     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
-##      PG     date       0      300 300 2018-01-02 2019-03-13 2018-08-06
-##  n_unique
-##       300
-##       300
-##       300
-##       300
-##       300
-##       300
-##       300
-##       300
-## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────
-##  symbol      variable missing complete   n        mean    sd     p0
-##    AAPL daily.returns       0      300 300     0.00042 0.019 -0.1  
-##    AMZN daily.returns       0      300 300     0.0014  0.022 -0.078
-##      FB daily.returns       0      300 300     0.00014 0.024 -0.19 
-##    GOOG daily.returns       0      300 300     0.00053 0.017 -0.051
-##     JNJ daily.returns       0      300 300 2e-04       0.013 -0.1  
-##     JPM daily.returns       0      300 300 8e-05       0.013 -0.048
-##    MSFT daily.returns       0      300 300     0.0012  0.017 -0.054
-##      PG daily.returns       0      300 300     0.00058 0.012 -0.04 
-##      p25      p50    p75  p100     hist
-##  -0.0082  0.00089 0.0094 0.07  ▁▁▁▂▇▅▁▁
-##  -0.008   0.0018  0.013  0.094 ▁▁▂▇▅▁▁▁
-##  -0.0098  0.00071 0.012  0.11  ▁▁▁▁▅▇▁▁
-##  -0.0083  0.00073 0.011  0.065 ▁▂▃▇▅▁▁▁
-##  -0.005   0.0011  0.0073 0.035 ▁▁▁▁▁▇▇▁
-##  -0.0069 -9.6e-05 0.0074 0.041 ▁▁▂▆▇▃▁▁
-##  -0.0072  0.0021  0.011  0.076 ▁▁▃▇▃▁▁▁
-##  -0.0058  0.00042 0.0063 0.088 ▁▂▇▂▁▁▁▁</code></pre>
+<table>
+<caption><span id="tab:cars">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Piped data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">2400</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">3</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Date</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">symbol</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: Date</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="left">symbol</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">min</th>
+<th align="left">max</th>
+<th align="left">median</th>
+<th align="right">n_unique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">date</td>
+<td align="left">AAPL</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2018-01-02</td>
+<td align="left">2019-03-13</td>
+<td align="left">2018-08-06</td>
+<td align="right">300</td>
+</tr>
+<tr class="even">
+<td align="left">date</td>
+<td align="left">AMZN</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2018-01-02</td>
+<td align="left">2019-03-13</td>
+<td align="left">2018-08-06</td>
+<td align="right">300</td>
+</tr>
+<tr class="odd">
+<td align="left">date</td>
+<td align="left">FB</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2018-01-02</td>
+<td align="left">2019-03-13</td>
+<td align="left">2018-08-06</td>
+<td align="right">300</td>
+</tr>
+<tr class="even">
+<td align="left">date</td>
+<td align="left">GOOG</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2018-01-02</td>
+<td align="left">2019-03-13</td>
+<td align="left">2018-08-06</td>
+<td align="right">300</td>
+</tr>
+<tr class="odd">
+<td align="left">date</td>
+<td align="left">JNJ</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2018-01-02</td>
+<td align="left">2019-03-13</td>
+<td align="left">2018-08-06</td>
+<td align="right">300</td>
+</tr>
+<tr class="even">
+<td align="left">date</td>
+<td align="left">JPM</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2018-01-02</td>
+<td align="left">2019-03-13</td>
+<td align="left">2018-08-06</td>
+<td align="right">300</td>
+</tr>
+<tr class="odd">
+<td align="left">date</td>
+<td align="left">MSFT</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2018-01-02</td>
+<td align="left">2019-03-13</td>
+<td align="left">2018-08-06</td>
+<td align="right">300</td>
+</tr>
+<tr class="even">
+<td align="left">date</td>
+<td align="left">V</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2018-01-02</td>
+<td align="left">2019-03-13</td>
+<td align="left">2018-08-06</td>
+<td align="right">300</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="left">symbol</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">daily.returns</td>
+<td align="left">AAPL</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0.02</td>
+<td align="right">-0.10</td>
+<td align="right">-0.01</td>
+<td align="right">0</td>
+<td align="right">0.01</td>
+<td align="right">0.07</td>
+<td align="left">▁▁▇▇▁</td>
+</tr>
+<tr class="even">
+<td align="left">daily.returns</td>
+<td align="left">AMZN</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0.02</td>
+<td align="right">-0.08</td>
+<td align="right">-0.01</td>
+<td align="right">0</td>
+<td align="right">0.01</td>
+<td align="right">0.09</td>
+<td align="left">▁▂▇▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">daily.returns</td>
+<td align="left">FB</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0.02</td>
+<td align="right">-0.19</td>
+<td align="right">-0.01</td>
+<td align="right">0</td>
+<td align="right">0.01</td>
+<td align="right">0.11</td>
+<td align="left">▁▁▂▇▁</td>
+</tr>
+<tr class="even">
+<td align="left">daily.returns</td>
+<td align="left">GOOG</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0.02</td>
+<td align="right">-0.05</td>
+<td align="right">-0.01</td>
+<td align="right">0</td>
+<td align="right">0.01</td>
+<td align="right">0.06</td>
+<td align="left">▁▃▇▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">daily.returns</td>
+<td align="left">JNJ</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0.01</td>
+<td align="right">-0.10</td>
+<td align="right">-0.01</td>
+<td align="right">0</td>
+<td align="right">0.01</td>
+<td align="right">0.04</td>
+<td align="left">▁▁▁▇▂</td>
+</tr>
+<tr class="even">
+<td align="left">daily.returns</td>
+<td align="left">JPM</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0.01</td>
+<td align="right">-0.05</td>
+<td align="right">-0.01</td>
+<td align="right">0</td>
+<td align="right">0.01</td>
+<td align="right">0.04</td>
+<td align="left">▁▂▇▃▁</td>
+</tr>
+<tr class="odd">
+<td align="left">daily.returns</td>
+<td align="left">MSFT</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0.02</td>
+<td align="right">-0.05</td>
+<td align="right">-0.01</td>
+<td align="right">0</td>
+<td align="right">0.01</td>
+<td align="right">0.08</td>
+<td align="left">▁▅▇▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">daily.returns</td>
+<td align="left">V</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0.02</td>
+<td align="right">-0.05</td>
+<td align="right">-0.01</td>
+<td align="right">0</td>
+<td align="right">0.01</td>
+<td align="right">0.07</td>
+<td align="left">▁▅▇▁▁</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="animating-a-plot" class="section level2">
 <h2>Animating a plot</h2>

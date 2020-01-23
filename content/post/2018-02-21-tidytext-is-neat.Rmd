@@ -176,7 +176,7 @@ tidy.PA %>%
 ### Presidential Actions
 
 ```{r WCPA}
-library(wordcloud)
+library(wordcloud); library(tm)
 set.seed(1234)
 wc <- tidy.PA %>% count(word, sort = TRUE)
 wordcloud(wc$word,  wc$n, min.freq = 1,
@@ -186,10 +186,14 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
 
 ### Statements and Briefings
 
-```{r WCSB}
-set.seed(1234)
+```{r WCSB, message=FALSE}
+library(wordcloud2)
 wc <- tidy.SB %>% count(word, sort = TRUE)
-wordcloud(wc$word,  wc$n, min.freq = 1,
-          max.words=200, random.order=FALSE, rot.per=0.35, 
-          colors=brewer.pal(8, "Dark2"))
+wc$freq <- wc$n
+wc$n <- NULL
+hw <- wordcloud2(wc, size=3)
+library(htmlwidgets)
+saveWidget(hw,"1.html",selfcontained = F)
+webshot::webshot("1.html","1.png",vwidth = 700, vheight = 500, delay =10)
 ```
+![](1.png)

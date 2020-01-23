@@ -400,8 +400,7 @@ library(nflscrapR)
 library(RCurl)
 all_2018_games &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/NFLGames2018.rds&quot;))
 all_2018_games %&gt;% select(week, game_id, home_team, home_score, away_team, away_score) %&gt;% 
-    kable(format = &quot;html&quot;) %&gt;% kable_styling() %&gt;% scroll_box(width = &quot;600px&quot;, 
-    height = &quot;500px&quot;)</code></pre>
+    kable(format = &quot;html&quot;) %&gt;% kable_styling() %&gt;% scroll_box(width = &quot;600px&quot;, height = &quot;500px&quot;)</code></pre>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:600px; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
@@ -5553,14 +5552,14 @@ IND
 <p>That’s all the regular season games in the 2018 season. They suggest that it is straightforward to grab an entire season of play by play data and it is. 👏.</p>
 <pre><code>full_season_2018 &lt;- scrape_season_play_by_play(2018, &quot;reg&quot;)
 saveRDS(full_season_2018, file=&quot;../../../data/2018NFLSeason.rds&quot;)</code></pre>
-<p>That gets the data though it took over an hour to acquire it all and it threw two error messages. I do not yet know if they are conseequential. My goal here is to use this package and the ability to plot the win probability charts to try to summarise an entire Dallas Cowboys season – the team I grew up with along with the former Houston Oilers and I was never really okay about them moving. 🔻</p>
+<p>That gets the data though it took over an hour to acquire it all and it threw two error messages. I do not yet know if they are conseequential. My goal here is to use this package and the ability to plot the win probability charts to try to summarise an entire Dallas Cowboys season – the team I grew up with along with the former Houston Oilers and I was never really okay about them moving. 📩</p>
 <pre class="r"><code>full_season_2018 &lt;- readRDS(url(&quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/2018NFLSeason.rds&quot;))  # Downloaded it once.  It sits in rww.science/data</code></pre>
 <p>Let me skim the data for an idea of what it looks like. I will also pull in three packages that I am deploying or will.</p>
 <pre class="r"><code>library(skimr)
 library(teamcolors)
 library(gganimate)
-full_season_2018 %&gt;% head() %&gt;% kableExtra::kable() %&gt;% kable_styling() %&gt;% 
-    scroll_box(width = &quot;700px&quot;, height = &quot;400px&quot;)</code></pre>
+full_season_2018 %&gt;% head() %&gt;% kableExtra::kable() %&gt;% kable_styling() %&gt;% scroll_box(width = &quot;700px&quot;, 
+    height = &quot;400px&quot;)</code></pre>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; overflow-x: scroll; width:700px; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
@@ -10970,26 +10969,23 @@ car_color &lt;- nfl_teamcolors %&gt;% filter(name == &quot;Carolina Panthers&quo
 <div id="the-dallas-cowboys-games" class="section level2">
 <h2>The Dallas Cowboys Games</h2>
 <p>Now let me get the Dallas games. The easiest way I can figure out how to do this would be to filter by Dallas being one of the two teams where Dallas is <code>DAL</code>.</p>
-<pre class="r"><code>dal_season &lt;- full_season_2018 %&gt;% filter(home_team == &quot;DAL&quot; | away_team == 
-    &quot;DAL&quot;)
+<pre class="r"><code>dal_season &lt;- full_season_2018 %&gt;% filter(home_team == &quot;DAL&quot; | away_team == &quot;DAL&quot;)
 CAR_DAL &lt;- full_season_2018 %&gt;% filter(home_team == &quot;CAR&quot; &amp; away_team == &quot;DAL&quot;)</code></pre>
 <p>Cool. Now let me plot the first game. That is the filter line in the <code>ggplot</code>. Then I will facet out the seasons but it will take some work to get the labels and things to generate.</p>
 <pre class="r"><code># DFS &lt;- dal_season %&gt;% left_join(all_2018_games)
 cardal_wp &lt;- CAR_DAL %&gt;% filter(!is.na(home_wp), !is.na(away_wp)) %&gt;% unite(GIDGSR, 
     game_seconds_remaining, game_id, sep = &quot;:&quot;)
 cardal_wp &lt;- cardal_wp %&gt;% dplyr::select(GIDGSR, home_wp, away_wp) %&gt;% gather(team, 
-    wpa, -GIDGSR) %&gt;% separate(., GIDGSR, c(&quot;GSR&quot;, &quot;game_id&quot;), sep = &quot;:&quot;) %&gt;% 
-    mutate(game_seconds_remaining = as.integer(GSR))
-cardal_wp %&gt;% ggplot(aes(x = game_seconds_remaining, y = wpa, color = team)) + 
-    geom_line(size = 2) + geom_hline(yintercept = 0.5, color = &quot;gray&quot;, linetype = &quot;dashed&quot;) + 
-    scale_color_manual(labels = c(&quot;CAR&quot;, &quot;DAL&quot;), values = c(car_color, dal_color), 
-        guide = FALSE) + scale_x_reverse(breaks = seq(0, 3600, 300)) + annotate(&quot;text&quot;, 
-    x = 3000, y = 0.75, label = &quot;CAR&quot;, color = car_color, size = 8) + annotate(&quot;text&quot;, 
-    x = 3000, y = 0.25, label = &quot;DAL&quot;, color = dal_color, size = 8) + geom_vline(xintercept = 900, 
-    linetype = &quot;dashed&quot;, black) + geom_vline(xintercept = 1800, linetype = &quot;dashed&quot;, 
-    black) + geom_vline(xintercept = 2700, linetype = &quot;dashed&quot;, black) + geom_vline(xintercept = 0, 
-    linetype = &quot;dashed&quot;, black) + labs(x = &quot;Time Remaining (seconds)&quot;, y = &quot;Win Probability&quot;, 
-    title = &quot;Week 1 Win Probability Chart&quot;, subtitle = &quot;Carolina Panthers vs. Dallas Cowboys&quot;, 
+    wpa, -GIDGSR) %&gt;% separate(., GIDGSR, c(&quot;GSR&quot;, &quot;game_id&quot;), sep = &quot;:&quot;) %&gt;% mutate(game_seconds_remaining = as.integer(GSR))
+cardal_wp %&gt;% ggplot(aes(x = game_seconds_remaining, y = wpa, color = team)) + geom_line(size = 2) + 
+    geom_hline(yintercept = 0.5, color = &quot;gray&quot;, linetype = &quot;dashed&quot;) + scale_color_manual(labels = c(&quot;CAR&quot;, 
+    &quot;DAL&quot;), values = c(car_color, dal_color), guide = FALSE) + scale_x_reverse(breaks = seq(0, 
+    3600, 300)) + annotate(&quot;text&quot;, x = 3000, y = 0.75, label = &quot;CAR&quot;, color = car_color, 
+    size = 8) + annotate(&quot;text&quot;, x = 3000, y = 0.25, label = &quot;DAL&quot;, color = dal_color, 
+    size = 8) + geom_vline(xintercept = 900, linetype = &quot;dashed&quot;, black) + geom_vline(xintercept = 1800, 
+    linetype = &quot;dashed&quot;, black) + geom_vline(xintercept = 2700, linetype = &quot;dashed&quot;, 
+    black) + geom_vline(xintercept = 0, linetype = &quot;dashed&quot;, black) + labs(x = &quot;Time Remaining (seconds)&quot;, 
+    y = &quot;Win Probability&quot;, title = &quot;Week 1 Win Probability Chart&quot;, subtitle = &quot;Carolina Panthers vs. Dallas Cowboys&quot;, 
     caption = &quot;Data from nflscrapR&quot;) + theme_bw()</code></pre>
 <p><img src="/R/nflscrapR_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Now I want to try and build a plot of all of Dallas Cowboys games for the season. Here are the steps. First, I am going to make a table that contains all of the names and colors for all of the game IDs. Even though I only need those for Dallas, building a shiny app for this would mean that I could select by teams above and make it extensible. At the end, I will only need those for Dallas so I will separate them off.</p>

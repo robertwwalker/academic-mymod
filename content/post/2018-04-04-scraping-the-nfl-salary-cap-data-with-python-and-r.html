@@ -259,45 +259,239 @@ save.image(&quot;~/NFL-Data.RData&quot;)</code></pre>
 <pre class="r"><code>library(tidyverse)
 library(skimr)
 skim(NFL.Salary.Data)</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 2239 
-##  n variables: 14 
-## 
-## ── Variable type:factor ──────────────────────────────────────────────────────────────────
-##   variable missing complete    n n_unique
-##    Cap.Hit       0     2239 2239     1043
-##  Last.Name       0     2239 2239     1489
-##     Player       0     2239 2239     2226
-##   Position       0     2239 2239       22
-##       Team       0     2239 2239       32
-##                             top_counts ordered
-##  480: 279, 555: 230, 630: 185, 705: 66   FALSE
-##     Jon: 41, Wil: 39, Smi: 31, Joh: 30   FALSE
-##         Aus: 2, Bra: 2, Bra: 2, Chr: 2   FALSE
-##    WR: 289, CB: 242, DE: 179, OLB: 171   FALSE
-##     New: 86, Ind: 78, New: 78, Cle: 77   FALSE
-## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────
-##       variable missing complete    n       mean         sd p0       p25
-##    Base.Salary       0     2239 2239 1702378.82 2559999.2   0 555000   
-##        Cap.Pct       0     2239 2239       1.36       2.05  0      0.31
-##       Dead.Cap       0     2239 2239 2237274.35 5646281.55  0      0   
-##       Misc.Cap       0     2239 2239    9149.17   81182.62  0      0   
-##   Option.Bonus       0     2239 2239   13272.29  168050.78  0      0   
-##  Restruc.Bonus       0     2239 2239   44915.31  341687.19  0      0   
-##   Roster.Bonus       0     2239 2239  206966.64 1021892.52  0      0   
-##  Signing.Bonus       0     2239 2239  449440.82  961034.55  0      0   
-##  Workout.Bonus       0     2239 2239   20166.59   76589.41  0      0   
-##        p50        p75        p100     hist
-##  700000    1500000    22500000    ▇▁▁▁▁▁▁▁
-##       0.41       1.42       18.02 ▇▁▁▁▁▁▁▁
-##   50178    1330354.5  82500000    ▇▁▁▁▁▁▁▁
-##       0          0     2085000    ▇▁▁▁▁▁▁▁
-##       0          0     4750000    ▇▁▁▁▁▁▁▁
-##       0          0     5561666    ▇▁▁▁▁▁▁▁
-##       0          0    28800000    ▇▁▁▁▁▁▁▁
-##    3333     397413.5  10500000    ▇▁▁▁▁▁▁▁
-##       0          0     1335000    ▇▁▁▁▁▁▁▁</code></pre>
+<table>
+<caption><span id="tab:An1">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">NFL.Salary.Data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">2239</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">14</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">factor</td>
+<td align="left">5</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">9</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">ordered</th>
+<th align="right">n_unique</th>
+<th align="left">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Player</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">2226</td>
+<td align="left">Aus: 2, Bra: 2, Bra: 2, Chr: 2</td>
+</tr>
+<tr class="even">
+<td align="left">Last.Name</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">1489</td>
+<td align="left">Jon: 41, Wil: 39, Smi: 31, Joh: 30</td>
+</tr>
+<tr class="odd">
+<td align="left">Team</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">32</td>
+<td align="left">New: 86, Ind: 78, New: 78, Cle: 77</td>
+</tr>
+<tr class="even">
+<td align="left">Position</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">22</td>
+<td align="left">WR: 289, CB: 242, DE: 179, OLB: 171</td>
+</tr>
+<tr class="odd">
+<td align="left">Cap.Hit</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">1043</td>
+<td align="left">480: 279, 555: 230, 630: 185, 705: 66</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1702378.82</td>
+<td align="right">2559999.20</td>
+<td align="right">0</td>
+<td align="right">555000.00</td>
+<td align="right">700000.00</td>
+<td align="right">1500000.00</td>
+<td align="right">22500000.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Signing.Bonus</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">449440.82</td>
+<td align="right">961034.55</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+<td align="right">3333.00</td>
+<td align="right">397413.50</td>
+<td align="right">10500000.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Roster.Bonus</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">206966.64</td>
+<td align="right">1021892.52</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">28800000.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Option.Bonus</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">13272.29</td>
+<td align="right">168050.78</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">4750000.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Workout.Bonus</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">20166.59</td>
+<td align="right">76589.41</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">1335000.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Restruc.Bonus</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">44915.31</td>
+<td align="right">341687.19</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">5561666.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Dead.Cap</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">2237274.35</td>
+<td align="right">5646281.55</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+<td align="right">50178.00</td>
+<td align="right">1330354.50</td>
+<td align="right">82500000.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Misc.Cap</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">9149.17</td>
+<td align="right">81182.62</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">2085000.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Cap.Pct</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1.36</td>
+<td align="right">2.05</td>
+<td align="right">0</td>
+<td align="right">0.31</td>
+<td align="right">0.41</td>
+<td align="right">1.42</td>
+<td align="right">18.02</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>NFL.Salary.Data %&gt;% group_by(Team) %&gt;% summarise(Total.Base.Salary=sum(Base.Salary))</code></pre>
 <pre><code>## # A tibble: 32 x 2
 ##    Team               Total.Base.Salary
@@ -314,58 +508,372 @@ skim(NFL.Salary.Data)</code></pre>
 ## 10 Denver Broncos             140672444
 ## # … with 22 more rows</code></pre>
 <pre class="r"><code>NFL.Salary.Data %&gt;% group_by(Position) %&gt;% skim(Base.Salary)</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 2239 
-##  n variables: 14 
-##  group variables: Position 
-## 
-## ── Variable type:numeric ─────────────────────────────────────────────────────────────────
-##  Position    variable missing complete   n       mean         sd     p0
-##         C Base.Salary       0       62  62 1964378.97 2173761.05      0
-##        CB Base.Salary       0      242 242 1594781.37 2433196.22      0
-##        DE Base.Salary       0      179 179 2007139.09 3065728.54      0
-##        DT Base.Salary       0      143 143 2014004.03 3128524.16      0
-##        FB Base.Salary       0       26  26  815000     560564         0
-##        FS Base.Salary       0       57  57 2641985.07 2783070.36      0
-##         G Base.Salary       0      136 136 1704599.21 2115607.14      0
-##       ILB Base.Salary       0      120 120 1378939.22 1901654.33      0
-##         K Base.Salary       0       38  38 1383498.11  946083.47 480000
-##        LB Base.Salary       0        1   1  616500         NA    616500
-##        LS Base.Salary       0       34  34  761617.65  201707.56 480000
-##        LT Base.Salary       0       38  38 4587732.76 4142986.8       0
-##       OLB Base.Salary       0      171 171 1938283.55 2869077.82      0
-##         P Base.Salary       0       37  37 1242027.03  803853.93 480000
-##        QB Base.Salary       0       96  96 3408382.24 5078200.92      0
-##        RB Base.Salary       0      151 151 1088425.34 1459116.95      0
-##        RT Base.Salary       0       52  52 2314986.23 1962841.68      0
-##         S Base.Salary       0       68  68  576320.49  123126.23      0
-##        SS Base.Salary       0       53  53 1566535.64 1521405.49      0
-##         T Base.Salary       0       94  94  587082.02  222252.32 480000
-##        TE Base.Salary       0      152 152 1301806.18 1570488.64 480000
-##        WR Base.Salary       0      289 289 1624579.17 2486576.11      0
-##        p25       p50     p75     p100     hist
-##  630000     862290.5 2693750  9000000 ▇▁▂▁▁▁▁▁
-##  555000     630000   1329725 13500000 ▇▁▁▁▁▁▁▁
-##  555000     790000   1812276 17143000 ▇▁▁▁▁▁▁▁
-##  555000     630000   1760393 16985000 ▇▁▁▁▁▁▁▁
-##  555000     667500    837500  2750000 ▂▇▆▁▂▁▁▁
-##  762911    1426150   3250000 11287000 ▇▃▁▁▁▁▁▁
-##  555000     790000   1880750 10000000 ▇▂▁▁▁▁▁▁
-##  555000     705000   1049127 10000000 ▇▁▁▁▁▁▁▁
-##  555000     899464   2037500  3400000 ▇▁▁▁▂▁▁▁
-##  616500     616500    616500   616500 ▁▁▁▇▁▁▁▁
-##  573750     790000    915000  1100000 ▇▃▂▃▂▅▆▁
-##  961056.25 2310342   8825000 12496000 ▇▂▁▂▁▂▂▂
-##  555000     705000   1639242 14750000 ▇▁▁▁▁▁▁▁
-##  555000    1000000   1500000  3000000 ▇▂▃▁▁▂▁▂
-##  592500     831832   3242341 22500000 ▇▁▁▁▁▁▁▁
-##  555000     630000   1000000 14544000 ▇▁▁▁▁▁▁▁
-##  768750    1897621   3918750  9341000 ▇▅▂▃▁▁▁▁
-##  480000     555000    630000  1037723 ▁▁▁▃▇▁▁▁
-##  630000     875000   1750000  6800000 ▇▃▁▁▁▁▁▁
-##  480000     555000    630000  2312212 ▇▁▁▁▁▁▁▁
-##  555000     630000   1048771  8250000 ▇▁▁▁▁▁▁▁
-##  555000     630000   1200000 15982000 ▇▁▁▁▁▁▁▁</code></pre>
+<table>
+<caption><span id="tab:An1">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Piped data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">2239</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">14</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">numeric</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Group variables</td>
+<td align="left">Position</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="left">Position</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">C</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1964379.0</td>
+<td align="right">2173761.0</td>
+<td align="right">0</td>
+<td align="right">630000.0</td>
+<td align="right">862290.5</td>
+<td align="right">2693750</td>
+<td align="right">9000000</td>
+<td align="left">▇▂▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">CB</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1594781.4</td>
+<td align="right">2433196.2</td>
+<td align="right">0</td>
+<td align="right">555000.0</td>
+<td align="right">630000.0</td>
+<td align="right">1329725</td>
+<td align="right">13500000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">DE</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">2007139.1</td>
+<td align="right">3065728.5</td>
+<td align="right">0</td>
+<td align="right">555000.0</td>
+<td align="right">790000.0</td>
+<td align="right">1812276</td>
+<td align="right">17143000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">DT</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">2014004.0</td>
+<td align="right">3128524.2</td>
+<td align="right">0</td>
+<td align="right">555000.0</td>
+<td align="right">630000.0</td>
+<td align="right">1760393</td>
+<td align="right">16985000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">FB</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">815000.0</td>
+<td align="right">560564.0</td>
+<td align="right">0</td>
+<td align="right">555000.0</td>
+<td align="right">667500.0</td>
+<td align="right">837500</td>
+<td align="right">2750000</td>
+<td align="left">▂▇▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">FS</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">2641985.1</td>
+<td align="right">2783070.4</td>
+<td align="right">0</td>
+<td align="right">762911.0</td>
+<td align="right">1426150.0</td>
+<td align="right">3250000</td>
+<td align="right">11287000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">G</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1704599.2</td>
+<td align="right">2115607.1</td>
+<td align="right">0</td>
+<td align="right">555000.0</td>
+<td align="right">790000.0</td>
+<td align="right">1880750</td>
+<td align="right">10000000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">ILB</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1378939.2</td>
+<td align="right">1901654.3</td>
+<td align="right">0</td>
+<td align="right">555000.0</td>
+<td align="right">705000.0</td>
+<td align="right">1049127</td>
+<td align="right">10000000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">K</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1383498.1</td>
+<td align="right">946083.5</td>
+<td align="right">480000</td>
+<td align="right">555000.0</td>
+<td align="right">899464.0</td>
+<td align="right">2037500</td>
+<td align="right">3400000</td>
+<td align="left">▇▂▂▂▂</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">LB</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">616500.0</td>
+<td align="right">NA</td>
+<td align="right">616500</td>
+<td align="right">616500.0</td>
+<td align="right">616500.0</td>
+<td align="right">616500</td>
+<td align="right">616500</td>
+<td align="left">▁▁▇▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">LS</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">761617.7</td>
+<td align="right">201707.6</td>
+<td align="right">480000</td>
+<td align="right">573750.0</td>
+<td align="right">790000.0</td>
+<td align="right">915000</td>
+<td align="right">1100000</td>
+<td align="left">▇▆▅▅▆</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">LT</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4587732.8</td>
+<td align="right">4142986.8</td>
+<td align="right">0</td>
+<td align="right">961056.2</td>
+<td align="right">2310342.0</td>
+<td align="right">8825000</td>
+<td align="right">12496000</td>
+<td align="left">▇▁▂▂▂</td>
+</tr>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">OLB</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1938283.6</td>
+<td align="right">2869077.8</td>
+<td align="right">0</td>
+<td align="right">555000.0</td>
+<td align="right">705000.0</td>
+<td align="right">1639242</td>
+<td align="right">14750000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">P</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1242027.0</td>
+<td align="right">803853.9</td>
+<td align="right">480000</td>
+<td align="right">555000.0</td>
+<td align="right">1000000.0</td>
+<td align="right">1500000</td>
+<td align="right">3000000</td>
+<td align="left">▇▃▁▁▂</td>
+</tr>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">QB</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">3408382.2</td>
+<td align="right">5078200.9</td>
+<td align="right">0</td>
+<td align="right">592500.0</td>
+<td align="right">831832.0</td>
+<td align="right">3242341</td>
+<td align="right">22500000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">RB</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1088425.3</td>
+<td align="right">1459116.9</td>
+<td align="right">0</td>
+<td align="right">555000.0</td>
+<td align="right">630000.0</td>
+<td align="right">1000000</td>
+<td align="right">14544000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">RT</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">2314986.2</td>
+<td align="right">1962841.7</td>
+<td align="right">0</td>
+<td align="right">768750.0</td>
+<td align="right">1897621.0</td>
+<td align="right">3918750</td>
+<td align="right">9341000</td>
+<td align="left">▇▅▃▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">S</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">576320.5</td>
+<td align="right">123126.2</td>
+<td align="right">0</td>
+<td align="right">480000.0</td>
+<td align="right">555000.0</td>
+<td align="right">630000</td>
+<td align="right">1037723</td>
+<td align="left">▁▁▇▆▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">SS</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1566535.6</td>
+<td align="right">1521405.5</td>
+<td align="right">0</td>
+<td align="right">630000.0</td>
+<td align="right">875000.0</td>
+<td align="right">1750000</td>
+<td align="right">6800000</td>
+<td align="left">▇▂▂▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">T</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">587082.0</td>
+<td align="right">222252.3</td>
+<td align="right">480000</td>
+<td align="right">480000.0</td>
+<td align="right">555000.0</td>
+<td align="right">630000</td>
+<td align="right">2312212</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Base.Salary</td>
+<td align="left">TE</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1301806.2</td>
+<td align="right">1570488.6</td>
+<td align="right">480000</td>
+<td align="right">555000.0</td>
+<td align="right">630000.0</td>
+<td align="right">1048771</td>
+<td align="right">8250000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Base.Salary</td>
+<td align="left">WR</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1624579.2</td>
+<td align="right">2486576.1</td>
+<td align="right">0</td>
+<td align="right">555000.0</td>
+<td align="right">630000.0</td>
+<td align="right">1200000</td>
+<td align="right">15982000</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
 <p>Now I have my salary data.</p>
 <pre class="r"><code>gplots::plotmeans(Base.Salary~Position, data=NFL.Salary.Data, n.label=FALSE, cex=0.6)</code></pre>
 <p><img src="/post/2018-04-04-scraping-the-nfl-salary-cap-data-with-python-and-r_files/figure-html/Plot-1.png" width="672" /></p>

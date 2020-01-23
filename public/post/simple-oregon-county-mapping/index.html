@@ -18,7 +18,7 @@
     
   
   <meta name="description" content="Some Data for the Map I want to get some data to place on the map. I found a website with population and population change data for Oregon in .csv format. I cannot direct download it from R, instead I have to button download it and import it.
-library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.1.3 ✔ dplyr 0.">
+library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/simple-oregon-county-mapping/">
@@ -80,7 +80,7 @@ library(tidyverse) ## ── Attaching packages ──────────�
   <meta property="og:url" content="/post/simple-oregon-county-mapping/">
   <meta property="og:title" content="Simple Oregon County Mapping | Robert W. Walker">
   <meta property="og:description" content="Some Data for the Map I want to get some data to place on the map. I found a website with population and population change data for Oregon in .csv format. I cannot direct download it from R, instead I have to button download it and import it.
-library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.1.3 ✔ dplyr 0.">
+library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2019-10-09T00:00:00&#43;00:00">
@@ -383,14 +383,14 @@ library(tidyverse) ## ── Attaching packages ──────────�
 <h2>Some Data for the Map</h2>
 <p>I want to get some data to place on the map. I found a website with population and population change data for Oregon <a href="http://worldpopulationreview.com/us-counties/or/">in .csv format</a>. I cannot direct download it from R, instead I have to button download it and import it.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
-## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
-## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
+## ✓ tibble  2.1.3     ✓ dplyr   0.8.3
+## ✓ tidyr   1.0.0     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.4.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code># Oregon.Population &lt;- read.csv(&quot;~/Downloads/data.csv&quot;, stringsAsFactors = FALSE)
 Oregon.Population &lt;- structure(list(CTYNAME = c(&quot;Multnomah County&quot;, &quot;Washington County&quot;, 
 &quot;Clackamas County&quot;, &quot;Lane County&quot;, &quot;Marion County&quot;, &quot;Jackson County&quot;, 

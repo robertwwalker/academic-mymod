@@ -405,34 +405,36 @@ write_csv(mueller_report, &quot;data/mueller_report.csv&quot;)</code></pre>
 <p>Now I can use a .csv of the data; reading the .pdf and hacking it up takes time.</p>
 <pre class="r"><code>library(tidyverse)
 library(pdftools)
-mueller_report &lt;- read_csv(&quot;../../data/mueller_report.csv&quot;)
+library(here)
+mueller_report &lt;- read_csv(here(&quot;data&quot;,&quot;mueller_report.csv&quot;))
 head(mueller_report)</code></pre>
 <pre><code>## # A tibble: 6 x 3
-##    page  line text                                                         
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                                                        
-## 1     1     1 U.S. Department of Justice                                   
-## 2     1     2 &quot;AttarAe:,c \\\\&#39;erlc Predtiet // Mtt; CeA1:ttiA Ma1:ertal P…
-## 3     1     3 Report On The Investigation Into                             
-## 4     1     4 Russian Interference In The                                  
-## 5     1     5 2016 Presidential Election                                   
-## 6     1     6 Volume I of II</code></pre>
+##    page  line text                                                              
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                                                             
+## 1     1     1 &quot;U.S. Department of Justice&quot;                                      
+## 2     1     2 &quot;AttarAe:,c \\\\&#39;erlc Predtiet // Mtt; CeA1:ttiA Ma1:ertal Prn1:e…
+## 3     1     3 &quot;Report On The Investigation Into&quot;                                
+## 4     1     4 &quot;Russian Interference In The&quot;                                     
+## 5     1     5 &quot;2016 Presidential Election&quot;                                      
+## 6     1     6 &quot;Volume I of II&quot;</code></pre>
 <p>The text is generally pretty good though there is some garbage. The second line contains redactions and those are the underlying cause. In fact, every page contains this same line though they convert to text in a non-uniform fashion.</p>
 <pre class="r"><code>mueller_report %&gt;% filter(line!=2) -&gt; mueller_ml2</code></pre>
 <p>I want to make use of <a href="https://github.com/statsmaths/cleanNLP">cleanNLP</a> to turn this into something that I can analyze. The first step is to get rid of the tidyness, of sorts.</p>
+<pre><code>Once upon a time, this worked with the linux tools and others.  The spacy and corenlp functionality is not native R and the python interface is currently broken, at least on this server.</code></pre>
 <pre class="r"><code>library(tidyverse)
 library(RCurl)
 library(tokenizers)
 library(cleanNLP)
 MRep &lt;- paste(as.character(mueller_ml2$text), &quot; &quot;)
-cnlp_init_spacy()
-starttime &lt;- Sys.time()
-spacy_annotate &lt;- MRep %&gt;% as.character() %&gt;% cnlp_annotate(as_strings = TRUE, backend = &quot;spaCy&quot;) 
-endtime &lt;- Sys.time()</code></pre>
+# cnlp_init_udpipe()
+# starttime &lt;- Sys.time()
+# udpipe_annotate &lt;- MRep %&gt;% as.character() %&gt;% cnlp_annotate(., verbose=FALSE) 
+# endtime &lt;- Sys.time()</code></pre>
 <p>I wanted to find the bigrams while removing stop words. Apparently, the easiest way to do this is <code>quanteda</code>. I got this from <a href="https://stackoverflow.com/questions/34282370/form-bigrams-without-stopwords-in-r">stack overflow</a></p>
 <pre class="r"><code>library(widgetframe)</code></pre>
 <pre><code>## Loading required package: htmlwidgets</code></pre>
 <pre class="r"><code>library(quanteda)</code></pre>
-<pre><code>## Package version: 1.5.1</code></pre>
+<pre><code>## Package version: 1.5.2</code></pre>
 <pre><code>## Parallel computing: 2 of 16 threads used.</code></pre>
 <pre><code>## See https://quanteda.io for tutorials and examples.</code></pre>
 <pre><code>## 
@@ -453,9 +455,6 @@ wc2.df$word &lt;- as.character(wc2.df$word)
 wc2.df &lt;- wc2.df %&gt;% filter(freq &lt; 300)
 # wordcloud(wc2.df, size=0.4)
 library(highcharter)</code></pre>
-<pre><code>## Registered S3 method overwritten by &#39;xts&#39;:
-##   method     from
-##   as.zoo.xts zoo</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;quantmod&#39;:
 ##   method            from
 ##   as.zoo.data.frame zoo</code></pre>

@@ -20,7 +20,14 @@ header:
 
 ## tidyTuesday: December 10, 2019
 
-Replicating plots from [simplystatistics](https://simplystatistics.org/2019/08/28/you-can-replicate-almost-any-plot-with-ggplot2/).  One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way.  You can install the package via github.
+Replicating plots from [simplystatistics](https://simplystatistics.org/2019/08/28/you-can-replicate-almost-any-plot-with-ggplot2/).  One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way.  You can install the package via github.  I will also use `fiftystater` and `ggflags`.
+
+```
+devtools::install_github("thebioengineer/tidytuesdayR")
+devtools::install_github("ellisp/ggflags")
+devtools::install_github("wmurphyrd/fiftystater")
+```
+
 
 ```{r}
 tuesdata <- tidytuesdayR::tt_load(2019, week = 50)

@@ -34,6 +34,7 @@ library(SnowballC)
 library(tm)
 library(syuzhet)
 library(rtweet)
+library(here)
 load(url("https://github.com/robertwwalker/academic-mymod/raw/master/data/TMLS.RData"))
 names(tml.djt)
 ts_plot(tml.djt, "days") +
@@ -156,7 +157,7 @@ save(Sents.Me,SME_tbl_time_d,My.Res,bing_and_nrc,tidy.tweets, file="~/TrumpTweet
 
 
 ```{r}
-load("~/TrumpTweets.RData")
+load(here("data","TrumpTweets.RData"))
 ggplot(data = My.Res) +
   aes(x = created_at, y = sentiment, color = method) +
   geom_line() +

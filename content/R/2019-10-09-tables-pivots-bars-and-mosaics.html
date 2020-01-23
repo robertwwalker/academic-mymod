@@ -33,48 +33,260 @@ header:
         if(!require(x,character.only = TRUE)) stop(&quot;Package not found&quot;)
     }
 }
-pkgTest(&quot;tidyverse&quot;)
-pkgTest(&quot;magrittr&quot;)
-pkgTest(&quot;skimr&quot;)
-pkgTest(&quot;janitor&quot;)
-pkgTest(&quot;devtools&quot;)
-devtools::install_github(&quot;EdwinTH/thatssorandom&quot;)
-devtools::install_github(&quot;dreamRs/esquisse&quot;)</code></pre>
+pkgTest(&quot;tidyverse&quot;)</code></pre>
+<pre><code>## Loading required package: tidyverse</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
+## ✓ tibble  2.1.3     ✓ dplyr   0.8.3
+## ✓ tidyr   1.0.0     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.4.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>pkgTest(&quot;magrittr&quot;)</code></pre>
+<pre><code>## Loading required package: magrittr</code></pre>
+<pre><code>## 
+## Attaching package: &#39;magrittr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     set_names</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<pre class="r"><code>pkgTest(&quot;skimr&quot;)</code></pre>
+<pre><code>## Loading required package: skimr</code></pre>
+<pre class="r"><code>pkgTest(&quot;janitor&quot;)</code></pre>
+<pre><code>## Loading required package: janitor</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code>pkgTest(&quot;devtools&quot;)</code></pre>
+<pre><code>## Loading required package: devtools</code></pre>
+<pre><code>## Loading required package: usethis</code></pre>
+<pre class="r"><code>devtools::install_github(&quot;EdwinTH/thatssorandom&quot;)</code></pre>
+<pre><code>## Skipping install of &#39;thatssorandom&#39; from a github remote, the SHA1 (00c18e45) has not changed since last install.
+##   Use `force = TRUE` to force installation</code></pre>
+<pre class="r"><code>devtools::install_github(&quot;dreamRs/esquisse&quot;)</code></pre>
+<pre><code>## Downloading GitHub repo dreamRs/esquisse@master</code></pre>
+<pre><code>## 
+##   
+   checking for file ‘/tmp/Rtmp8KFJIl/remotes44226fdc01aa/dreamRs-esquisse-15966cd/DESCRIPTION’ ...
+  
+✓  checking for file ‘/tmp/Rtmp8KFJIl/remotes44226fdc01aa/dreamRs-esquisse-15966cd/DESCRIPTION’
+## 
+  
+─  preparing ‘esquisse’:
+## 
+  
+   checking DESCRIPTION meta-information ...
+  
+✓  checking DESCRIPTION meta-information
+## 
+  
+─  checking for LF line-endings in source and make files and shell scripts
+## 
+  
+─  checking for empty or unneeded directories
+## 
+  
+─  building ‘esquisse_0.2.3.910.tar.gz’
+## 
+  
+   
+## </code></pre>
+<pre><code>## Installing package into &#39;/home/rob/R/x86_64-pc-linux-gnu-library/3.6&#39;
+## (as &#39;lib&#39; is unspecified)</code></pre>
 </div>
 <div id="a-first-go" class="section level2">
 <h2>A first go</h2>
 <p>We have an embedded data object; if you look at the beginning of the document, I have used an <em>R</em> command called <em>dput</em> to embed the data in the document. Above, there is encoded text of <em>Bond.Funds</em> to use as an example. To get a sense of the data, I will load the <em>skim</em> function and put it to work. In <em>R</em>, we will use the <code>library</code> command to load <em>functions</em> into the <em>namespace</em> – the set of recognizable commands. <em>R</em> needs to know how a function is defined to use it. The function <em>skim</em> appears in the <em>skimr</em> library.</p>
-<pre class="r"><code>library(skimr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;skimr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     filter</code></pre>
-<pre class="r"><code>skim(Bond.Funds)</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 184 
-##  n variables: 9 
-## 
-## ── Variable type:character ─────────────────────────────────────────────────────────────────────
-##     variable missing complete   n min max empty n_unique
-##         Fees       0      184 184   2   3     0        2
-##  Fund Number       0      184 184   4   6     0      184
-##         Risk       0      184 184   7  13     0        3
-##         Type       0      184 184  20  23     0        2
-## 
-## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────
-##       variable missing complete   n   mean      sd     p0    p25   p50
-##  3-Year Return       0      184 184   4.66    2.52 -13.8    4.05   5.1
-##  5-Year Return       0      184 184   3.99    1.49  -7.3    3.6    4.3
-##         Assets       0      184 184 910.65 2253.27  12.4  113.72 268.4
-##  Expense Ratio       0      184 184   0.71    0.26   0.12   0.53   0.7
-##    Return 2009       0      184 184   7.16    6.09  -8.8    3.48   6.4
-##     p75     p100     hist
-##    6.1      9.4  ▁▁▁▁▁▂▇▂
-##    4.9      6.8  ▁▁▁▁▁▂▇▂
-##  621.95 18603.5  ▇▁▁▁▁▁▁▁
-##    0.9      1.94 ▂▇▇▇▂▁▁▁
-##   10.72    32    ▁▂▇▆▃▁▁▁</code></pre>
+<pre class="r"><code>library(skimr)
+skim(Bond.Funds)</code></pre>
+<table>
+<caption><span id="tab:SkBF">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Bond.Funds</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">184</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">9</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">character</td>
+<td align="left">4</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">empty</th>
+<th align="right">n_unique</th>
+<th align="right">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Fund Number</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">184</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Type</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">20</td>
+<td align="right">23</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Fees</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Risk</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">13</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Assets</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">910.65</td>
+<td align="right">2253.27</td>
+<td align="right">12.40</td>
+<td align="right">113.72</td>
+<td align="right">268.4</td>
+<td align="right">621.95</td>
+<td align="right">18603.50</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">Expense Ratio</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0.71</td>
+<td align="right">0.26</td>
+<td align="right">0.12</td>
+<td align="right">0.53</td>
+<td align="right">0.7</td>
+<td align="right">0.90</td>
+<td align="right">1.94</td>
+<td align="left">▂▇▅▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Return 2009</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">7.16</td>
+<td align="right">6.09</td>
+<td align="right">-8.80</td>
+<td align="right">3.48</td>
+<td align="right">6.4</td>
+<td align="right">10.72</td>
+<td align="right">32.00</td>
+<td align="left">▁▇▅▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">3-Year Return</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4.66</td>
+<td align="right">2.52</td>
+<td align="right">-13.80</td>
+<td align="right">4.05</td>
+<td align="right">5.1</td>
+<td align="right">6.10</td>
+<td align="right">9.40</td>
+<td align="left">▁▁▁▅▇</td>
+</tr>
+<tr class="odd">
+<td align="left">5-Year Return</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">3.99</td>
+<td align="right">1.49</td>
+<td align="right">-7.30</td>
+<td align="right">3.60</td>
+<td align="right">4.3</td>
+<td align="right">4.90</td>
+<td align="right">6.80</td>
+<td align="left">▁▁▁▅▇</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code># skimr::skim(Bond.Funds)</code></pre>
 </div>
 </div>
@@ -94,26 +306,155 @@ Bond.Funds %&gt;% group_by(Risk) %&gt;%
 ## 3 Below average       6.31      2.71           6.1       3.18</code></pre>
 <p>I can also use <em>skim</em>.</p>
 <pre class="r"><code>Bond.Funds %&gt;% group_by(Risk,Fees) %&gt;% skim(`Return 2009`)</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 184 
-##  n variables: 9 
-##  group variables: Risk, Fees 
-## 
-## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────
-##           Risk Fees    variable missing complete  n mean    sd   p0  p25
-##  Above average   No Return 2009       0       37 37 8.25  8.92 -8.8 0.7 
-##  Above average  Yes Return 2009       0       22 22 8.42  9.96 -4.8 0.98
-##        Average   No Return 2009       0       49 49 7.37  4.51 -1.1 4.3 
-##        Average  Yes Return 2009       0       20 20 5.66  3.93 -0.6 3.35
-##  Below average   No Return 2009       0       44 44 6.33  2.8   0.2 4.85
-##  Below average  Yes Return 2009       0       12 12 6.26  2.46  1.5 5.02
-##   p50   p75 p100     hist
-##  9.9  13.5  32   ▂▅▃▂▇▁▁▁
-##  6.85 14.93 29.7 ▃▇▇▁▅▁▁▂
-##  6.5  11.2  16.4 ▃▅▅▇▃▇▅▂
-##  4.8   8    12.9 ▃▃▇▆▃▂▁▆
-##  6.2   7.58 13   ▂▃▅▇▇▅▂▂
-##  6.05  8.22 10.1 ▂▂▁▇▅▂▅▅</code></pre>
+<table>
+<caption><span id="tab:SKBF1">Table 2: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Piped data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">184</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">9</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">numeric</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Group variables</td>
+<td align="left">Risk, Fees</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="left">Risk</th>
+<th align="left">Fees</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Return 2009</td>
+<td align="left">Above average</td>
+<td align="left">No</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">8.25</td>
+<td align="right">8.92</td>
+<td align="right">-8.8</td>
+<td align="right">0.70</td>
+<td align="right">9.90</td>
+<td align="right">13.50</td>
+<td align="right">32.0</td>
+<td align="left">▃▃▇▂▁</td>
+</tr>
+<tr class="even">
+<td align="left">Return 2009</td>
+<td align="left">Above average</td>
+<td align="left">Yes</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">8.42</td>
+<td align="right">9.96</td>
+<td align="right">-4.8</td>
+<td align="right">0.98</td>
+<td align="right">6.85</td>
+<td align="right">14.93</td>
+<td align="right">29.7</td>
+<td align="left">▇▆▃▃▂</td>
+</tr>
+<tr class="odd">
+<td align="left">Return 2009</td>
+<td align="left">Average</td>
+<td align="left">No</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">7.37</td>
+<td align="right">4.51</td>
+<td align="right">-1.1</td>
+<td align="right">4.30</td>
+<td align="right">6.50</td>
+<td align="right">11.20</td>
+<td align="right">16.4</td>
+<td align="left">▆▆▇▇▃</td>
+</tr>
+<tr class="even">
+<td align="left">Return 2009</td>
+<td align="left">Average</td>
+<td align="left">Yes</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5.66</td>
+<td align="right">3.93</td>
+<td align="right">-0.6</td>
+<td align="right">3.35</td>
+<td align="right">4.80</td>
+<td align="right">8.00</td>
+<td align="right">12.9</td>
+<td align="left">▃▇▅▂▅</td>
+</tr>
+<tr class="odd">
+<td align="left">Return 2009</td>
+<td align="left">Below average</td>
+<td align="left">No</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">6.33</td>
+<td align="right">2.80</td>
+<td align="right">0.2</td>
+<td align="right">4.85</td>
+<td align="right">6.20</td>
+<td align="right">7.58</td>
+<td align="right">13.0</td>
+<td align="left">▂▅▇▃▁</td>
+</tr>
+<tr class="even">
+<td align="left">Return 2009</td>
+<td align="left">Below average</td>
+<td align="left">Yes</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">6.26</td>
+<td align="right">2.46</td>
+<td align="right">1.5</td>
+<td align="right">5.02</td>
+<td align="right">6.05</td>
+<td align="right">8.22</td>
+<td align="right">10.1</td>
+<td align="left">▂▃▇▆▃</td>
+</tr>
+</tbody>
+</table>
 <p>I want to recreate a categorical pivot table also.</p>
 </div>
 <div id="categorical-descriptions-requires-tables-or-graphics" class="section level2">
@@ -122,13 +463,8 @@ Bond.Funds %&gt;% group_by(Risk) %&gt;%
 <div id="easiest-janitor" class="section level3">
 <h3>Easiest: janitor</h3>
 <p>The package <em>janitor</em> contains a <em>tabyl</em> with the ability to add totals and calculate percentages of relevance. Here are two examples.</p>
-<pre class="r"><code>library(janitor)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;janitor&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     chisq.test, fisher.test</code></pre>
-<pre class="r"><code>Bond.Funds %&gt;% tabyl(Fees,Risk) %&gt;% adorn_totals(c(&quot;row&quot;,&quot;col&quot;))</code></pre>
+<pre class="r"><code>library(janitor)
+Bond.Funds %&gt;% tabyl(Fees,Risk) %&gt;% adorn_totals(c(&quot;row&quot;,&quot;col&quot;))</code></pre>
 <pre><code>##   Fees Above average Average Below average Total
 ##     No            37      49            44   130
 ##    Yes            22      20            12    54

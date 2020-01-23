@@ -109,8 +109,8 @@ my.GFD.2015</code></pre>
 ## 50        wyoming 4.020295</code></pre>
 <p>That is exactly the data that I need. Finally, add a title and continuous color scheming.</p>
 <pre class="r"><code>state_choropleth(my.GFD.2015, title=&quot;Total Taxes per capita&quot;, num_colors=1)</code></pre>
-<pre><code>## Warning in self$bind(): The following regions were missing and are being
-## set to NA: district of columbia</code></pre>
+<pre><code>## Warning in self$bind(): The following regions were missing and are being set to
+## NA: district of columbia</code></pre>
 <p><img src="/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/MapTheData-1.png" width="672" /></p>
 <p>That’s far too easy. Total taxes, which I have not bothered to look up, appear to contain some unexpected details. What else can be done with it? The final code chunk does it all. To calculate a new map, just change the name of the thing per capitized. What data are available? See below….</p>
 <pre class="r"><code>names(State.Data)</code></pre>
@@ -420,8 +420,8 @@ my.GFD.2015</code></pre>
   mutate(value = Total_Revenue / Population, region = NameFLower) %&gt;%
   select(region, value)
 state_choropleth(my.GFD.2015, title=&quot;Total Revenues per capita&quot;, num_colors=1)</code></pre>
-<pre><code>## Warning in self$bind(): The following regions were missing and are being
-## set to NA: district of columbia</code></pre>
+<pre><code>## Warning in self$bind(): The following regions were missing and are being set to
+## NA: district of columbia</code></pre>
 <p><img src="/post/2018-02-25-mapping-with-the-government-finance-database_files/figure-html/Finished2-1.png" width="672" /></p>
 </div>
 </div>

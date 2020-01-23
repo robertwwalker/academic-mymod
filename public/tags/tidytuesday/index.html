@@ -308,8 +308,8 @@ New.Dat &lt;- left_join(My.Map, dog_moves, by= c(&quot;full&quot; = &quot;locati
     <h2><a href="/post/tidytuesday-measles/">tidyTuesday Measles</a></h2>
     <div class="article-style">
       
-      tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github.
-tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) library(here) ## here() starts at /home/rob/Sandbox/academic-mymod/academic-mymod library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.8.3 ## ✓ tidyr 1.
+      tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github. I will also use fiftystater and ggflags.
+devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;) devtools::install_github(&quot;ellisp/ggflags&quot;) devtools::install_github(&quot;wmurphyrd/fiftystater&quot;) tuesdata &lt;- tidytuesdayR::tt_load(2019, week = 50) ## &mdash; Downloading #TidyTuesday Information for 2019-12-10 &mdash;- ## &mdash; Identified 4 files available for download &mdash;- ## &mdash; Downloading files &mdash; ## Warning in identify_delim(temp_file): Not able to detect delimiter for the file.
       
     </div>
   </div>
@@ -325,7 +325,7 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
   </div>
   
   <div>
-    <h2><a href="/post/philaselphia-parking-tickets-a-tidytuesday/">Philaselphia Parking Tickets: a tidyTuesday</a></h2>
+    <h2><a href="/post/philadelphia-parking-tickets-a-tidytuesday/">Philadelphia Parking Tickets: a tidyTuesday</a></h2>
     <div class="article-style">
       
       Philadelphia Map Use ggmap for the base layer.
@@ -370,7 +370,7 @@ pizza_jared &lt;- readr::read_csv(&quot;<a href="https://raw.githubusercontent.c
     <div class="article-style">
       
       This week’s tidyTuesday focuses on degrees and majors and their deployment in the labor market. The original data came from 538. A description of sources and measures. The tidyTesday writeup is here.
-library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &lt;- read.csv(&quot;<a href="https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv&quot;" target="_blank">https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv&quot;</a>) library(skimr) skim(Major.Employment) ## Skim summary statistics ## n obs: 173 ## n variables: 21 ## ## ── Variable type:factor ────────────────────────────────────────────────────────────────── ## variable missing complete n n_unique ## Major 0 173 173 173 ## Major_category 0 173 173 16 ## top_counts ordered ## ACC: 1, ACT: 1, ADV: 1, AER: 1 FALSE ## Eng: 29, Edu: 16, Hum: 15, Bio: 14 FALSE ## ## ── Variable type:integer ───────────────────────────────────────────────────────────────── ## variable missing complete n mean sd p0 ## College_jobs 0 173 173 12322.
+library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system. ## Continue? [y/n] Major.Employment &lt;- read.csv(&quot;<a href="https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv&quot;" target="_blank">https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv&quot;</a>) library(skimr) skim(Major.Employment)  Table 1: Data summary  Name Major.
       
     </div>
   </div>
@@ -381,7 +381,7 @@ library(tidyverse) options(scipen=6) library(extrafont) font_import() ## Importi
       
       The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 ## ✔ tibble 2.
+library(readxl) library(tidyverse) ## ── Attaching packages ────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.
       
     </div>
   </div>
