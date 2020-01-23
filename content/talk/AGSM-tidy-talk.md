@@ -1,7 +1,7 @@
 +++
 date = 2017-01-01T00:00:00  # Schedule page publish date.
 
-title = "Archigos meets Grammar of Graphics"
+title = "dplyr verbs and tidy tools"
 time_start = 2020-01-22T18:00:00
 time_end = 2020-01-22T22:00:00
 abstract = "tidy data and a crash course in tidyverse"
