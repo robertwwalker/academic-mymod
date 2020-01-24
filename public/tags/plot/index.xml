@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>plot on Robert W. Walker</title>
-    <link>/tags/plot/</link>
+    <link>https://www.rww.science/tags/plot/</link>
     <description>Recent content in plot on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Thu, 10 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.rww.science/tags/plot/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Generative aRt</title>
-      <link>/post/generative-art/</link>
+      <link>https://www.rww.science/post/generative-art/</link>
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/generative-art/</guid>
+      <guid>https://www.rww.science/post/generative-art/</guid>
       <description>mathart A cool package for math generated art that I just discovered. Here is the install code for it
 install.packages(c(&amp;quot;devtools&amp;quot;, &amp;quot;mapproj&amp;quot;, &amp;quot;tidyverse&amp;quot;, &amp;quot;ggforce&amp;quot;, &amp;quot;Rcpp&amp;quot;)) devtools::install_github(&amp;quot;marcusvolz/mathart&amp;quot;) devtools::install_github(&amp;quot;marcusvolz/ggart&amp;quot;) devtools::install_github(&amp;quot;gsimchoni/kandinsky&amp;quot;) Load some libraries library(mathart) library(ggart) library(ggforce) library(Rcpp) library(tidyverse)  Generate some Art? This is quite fun to do.
 set.seed(12341) terminals &amp;lt;- data.frame(x = runif(10, 0, 10000), y = runif(10, 0, 10000)) df &amp;lt;- 1:10000 %&amp;gt;% map_df(~weiszfeld(terminals, c(points$x[.], points$y[.])), .id = &amp;quot;id&amp;quot;) p &amp;lt;- ggplot() + geom_point(aes(x, y), points, size = 1, alpha = 0.</description>
@@ -25,49 +25,49 @@ set.seed(12341) terminals &amp;lt;- data.frame(x = runif(10, 0, 10000), y = runi
     
     <item>
       <title>The Economist&#39;s Visualization Errors</title>
-      <link>/post/the-economist-s-visualization-errors/</link>
+      <link>https://www.rww.science/post/the-economist-s-visualization-errors/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/the-economist-s-visualization-errors/</guid>
+      <guid>https://www.rww.science/post/the-economist-s-visualization-errors/</guid>
       <description>The Economist’s Errors and Credit Where Credit is Due The Economist is serious about their use of data visualization and they have occasionally owned up to errors in their visualizations. They can be deceptive, uninformative, confusing, excessively busy, and present a host of other barriers to clean communication. Their blog post on their errors is great.
 I have drawn the following example from a #tidyTuesday earlier this year that explores this.</description>
     </item>
     
     <item>
       <title>nflscrapR is amazing</title>
-      <link>/post/nflscrapr-is-amazing/</link>
+      <link>https://www.rww.science/post/nflscrapr-is-amazing/</link>
       <pubDate>Tue, 30 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/nflscrapr-is-amazing/</guid>
+      <guid>https://www.rww.science/post/nflscrapr-is-amazing/</guid>
       <description>Scraping NFL data Note: An original version of this post had issues induced by overtime games. There is a better way to handle all of this that I learned from a brief analysis of a tie game between Cleveland and Pittsburgh in Week One.
 The nflscrapR package is designed to make data on NFL games more easily available. To install the package, we need to grab it from github.</description>
     </item>
     
     <item>
       <title>Stocks and gganimate</title>
-      <link>/post/stocks-and-gganimate/</link>
+      <link>https://www.rww.science/post/stocks-and-gganimate/</link>
       <pubDate>Sun, 17 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/stocks-and-gganimate/</guid>
+      <guid>https://www.rww.science/post/stocks-and-gganimate/</guid>
       <description>tidyquant Automates a lot of equity research and calculation using tidy concepts. Here, I will first use it to get the components of the S and P 500 and pick out those with weights over 1.25 percent. In the next step, I download the data and finally calculate daily returns and a cumulative wealth index.
 library(tidyquant) library(tidyverse) tq_index(&amp;quot;SP500&amp;quot;) %&amp;gt;% filter(weight &amp;gt; 0.0125) %&amp;gt;% select(symbol,company) -&amp;gt; Tickers Tickers &amp;lt;- Tickers %&amp;gt;% filter(symbol!</description>
     </item>
     
     <item>
       <title>Black Boxes: A Gender Gap Example</title>
-      <link>/post/black-boxes-a-gender-gap-example/</link>
+      <link>https://www.rww.science/post/black-boxes-a-gender-gap-example/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/black-boxes-a-gender-gap-example/</guid>
+      <guid>https://www.rww.science/post/black-boxes-a-gender-gap-example/</guid>
       <description>Variance in the Outcome: The Black Box Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained.</description>
     </item>
     
     <item>
       <title>Correlation Function</title>
-      <link>/post/correlation-function/</link>
+      <link>https://www.rww.science/post/correlation-function/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/correlation-function/</guid>
+      <guid>https://www.rww.science/post/correlation-function/</guid>
       <description>Correlations and the Impact on Sums and Differences I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.</description>
     </item>
     

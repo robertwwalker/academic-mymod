@@ -2,32 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>animation on Robert W. Walker</title>
-    <link>/categories/animation/</link>
+    <link>https://www.rww.science/categories/animation/</link>
     <description>Recent content in animation on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Mon, 16 Dec 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/animation/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.rww.science/categories/animation/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>tidyTuesday Measles</title>
-      <link>/post/tidytuesday-measles/</link>
+      <link>https://www.rww.science/post/tidytuesday-measles/</link>
       <pubDate>Mon, 16 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytuesday-measles/</guid>
+      <guid>https://www.rww.science/post/tidytuesday-measles/</guid>
       <description>tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github. I will also use fiftystater and ggflags.
 devtools::install_github(&amp;quot;thebioengineer/tidytuesdayR&amp;quot;) devtools::install_github(&amp;quot;ellisp/ggflags&amp;quot;) devtools::install_github(&amp;quot;wmurphyrd/fiftystater&amp;quot;) tuesdata &amp;lt;- tidytuesdayR::tt_load(2019, week = 50) ## --- Downloading #TidyTuesday Information for 2019-12-10 ---- ## --- Identified 4 files available for download ---- ## --- Downloading files --- ## Warning in identify_delim(temp_file): Not able to detect delimiter for the file.</description>
     </item>
     
     <item>
       <title>Philadelphia Parking Tickets: a tidyTuesday</title>
-      <link>/post/philadelphia-parking-tickets-a-tidytuesday/</link>
+      <link>https://www.rww.science/post/philadelphia-parking-tickets-a-tidytuesday/</link>
       <pubDate>Mon, 09 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/philadelphia-parking-tickets-a-tidytuesday/</guid>
+      <guid>https://www.rww.science/post/philadelphia-parking-tickets-a-tidytuesday/</guid>
       <description>Philadelphia Map Use ggmap for the base layer.
 library(ggmap); library(osmdata); library(tidyverse) PHI &amp;lt;- get_map(getbb(&amp;quot;Philadelphia, PA&amp;quot;), maptype = &amp;quot;stamen&amp;quot;, zoom=12)  Get the Tickets Data TidyTuesday covers 1.26 million parking tickets in Philadelphia.
 tickets &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-03/tickets.csv&amp;quot;) ## Parsed with column specification: ## cols( ## violation_desc = col_character(), ## issue_datetime = col_datetime(format = &amp;quot;&amp;quot;), ## fine = col_double(), ## issuing_agency = col_character(), ## lat = col_double(), ## lon = col_double(), ## zip_code = col_double() ## )  Two Lines of Code Left library(lubridate); library(ggthemes) tickets &amp;lt;- tickets %&amp;gt;% mutate(Day = wday(issue_datetime, label=TRUE)) # use lubridate to extract the day of the month.</description>
@@ -35,20 +35,20 @@ tickets &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rf
     
     <item>
       <title>US Census Mapping</title>
-      <link>/post/uscensus-mapping/</link>
+      <link>https://www.rww.science/post/uscensus-mapping/</link>
       <pubDate>Mon, 09 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/uscensus-mapping/</guid>
+      <guid>https://www.rww.science/post/uscensus-mapping/</guid>
       <description>Searching and Mapping the Census  Searching for the Asian Population via the Census To use tidycensus, there are limitations imposed by the available tables. There is ACS – a survey of about 3 million people – and the two main decennial census files [SF1] and [SF2]. I will search SF1 for the Asian population.
 library(tidycensus); library(kableExtra) library(tidyverse); library(stringr) v10 &amp;lt;- load_variables(2010, &amp;quot;sf1&amp;quot;, cache = TRUE) v10 %&amp;gt;% filter(str_detect(concept, &amp;quot;ASIAN&amp;quot;)) %&amp;gt;% filter(str_detect(label, &amp;quot;Female&amp;quot;)) %&amp;gt;% kable() %&amp;gt;% scroll_box(width = &amp;quot;100%&amp;quot;)    name  label  concept      P012D026  Total!</description>
     </item>
     
     <item>
       <title>Fariss Human Rights Data with Animation</title>
-      <link>/post/fariss-human-rights-data-with-animation/</link>
+      <link>https://www.rww.science/post/fariss-human-rights-data-with-animation/</link>
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/fariss-human-rights-data-with-animation/</guid>
+      <guid>https://www.rww.science/post/fariss-human-rights-data-with-animation/</guid>
       <description>Fariss Data Is neat and complete.
 load(here(&amp;quot;data&amp;quot;,&amp;quot;FarissHRData.RData&amp;quot;)) skimr::skim(HR.Data)  Table 1: Data summary  Name HR.Data  Number of rows 11717  Number of columns 27  _______________________   Column type frequency:   factor 1  numeric 26  ________________________   Group variables None    Variable type: factor
   skim_variable n_missing complete_rate ordered n_unique top_counts    COW_YEAR 0 1 FALSE 11717 100: 1, 100: 1, 100: 1, 100: 1    Variable type: numeric</description>
@@ -56,20 +56,20 @@ load(here(&amp;quot;data&amp;quot;,&amp;quot;FarissHRData.RData&amp;quot;)) skim
     
     <item>
       <title>nflscrapR is amazing</title>
-      <link>/post/nflscrapr-is-amazing/</link>
+      <link>https://www.rww.science/post/nflscrapr-is-amazing/</link>
       <pubDate>Tue, 30 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/nflscrapr-is-amazing/</guid>
+      <guid>https://www.rww.science/post/nflscrapr-is-amazing/</guid>
       <description>Scraping NFL data Note: An original version of this post had issues induced by overtime games. There is a better way to handle all of this that I learned from a brief analysis of a tie game between Cleveland and Pittsburgh in Week One.
 The nflscrapR package is designed to make data on NFL games more easily available. To install the package, we need to grab it from github.</description>
     </item>
     
     <item>
       <title>Visualisation with Archigos: Leaders of the World</title>
-      <link>/post/visualisation-with-archigos-leaders-of-the-world/</link>
+      <link>https://www.rww.science/post/visualisation-with-archigos-leaders-of-the-world/</link>
       <pubDate>Sun, 14 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/visualisation-with-archigos-leaders-of-the-world/</guid>
+      <guid>https://www.rww.science/post/visualisation-with-archigos-leaders-of-the-world/</guid>
       <description>Archigos Is an amazing collaboration that produced a comprehensive dataset of world leaders going pretty far back; see Archigos on the web. For thinking about leadership, it is quite natural. In this post, I want to do some reshaping into country year and leader year datasets and explore the basic confines of Archigos. I also want to use gganimate for a few things. So what do we know?
 library(lubridate) library(tidyverse) library(ggthemes) library(stringr) library(gganimate) library(emoGG) library(emojifont) library(haven) Archigos &amp;lt;- read_dta(url(&amp;quot;http://www.</description>
     </item>

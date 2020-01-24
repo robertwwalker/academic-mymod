@@ -61,10 +61,11 @@ head(mueller_report)</code></pre>
 library(RCurl)
 library(tokenizers)
 library(cleanNLP)
+# cnlp_download_spacy(&quot;en&quot;)
 MRep &lt;- paste(as.character(mueller_ml2$text), &quot; &quot;)
-# cnlp_init_udpipe()
+# cnlp_init_stringi()
 # starttime &lt;- Sys.time()
-# udpipe_annotate &lt;- MRep %&gt;% as.character() %&gt;% cnlp_annotate(., verbose=FALSE) 
+# stringi_annotate &lt;- MRep %&gt;% as.character() %&gt;% cnlp_annotate(., verbose=FALSE) 
 # endtime &lt;- Sys.time()</code></pre>
 <p>I wanted to find the bigrams while removing stop words. Apparently, the easiest way to do this is <code>quanteda</code>. I got this from <a href="https://stackoverflow.com/questions/34282370/form-bigrams-without-stopwords-in-r">stack overflow</a></p>
 <pre class="r"><code>library(widgetframe)</code></pre>

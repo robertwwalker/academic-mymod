@@ -66,10 +66,11 @@ library(tidyverse)
 library(RCurl)
 library(tokenizers)
 library(cleanNLP)
+# cnlp_download_spacy("en")
 MRep <- paste(as.character(mueller_ml2$text), " ")
-# cnlp_init_udpipe()
+# cnlp_init_stringi()
 # starttime <- Sys.time()
-# udpipe_annotate <- MRep %>% as.character() %>% cnlp_annotate(., verbose=FALSE) 
+# stringi_annotate <- MRep %>% as.character() %>% cnlp_annotate(., verbose=FALSE) 
 # endtime <- Sys.time()
 ```
 

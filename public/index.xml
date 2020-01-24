@@ -1,7 +1,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Robert W. Walker on Robert W. Walker</title>
-    <link>/</link>
+    <link>https://www.rww.science/</link>
     <description>Recent content in Robert W. Walker on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -11,55 +11,55 @@
     
     <item>
       <title>R Code</title>
-      <link>/r/</link>
+      <link>https://www.rww.science/r/</link>
       <pubDate>Tue, 01 Oct 2019 00:00:00 -0700</pubDate>
       
-      <guid>/r/</guid>
+      <guid>https://www.rww.science/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Courses</title>
-      <link>/courses/</link>
+      <link>https://www.rww.science/courses/</link>
       <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/courses/</guid>
+      <guid>https://www.rww.science/courses/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Posts</title>
-      <link>/post/</link>
+      <link>https://www.rww.science/post/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 -0800</pubDate>
       
-      <guid>/post/</guid>
+      <guid>https://www.rww.science/post/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Publications</title>
-      <link>/publication/</link>
+      <link>https://www.rww.science/publication/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>/publication/</guid>
+      <guid>https://www.rww.science/publication/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Recent &amp; Upcoming Talks</title>
-      <link>/talk/</link>
+      <link>https://www.rww.science/talk/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>/talk/</guid>
+      <guid>https://www.rww.science/talk/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Projects</title>
-      <link>/project/</link>
+      <link>https://www.rww.science/project/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/project/</guid>
+      <guid>https://www.rww.science/project/</guid>
       <description></description>
     </item>
     

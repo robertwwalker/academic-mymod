@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R art on Robert W. Walker</title>
-    <link>/categories/r-art/</link>
+    <link>https://www.rww.science/categories/r-art/</link>
     <description>Recent content in R art on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Thu, 10 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/r-art/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.rww.science/categories/r-art/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Generative aRt</title>
-      <link>/post/generative-art/</link>
+      <link>https://www.rww.science/post/generative-art/</link>
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/generative-art/</guid>
+      <guid>https://www.rww.science/post/generative-art/</guid>
       <description>mathart A cool package for math generated art that I just discovered. Here is the install code for it
 install.packages(c(&amp;quot;devtools&amp;quot;, &amp;quot;mapproj&amp;quot;, &amp;quot;tidyverse&amp;quot;, &amp;quot;ggforce&amp;quot;, &amp;quot;Rcpp&amp;quot;)) devtools::install_github(&amp;quot;marcusvolz/mathart&amp;quot;) devtools::install_github(&amp;quot;marcusvolz/ggart&amp;quot;) devtools::install_github(&amp;quot;gsimchoni/kandinsky&amp;quot;) Load some libraries library(mathart) library(ggart) library(ggforce) library(Rcpp) library(tidyverse)  Generate some Art? This is quite fun to do.
 set.seed(12341) terminals &amp;lt;- data.frame(x = runif(10, 0, 10000), y = runif(10, 0, 10000)) df &amp;lt;- 1:10000 %&amp;gt;% map_df(~weiszfeld(terminals, c(points$x[.], points$y[.])), .id = &amp;quot;id&amp;quot;) p &amp;lt;- ggplot() + geom_point(aes(x, y), points, size = 1, alpha = 0.</description>

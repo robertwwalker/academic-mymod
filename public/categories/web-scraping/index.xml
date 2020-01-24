@@ -2,32 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>web scraping on Robert W. Walker</title>
-    <link>/categories/web-scraping/</link>
+    <link>https://www.rww.science/categories/web-scraping/</link>
     <description>Recent content in web scraping on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Sat, 18 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/web-scraping/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.rww.science/categories/web-scraping/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>a quick tidyTuesday on Passwords</title>
-      <link>/post/a-quick-tidytuesday-on-passwords/</link>
+      <link>https://www.rww.science/post/a-quick-tidytuesday-on-passwords/</link>
       <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/a-quick-tidytuesday-on-passwords/</guid>
+      <guid>https://www.rww.science/post/a-quick-tidytuesday-on-passwords/</guid>
       <description>First, I wanted to acquire the distribution of letters and then play with that. I embedded the result here. The second step is to import the tidyTuesday data.
 library(tidyverse) Letter.Freq &amp;lt;- data.frame(stringsAsFactors=FALSE, Letter = c(&amp;quot;E&amp;quot;, &amp;quot;T&amp;quot;, &amp;quot;A&amp;quot;, &amp;quot;O&amp;quot;, &amp;quot;I&amp;quot;, &amp;quot;N&amp;quot;, &amp;quot;S&amp;quot;, &amp;quot;R&amp;quot;, &amp;quot;H&amp;quot;, &amp;quot;D&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;U&amp;quot;, &amp;quot;C&amp;quot;, &amp;quot;M&amp;quot;, &amp;quot;F&amp;quot;, &amp;quot;Y&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;G&amp;quot;, &amp;quot;P&amp;quot;, &amp;quot;B&amp;quot;, &amp;quot;V&amp;quot;, &amp;quot;K&amp;quot;, &amp;quot;X&amp;quot;, &amp;quot;Q&amp;quot;, &amp;quot;J&amp;quot;, &amp;quot;Z&amp;quot;), Frequency = c(12.02, 9.1, 8.12, 7.68, 7.31, 6.95, 6.28, 6.</description>
     </item>
     
     <item>
       <title>Scraping EPL Salary Data</title>
-      <link>/post/scraping-epl-salary-data/</link>
+      <link>https://www.rww.science/post/scraping-epl-salary-data/</link>
       <pubDate>Sun, 08 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/scraping-epl-salary-data/</guid>
+      <guid>https://www.rww.science/post/scraping-epl-salary-data/</guid>
       <description>EPL Scraping In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.
 library(rvest) library(tidyverse) base_url &amp;lt;- &amp;quot;http://www.spotrac.com/epl/&amp;quot; read.base &amp;lt;- read_html(base_url) team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;) team.</description>
     </item>

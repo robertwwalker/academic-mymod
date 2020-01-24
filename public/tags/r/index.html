@@ -18,7 +18,7 @@
   <meta name="description" content="Associate Professor of Quantitative Methods">
 
   
-  <link rel="alternate" hreflang="en-us" href="/tags/r/">
+  <link rel="alternate" hreflang="en-us" href="https://www.rww.science/tags/r/">
 
   
 
@@ -58,15 +58,15 @@
   
 
   
-  <link rel="alternate" href="/tags/r/index.xml" type="application/rss+xml" title="Robert W. Walker">
-  <link rel="feed" href="/tags/r/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="alternate" href="https://www.rww.science/tags/r/index.xml" type="application/rss+xml" title="Robert W. Walker">
+  <link rel="feed" href="https://www.rww.science/tags/r/index.xml" type="application/rss+xml" title="Robert W. Walker">
   
 
   <link rel="manifest" href="/site.webmanifest">
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/tags/r/">
+  <link rel="canonical" href="https://www.rww.science/tags/r/">
 
   <meta property="twitter:card" content="summary_large_image">
   
@@ -74,7 +74,7 @@
   <meta property="twitter:creator" content="@PieRatio">
   
   <meta property="og:site_name" content="Robert W. Walker">
-  <meta property="og:url" content="/tags/r/">
+  <meta property="og:url" content="https://www.rww.science/tags/r/">
   <meta property="og:title" content="R | Robert W. Walker">
   <meta property="og:description" content="Associate Professor of Quantitative Methods">
   <meta property="og:locale" content="en-us">
@@ -285,7 +285,7 @@
   
   
   <div>
-    <h2><a href="/post/a-quick-tidytuesday-on-passwords/">a quick tidyTuesday on Passwords</a></h2>
+    <h2><a href="https://www.rww.science/post/a-quick-tidytuesday-on-passwords/">a quick tidyTuesday on Passwords</a></h2>
     <div class="article-style">
       
       First, I wanted to acquire the distribution of letters and then play with that. I embedded the result here. The second step is to import the tidyTuesday data.
@@ -295,7 +295,7 @@ library(tidyverse) Letter.Freq &lt;- data.frame(stringsAsFactors=FALSE, Letter =
   </div>
   
   <div>
-    <h2><a href="/post/dog-movements-a-tidytuesday/">Dog Movements: a tidyTuesday</a></h2>
+    <h2><a href="https://www.rww.science/post/dog-movements-a-tidytuesday/">Dog Movements: a tidyTuesday</a></h2>
     <div class="article-style">
       
       Adoptable Dogs # devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;, force=TRUE) tuesdata51 &lt;- tidytuesdayR::tt_load(2019, week = 51) dog_moves &lt;- tuesdata51$dog_moves dog_des &lt;- readr::read_csv(&#39;<a href="https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-17/dog_descriptions.csv&amp;#39;" target="_blank">https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-17/dog_descriptions.csv&amp;#39;</a>) library(tidyverse); library(scatterpie) library(rgeos) library(maptools) library(rgdal); library(usmap); library(ggthemes)  The Base Map My.Map &lt;- us_map(regions = &quot;states&quot;) Base.Plot &lt;- ggplot() + geom_polygon(data=My.Map, aes(x=x, y=y, group=group), fill=&quot;white&quot;, color=&quot;black&quot;) + theme_map() Base.Plot A fifty state map to plot this information on.
@@ -305,7 +305,7 @@ New.Dat &lt;- left_join(My.Map, dog_moves, by= c(&quot;full&quot; = &quot;locati
   </div>
   
   <div>
-    <h2><a href="/post/tidytuesday-measles/">tidyTuesday Measles</a></h2>
+    <h2><a href="https://www.rww.science/post/tidytuesday-measles/">tidyTuesday Measles</a></h2>
     <div class="article-style">
       
       tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github. I will also use fiftystater and ggflags.
@@ -315,7 +315,7 @@ devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;) devtools::inst
   </div>
   
   <div>
-    <h2><a href="/post/trying-out-leaflet/">Trying out Leaflet</a></h2>
+    <h2><a href="https://www.rww.science/post/trying-out-leaflet/">Trying out Leaflet</a></h2>
     <div class="article-style">
       
       International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
@@ -325,7 +325,7 @@ library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) l
   </div>
   
   <div>
-    <h2><a href="/post/philadelphia-parking-tickets-a-tidytuesday/">Philadelphia Parking Tickets: a tidyTuesday</a></h2>
+    <h2><a href="https://www.rww.science/post/philadelphia-parking-tickets-a-tidytuesday/">Philadelphia Parking Tickets: a tidyTuesday</a></h2>
     <div class="article-style">
       
       Philadelphia Map Use ggmap for the base layer.
@@ -336,7 +336,7 @@ tickets &lt;- readr::read_csv(&quot;<a href="https://raw.githubusercontent.com/r
   </div>
   
   <div>
-    <h2><a href="/post/uscensus-mapping/">US Census Mapping</a></h2>
+    <h2><a href="https://www.rww.science/post/uscensus-mapping/">US Census Mapping</a></h2>
     <div class="article-style">
       
       Searching and Mapping the Census  Searching for the Asian Population via the Census To use tidycensus, there are limitations imposed by the available tables. There is ACS – a survey of about 3 million people – and the two main decennial census files [SF1] and [SF2]. I will search SF1 for the Asian population.
@@ -346,7 +346,7 @@ library(tidycensus); library(kableExtra) library(tidyverse); library(stringr) v1
   </div>
   
   <div>
-    <h2><a href="/post/fariss-human-rights-data-with-animation/">Fariss Human Rights Data with Animation</a></h2>
+    <h2><a href="https://www.rww.science/post/fariss-human-rights-data-with-animation/">Fariss Human Rights Data with Animation</a></h2>
     <div class="article-style">
       
       Fariss Data Is neat and complete.
@@ -357,7 +357,7 @@ load(here(&quot;data&quot;,&quot;FarissHRData.RData&quot;)) skimr::skim(HR.Data)
   </div>
   
   <div>
-    <h2><a href="/post/generative-art/">Generative aRt</a></h2>
+    <h2><a href="https://www.rww.science/post/generative-art/">Generative aRt</a></h2>
     <div class="article-style">
       
       mathart A cool package for math generated art that I just discovered. Here is the install code for it
@@ -368,17 +368,17 @@ set.seed(12341) terminals &lt;- data.frame(x = runif(10, 0, 10000), y = runif(10
   </div>
   
   <div>
-    <h2><a href="/post/simple-oregon-county-mapping/">Simple Oregon County Mapping</a></h2>
+    <h2><a href="https://www.rww.science/post/simple-oregon-county-mapping/">Simple Oregon County Mapping</a></h2>
     <div class="article-style">
       
       Some Data for the Map I want to get some data to place on the map. I found a website with population and population change data for Oregon in .csv format. I cannot direct download it from R, instead I have to button download it and import it.
-library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.
+library(tidyverse) ## ── Attaching packages ───────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.
       
     </div>
   </div>
   
   <div>
-    <h2><a href="/post/the-economist-s-visualization-errors/">The Economist&#39;s Visualization Errors</a></h2>
+    <h2><a href="https://www.rww.science/post/the-economist-s-visualization-errors/">The Economist&#39;s Visualization Errors</a></h2>
     <div class="article-style">
       
       The Economist’s Errors and Credit Where Credit is Due The Economist is serious about their use of data visualization and they have occasionally owned up to errors in their visualizations. They can be deceptive, uninformative, confusing, excessively busy, and present a host of other barriers to clean communication. Their blog post on their errors is great.

@@ -2,90 +2,90 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R Markdown on Robert W. Walker</title>
-    <link>/tags/r-markdown/</link>
+    <link>https://www.rww.science/tags/r-markdown/</link>
     <description>Recent content in R Markdown on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Tue, 17 Dec 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/r-markdown/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.rww.science/tags/r-markdown/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Dog Movements: a tidyTuesday</title>
-      <link>/post/dog-movements-a-tidytuesday/</link>
+      <link>https://www.rww.science/post/dog-movements-a-tidytuesday/</link>
       <pubDate>Tue, 17 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/dog-movements-a-tidytuesday/</guid>
+      <guid>https://www.rww.science/post/dog-movements-a-tidytuesday/</guid>
       <description>Adoptable Dogs # devtools::install_github(&amp;quot;thebioengineer/tidytuesdayR&amp;quot;, force=TRUE) tuesdata51 &amp;lt;- tidytuesdayR::tt_load(2019, week = 51) dog_moves &amp;lt;- tuesdata51$dog_moves dog_des &amp;lt;- readr::read_csv(&amp;#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-17/dog_descriptions.csv&amp;#39;) library(tidyverse); library(scatterpie) library(rgeos) library(maptools) library(rgdal); library(usmap); library(ggthemes)  The Base Map My.Map &amp;lt;- us_map(regions = &amp;quot;states&amp;quot;) Base.Plot &amp;lt;- ggplot() + geom_polygon(data=My.Map, aes(x=x, y=y, group=group), fill=&amp;quot;white&amp;quot;, color=&amp;quot;black&amp;quot;) + theme_map() Base.Plot A fifty state map to plot this information on.
 New.Dat &amp;lt;- left_join(My.Map, dog_moves, by= c(&amp;quot;full&amp;quot; = &amp;quot;location&amp;quot;)) ggplot() + geom_polygon(data=New.</description>
     </item>
     
     <item>
       <title>Trying out Leaflet</title>
-      <link>/post/trying-out-leaflet/</link>
+      <link>https://www.rww.science/post/trying-out-leaflet/</link>
       <pubDate>Mon, 16 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/trying-out-leaflet/</guid>
+      <guid>https://www.rww.science/post/trying-out-leaflet/</guid>
       <description>International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
 library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &amp;lt;- tt_load(2019, week = 50) murders &amp;lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier. Now for some data. As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame.</description>
     </item>
     
     <item>
       <title>Tables, Pivots, Bars, and Mosaics</title>
-      <link>/r/tables-pivots-bars-and-mosaics/</link>
+      <link>https://www.rww.science/r/tables-pivots-bars-and-mosaics/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/r/tables-pivots-bars-and-mosaics/</guid>
+      <guid>https://www.rww.science/r/tables-pivots-bars-and-mosaics/</guid>
       <description>R Markdown There is detailed help for all that Markdown can do under Help in the RStudio. The key to it is knitting documents with the Knit button in the RStudio. If we use helpers like the R Commander, Radiant, or esquisse, we will need the R code implanted in the Markdown document in particular ways. I will use Markdown for everything. I even use a close relation of Markdown in my scholarly pursuits.</description>
     </item>
     
     <item>
       <title>The Economist&#39;s Visualization Errors</title>
-      <link>/post/the-economist-s-visualization-errors/</link>
+      <link>https://www.rww.science/post/the-economist-s-visualization-errors/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/the-economist-s-visualization-errors/</guid>
+      <guid>https://www.rww.science/post/the-economist-s-visualization-errors/</guid>
       <description>The Economist’s Errors and Credit Where Credit is Due The Economist is serious about their use of data visualization and they have occasionally owned up to errors in their visualizations. They can be deceptive, uninformative, confusing, excessively busy, and present a host of other barriers to clean communication. Their blog post on their errors is great.
 I have drawn the following example from a #tidyTuesday earlier this year that explores this.</description>
     </item>
     
     <item>
       <title>nflscrapR is amazing</title>
-      <link>/post/nflscrapr-is-amazing/</link>
+      <link>https://www.rww.science/post/nflscrapr-is-amazing/</link>
       <pubDate>Tue, 30 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/nflscrapr-is-amazing/</guid>
+      <guid>https://www.rww.science/post/nflscrapr-is-amazing/</guid>
       <description>Scraping NFL data Note: An original version of this post had issues induced by overtime games. There is a better way to handle all of this that I learned from a brief analysis of a tie game between Cleveland and Pittsburgh in Week One.
 The nflscrapR package is designed to make data on NFL games more easily available. To install the package, we need to grab it from github.</description>
     </item>
     
     <item>
       <title>Visualisation with Archigos: Leaders of the World</title>
-      <link>/post/visualisation-with-archigos-leaders-of-the-world/</link>
+      <link>https://www.rww.science/post/visualisation-with-archigos-leaders-of-the-world/</link>
       <pubDate>Sun, 14 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/visualisation-with-archigos-leaders-of-the-world/</guid>
+      <guid>https://www.rww.science/post/visualisation-with-archigos-leaders-of-the-world/</guid>
       <description>Archigos Is an amazing collaboration that produced a comprehensive dataset of world leaders going pretty far back; see Archigos on the web. For thinking about leadership, it is quite natural. In this post, I want to do some reshaping into country year and leader year datasets and explore the basic confines of Archigos. I also want to use gganimate for a few things. So what do we know?
 library(lubridate) library(tidyverse) library(ggthemes) library(stringr) library(gganimate) library(emoGG) library(emojifont) library(haven) Archigos &amp;lt;- read_dta(url(&amp;quot;http://www.</description>
     </item>
     
     <item>
       <title>fredr is very neat</title>
-      <link>/post/fredr-is-very-neat/</link>
+      <link>https://www.rww.science/post/fredr-is-very-neat/</link>
       <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/fredr-is-very-neat/</guid>
+      <guid>https://www.rww.science/post/fredr-is-very-neat/</guid>
       <description>FRED via fredr The Federal Reserve Economic Database [FRED] is a wonderful public resource for data and the r api that connects to it is very easy to use for the things that I have previously needed. For example, one of my students was interested in commercial credit default data. I used the FRED search instructions from the following vignette to find that data. My first step was the vignette for using fredr.</description>
     </item>
     
     <item>
       <title>Trump&#39;s Tweets, Part II</title>
-      <link>/post/trump-s-tweets-part-ii/</link>
+      <link>https://www.rww.science/post/trump-s-tweets-part-ii/</link>
       <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/trump-s-tweets-part-ii/</guid>
+      <guid>https://www.rww.science/post/trump-s-tweets-part-ii/</guid>
       <description>Trump’s Tone A cool post on sentiment analysis can be found here. I will now get at the time series characteristics of his tweets and the sentiment stuff.
 I start by loading the tmls object that I created in the previous post.
 Trump’s Overall Tweeting What does it look like?
@@ -94,47 +94,47 @@ library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuz
     
     <item>
       <title>Trump Tweet Word Clouds</title>
-      <link>/post/trump-tweet-word-clouds/</link>
+      <link>https://www.rww.science/post/trump-tweet-word-clouds/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/trump-tweet-word-clouds/</guid>
+      <guid>https://www.rww.science/post/trump-tweet-word-clouds/</guid>
       <description>Mining Twitter Data Is rather easy. You have to arrange a developer account with Twitter and set up an app. After that, Twitter gives you access to a consumer key and secret and an access token and access secret. My tool of choice for this is rtweet because it automagically processes tweet elements and makes them easy to slice and dice. I also played with twitteR but it was harder to work with for what I wanted.</description>
     </item>
     
     <item>
       <title>Scraping EPL Salary Data</title>
-      <link>/post/scraping-epl-salary-data/</link>
+      <link>https://www.rww.science/post/scraping-epl-salary-data/</link>
       <pubDate>Sun, 08 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/scraping-epl-salary-data/</guid>
+      <guid>https://www.rww.science/post/scraping-epl-salary-data/</guid>
       <description>EPL Scraping In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.
 library(rvest) library(tidyverse) base_url &amp;lt;- &amp;quot;http://www.spotrac.com/epl/&amp;quot; read.base &amp;lt;- read_html(base_url) team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;) team.</description>
     </item>
     
     <item>
       <title>Black Boxes: A Gender Gap Example</title>
-      <link>/post/black-boxes-a-gender-gap-example/</link>
+      <link>https://www.rww.science/post/black-boxes-a-gender-gap-example/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/black-boxes-a-gender-gap-example/</guid>
+      <guid>https://www.rww.science/post/black-boxes-a-gender-gap-example/</guid>
       <description>Variance in the Outcome: The Black Box Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained.</description>
     </item>
     
     <item>
       <title>Correlation Function</title>
-      <link>/post/correlation-function/</link>
+      <link>https://www.rww.science/post/correlation-function/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/correlation-function/</guid>
+      <guid>https://www.rww.science/post/correlation-function/</guid>
       <description>Correlations and the Impact on Sums and Differences I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.</description>
     </item>
     
     <item>
       <title>tidytext is neat! White House Communications</title>
-      <link>/post/tidytext-is-neat/</link>
+      <link>https://www.rww.science/post/tidytext-is-neat/</link>
       <pubDate>Wed, 21 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytext-is-neat/</guid>
+      <guid>https://www.rww.science/post/tidytext-is-neat/</guid>
       <description>Presidential Press The language of presidential communications is interesting and I know very little about text as data. I have a number of applications in mind for these tools but I have to learn how to use them. What does the website look like?
 White House News
 The site is split in four parts: all news, articles, presidential actions, and briefings and statements. The first one is a catch all and the second is news links.</description>

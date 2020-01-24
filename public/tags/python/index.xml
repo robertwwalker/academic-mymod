@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>python on Robert W. Walker</title>
-    <link>/tags/python/</link>
+    <link>https://www.rww.science/tags/python/</link>
     <description>Recent content in python on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Wed, 04 Apr 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.rww.science/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Scraping the NFL Salary Cap Data with Python and R</title>
-      <link>/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
+      <link>https://www.rww.science/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
+      <guid>https://www.rww.science/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
       <description>The NFL Data [SporTrac](http://www.sportrac.com] has a wonderful array of financial data on sports. A student going to work for the Seattle Seahawks wanted the NFL salary cap data and I also found data on the English Premier League there. Now I have a source to scrape the data from.
 With a source in hand, the key tool is the SelectorGadget. SelectorGadget is a browser add-in for Chrome that allows us to select text and identify the css or xpath selector to scrape the data.</description>
     </item>

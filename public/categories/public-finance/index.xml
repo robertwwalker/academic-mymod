@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Public Finance on Robert W. Walker</title>
-    <link>/categories/public-finance/</link>
+    <link>https://www.rww.science/categories/public-finance/</link>
     <description>Recent content in Public Finance on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Wed, 07 Mar 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/public-finance/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.rww.science/categories/public-finance/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Pew Data on Bond Ratings and Rainy Day Funds</title>
-      <link>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
+      <link>https://www.rww.science/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
+      <guid>https://www.rww.science/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
       <description>Pew on Rainy Day Funds and Credit Quality The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund.</description>
     </item>
     
     <item>
       <title>Mapping with the Government Finance Database</title>
-      <link>/post/mapping-with-the-government-finance-database/</link>
+      <link>https://www.rww.science/post/mapping-with-the-government-finance-database/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/mapping-with-the-government-finance-database/</guid>
+      <guid>https://www.rww.science/post/mapping-with-the-government-finance-database/</guid>
       <description>The Government Finance Database Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the Government Finance data available from the Census. They published an article in PLoS One with the rationale; I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states.</description>
     </item>
     

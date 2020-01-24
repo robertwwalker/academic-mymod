@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Maps on Robert W. Walker</title>
-    <link>/categories/maps/</link>
+    <link>https://www.rww.science/categories/maps/</link>
     <description>Recent content in Maps on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Thu, 19 Dec 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/maps/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.rww.science/categories/maps/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Simple Point Maps in R</title>
-      <link>/post/simple-point-maps-in-r/</link>
+      <link>https://www.rww.science/post/simple-point-maps-in-r/</link>
       <pubDate>Thu, 19 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/simple-point-maps-in-r/</guid>
+      <guid>https://www.rww.science/post/simple-point-maps-in-r/</guid>
       <description>Mapping Points in R My goal is a streamlined and self-contained freeware map maker with points denoting addresses. It is a three step process that involves:
 Get a map.
  Geocode the addresses into latitude and longitude.
@@ -26,50 +26,50 @@ Get a map.
     
     <item>
       <title>Simple Oregon County Mapping</title>
-      <link>/post/simple-oregon-county-mapping/</link>
+      <link>https://www.rww.science/post/simple-oregon-county-mapping/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/simple-oregon-county-mapping/</guid>
+      <guid>https://www.rww.science/post/simple-oregon-county-mapping/</guid>
       <description>Some Data for the Map I want to get some data to place on the map. I found a website with population and population change data for Oregon in .csv format. I cannot direct download it from R, instead I have to button download it and import it.
-library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.</description>
+library(tidyverse) ## ── Attaching packages ───────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.1.3 ✓ dplyr 0.</description>
     </item>
     
     <item>
       <title>tidyTuesday does Pizza</title>
-      <link>/post/tidytuesday-does-pizza/</link>
+      <link>https://www.rww.science/post/tidytuesday-does-pizza/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytuesday-does-pizza/</guid>
+      <guid>https://www.rww.science/post/tidytuesday-does-pizza/</guid>
       <description>Pizza Ratings The #tidyTuesday for this week involves pizza shop ratings data. Let’s see what we have.
 pizza_jared &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_jared.csv&amp;quot;) ## Parsed with column specification: ## cols( ## polla_qid = col_double(), ## answer = col_character(), ## votes = col_double(), ## pollq_id = col_double(), ## question = col_character(), ## place = col_character(), ## time = col_double(), ## total_votes = col_double(), ## percent = col_double() ## ) pizza_barstool &amp;lt;- readr::read_csv(&amp;quot;https://raw.</description>
     </item>
     
     <item>
       <title>fredr is very neat</title>
-      <link>/post/fredr-is-very-neat/</link>
+      <link>https://www.rww.science/post/fredr-is-very-neat/</link>
       <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/fredr-is-very-neat/</guid>
+      <guid>https://www.rww.science/post/fredr-is-very-neat/</guid>
       <description>FRED via fredr The Federal Reserve Economic Database [FRED] is a wonderful public resource for data and the r api that connects to it is very easy to use for the things that I have previously needed. For example, one of my students was interested in commercial credit default data. I used the FRED search instructions from the following vignette to find that data. My first step was the vignette for using fredr.</description>
     </item>
     
     <item>
       <title>tidyTuesday: coffee chains</title>
-      <link>/post/tidytuesday-coffee-chains/</link>
+      <link>https://www.rww.science/post/tidytuesday-coffee-chains/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/tidytuesday-coffee-chains/</guid>
+      <guid>https://www.rww.science/post/tidytuesday-coffee-chains/</guid>
       <description>The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(readxl) library(tidyverse) ## ── Attaching packages ────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.</description>
+library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.</description>
     </item>
     
     <item>
       <title>Mapping with the Government Finance Database</title>
-      <link>/post/mapping-with-the-government-finance-database/</link>
+      <link>https://www.rww.science/post/mapping-with-the-government-finance-database/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/mapping-with-the-government-finance-database/</guid>
+      <guid>https://www.rww.science/post/mapping-with-the-government-finance-database/</guid>
       <description>The Government Finance Database Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the Government Finance data available from the Census. They published an article in PLoS One with the rationale; I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states.</description>
     </item>
     
