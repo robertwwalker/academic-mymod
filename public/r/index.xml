@@ -13,6 +13,16 @@
     
     
     <item>
+      <title>Breaking Predict for lm() with dollar.sign</title>
+      <link>/r/predictregs/</link>
+      <pubDate>Tue, 21 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/r/predictregs/</guid>
+      <description>As is often the case with \(R\), there are many ways to do things that are equivalent or nearly equivalent. It is the nearly equivalent part that is frustrating; one of the first encounters with this can come with attempts to predict a regression. The ultimate source of troubles is scoping and environments; the use of the $ syntax sometimes has unintended side effects.
+lm() Syntax is Important I will refer to an example from a recent homework on regression.</description>
+    </item>
+    
+    <item>
       <title>Financial Analysis of SEC Reports in R</title>
       <link>/r/finreportr-is-awesome/</link>
       <pubDate>Tue, 29 Oct 2019 00:00:00 +0000</pubDate>
