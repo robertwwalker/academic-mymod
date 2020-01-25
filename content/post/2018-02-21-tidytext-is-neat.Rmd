@@ -186,7 +186,7 @@ wordcloud(wc$word,  wc$n, min.freq = 1,
 
 ### Statements and Briefings
 
-```{r WCSB, message=FALSE}
+```{r WCSB, message=FALSE, warning=FALSE, results='hide'}
 library(wordcloud2)
 wc <- tidy.SB %>% count(word, sort = TRUE)
 wc$freq <- wc$n
