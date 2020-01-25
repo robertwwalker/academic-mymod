@@ -19,7 +19,7 @@ weight = 60
 In the Atkinson Graduate School of Management at Willamette University:
 
 - [GSM 5103: Data Analysis, Modelling, and Decision-Making](courses/5103DADM.html)
-- GSMPR 622: Data Analysis, Modelling, and Decision-Making
+- [GSMPR 622: Data Analysis, Modelling, and Decision-Making](courses/GSMPR622/)
 - GSM 6270: Negotiation, Bargaining, and the Economics of Strategy
 - GSM 6271: Evidence-Based Management
 
