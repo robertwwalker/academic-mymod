@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on Robert W. Walker</title>
-    <link>https://www.rww.science/categories/r/</link>
+    <link>/categories/r/</link>
     <description>Recent content in R on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Thu, 19 Dec 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.rww.science/categories/r/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Simple Point Maps in R</title>
-      <link>https://www.rww.science/post/simple-point-maps-in-r/</link>
+      <link>/post/simple-point-maps-in-r/</link>
       <pubDate>Thu, 19 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/simple-point-maps-in-r/</guid>
+      <guid>/post/simple-point-maps-in-r/</guid>
       <description>Mapping Points in R My goal is a streamlined and self-contained freeware map maker with points denoting addresses. It is a three step process that involves:
 Get a map.
  Geocode the addresses into latitude and longitude.
@@ -26,30 +26,30 @@ Get a map.
     
     <item>
       <title>tidyTuesday Measles</title>
-      <link>https://www.rww.science/post/tidytuesday-measles/</link>
+      <link>/post/tidytuesday-measles/</link>
       <pubDate>Mon, 16 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/tidytuesday-measles/</guid>
+      <guid>/post/tidytuesday-measles/</guid>
       <description>tidyTuesday: December 10, 2019 Replicating plots from simplystatistics. One nice twist is the development of a tidytuesdayR package to grab the necessary data in an easy way. You can install the package via github. I will also use fiftystater and ggflags.
 devtools::install_github(&amp;quot;thebioengineer/tidytuesdayR&amp;quot;) devtools::install_github(&amp;quot;ellisp/ggflags&amp;quot;) devtools::install_github(&amp;quot;wmurphyrd/fiftystater&amp;quot;) tuesdata &amp;lt;- tidytuesdayR::tt_load(2019, week = 50) ## --- Downloading #TidyTuesday Information for 2019-12-10 ---- ## --- Identified 4 files available for download ---- ## --- Downloading files --- ## Warning in identify_delim(temp_file): Not able to detect delimiter for the file.</description>
     </item>
     
     <item>
       <title>Trying out Leaflet</title>
-      <link>https://www.rww.science/post/trying-out-leaflet/</link>
+      <link>/post/trying-out-leaflet/</link>
       <pubDate>Mon, 16 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/trying-out-leaflet/</guid>
+      <guid>/post/trying-out-leaflet/</guid>
       <description>International Murders Are among the data for analysis in the tidyTuesday for December 10, 2019. These are made for a map.
 library(tidyverse) library(leaflet) library(stringr) library(sf) library(here) library(widgetframe) library(htmlwidgets) library(htmltools) options(digits = 3) set.seed(1234) theme_set(theme_minimal()) library(tidytuesdayR) tuesdata &amp;lt;- tt_load(2019, week = 50) murders &amp;lt;- tuesdata$gun_murders There isn’t much data so it should make this a bit easier. Now for some data. As it happens, the best way I currently know how to do this is going to involve acquiring a spatial frame.</description>
     </item>
     
     <item>
       <title>Philadelphia Parking Tickets: a tidyTuesday</title>
-      <link>https://www.rww.science/post/philadelphia-parking-tickets-a-tidytuesday/</link>
+      <link>/post/philadelphia-parking-tickets-a-tidytuesday/</link>
       <pubDate>Mon, 09 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/philadelphia-parking-tickets-a-tidytuesday/</guid>
+      <guid>/post/philadelphia-parking-tickets-a-tidytuesday/</guid>
       <description>Philadelphia Map Use ggmap for the base layer.
 library(ggmap); library(osmdata); library(tidyverse) PHI &amp;lt;- get_map(getbb(&amp;quot;Philadelphia, PA&amp;quot;), maptype = &amp;quot;stamen&amp;quot;, zoom=12)  Get the Tickets Data TidyTuesday covers 1.26 million parking tickets in Philadelphia.
 tickets &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-03/tickets.csv&amp;quot;) ## Parsed with column specification: ## cols( ## violation_desc = col_character(), ## issue_datetime = col_datetime(format = &amp;quot;&amp;quot;), ## fine = col_double(), ## issuing_agency = col_character(), ## lat = col_double(), ## lon = col_double(), ## zip_code = col_double() ## )  Two Lines of Code Left library(lubridate); library(ggthemes) tickets &amp;lt;- tickets %&amp;gt;% mutate(Day = wday(issue_datetime, label=TRUE)) # use lubridate to extract the day of the month.</description>
@@ -57,29 +57,29 @@ tickets &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rf
     
     <item>
       <title>US Census Mapping</title>
-      <link>https://www.rww.science/post/uscensus-mapping/</link>
+      <link>/post/uscensus-mapping/</link>
       <pubDate>Mon, 09 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/uscensus-mapping/</guid>
+      <guid>/post/uscensus-mapping/</guid>
       <description>Searching and Mapping the Census  Searching for the Asian Population via the Census To use tidycensus, there are limitations imposed by the available tables. There is ACS – a survey of about 3 million people – and the two main decennial census files [SF1] and [SF2]. I will search SF1 for the Asian population.
 library(tidycensus); library(kableExtra) library(tidyverse); library(stringr) v10 &amp;lt;- load_variables(2010, &amp;quot;sf1&amp;quot;, cache = TRUE) v10 %&amp;gt;% filter(str_detect(concept, &amp;quot;ASIAN&amp;quot;)) %&amp;gt;% filter(str_detect(label, &amp;quot;Female&amp;quot;)) %&amp;gt;% kable() %&amp;gt;% scroll_box(width = &amp;quot;100%&amp;quot;)    name  label  concept      P012D026  Total!</description>
     </item>
     
     <item>
       <title>The Generation Squeeze</title>
-      <link>https://www.rww.science/post/the-generation-squeeze/</link>
+      <link>/post/the-generation-squeeze/</link>
       <pubDate>Sat, 16 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/the-generation-squeeze/</guid>
+      <guid>/post/the-generation-squeeze/</guid>
       <description>Hashtag OKBoomer The generational banter that has followed the use of #OKBoomer reminded me of an interesting feature of US population data. I believe it to be true that Generation X has never and will never be the largest generation of Americans. There are tons of Millenials and Baby Boomers alike, though the rate of decline in the latter means that the former are about to surpass them. Or perhaps they have.</description>
     </item>
     
     <item>
       <title>Financial Analysis of SEC Reports in R</title>
-      <link>https://www.rww.science/r/finreportr-is-awesome/</link>
+      <link>/r/finreportr-is-awesome/</link>
       <pubDate>Tue, 29 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/r/finreportr-is-awesome/</guid>
+      <guid>/r/finreportr-is-awesome/</guid>
       <description>The Package: finreport The key tool to facilitate the financial analysis of companies that file regular SEC reports of certain forms is finreportr. To make use of it, we must first have R install it and dependencies. To install it, install.packages(&amp;quot;finreportr&amp;quot;, dependencies=TRUE).
  The Commands The first command is CompanyInfo().
 library(finreportr) CompanyInfo(&amp;quot;JPM&amp;quot;) ## company CIK SIC state state.inc FY.end street.address ## 1 JPMORGAN CHASE &amp;amp; CO 0000019617 6021 NY DE 1231 383 MADISON AVENUE ## city.</description>
@@ -87,49 +87,49 @@ library(finreportr) CompanyInfo(&amp;quot;JPM&amp;quot;) ## company CIK SIC stat
     
     <item>
       <title>A Quick and Dirty Introduction to R</title>
-      <link>https://www.rww.science/r/a-quick-and-dirty-introduction-to-r/</link>
+      <link>/r/a-quick-and-dirty-introduction-to-r/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/r/a-quick-and-dirty-introduction-to-r/</guid>
+      <guid>/r/a-quick-and-dirty-introduction-to-r/</guid>
       <description>Some Data I will start with some inline data.
 library(tidyverse); library(skimr); Support.Times &amp;lt;- structure(list(Screened = c(26.9, 28.4, 23.9, 21.8, 22.4, 25.9, 26.5, 20, 23.7, 23.7, 22.6, 19.4, 27.3, 25.3, 27.7, 25.3, 28.4, 24.2, 20.4, 29.6, 27, 23.6, 18.3, 28.1, 20.5, 24.1, 27.2, 26.4, 24.5, 25.6, 17.9, 23.5, 25.3, 20.2, 26.3, 27.9), Not.Screened = c(24.7, 19.1, 21, 17.8, 22.8, 24.4, 17.9, 20.5, 20, 26.2, 14.5, 22.4, 21.1, 24.3, 22, 24.3, 23.</description>
     </item>
     
     <item>
       <title>Tables, Pivots, Bars, and Mosaics</title>
-      <link>https://www.rww.science/r/tables-pivots-bars-and-mosaics/</link>
+      <link>/r/tables-pivots-bars-and-mosaics/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/r/tables-pivots-bars-and-mosaics/</guid>
+      <guid>/r/tables-pivots-bars-and-mosaics/</guid>
       <description>R Markdown There is detailed help for all that Markdown can do under Help in the RStudio. The key to it is knitting documents with the Knit button in the RStudio. If we use helpers like the R Commander, Radiant, or esquisse, we will need the R code implanted in the Markdown document in particular ways. I will use Markdown for everything. I even use a close relation of Markdown in my scholarly pursuits.</description>
     </item>
     
     <item>
       <title>tidyTuesday does Pizza</title>
-      <link>https://www.rww.science/post/tidytuesday-does-pizza/</link>
+      <link>/post/tidytuesday-does-pizza/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/tidytuesday-does-pizza/</guid>
+      <guid>/post/tidytuesday-does-pizza/</guid>
       <description>Pizza Ratings The #tidyTuesday for this week involves pizza shop ratings data. Let’s see what we have.
 pizza_jared &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_jared.csv&amp;quot;) ## Parsed with column specification: ## cols( ## polla_qid = col_double(), ## answer = col_character(), ## votes = col_double(), ## pollq_id = col_double(), ## question = col_character(), ## place = col_character(), ## time = col_double(), ## total_votes = col_double(), ## percent = col_double() ## ) pizza_barstool &amp;lt;- readr::read_csv(&amp;quot;https://raw.</description>
     </item>
     
     <item>
       <title>nflscrapR is amazing</title>
-      <link>https://www.rww.science/post/nflscrapr-is-amazing/</link>
+      <link>/post/nflscrapr-is-amazing/</link>
       <pubDate>Tue, 30 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/nflscrapr-is-amazing/</guid>
+      <guid>/post/nflscrapr-is-amazing/</guid>
       <description>Scraping NFL data Note: An original version of this post had issues induced by overtime games. There is a better way to handle all of this that I learned from a brief analysis of a tie game between Cleveland and Pittsburgh in Week One.
 The nflscrapR package is designed to make data on NFL games more easily available. To install the package, we need to grab it from github.</description>
     </item>
     
     <item>
       <title>NFL ScrapR</title>
-      <link>https://www.rww.science/r/nflscrapr-test/</link>
+      <link>/r/nflscrapr-test/</link>
       <pubDate>Fri, 19 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/r/nflscrapr-test/</guid>
+      <guid>/r/nflscrapr-test/</guid>
       <description>Scraping NFL data with nflscrapr The nflscrapR package is designed to make data on NFL games more easily available. To install the package, we need to grab it from github.
 devtools::install_github(repo = &amp;quot;maksimhorowitz/nflscrapR&amp;quot;) The github page for nflscrapR is quite informative. It has a lot of useful insight for working with the data; the set itself is quite large.
 Getting Some Data Following the guide to the package on GitHub, let me try their example.</description>
@@ -137,39 +137,39 @@ Getting Some Data Following the guide to the package on GitHub, let me try their
     
     <item>
       <title>Visualisation with Archigos: Leaders of the World</title>
-      <link>https://www.rww.science/post/visualisation-with-archigos-leaders-of-the-world/</link>
+      <link>/post/visualisation-with-archigos-leaders-of-the-world/</link>
       <pubDate>Sun, 14 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/visualisation-with-archigos-leaders-of-the-world/</guid>
+      <guid>/post/visualisation-with-archigos-leaders-of-the-world/</guid>
       <description>Archigos Is an amazing collaboration that produced a comprehensive dataset of world leaders going pretty far back; see Archigos on the web. For thinking about leadership, it is quite natural. In this post, I want to do some reshaping into country year and leader year datasets and explore the basic confines of Archigos. I also want to use gganimate for a few things. So what do we know?
 library(lubridate) library(tidyverse) library(ggthemes) library(stringr) library(gganimate) library(emoGG) library(emojifont) library(haven) Archigos &amp;lt;- read_dta(url(&amp;quot;http://www.</description>
     </item>
     
     <item>
       <title>fredr is very neat</title>
-      <link>https://www.rww.science/post/fredr-is-very-neat/</link>
+      <link>/post/fredr-is-very-neat/</link>
       <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/fredr-is-very-neat/</guid>
+      <guid>/post/fredr-is-very-neat/</guid>
       <description>FRED via fredr The Federal Reserve Economic Database [FRED] is a wonderful public resource for data and the r api that connects to it is very easy to use for the things that I have previously needed. For example, one of my students was interested in commercial credit default data. I used the FRED search instructions from the following vignette to find that data. My first step was the vignette for using fredr.</description>
     </item>
     
     <item>
       <title>Stocks and gganimate</title>
-      <link>https://www.rww.science/post/stocks-and-gganimate/</link>
+      <link>/post/stocks-and-gganimate/</link>
       <pubDate>Sun, 17 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/stocks-and-gganimate/</guid>
+      <guid>/post/stocks-and-gganimate/</guid>
       <description>tidyquant Automates a lot of equity research and calculation using tidy concepts. Here, I will first use it to get the components of the S and P 500 and pick out those with weights over 1.25 percent. In the next step, I download the data and finally calculate daily returns and a cumulative wealth index.
 library(tidyquant) library(tidyverse) tq_index(&amp;quot;SP500&amp;quot;) %&amp;gt;% filter(weight &amp;gt; 0.0125) %&amp;gt;% select(symbol,company) -&amp;gt; Tickers Tickers &amp;lt;- Tickers %&amp;gt;% filter(symbol!</description>
     </item>
     
     <item>
       <title>Trump&#39;s Tweets, Part II</title>
-      <link>https://www.rww.science/post/trump-s-tweets-part-ii/</link>
+      <link>/post/trump-s-tweets-part-ii/</link>
       <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/trump-s-tweets-part-ii/</guid>
+      <guid>/post/trump-s-tweets-part-ii/</guid>
       <description>Trump’s Tone A cool post on sentiment analysis can be found here. I will now get at the time series characteristics of his tweets and the sentiment stuff.
 I start by loading the tmls object that I created in the previous post.
 Trump’s Overall Tweeting What does it look like?
@@ -178,21 +178,21 @@ library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuz
     
     <item>
       <title>tidyTuesday: coffee chains</title>
-      <link>https://www.rww.science/post/tidytuesday-coffee-chains/</link>
+      <link>/post/tidytuesday-coffee-chains/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/tidytuesday-coffee-chains/</guid>
+      <guid>/post/tidytuesday-coffee-chains/</guid>
       <description>The tidyTuesday for this week is coffee chain locations For this week: 1. The basic link to the #tidyTuesday shows an original article for Week 6.
 First, let’s import the data; it is a single Excel spreadsheet. The page notes that starbucks, Tim Horton, and Dunkin Donuts have raw data available.
-library(readxl) library(tidyverse) ## ── Attaching packages ───────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.</description>
+library(readxl) library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.</description>
     </item>
     
     <item>
       <title>Global mortality tidyTuesday</title>
-      <link>https://www.rww.science/post/tidytuesday-takes-on-global-mortality/</link>
+      <link>/post/tidytuesday-takes-on-global-mortality/</link>
       <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/tidytuesday-takes-on-global-mortality/</guid>
+      <guid>/post/tidytuesday-takes-on-global-mortality/</guid>
       <description>tidyTuesday on Global Mortality The three generic challenge graphics involve two global summaries, a raw count by type and a percentage by type. The individual county breakdowns are recorded for a predetermined year below. This can all be seen in the original. For whatever reason, I cannot open this data remotely.
 Here is this week’s tidyTuesday.
 library(skimr) library(tidyverse) library(rlang) # global_mortality &amp;lt;- readRDS(&amp;quot;../../data/global_mortality.rds&amp;quot;) global_mortality &amp;lt;- readRDS(url(&amp;quot;https://github.com/robertwwalker/academic-mymod/raw/master/data/global_mortality.rds&amp;quot;)) skim(global_mortality)  Table 1: Data summary  Name global_mortality  Number of rows 6156  Number of columns 35  _______________________   Column type frequency:   character 2  numeric 33  ________________________   Group variables None    Variable type: character</description>
@@ -200,66 +200,66 @@ library(skimr) library(tidyverse) library(rlang) # global_mortality &amp;lt;- re
     
     <item>
       <title>Scraping EPL Salary Data</title>
-      <link>https://www.rww.science/post/scraping-epl-salary-data/</link>
+      <link>/post/scraping-epl-salary-data/</link>
       <pubDate>Sun, 08 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/scraping-epl-salary-data/</guid>
+      <guid>/post/scraping-epl-salary-data/</guid>
       <description>EPL Scraping In a previous post, I scraped some NFL data and learned the structure of Sportrac. Now, I want to scrape the available data on the EPL. The EPL data is organized in a few distinct but potentially linked tables. The basic structure is organized around team folders. Let me begin by isolating those URLs.
 library(rvest) library(tidyverse) base_url &amp;lt;- &amp;quot;http://www.spotrac.com/epl/&amp;quot; read.base &amp;lt;- read_html(base_url) team.URL &amp;lt;- read.base %&amp;gt;% html_nodes(&amp;quot;.team-name&amp;quot;) %&amp;gt;% html_attr(&amp;#39;href&amp;#39;) team.</description>
     </item>
     
     <item>
       <title>Scraping the NFL Salary Cap Data with Python and R</title>
-      <link>https://www.rww.science/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
+      <link>/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
+      <guid>/post/scraping-the-nfl-salary-cap-data-with-python-and-r/</guid>
       <description>The NFL Data [SporTrac](http://www.sportrac.com] has a wonderful array of financial data on sports. A student going to work for the Seattle Seahawks wanted the NFL salary cap data and I also found data on the English Premier League there. Now I have a source to scrape the data from.
 With a source in hand, the key tool is the SelectorGadget. SelectorGadget is a browser add-in for Chrome that allows us to select text and identify the css or xpath selector to scrape the data.</description>
     </item>
     
     <item>
       <title>tidyTuesday - Tuition</title>
-      <link>https://www.rww.science/post/tidytuesday-tuition/</link>
+      <link>/post/tidytuesday-tuition/</link>
       <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/tidytuesday-tuition/</guid>
+      <guid>/post/tidytuesday-tuition/</guid>
       <description>I found a great example on tidyTuesday that I wanted to work on. @JakeKaupp tweeted his #tidyTuesday: a very cool slope plot of tuition changes averaged by state over the last decade. It is a very informative graphic. The only tweak is a simple embedded line plot that uses color in a creative way to show growth rates. All of the R code for this is on Jake Kaupp’s GitHub.</description>
     </item>
     
     <item>
       <title>Pew Data on Bond Ratings and Rainy Day Funds</title>
-      <link>https://www.rww.science/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
+      <link>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
+      <guid>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
       <description>Pew on Rainy Day Funds and Credit Quality The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund.</description>
     </item>
     
     <item>
       <title>Mapping with the Government Finance Database</title>
-      <link>https://www.rww.science/post/mapping-with-the-government-finance-database/</link>
+      <link>/post/mapping-with-the-government-finance-database/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/mapping-with-the-government-finance-database/</guid>
+      <guid>/post/mapping-with-the-government-finance-database/</guid>
       <description>The Government Finance Database Some of my colleagues (Kawika Pierson, Mike Hand, and Fred Thompson) have put together a convenient access point for the Government Finance data available from the Census. They published an article in PLoS One with the rationale; I want to build some maps from their project with extensible code and functions. The overall dataset is enormous. I have downloaded the whole thing and filtered out the states.</description>
     </item>
     
     <item>
       <title>Black Boxes: A Gender Gap Example</title>
-      <link>https://www.rww.science/post/black-boxes-a-gender-gap-example/</link>
+      <link>/post/black-boxes-a-gender-gap-example/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/black-boxes-a-gender-gap-example/</guid>
+      <guid>/post/black-boxes-a-gender-gap-example/</guid>
       <description>Variance in the Outcome: The Black Box Regression models engage an exercise in variance accounting. How much of the outcome is explained by the inputs, individually (slope divided by standard error is t) and collectively (Average explained/Average unexplained with averaging over degrees of freedom is F). This, of course, assumes normal errors. This document provides a function for making use of the black box. Just as in common parlance, a black box is the unexplained.</description>
     </item>
     
     <item>
       <title>Correlation Function</title>
-      <link>https://www.rww.science/post/correlation-function/</link>
+      <link>/post/correlation-function/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/correlation-function/</guid>
+      <guid>/post/correlation-function/</guid>
       <description>Correlations and the Impact on Sums and Differences I will use a simple R function to illustrate the effect of correlation on sums and differences of random variables. In general, the variance [and standard deviation] of a sum of random variables is the variance of the individual variables plus twice the covariance; the variance [and standard deviation] of a difference in random variables is the variance of the individual variables minus twice the (signed) covariance.</description>
     </item>
     

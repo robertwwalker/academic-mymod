@@ -2,148 +2,148 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Robert W. Walker</title>
-    <link>https://www.rww.science/categories/</link>
+    <link>/categories/</link>
     <description>Recent content in Categories on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Sat, 18 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.rww.science/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>tidyTuesday</title>
-      <link>https://www.rww.science/categories/tidytuesday/</link>
+      <link>/categories/tidytuesday/</link>
       <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/tidytuesday/</guid>
+      <guid>/categories/tidytuesday/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tidyverse</title>
-      <link>https://www.rww.science/categories/tidyverse/</link>
+      <link>/categories/tidyverse/</link>
       <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/tidyverse/</guid>
+      <guid>/categories/tidyverse/</guid>
       <description></description>
     </item>
     
     <item>
       <title>web scraping</title>
-      <link>https://www.rww.science/categories/web-scraping/</link>
+      <link>/categories/web-scraping/</link>
       <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/web-scraping/</guid>
+      <guid>/categories/web-scraping/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Maps</title>
-      <link>https://www.rww.science/categories/maps/</link>
+      <link>/categories/maps/</link>
       <pubDate>Thu, 19 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/maps/</guid>
+      <guid>/categories/maps/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>https://www.rww.science/categories/r/</link>
+      <link>/categories/r/</link>
       <pubDate>Thu, 19 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/r/</guid>
+      <guid>/categories/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>animation</title>
-      <link>https://www.rww.science/categories/animation/</link>
+      <link>/categories/animation/</link>
       <pubDate>Mon, 16 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/animation/</guid>
+      <guid>/categories/animation/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R art</title>
-      <link>https://www.rww.science/categories/r-art/</link>
+      <link>/categories/r-art/</link>
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/r-art/</guid>
+      <guid>/categories/r-art/</guid>
       <description></description>
     </item>
     
     <item>
       <title>simulation</title>
-      <link>https://www.rww.science/categories/simulation/</link>
+      <link>/categories/simulation/</link>
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/simulation/</guid>
+      <guid>/categories/simulation/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tables</title>
-      <link>https://www.rww.science/categories/tables/</link>
+      <link>/categories/tables/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/tables/</guid>
+      <guid>/categories/tables/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tidytext</title>
-      <link>https://www.rww.science/categories/tidytext/</link>
+      <link>/categories/tidytext/</link>
       <pubDate>Wed, 22 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/tidytext/</guid>
+      <guid>/categories/tidytext/</guid>
       <description></description>
     </item>
     
     <item>
       <title>twitter</title>
-      <link>https://www.rww.science/categories/twitter/</link>
+      <link>/categories/twitter/</link>
       <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/twitter/</guid>
+      <guid>/categories/twitter/</guid>
       <description></description>
     </item>
     
     <item>
       <title>python</title>
-      <link>https://www.rww.science/categories/python/</link>
+      <link>/categories/python/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/python/</guid>
+      <guid>/categories/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>reticulate</title>
-      <link>https://www.rww.science/categories/reticulate/</link>
+      <link>/categories/reticulate/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/reticulate/</guid>
+      <guid>/categories/reticulate/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Public Finance</title>
-      <link>https://www.rww.science/categories/public-finance/</link>
+      <link>/categories/public-finance/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/public-finance/</guid>
+      <guid>/categories/public-finance/</guid>
       <description></description>
     </item>
     
     <item>
       <title>GSM622</title>
-      <link>https://www.rww.science/categories/gsm622/</link>
+      <link>/categories/gsm622/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/categories/gsm622/</guid>
+      <guid>/categories/gsm622/</guid>
       <description></description>
     </item>
     

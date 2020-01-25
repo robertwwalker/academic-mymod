@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Essex on Robert W. Walker</title>
-    <link>https://www.rww.science/tags/essex/</link>
+    <link>/tags/essex/</link>
     <description>Recent content in Essex on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Wed, 23 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.rww.science/tags/essex/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/essex/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Tribute to Griffin Park</title>
-      <link>https://www.rww.science/post/tribute-to-griffin-park/</link>
+      <link>/post/tribute-to-griffin-park/</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/tribute-to-griffin-park/</guid>
+      <guid>/post/tribute-to-griffin-park/</guid>
       <description>Ode to Griffin Park Griffin Park&amp;rsquo;s famous four corners make it the only football ground in England with four pubs on the four corners surrounding the ground.
 Here&amp;rsquo;s a link to the curated twitter thread.
 In the Beginning
@@ -35,10 +35,10 @@ Rules on the Main &amp;ndash; Ealing &amp;ndash; Road</description>
     
     <item>
       <title>Longitudinal Panel Data R Packages</title>
-      <link>https://www.rww.science/post/panel-data-r-packages/</link>
+      <link>/post/panel-data-r-packages/</link>
       <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/panel-data-r-packages/</guid>
+      <guid>/post/panel-data-r-packages/</guid>
       <description>Longitudinal and Panel Data Analysis in R Goal: A CRAN task view for panel/longitudinal data analysis in R.
 What is Panel Data? Panel data are variously called longitudinal, panel, cross-sectional time series, and pooled time series data. The most precise definition is two-dimensional data; invariably one of the dimensions is time. We can think about a general depiction of what a model with linear coefficients typical for such data structures, though ridiculously overparameterized, like so:</description>
     </item>

@@ -2,193 +2,193 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Robert W. Walker</title>
-    <link>https://www.rww.science/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Sat, 18 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.rww.science/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>R</title>
-      <link>https://www.rww.science/tags/r/</link>
+      <link>/tags/r/</link>
       <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/r/</guid>
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tidyTuesday</title>
-      <link>https://www.rww.science/tags/tidytuesday/</link>
+      <link>/tags/tidytuesday/</link>
       <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/tidytuesday/</guid>
+      <guid>/tags/tidytuesday/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Maps</title>
-      <link>https://www.rww.science/tags/maps/</link>
+      <link>/tags/maps/</link>
       <pubDate>Thu, 19 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/maps/</guid>
+      <guid>/tags/maps/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tidyverse</title>
-      <link>https://www.rww.science/tags/tidyverse/</link>
+      <link>/tags/tidyverse/</link>
       <pubDate>Thu, 19 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/tidyverse/</guid>
+      <guid>/tags/tidyverse/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R Markdown</title>
-      <link>https://www.rww.science/tags/r-markdown/</link>
+      <link>/tags/r-markdown/</link>
       <pubDate>Tue, 17 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/r-markdown/</guid>
+      <guid>/tags/r-markdown/</guid>
       <description></description>
     </item>
     
     <item>
       <title>gganimate</title>
-      <link>https://www.rww.science/tags/gganimate/</link>
+      <link>/tags/gganimate/</link>
       <pubDate>Mon, 16 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/gganimate/</guid>
+      <guid>/tags/gganimate/</guid>
       <description></description>
     </item>
     
     <item>
       <title>finance</title>
-      <link>https://www.rww.science/tags/finance/</link>
+      <link>/tags/finance/</link>
       <pubDate>Tue, 29 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/finance/</guid>
+      <guid>/tags/finance/</guid>
       <description></description>
     </item>
     
     <item>
       <title>GSM Data</title>
-      <link>https://www.rww.science/tags/gsm-data/</link>
+      <link>/tags/gsm-data/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/gsm-data/</guid>
+      <guid>/tags/gsm-data/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Essex</title>
-      <link>https://www.rww.science/tags/essex/</link>
+      <link>/tags/essex/</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/essex/</guid>
+      <guid>/tags/essex/</guid>
       <description></description>
     </item>
     
     <item>
       <title>art</title>
-      <link>https://www.rww.science/tags/art/</link>
+      <link>/tags/art/</link>
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/art/</guid>
+      <guid>/tags/art/</guid>
       <description></description>
     </item>
     
     <item>
       <title>plot</title>
-      <link>https://www.rww.science/tags/plot/</link>
+      <link>/tags/plot/</link>
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/plot/</guid>
+      <guid>/tags/plot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tidytext</title>
-      <link>https://www.rww.science/tags/tidytext/</link>
+      <link>/tags/tidytext/</link>
       <pubDate>Wed, 22 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/tidytext/</guid>
+      <guid>/tags/tidytext/</guid>
       <description></description>
     </item>
     
     <item>
       <title>panel data</title>
-      <link>https://www.rww.science/tags/panel-data/</link>
+      <link>/tags/panel-data/</link>
       <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/panel-data/</guid>
+      <guid>/tags/panel-data/</guid>
       <description></description>
     </item>
     
     <item>
       <title>twitter sentiment</title>
-      <link>https://www.rww.science/tags/twitter-sentiment/</link>
+      <link>/tags/twitter-sentiment/</link>
       <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/twitter-sentiment/</guid>
+      <guid>/tags/twitter-sentiment/</guid>
       <description></description>
     </item>
     
     <item>
       <title>python</title>
-      <link>https://www.rww.science/tags/python/</link>
+      <link>/tags/python/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/python/</guid>
+      <guid>/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>reticulate</title>
-      <link>https://www.rww.science/tags/reticulate/</link>
+      <link>/tags/reticulate/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/reticulate/</guid>
+      <guid>/tags/reticulate/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Content tagged as &#39;Academic&#39;</title>
-      <link>https://www.rww.science/tags/academic/</link>
+      <link>/tags/academic/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/academic/</guid>
+      <guid>/tags/academic/</guid>
       <description>Here is a list of all the content that has been tagged as academic.</description>
     </item>
     
     <item>
       <title>bond-ratings</title>
-      <link>https://www.rww.science/tags/bond-ratings/</link>
+      <link>/tags/bond-ratings/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/bond-ratings/</guid>
+      <guid>/tags/bond-ratings/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ordered-regression</title>
-      <link>https://www.rww.science/tags/ordered-regression/</link>
+      <link>/tags/ordered-regression/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/ordered-regression/</guid>
+      <guid>/tags/ordered-regression/</guid>
       <description></description>
     </item>
     
     <item>
       <title>prop-tax</title>
-      <link>https://www.rww.science/tags/prop-tax/</link>
+      <link>/tags/prop-tax/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/tags/prop-tax/</guid>
+      <guid>/tags/prop-tax/</guid>
       <description></description>
     </item>
     

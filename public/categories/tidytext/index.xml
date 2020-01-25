@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>tidytext on Robert W. Walker</title>
-    <link>https://www.rww.science/categories/tidytext/</link>
+    <link>/categories/tidytext/</link>
     <description>Recent content in tidytext on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Wed, 22 May 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.rww.science/categories/tidytext/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/tidytext/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Some Basic Text on the Mueller Report</title>
-      <link>https://www.rww.science/post/some-basic-text-on-the-mueller-report/</link>
+      <link>/post/some-basic-text-on-the-mueller-report/</link>
       <pubDate>Wed, 22 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/some-basic-text-on-the-mueller-report/</guid>
+      <guid>/post/some-basic-text-on-the-mueller-report/</guid>
       <description>So this Robert Mueller guy wrote a report I may as well analyse it a bit.
 First, let me see if I can get a hold of the data. I grabbed the report directly from the Department of Justice website. You can follow this link.
 library(tidyverse) library(pdftools) # Download report from link above mueller_report_txt &amp;lt;- pdf_text(&amp;quot;../data/report.pdf&amp;quot;) # Create a tibble of the text with line numbers and pages mueller_report &amp;lt;- tibble( page = 1:length(mueller_report_txt), text = mueller_report_txt) %&amp;gt;% separate_rows(text, sep = &amp;quot;\n&amp;quot;) %&amp;gt;% group_by(page) %&amp;gt;% mutate(line = row_number()) %&amp;gt;% ungroup() %&amp;gt;% select(page, line, text) write_csv(mueller_report, &amp;quot;data/mueller_report.</description>
@@ -25,10 +25,10 @@ library(tidyverse) library(pdftools) # Download report from link above mueller_r
     
     <item>
       <title>Trump&#39;s Tweets, Part II</title>
-      <link>https://www.rww.science/post/trump-s-tweets-part-ii/</link>
+      <link>/post/trump-s-tweets-part-ii/</link>
       <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/trump-s-tweets-part-ii/</guid>
+      <guid>/post/trump-s-tweets-part-ii/</guid>
       <description>Trump’s Tone A cool post on sentiment analysis can be found here. I will now get at the time series characteristics of his tweets and the sentiment stuff.
 I start by loading the tmls object that I created in the previous post.
 Trump’s Overall Tweeting What does it look like?
@@ -37,10 +37,10 @@ library(tidyverse) library(tidytext) library(SnowballC) library(tm) library(syuz
     
     <item>
       <title>Trump Tweet Word Clouds</title>
-      <link>https://www.rww.science/post/trump-tweet-word-clouds/</link>
+      <link>/post/trump-tweet-word-clouds/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/trump-tweet-word-clouds/</guid>
+      <guid>/post/trump-tweet-word-clouds/</guid>
       <description>Mining Twitter Data Is rather easy. You have to arrange a developer account with Twitter and set up an app. After that, Twitter gives you access to a consumer key and secret and an access token and access secret. My tool of choice for this is rtweet because it automagically processes tweet elements and makes them easy to slice and dice. I also played with twitteR but it was harder to work with for what I wanted.</description>
     </item>
     

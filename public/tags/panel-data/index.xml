@@ -2,40 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>panel data on Robert W. Walker</title>
-    <link>https://www.rww.science/tags/panel-data/</link>
+    <link>/tags/panel-data/</link>
     <description>Recent content in panel data on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Thu, 11 Apr 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.rww.science/tags/panel-data/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/panel-data/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>fredr is very neat</title>
-      <link>https://www.rww.science/post/fredr-is-very-neat/</link>
+      <link>/post/fredr-is-very-neat/</link>
       <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/fredr-is-very-neat/</guid>
+      <guid>/post/fredr-is-very-neat/</guid>
       <description>FRED via fredr The Federal Reserve Economic Database [FRED] is a wonderful public resource for data and the r api that connects to it is very easy to use for the things that I have previously needed. For example, one of my students was interested in commercial credit default data. I used the FRED search instructions from the following vignette to find that data. My first step was the vignette for using fredr.</description>
     </item>
     
     <item>
       <title>Pew Data on Bond Ratings and Rainy Day Funds</title>
-      <link>https://www.rww.science/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
+      <link>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
+      <guid>/post/pew-data-on-bond-ratings-and-rainy-day-funds/</guid>
       <description>Pew on Rainy Day Funds and Credit Quality The Pew Charitable Trusts released a report last May (2017) that portrays rainy day funds that are well designed and deployed as a form of insurance against ratings downgrades. One the one hand, this is perfectly sensible because the alternatives do not sound like very good ideas. A poorly designed rainy day fund, for example, is going to have to fall short on either the rainy day or the fund.</description>
     </item>
     
     <item>
       <title>Longitudinal Panel Data R Packages</title>
-      <link>https://www.rww.science/post/panel-data-r-packages/</link>
+      <link>/post/panel-data-r-packages/</link>
       <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/post/panel-data-r-packages/</guid>
+      <guid>/post/panel-data-r-packages/</guid>
       <description>Longitudinal and Panel Data Analysis in R Goal: A CRAN task view for panel/longitudinal data analysis in R.
 What is Panel Data? Panel data are variously called longitudinal, panel, cross-sectional time series, and pooled time series data. The most precise definition is two-dimensional data; invariably one of the dimensions is time. We can think about a general depiction of what a model with linear coefficients typical for such data structures, though ridiculously overparameterized, like so:</description>
     </item>

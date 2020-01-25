@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>bond-ratings on Robert W. Walker</title>
-    <link>https://www.rww.science/tags/bond-ratings/</link>
+    <link>/tags/bond-ratings/</link>
     <description>Recent content in bond-ratings on Robert W. Walker</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Wed, 27 Apr 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.rww.science/tags/bond-ratings/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/bond-ratings/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Bond Ratings</title>
-      <link>https://www.rww.science/project/bond-ratings/</link>
+      <link>/project/bond-ratings/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://www.rww.science/project/bond-ratings/</guid>
+      <guid>/project/bond-ratings/</guid>
       <description>Bond ratings are a multiple rater problem</description>
     </item>
     
