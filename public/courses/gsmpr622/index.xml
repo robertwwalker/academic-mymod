@@ -18,9 +18,7 @@
       <pubDate>Tue, 21 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/courses/gsmpr622/fastfood-solution/</guid>
-      <description>Fast Food Data These data came care of a Tidy Tuesday a few weeks ago.
-FFood &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv&amp;quot;) Basic Summary A basic summary of the data.
- Table 1: Data summary  Name FFood  Number of rows 515  Number of columns 18  _______________________   Column type frequency:   factor 3  numeric 15  ________________________   Group variables None    Variable type: factor</description>
+      <description>Fast Food Data These data came care of a Tidy Tuesday a while ago. The data consist of Fast Food menu items for a selection of fast food chains. The units are menu items. We have the chain [restaurant], item [the item name], and a series of variables (columns) representing sodium, cholesterol, fat, calories, and other information. Some is missing. The data can be imported from the tidytuesday website on github as .</description>
     </item>
     
   </channel>

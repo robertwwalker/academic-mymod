@@ -9,15 +9,15 @@ header:
 ---
 
 
+
+# Fast Food Data
+
+These data came care of a Tidy Tuesday a while ago.  The data consist of Fast Food menu items for a selection of fast food chains.  The units are menu items.  We have the chain [restaurant], item [the item name], and a series of variables (columns) representing sodium, cholesterol, fat, calories, and other information.  Some is missing.  The data can be imported from the `tidytuesday` website on github as .csv.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 library(tidyverse); library(skimr)
 ```
-
-
-# Fast Food Data
-
-These data came care of a Tidy Tuesday a few weeks ago.
 
 ```{r LoadData}
 FFood <- read.csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv")
@@ -142,5 +142,5 @@ ggplotly(My.Plot)
 ```{r}
 # Let's Fix the Chicken Variable
 FFood <- FFood %>% mutate(Chicken = grepl('Chicken|Chick-n',item))
+FFood$Chicken[FFood$restaurant=="Chick Fil-A"] <- TRUE
 ```
-

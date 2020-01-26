@@ -74,6 +74,16 @@ plot(cars) An Hypothesis Test I will work with the speed variable. The hypothesi
     </item>
     
     <item>
+      <title>Local Maps for Oregon</title>
+      <link>/r/localmaps/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/r/localmaps/</guid>
+      <description>A Citation I found a starting point on local maps in Seattle.
+library(ggmap) library(osmdata) library(tidyverse) # SLE &amp;lt;- get_map(getbb(&amp;quot;Salem, OR&amp;quot;), source=&amp;quot;osm&amp;quot;) # SLE %&amp;gt;% ggmap() An Oregon Map of Liquor Stores The setup for a Google Cloud account is kind of a pain and it requires a billing option. That was annoying but eventually fixed. It is required for geocoding addresses as OSM doesn’t do that anymore.</description>
+    </item>
+    
+    <item>
       <title>Tables, Pivots, Bars, and Mosaics</title>
       <link>/r/tables-pivots-bars-and-mosaics/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
