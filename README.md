@@ -3,4 +3,4 @@
 
 # academic-mymod
 
-My netlify website at [rww.science](https://rww.science)
+An archive of my original netlify website at [rww.science](https://rww.science) prior to upgrading Hugo and Academic with some breaking changes.  Eventually, I will probably delete the archive as everything has been ported, but without the time to completely verify that nothing is lost; what is web subversion really for?
